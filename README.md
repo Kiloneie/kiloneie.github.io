@@ -12,3 +12,5 @@ To Do:
 - Check Pietro's page for help on the index.html file
 - Get all of the nimib styled tutorials into the respective folders. There are not that many.
 - One day maybe... make every single one of my videos to have a nimib styled file...
+
+Don't forget to add videos to the Nim's This month with Nim(all of them to the same commit/issue whatever)
