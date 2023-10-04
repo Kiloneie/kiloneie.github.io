@@ -2,7 +2,8 @@
 #When using - to make a line a list item, you cannot have ANY one of the lines be an empty line
 #Use spaces by a factor of 1x and then 2x for every indentation level
 
-import nimib, std/strutils #You can use nimib's custom styling or HTML & CSS
+import nimib, std/strutils, #[ nimib / [paths, gits] ]# os, strformat, sugar
+#You can use nimib's custom styling or HTML & CSS
 nbInit()
 nb.darkMode()
 #nbShow() #This will auto open this file in the browser, but it does not check if it is already open
@@ -49,77 +50,68 @@ addToc()
 #START OF FILE#
 ###############
 
+#Proc to find all nimib styled offline tutorials of their respective video series(called per section)
+proc findAndOutputTutorials(videoSeries: string): string =
+  var tutorialsList: string
+  var link: string
+  var path = getCurrentDir()
+
+  #[ for file in path(fmt"\" & videoSeries): #if we don't use nimib's procs, we need to learn paths module and get a list to traverse trough
+    if file.endsWith(".html"):
+      continue
+
+    link = file.relPath.replace(fmt"\", "/")
+    echo "Adding link: ", link ]#
+
+#The proc will iterate over all the files in all of the subsequent folders and retrieve all .html files
+  #then we add them to a sequence of type string and display links of them
+  #i think we can use nbSection inline... surely.
+#https://nim-lang.org/docs/osdirs.html#walkFiles.i,string
+nbCode:
+  let files = collect(newSeq): #r"\" & "Nim for Beginners" & r"\" & "*.html" does NOT work
+    #This gives error of being used by another program already... even after closing github desktop
+    moveDir(getCurrentDir(), getCurrentDir() & "/Nim for Beginners")
+    echo getCurrentDir()
+    for file in walkFiles("*.html"): #walkFiles("*.html") only walks trough the current dir 
+      file
+
+  echo files
+
+
 #Adding hlMd or hlMdf enables nimiboost's markdown highlight mode
 nbText: hlMdF"""
-## INTRO - GREETING
-- TITLE: List Comprehensions with: sugar.collect. 
-- ALT TITLE: Nim's Metaprogramming VS Python's List Comprehensions.
-
-<br>test solo line
-<br>test solo line
-
-## Brainstorming/To do
-Here go all thoughts on what the video will be like and how it will be made etc,
-before being organized below.
-
-    Chapters/sub topics of this video will be:
-      What are list comprehensions ?
-        Comprehending a list without comprehensions
-        Using sugar.collect
-        sugar.collect vs Python's list comprehensions(Python wins with verbosity and simplicity)
-        sugar.collect also works on sets and tables(destroys Python in functionallity)(harder, but more powerful)
-          Collect with Sets(brief explanation of Sets and HashSets)
-          Collect with Tables
-
-## INTRO - FOREWORDS
-<b>(What is the purpose of this video ?)</b>
 - This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
   organized by their respective video series.
   (using nbSections for the video series organization)
 """
 
 nbSection "Nim for Beginners"
-nbSection "Exploring Nim's Standard Library"
-nbSection "Nim SDL2 Game Development for Beginners"
-nbSection "Metaprogramming in Nim"
-
-nbText: hlMd"""
-## OUTRO - AFTERWORDS
-
-  Okay, that's it for this video, thanks for watching like, share and subscribe, 
-    aswell as click the bell icon if you liked it and want more, 
-    you can also follow me on twitter of the same name, and support me on Patreon. 
-    If you had any problems with any part of the video, 
-    let me know in the comment section, 
-    the code of this video, script and documentation, are in the link in the description,
-    as a form of offline tutorial.
-
-### Thanks to my past and current Patrons
-<b>Past Patrons:</b>
-- Goose_Egg: From April 4th 2021 to May 10th 2022
-- Davide Galilei(1x month)
-
-<b>Current Patrons</b>
-- None
-
-<b>Compiler information</b>
-- Version used: E.G. 2.0.0
-- Compiler settings used: none, ORC is now the default memory management option
-- Timestamps:
-  - 00:15 Start of video example
-  
-"""
 nbText: hlMdF"""
 
+"""
+
+nbSection "Exploring Nim's Standard Library"
+nbText: hlMdF"""
+
+"""
+
+nbSection "Nim SDL2 Game Development for Beginners"
+nbText: hlMdF"""
+
+"""
+
+nbSection "Metaprogramming in Nim"
+nbText: hlMdF"""
+
+"""
+
+nbText: hlMdF"""
 <b>LINKS:</b>
+- [Nim's main page](https://nim-lang.org "Nim's main page")
+- [Nim's manual/documentation](https://nim-lang.org/docs/manual.html "Nim's manual/documentation")
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
-- Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-
-<b>LINKS to this video's subject:</b>
-- [E.G.1. SDL2_nim documentation](https://vladar4.github.io/sdl2_nim/ "Example link to an example video's subject")
-- [E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)](https://wiki.libsdl.org/APIByCategory "Example link to an example video's subject")
 """
 
 nbSave()

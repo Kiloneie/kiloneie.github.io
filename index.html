@@ -56,27 +56,11 @@ pre > code {
 <li><a href="#nim-sdl2-game-development-for-beginners">Nim SDL2 Game Development for Beginners</a></li>
 <li><a href="#metaprogramming-in-nim">Metaprogramming in Nim</a></li>
 </ol>
-<h2>INTRO - GREETING</h2>
-<ul>
-<li>TITLE: List Comprehensions with: sugar.collect.</li>
-<li>ALT TITLE: Nim's Metaprogramming VS Python's List Comprehensions.</li>
-</ul>
-<p><br>test solo line
-<br>test solo line</p>
-<h2>Brainstorming/To do</h2>
-<p>Here go all thoughts on what the video will be like and how it will be made etc,
-before being organized below.</p>
-<pre><code>Chapters/sub topics of this video will be:
-  What are list comprehensions ?
-    Comprehending a list without comprehensions
-    Using sugar.collect
-    sugar.collect vs Python's list comprehensions(Python wins with verbosity and simplicity)
-    sugar.collect also works on sets and tables(destroys Python in functionallity)(harder, but more powerful)
-      Collect with Sets(brief explanation of Sets and HashSets)
-      Collect with Tables
-</code></pre>
-<h2>INTRO - FOREWORDS</h2>
-<p><b>(What is the purpose of this video ?)</b></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> files = collect(newSeq): <span class="hljs-comment">#r&quot;\&quot; &amp; &quot;Nim for Beginners&quot; &amp; r&quot;\&quot; &amp; &quot;*.html&quot; does NOT work</span>
+  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(<span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#How to get this to work with a folder specified ?...</span>
+    file
+
+<span class="hljs-keyword">echo</span> files</code></pre><pre class="nb-output">@[&quot;index.html&quot;, &quot;indexTemp.html&quot;]</pre>
 <ul>
 <li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
@@ -85,54 +69,26 @@ organized by their respective video series.
 <p><a name = "nim-for-beginners"></a></p>
 <h1>Nim for Beginners</h1>
 <hr />
+
 <p><a name = "exploring-nim's-standard-library"></a></p>
 <h1>Exploring Nim's Standard Library</h1>
 <hr />
+
 <p><a name = "nim-sdl2-game-development-for-beginners"></a></p>
 <h1>Nim SDL2 Game Development for Beginners</h1>
 <hr />
+
 <p><a name = "metaprogramming-in-nim"></a></p>
 <h1>Metaprogramming in Nim</h1>
 <hr />
-<h2>OUTRO - AFTERWORDS</h2>
-<p>Okay, that's it for this video, thanks for watching like, share and subscribe,
-aswell as click the bell icon if you liked it and want more,
-you can also follow me on twitter of the same name, and support me on Patreon.
-If you had any problems with any part of the video,
-let me know in the comment section,
-the code of this video, script and documentation, are in the link in the description,
-as a form of offline tutorial.</p>
-<h3>Thanks to my past and current Patrons</h3>
-<p><b>Past Patrons:</b></p>
-<ul>
-<li>Goose_Egg: From April 4th 2021 to May 10th 2022</li>
-<li>Davide Galilei(1x month)</li>
-</ul>
-<p><b>Current Patrons</b></p>
-<ul>
-<li>None</li>
-</ul>
-<p><b>Compiler information</b></p>
-<ul>
-<li>Version used: E.G. 2.0.0</li>
-<li>Compiler settings used: none, ORC is now the default memory management option</li>
-<li>Timestamps:
-<ul>
-<li>00:15 Start of video example</li>
-</ul>
-</li>
-</ul>
+
 <p><b>LINKS:</b></p>
 <ul>
+<li><a href="https://nim-lang.org" title="Nim's main page">Nim's main page</a></li>
+<li><a href="https://nim-lang.org/docs/manual.html" title="Nim's manual/documentation">Nim's manual/documentation</a></li>
 <li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
-<li>Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:</li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
-</ul>
-<p><b>LINKS to this video's subject:</b></p>
-<ul>
-<li><a href="https://vladar4.github.io/sdl2_nim/" title="Example link to an example video's subject">E.G.1. SDL2_nim documentation</a></li>
-<li><a href="https://wiki.libsdl.org/APIByCategory" title="Example link to an example video's subject">E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)</a></li>
 </ul>
 </main>
 <footer>
@@ -147,7 +103,8 @@ as a form of offline tutorial.</p>
 <span class="hljs-comment">#When using - to make a line a list item, you cannot have ANY one of the lines be an empty line</span>
 <span class="hljs-comment">#Use spaces by a factor of 1x and then 2x for every indentation level</span>
 
-<span class="hljs-keyword">import</span> nimib, std/strutils <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
+<span class="hljs-keyword">import</span> nimib, std/strutils, <span class="hljs-comment">#[ nimib / [paths, gits] ]#</span> os, strformat, sugar
+<span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
 nbInit()
 nb.darkMode()
 <span class="hljs-comment">#nbShow() #This will auto open this file in the browser, but it does not check if it is already open</span>
@@ -194,77 +151,64 @@ addToc()
 <span class="hljs-comment">#START OF FILE#</span>
 <span class="hljs-comment">###############</span>
 
+<span class="hljs-comment">#Proc to find all nimib styled offline tutorials of their respective video series(called per section)</span>
+<span class="hljs-keyword">proc</span> findAndOutputTutorials(videoSeries: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
+  <span class="hljs-keyword">var</span> tutorialsList: <span class="hljs-built_in">string</span>
+  <span class="hljs-keyword">var</span> link: <span class="hljs-built_in">string</span>
+  <span class="hljs-keyword">var</span> path = getCurrentDir()
+
+  <span class="hljs-comment">#[ for file in path(fmt&quot;\&quot; &amp; videoSeries): #if we don't use nimib's procs, we need to learn paths module and get a list to traverse trough
+    if file.endsWith(&quot;.html&quot;):
+      continue
+
+    link = file.relPath.replace(fmt&quot;\&quot;, &quot;/&quot;)
+    echo &quot;Adding link: &quot;, link ]#</span>
+
+<span class="hljs-comment">#The proc will iterate over all the files in all of the subsequent folders and retrieve all .html files</span>
+  <span class="hljs-comment">#then we add them to a sequence of type string and display links of them</span>
+  <span class="hljs-comment">#i think we can use nbSection inline... surely.</span>
+nbCode:
+  <span class="hljs-keyword">let</span> files = collect(newSeq): <span class="hljs-comment">#r&quot;\&quot; &amp; &quot;Nim for Beginners&quot; &amp; r&quot;\&quot; &amp; &quot;*.html&quot; does NOT work</span>
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(<span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#How to get this to work with a folder specified ?...</span>
+      file
+
+  <span class="hljs-keyword">echo</span> files
+
+
 <span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
-## INTRO - GREETING
-- TITLE: List Comprehensions with: sugar.collect. 
-- ALT TITLE: Nim's Metaprogramming VS Python's List Comprehensions.
-
-&lt;br&gt;test solo line
-&lt;br&gt;test solo line
-
-## Brainstorming/To do
-Here go all thoughts on what the video will be like and how it will be made etc,
-before being organized below.
-
-    Chapters/sub topics of this video will be:
-      What are list comprehensions ?
-        Comprehending a list without comprehensions
-        Using sugar.collect
-        sugar.collect vs Python's list comprehensions(Python wins with verbosity and simplicity)
-        sugar.collect also works on sets and tables(destroys Python in functionallity)(harder, but more powerful)
-          Collect with Sets(brief explanation of Sets and HashSets)
-          Collect with Tables
-
-## INTRO - FOREWORDS
-&lt;b&gt;(What is the purpose of this video ?)&lt;/b&gt;
 - This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
   organized by their respective video series.
   (using nbSections for the video series organization)
 &quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Nim for Beginners&quot;</span>
-nbSection <span class="hljs-string">&quot;Exploring Nim's Standard Library&quot;</span>
-nbSection <span class="hljs-string">&quot;Nim SDL2 Game Development for Beginners&quot;</span>
-nbSection <span class="hljs-string">&quot;Metaprogramming in Nim&quot;</span>
-
-nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
-## OUTRO - AFTERWORDS
-
-  Okay, that's it for this video, thanks for watching like, share and subscribe, 
-    aswell as click the bell icon if you liked it and want more, 
-    you can also follow me on twitter of the same name, and support me on Patreon. 
-    If you had any problems with any part of the video, 
-    let me know in the comment section, 
-    the code of this video, script and documentation, are in the link in the description,
-    as a form of offline tutorial.
-
-### Thanks to my past and current Patrons
-&lt;b&gt;Past Patrons:&lt;/b&gt;
-- Goose_Egg: From April 4th 2021 to May 10th 2022
-- Davide Galilei(1x month)
-
-&lt;b&gt;Current Patrons&lt;/b&gt;
-- None
-
-&lt;b&gt;Compiler information&lt;/b&gt;
-- Version used: E.G. 2.0.0
-- Compiler settings used: none, ORC is now the default memory management option
-- Timestamps:
-  - 00:15 Start of video example
-  
-&quot;&quot;&quot;</span>
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Exploring Nim's Standard Library&quot;</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Nim SDL2 Game Development for Beginners&quot;</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Metaprogramming in Nim&quot;</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 &lt;b&gt;LINKS:&lt;/b&gt;
+- [Nim's main page](https://nim-lang.org &quot;Nim's main page&quot;)
+- [Nim's manual/documentation](https://nim-lang.org/docs/manual.html &quot;Nim's manual/documentation&quot;)
 - [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
-- Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
-
-&lt;b&gt;LINKS to this video's subject:&lt;/b&gt;
-- [E.G.1. SDL2_nim documentation](https://vladar4.github.io/sdl2_nim/ &quot;Example link to an example video's subject&quot;)
-- [E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)](https://wiki.libsdl.org/APIByCategory &quot;Example link to an example video's subject&quot;)
 &quot;&quot;&quot;</span>
 
 nbSave()</code></pre>
