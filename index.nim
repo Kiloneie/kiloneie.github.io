@@ -73,45 +73,15 @@ before being organized below.
 
 ## INTRO - FOREWORDS
 <b>(What is the purpose of this video ?)</b>
-- List comprehensions with sugar.collect:
-  - sugar.collect is a macro, a macro used for list comprehensions. 
-    A list comprehension is basically making a list from an existing list based on some variable parameters.
-    For example say we have a list of groceries, a sequence in Nim. 
-    Let's say that it contains the following items: @["apples", "chips", "chocolate", "cocoa", "milk"],
-    say we wanted to make another list from this list of grocery items whose first letter is "c".
-   
-The code for this video and it's script/documentation styled with nimib,
-is in the link in the description as a form of offline tutorial.
+- This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
+  organized by their respective video series.
+  (using nbSections for the video series organization)
 """
 
-nbSection "Comprehending a list without comprehensions"
-nbCode:
-  let fruit = @["Apple", "Orange", "Banana", "Peach", "Pear", "Pineapple"]
-
-  var pfruit: seq[string]
-
-  for i, f in fruit:
-    if $f[0] == "P":
-      pfruit.add f
-
-  echo pfruit
-
-nbSection "Using sugar.collect"
-nbCode:
-  let pfruit2 = collect(newSeq):
-    for i, f in fruit.pairs:
-      if $f[0] == "P":
-        f
-
-  echo pfruit
-  echo pfruit2
-
-nbSection "sugar.collect vs Python's list comprehensions"
-nbText: hlMd"""
-Placeholder text
-Placeholder text
-Placeholder text
-"""
+nbSection "Nim for Beginners"
+nbSection "Exploring Nim's Standard Library"
+nbSection "Nim SDL2 Game Development for Beginners"
+nbSection "Metaprogramming in Nim"
 
 nbText: hlMd"""
 ## OUTRO - AFTERWORDS
@@ -150,7 +120,6 @@ nbText: hlMdF"""
 <b>LINKS to this video's subject:</b>
 - [E.G.1. SDL2_nim documentation](https://vladar4.github.io/sdl2_nim/ "Example link to an example video's subject")
 - [E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)](https://wiki.libsdl.org/APIByCategory "Example link to an example video's subject")
-
 """
 
 nbSave()
