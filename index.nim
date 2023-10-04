@@ -68,11 +68,11 @@ proc findAndOutputTutorials(videoSeries: string): string =
       var combined = "file:///" & dQuote & link & dQuote      
       links.add "*<a href = " & r"" & fmt"{combined}" & r"" & ">" & "A link" & "</a>" & "<br>" ]#
 
-      #[ when defined(nblogRerun):
+      when defined(nblogRerun):
         let cmd = "nim r " & link.replace(".html", ".nim")
         echo "executing " & cmd
         if execShellCmd(cmd) != 0:
-          echo cmd & " FAILED" ]# 
+          echo cmd & " FAILED" 
 
   result = links
 
