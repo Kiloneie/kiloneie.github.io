@@ -56,6 +56,18 @@ pre > code {
 <li><a href="#nim-sdl2-game-development-for-beginners">Nim SDL2 Game Development for Beginners</a></li>
 <li><a href="#metaprogramming-in-nim">Metaprogramming in Nim</a></li>
 </ol>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Using proc to retrieve files: &quot;</span>
+<span class="hljs-keyword">echo</span> findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
+
+<span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
+
+<span class="hljs-comment">#[ for file in path(fmt&quot;\&quot; &amp; videoSeries): #if we don't use nimib's procs, we need to learn paths module and get a list to traverse trough
+  if file.endsWith(&quot;.html&quot;):
+    continue
+
+  link = file.relPath.replace(fmt&quot;\&quot;, &quot;/&quot;)
+  echo &quot;Adding link: &quot;, link ]#</span></code></pre><pre class="nb-output">Using proc to retrieve files: 
+@[&quot;* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html )\n&quot;, &quot;* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.nim](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.nim )\n&quot;, &quot;* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 2/OVpart2.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 2/OVpart2.html )\n&quot;, &quot;* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 1/OVpart1.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 1/OVpart1.html )\n&quot;]</pre>
 <pre><code class="nohighlight hljs nim"><span class="hljs-comment">#let path = getCurrentDir()</span>
 <span class="hljs-keyword">let</span> path = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Nim for Beginners&quot;</span> &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Sets&quot;</span> &amp; <span class="hljs-string">r&quot;\&quot;</span>
 <span class="hljs-keyword">echo</span> path
@@ -66,8 +78,18 @@ pre > code {
   <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(path &amp; <span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#walkFiles(&quot;*.html&quot;) only walks trough the current dir </span>
     file
 
-<span class="hljs-keyword">echo</span> files</code></pre><pre class="nb-output">C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\Nim for Beginners\Sets\
+<span class="hljs-keyword">echo</span> files
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span></code></pre><pre class="nb-output">C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\Nim for Beginners\Sets\
 @[&quot;C:\\Users\\Kiloneie\\OneDrive\\Documents\\GitHub\\kiloneie\\Nim for Beginners\\Sets\\Sets.html&quot;]</pre>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> path2 = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Nim for Beginners&quot;</span>
+<span class="hljs-keyword">var</span> dirs: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
+<span class="hljs-keyword">var</span> files2: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
+
+<span class="hljs-keyword">for</span> dir <span class="hljs-keyword">in</span> walkDirRec(path2): <span class="hljs-comment">#This seems to do the job already</span>
+  dirs.add dir    
+
+  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(path2 &amp; <span class="hljs-string">&quot;*.html&quot;</span>):
+    files2.add file</code></pre>
 <ul>
 <li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
@@ -96,6 +118,11 @@ organized by their respective video series.
 <li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
+<li>[C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html &quot;Test&quot;)</li>
+</ul>
+<ul>
+<li>[C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html )</li>
+<li>[C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.nim](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.nim )</li>
 </ul>
 </main>
 <footer>
@@ -159,10 +186,30 @@ addToc()
 <span class="hljs-comment">###############</span>
 
 <span class="hljs-comment">#Proc to find all nimib styled offline tutorials of their respective video series(called per section)</span>
-<span class="hljs-keyword">proc</span> findAndOutputTutorials(videoSeries: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
-  <span class="hljs-keyword">var</span> tutorialsList: <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">proc</span> findAndOutputTutorials(videoSeries: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>] =
   <span class="hljs-keyword">var</span> link: <span class="hljs-built_in">string</span>
-  <span class="hljs-keyword">var</span> path = getCurrentDir()
+  <span class="hljs-keyword">var</span> links: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
+
+  <span class="hljs-keyword">let</span> path = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">fmt&quot;{videoSeries}&quot;</span>
+
+  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkDirRec(path): <span class="hljs-comment">#This seems to do the job already</span>
+    link = file.replace(<span class="hljs-string">r&quot;\&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>)
+    <span class="hljs-keyword">let</span> extraSpace = <span class="hljs-string">&quot; &quot;</span>
+    links.add &amp;<span class="hljs-string">&quot;* [{link}]({link &amp; extraSpace})</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+
+    <span class="hljs-comment">#[ when defined(nblogRerun):
+      let cmd = &quot;nim r &quot; &amp; link.replace(&quot;.html&quot;, &quot;.nim&quot;)
+      echo &quot;executing &quot; &amp; cmd
+      if execShellCmd(cmd) != 0:
+        echo cmd &amp; &quot; FAILED&quot; ]#</span> 
+
+  <span class="hljs-literal">result</span> = links
+
+nbCode:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Using proc to retrieve files: &quot;</span>
+  <span class="hljs-keyword">echo</span> findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
+
+  <span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
 
   <span class="hljs-comment">#[ for file in path(fmt&quot;\&quot; &amp; videoSeries): #if we don't use nimib's procs, we need to learn paths module and get a list to traverse trough
     if file.endsWith(&quot;.html&quot;):
@@ -187,7 +234,24 @@ nbCode:
       file
 
   <span class="hljs-keyword">echo</span> files
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
 
+<span class="hljs-comment">#This works, now combo with walkFiles, and LASTLY use collect or another method to put em into a seq[string]</span>
+  <span class="hljs-comment">#and then we make links</span>
+nbCode:
+  <span class="hljs-keyword">let</span> path2 = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Nim for Beginners&quot;</span>
+  <span class="hljs-keyword">var</span> dirs: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
+  <span class="hljs-keyword">var</span> files2: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
+
+  <span class="hljs-keyword">for</span> dir <span class="hljs-keyword">in</span> walkDirRec(path2): <span class="hljs-comment">#This seems to do the job already</span>
+    dirs.add dir    
+
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(path2 &amp; <span class="hljs-string">&quot;*.html&quot;</span>):
+      files2.add file
+
+
+<span class="hljs-comment">#This works, but it does NOT go into files, so we must figure that out... we need all files from all folders,</span>
+  <span class="hljs-comment">#from inside a specific folder of the 4 video series, e.g. Nim for Beginners</span>
 
 <span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
@@ -216,14 +280,15 @@ nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
 &quot;&quot;&quot;</span>
 
-nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 &lt;b&gt;LINKS:&lt;/b&gt;
 - [Nim's main page](https://nim-lang.org &quot;Nim's main page&quot;)
 - [Nim's manual/documentation](https://nim-lang.org/docs/manual.html &quot;Nim's manual/documentation&quot;)
 - [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
-&quot;&quot;&quot;</span>
+- [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html &quot;Test&quot;)
+&quot;&quot;&quot;</span> &amp; nimForBeginners[<span class="hljs-number">0</span>] &amp; nimForBeginners[<span class="hljs-number">1</span>]
 
 nbSave()</code></pre>
 </section><script>

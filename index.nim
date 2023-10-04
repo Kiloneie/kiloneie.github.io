@@ -51,10 +51,30 @@ addToc()
 ###############
 
 #Proc to find all nimib styled offline tutorials of their respective video series(called per section)
-proc findAndOutputTutorials(videoSeries: string): string =
-  var tutorialsList: string
+proc findAndOutputTutorials(videoSeries: string): seq[string] =
   var link: string
-  var path = getCurrentDir()
+  var links: seq[string]
+
+  let path = getCurrentDir() & r"\" & fmt"{videoSeries}"
+
+  for file in walkDirRec(path): #This seems to do the job already
+    link = file.replace(r"\", "/")
+    let extraSpace = " "
+    links.add &"* [{link}]({link & extraSpace})\n"
+
+    #[ when defined(nblogRerun):
+      let cmd = "nim r " & link.replace(".html", ".nim")
+      echo "executing " & cmd
+      if execShellCmd(cmd) != 0:
+        echo cmd & " FAILED" ]# 
+
+  result = links
+
+nbCode:
+  echo "Using proc to retrieve files: "
+  echo findAndOutputTutorials("Nim for Beginners")
+
+  let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
 
   #[ for file in path(fmt"\" & videoSeries): #if we don't use nimib's procs, we need to learn paths module and get a list to traverse trough
     if file.endsWith(".html"):
@@ -79,6 +99,21 @@ nbCode:
       file
 
   echo files
+  echo ""
+
+#This works, now combo with walkFiles, and LASTLY use collect or another method to put em into a seq[string]
+  #and then we make links
+nbCode:
+  let path2 = getCurrentDir() & r"\" & "Nim for Beginners"
+  var dirs: seq[string]
+  var files2: seq[string]
+
+  for dir in walkDirRec(path2): #This seems to do the job already
+    dirs.add dir    
+
+    for file in walkFiles(path2 & "*.html"):
+      files2.add file
+
 
 #This works, but it does NOT go into files, so we must figure that out... we need all files from all folders,
   #from inside a specific folder of the 4 video series, e.g. Nim for Beginners
@@ -110,13 +145,14 @@ nbText: hlMdF"""
 
 """
 
-nbText: hlMdF"""
+nbText: """
 <b>LINKS:</b>
 - [Nim's main page](https://nim-lang.org "Nim's main page")
 - [Nim's manual/documentation](https://nim-lang.org/docs/manual.html "Nim's manual/documentation")
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-"""
+- [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html "Test")
+""" & nimForBeginners[0] & nimForBeginners[1]
 
 nbSave()
