@@ -51,72 +51,37 @@ addToc()
 ###############
 
 #Proc to find all nimib styled offline tutorials of their respective video series(called per section)
-proc findAndOutputTutorials(videoSeries: string): seq[string] =
+proc findAndOutputTutorials(videoSeries: string): string =
   var link: string
-  var links: seq[string]
+  var links: string
 
   let path = getCurrentDir() & r"\" & fmt"{videoSeries}"
 
   for file in walkDirRec(path): #This seems to do the job already
-    link = file.replace(r"\", "/")
-    let extraSpace = " "
-    links.add &"* [{link}]({link & extraSpace})\n"
+    if file.endsWith(".html"):
+      link = file.replace(r"\", "/")
+      links.add &"* [{link}]({link})\n"
 
-    #[ when defined(nblogRerun):
-      let cmd = "nim r " & link.replace(".html", ".nim")
-      echo "executing " & cmd
-      if execShellCmd(cmd) != 0:
-        echo cmd & " FAILED" ]# 
+      #This is very janky... it only works it you open the link in another tab
+      #[ let extra = "file:///"
+      let dQuote = '"'
+      var combined = "file:///" & dQuote & link & dQuote      
+      links.add "*<a href = " & r"" & fmt"{combined}" & r"" & ">" & "A link" & "</a>" & "<br>" ]#
+
+      #[ when defined(nblogRerun):
+        let cmd = "nim r " & link.replace(".html", ".nim")
+        echo "executing " & cmd
+        if execShellCmd(cmd) != 0:
+          echo cmd & " FAILED" ]# 
 
   result = links
 
 nbCode:
   echo "Using proc to retrieve files: "
-  echo findAndOutputTutorials("Nim for Beginners")
 
   let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
+  echo nimForBeginners
 
-  #[ for file in path(fmt"\" & videoSeries): #if we don't use nimib's procs, we need to learn paths module and get a list to traverse trough
-    if file.endsWith(".html"):
-      continue
-
-    link = file.relPath.replace(fmt"\", "/")
-    echo "Adding link: ", link ]#
-
-#The proc will iterate over all the files in all of the subsequent folders and retrieve all .html files
-  #then we add them to a sequence of type string and display links of them
-  #i think we can use nbSection inline... surely.
-#https://nim-lang.org/docs/osdirs.html#walkFiles.i,string
-nbCode:
-  #let path = getCurrentDir()
-  let path = getCurrentDir() & r"\" & "Nim for Beginners" & r"\" & "Sets" & r"\"
-  echo path
-  let files = collect(newSeq): #r"\" & "Nim for Beginners" & r"\" & "*.html" does NOT work
-
-    #This gives error of being used by another program already... even after closing github desktop
-    #echo getCurrentDir()
-    for file in walkFiles(path & "*.html"): #walkFiles("*.html") only walks trough the current dir 
-      file
-
-  echo files
-  echo ""
-
-#This works, now combo with walkFiles, and LASTLY use collect or another method to put em into a seq[string]
-  #and then we make links
-nbCode:
-  let path2 = getCurrentDir() & r"\" & "Nim for Beginners"
-  var dirs: seq[string]
-  var files2: seq[string]
-
-  for dir in walkDirRec(path2): #This seems to do the job already
-    dirs.add dir    
-
-    for file in walkFiles(path2 & "*.html"):
-      files2.add file
-
-
-#This works, but it does NOT go into files, so we must figure that out... we need all files from all folders,
-  #from inside a specific folder of the 4 video series, e.g. Nim for Beginners
 
 #Adding hlMd or hlMdf enables nimiboost's markdown highlight mode
 nbText: hlMdF"""
@@ -128,12 +93,12 @@ nbText: hlMdF"""
 nbSection "Nim for Beginners"
 nbText: hlMdF"""
 
-"""
+""" & nimForBeginners
 
 nbSection "Exploring Nim's Standard Library"
 nbText: hlMdF"""
 
-"""
+""" 
 
 nbSection "Nim SDL2 Game Development for Beginners"
 nbText: hlMdF"""
@@ -145,14 +110,15 @@ nbText: hlMdF"""
 
 """
 
-nbText: """
+nbText: hlMdF"""
 <b>LINKS:</b>
 - [Nim's main page](https://nim-lang.org "Nim's main page")
 - [Nim's manual/documentation](https://nim-lang.org/docs/manual.html "Nim's manual/documentation")
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-- [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html "Test")
-""" & nimForBeginners[0] & nimForBeginners[1]
+- <a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a>
+- [file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html "Test")
+"""
 
 nbSave()
