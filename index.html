@@ -56,11 +56,18 @@ pre > code {
 <li><a href="#nim-sdl2-game-development-for-beginners">Nim SDL2 Game Development for Beginners</a></li>
 <li><a href="#metaprogramming-in-nim">Metaprogramming in Nim</a></li>
 </ol>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> files = collect(newSeq): <span class="hljs-comment">#r&quot;\&quot; &amp; &quot;Nim for Beginners&quot; &amp; r&quot;\&quot; &amp; &quot;*.html&quot; does NOT work</span>
-  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(<span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#How to get this to work with a folder specified ?...</span>
+<pre><code class="nohighlight hljs nim"><span class="hljs-comment">#let path = getCurrentDir()</span>
+<span class="hljs-keyword">let</span> path = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Nim for Beginners&quot;</span> &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Sets&quot;</span> &amp; <span class="hljs-string">r&quot;\&quot;</span>
+<span class="hljs-keyword">echo</span> path
+<span class="hljs-keyword">let</span> files = collect(newSeq): <span class="hljs-comment">#r&quot;\&quot; &amp; &quot;Nim for Beginners&quot; &amp; r&quot;\&quot; &amp; &quot;*.html&quot; does NOT work</span>
+
+  <span class="hljs-comment">#This gives error of being used by another program already... even after closing github desktop</span>
+  <span class="hljs-comment">#echo getCurrentDir()</span>
+  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(path &amp; <span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#walkFiles(&quot;*.html&quot;) only walks trough the current dir </span>
     file
 
-<span class="hljs-keyword">echo</span> files</code></pre><pre class="nb-output">@[&quot;index.html&quot;, &quot;indexTemp.html&quot;]</pre>
+<span class="hljs-keyword">echo</span> files</code></pre><pre class="nb-output">C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\Nim for Beginners\Sets\
+@[&quot;C:\\Users\\Kiloneie\\OneDrive\\Documents\\GitHub\\kiloneie\\Nim for Beginners\\Sets\\Sets.html&quot;]</pre>
 <ul>
 <li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
@@ -167,9 +174,16 @@ addToc()
 <span class="hljs-comment">#The proc will iterate over all the files in all of the subsequent folders and retrieve all .html files</span>
   <span class="hljs-comment">#then we add them to a sequence of type string and display links of them</span>
   <span class="hljs-comment">#i think we can use nbSection inline... surely.</span>
+<span class="hljs-comment">#https://nim-lang.org/docs/osdirs.html#walkFiles.i,string</span>
 nbCode:
+  <span class="hljs-comment">#let path = getCurrentDir()</span>
+  <span class="hljs-keyword">let</span> path = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Nim for Beginners&quot;</span> &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">&quot;Sets&quot;</span> &amp; <span class="hljs-string">r&quot;\&quot;</span>
+  <span class="hljs-keyword">echo</span> path
   <span class="hljs-keyword">let</span> files = collect(newSeq): <span class="hljs-comment">#r&quot;\&quot; &amp; &quot;Nim for Beginners&quot; &amp; r&quot;\&quot; &amp; &quot;*.html&quot; does NOT work</span>
-    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(<span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#How to get this to work with a folder specified ?...</span>
+
+    <span class="hljs-comment">#This gives error of being used by another program already... even after closing github desktop</span>
+    <span class="hljs-comment">#echo getCurrentDir()</span>
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkFiles(path &amp; <span class="hljs-string">&quot;*.html&quot;</span>): <span class="hljs-comment">#walkFiles(&quot;*.html&quot;) only walks trough the current dir </span>
       file
 
   <span class="hljs-keyword">echo</span> files

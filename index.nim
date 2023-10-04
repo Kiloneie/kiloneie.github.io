@@ -68,15 +68,20 @@ proc findAndOutputTutorials(videoSeries: string): string =
   #i think we can use nbSection inline... surely.
 #https://nim-lang.org/docs/osdirs.html#walkFiles.i,string
 nbCode:
+  #let path = getCurrentDir()
+  let path = getCurrentDir() & r"\" & "Nim for Beginners" & r"\" & "Sets" & r"\"
+  echo path
   let files = collect(newSeq): #r"\" & "Nim for Beginners" & r"\" & "*.html" does NOT work
+
     #This gives error of being used by another program already... even after closing github desktop
-    moveDir(getCurrentDir(), getCurrentDir() & "/Nim for Beginners")
-    echo getCurrentDir()
-    for file in walkFiles("*.html"): #walkFiles("*.html") only walks trough the current dir 
+    #echo getCurrentDir()
+    for file in walkFiles(path & "*.html"): #walkFiles("*.html") only walks trough the current dir 
       file
 
   echo files
 
+#This works, but it does NOT go into files, so we must figure that out... we need all files from all folders,
+  #from inside a specific folder of the 4 video series, e.g. Nim for Beginners
 
 #Adding hlMd or hlMdf enables nimiboost's markdown highlight mode
 nbText: hlMdF"""
