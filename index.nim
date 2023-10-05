@@ -73,7 +73,9 @@ proc findAndOutputTutorials(videoSeries: string): string =
       link = file.replace(r"\", "/")
       removeUntil = file.find(videoSeries)
       link.delete(0 .. removeUntil-1) #remove everything before videoSeries -> use .find to find videoSeries index location, then delete everything from there to index 0 - start
-      links.add "- <a href = " & '"' & fmt"{link}" & '"' & ">" & "A link" & "</a>" & "<br>" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
+      var linkName = link
+      linkName.delete(0 .. videoSeries.len)
+      links.add "- <a href = " & '"' & fmt"{link}" & '"' & ">" & linkName & "</a>" & "<br>" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
       #Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...
 
   result = links

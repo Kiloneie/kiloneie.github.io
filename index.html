@@ -60,7 +60,7 @@ pre > code {
 
 <span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
 <span class="hljs-keyword">echo</span> nimForBeginners</code></pre><pre class="nb-output">Using proc to retrieve files: 
-- &lt;a href = &quot;Nim for Beginners/Sets/Sets.html&quot;&gt;A link&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 2/OVpart2.html&quot;&gt;A link&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 1/OVpart1.html&quot;&gt;A link&lt;/a&gt;&lt;br&gt;</pre>
+- &lt;a href = &quot;Nim for Beginners/Sets/Sets.html&quot;&gt;Sets/Sets.html&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 2/OVpart2.html&quot;&gt;Object Variants Part 2/OVpart2.html&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 1/OVpart1.html&quot;&gt;Object Variants Part 1/OVpart1.html&lt;/a&gt;&lt;br&gt;</pre>
 <ul>
 <li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
@@ -70,7 +70,7 @@ organized by their respective video series.
 <h1>Nim for Beginners</h1>
 <hr />
 <ul>
-<li><a href = "Nim for Beginners/Sets/Sets.html">A link</a><br>- <a href = "Nim for Beginners/Object Variants Part 2/OVpart2.html">A link</a><br>- <a href = "Nim for Beginners/Object Variants Part 1/OVpart1.html">A link</a><br></li>
+<li><a href = "Nim for Beginners/Sets/Sets.html">Sets/Sets.html</a><br>- <a href = "Nim for Beginners/Object Variants Part 2/OVpart2.html">Object Variants Part 2/OVpart2.html</a><br>- <a href = "Nim for Beginners/Object Variants Part 1/OVpart1.html">Object Variants Part 1/OVpart1.html</a><br></li>
 </ul>
 <p><a name = "exploring-nim's-standard-library"></a></p>
 <h1>Exploring Nim's Standard Library</h1>
@@ -195,25 +195,10 @@ addToc()
       link = file.replace(<span class="hljs-string">r&quot;\&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>)
       removeUntil = file.find(videoSeries)
       link.delete(<span class="hljs-number">0</span> .. removeUntil-<span class="hljs-number">1</span>) <span class="hljs-comment">#remove everything before videoSeries -&gt; use .find to find videoSeries index location, then delete everything from there to index 0 - start</span>
-      links.add <span class="hljs-string">&quot;- &lt;a href = &quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">fmt&quot;{link}&quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">&quot;&gt;&quot;</span> &amp; <span class="hljs-string">&quot;A link&quot;</span> &amp; <span class="hljs-string">&quot;&lt;/a&gt;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> <span class="hljs-comment">#&amp;&quot;* [{link}]({link})\n&quot;    &amp;&quot;* `&lt;{link}&gt;`_ \n&quot;</span>
-
-  <span class="hljs-comment">#Default solution attempt</span>
-  <span class="hljs-comment">#[ for file in walkDirRec(path):
-    if file.endsWith(&quot;.html&quot;):
-      link = file.replace(r&quot;\&quot;, &quot;/&quot;)
-      links.add &amp;&quot;* [{link}]({link})\n&quot; ]#</span>
-
-      <span class="hljs-comment">#This is very janky... it only works it you open the link in another tab</span>
-      <span class="hljs-comment">#[ let extra = &quot;file:///&quot;
-      let dQuote = '&quot;'
-      var combined = &quot;file:///&quot; &amp; dQuote &amp; link &amp; dQuote      
-      links.add &quot;*&lt;a href = &quot; &amp; r&quot;&quot; &amp; fmt&quot;{combined}&quot; &amp; r&quot;&quot; &amp; &quot;&gt;&quot; &amp; &quot;A link&quot; &amp; &quot;&lt;/a&gt;&quot; &amp; &quot;&lt;br&gt;&quot; ]#</span>
-
-      <span class="hljs-keyword">when</span> <span class="hljs-keyword">defined</span>(nblogRerun):
-        <span class="hljs-keyword">let</span> cmd = <span class="hljs-string">&quot;nim r &quot;</span> &amp; link.replace(<span class="hljs-string">&quot;.html&quot;</span>, <span class="hljs-string">&quot;.nim&quot;</span>)
-        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;executing &quot;</span> &amp; cmd
-        <span class="hljs-keyword">if</span> execShellCmd(cmd) != <span class="hljs-number">0</span>:
-          <span class="hljs-keyword">echo</span> cmd &amp; <span class="hljs-string">&quot; FAILED&quot;</span> 
+      <span class="hljs-keyword">var</span> linkName = link
+      linkName.delete(<span class="hljs-number">0</span> .. videoSeries.len)
+      links.add <span class="hljs-string">&quot;- &lt;a href = &quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">fmt&quot;{link}&quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">&quot;&gt;&quot;</span> &amp; linkName &amp; <span class="hljs-string">&quot;&lt;/a&gt;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> <span class="hljs-comment">#&amp;&quot;* [{link}]({link})\n&quot;    &amp;&quot;* `&lt;{link}&gt;`_ \n&quot;</span>
+      <span class="hljs-comment">#Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...</span>
 
   <span class="hljs-literal">result</span> = links
 
