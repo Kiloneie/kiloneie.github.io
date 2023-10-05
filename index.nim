@@ -60,13 +60,27 @@ addToc()
 proc findAndOutputTutorials(videoSeries: string): string =
   var link: string
   var links: string
+  var removeUntil: int
 
   let path = getCurrentDir() & r"\" & fmt"{videoSeries}"
 
-  for file in walkDirRec(path): #This seems to do the job already
+  #"/Nim for Beginners/Sets/Sets.html" this works in a href, so model the output for a href, and cut away everything B4 "/Nim for Beginners/Sets/Sets.html", 
+    #or in other words videoSeries + directory found + file found.html
+
+  #test using `name <link>`_ style for a link(markup, not html or nimib)
+  for file in walkDirRec(path):
     if file.endsWith(".html"):
       link = file.replace(r"\", "/")
-      links.add &"* [{link}]({link})\n"
+      removeUntil = file.find(videoSeries)
+      link.delete(0 .. removeUntil-1) #remove everything before videoSeries -> use .find to find videoSeries index location, then delete everything from there to index 0 - start
+      links.add "- <a href = " & '"' & fmt"{link}" & '"' & ">" & "A link" & "</a>" & "<br>" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
+      #Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...
+
+  #Default solution attempt
+  #[ for file in walkDirRec(path):
+    if file.endsWith(".html"):
+      link = file.replace(r"\", "/")
+      links.add &"* [{link}]({link})\n" ]#
 
       #This is very janky... it only works it you open the link in another tab
       #[ let extra = "file:///"
@@ -123,8 +137,25 @@ nbText: hlMdF"""
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-- <a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a>
+- <a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
+- <a href = "file://C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
+- <a href = "C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
+- <a href = "./kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
+- <a href = "/Nim for Beginners/Sets/Sets.html">Sets.html</a> works!
+- [Sets.html](Nim for Beginners/Sets/Sets.html "please work") nope...
 - [file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html "Test")
+- Let's try to cut the stuff before the location we are in
+- [/Nim for Beginners/Sets/Sets.html](/Nim for Beginners/Sets/Sets.html "Test") NOPE
+- How about the files inside the same folder as index.html ? Let's add a file
+- C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\OVpart1copy.html
+- `<OVpart1copy.html>` still nope...
+- <a href = "OVpart1copy.html">link</a> this works!
+- <a href = 'OVpart1copy.html'>link</a> this works!
+- <a href = "./OVpart1copy.html">link</a> this works!
+- <a href = "Nim for Beginners/Sets/Sets.html">Sets.html</a> this works!
+- `<"Nim for Beginners/Sets/Sets.html">`_ nope
+- <https:google.com>_ how is _ not required ?
+- <https:google.com> how is _ not required ?
 """
 
 nbSave()

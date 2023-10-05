@@ -60,9 +60,7 @@ pre > code {
 
 <span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
 <span class="hljs-keyword">echo</span> nimForBeginners</code></pre><pre class="nb-output">Using proc to retrieve files: 
-* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html)
-* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 2/OVpart2.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 2/OVpart2.html)
-* [C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 1/OVpart1.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 1/OVpart1.html)</pre>
+- &lt;a href = &quot;Nim for Beginners/Sets/Sets.html&quot;&gt;A link&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 2/OVpart2.html&quot;&gt;A link&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 1/OVpart1.html&quot;&gt;A link&lt;/a&gt;&lt;br&gt;</pre>
 <ul>
 <li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
@@ -72,9 +70,7 @@ organized by their respective video series.
 <h1>Nim for Beginners</h1>
 <hr />
 <ul>
-<li>[C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html)</li>
-<li>[C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 2/OVpart2.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 2/OVpart2.html)</li>
-<li>[C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 1/OVpart1.html](C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Object Variants Part 1/OVpart1.html)</li>
+<li><a href = "Nim for Beginners/Sets/Sets.html">A link</a><br>- <a href = "Nim for Beginners/Object Variants Part 2/OVpart2.html">A link</a><br>- <a href = "Nim for Beginners/Object Variants Part 1/OVpart1.html">A link</a><br></li>
 </ul>
 <p><a name = "exploring-nim's-standard-library"></a></p>
 <h1>Exploring Nim's Standard Library</h1>
@@ -95,8 +91,25 @@ organized by their respective video series.
 <li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
-<li><a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a></li>
+<li><a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
+<li><a href = "file://C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
+<li><a href = "C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
+<li><a href = "./kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
+<li><a href = "/Nim for Beginners/Sets/Sets.html">Sets.html</a> works!</li>
+<li>[Sets.html](Nim for Beginners/Sets/Sets.html &quot;please work&quot;) nope...</li>
 <li>[file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html &quot;Test&quot;)</li>
+<li>Let's try to cut the stuff before the location we are in</li>
+<li>[/Nim for Beginners/Sets/Sets.html](/Nim for Beginners/Sets/Sets.html &quot;Test&quot;) NOPE</li>
+<li>How about the files inside the same folder as index.html ? Let's add a file</li>
+<li>C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\OVpart1copy.html</li>
+<li><code>&lt;OVpart1copy.html&gt;</code> still nope...</li>
+<li><a href = "OVpart1copy.html">link</a> this works!</li>
+<li><a href = 'OVpart1copy.html'>link</a> this works!</li>
+<li><a href = "./OVpart1copy.html">link</a> this works!</li>
+<li><a href = "Nim for Beginners/Sets/Sets.html">Sets.html</a> this works!</li>
+<li><code>&lt;&quot;Nim for Beginners/Sets/Sets.html&quot;&gt;</code>_ nope</li>
+<li><a href="https:google.com">https:google.com</a>_ how is _ not required ?</li>
+<li><a href="https:google.com">https:google.com</a> how is _ not required ?</li>
 </ul>
 </main>
 <footer>
@@ -107,9 +120,15 @@ organized by their respective video series.
 </div>
 </footer>
 <section id="source">
-<pre><code class="nohighlight nim hljs"><span class="hljs-comment">#Do NOT use {} inside nbText: hlMdF&quot;&quot;&quot; &quot;&quot;&quot; fields... </span>
+<pre><code class="nohighlight nim hljs"><span class="hljs-comment">#Do NOT use {} inside nbText: hlMdF&quot;&quot;&quot; &quot;&quot;&quot; fields, sometimes it will error, not always</span>
 <span class="hljs-comment">#When using - to make a line a list item, you cannot have ANY one of the lines be an empty line</span>
-<span class="hljs-comment">#Use spaces by a factor of 1x and then 2x for every indentation level</span>
+<span class="hljs-comment">#Use spaces by a factor of 2x for indentation in levels</span>
+<span class="hljs-comment"># *text* italic</span>
+<span class="hljs-comment"># **text** for bold instead of &lt;b&gt;&lt;/b&gt;</span>
+<span class="hljs-comment"># ***text*** italic bold</span>
+<span class="hljs-comment">#Link 1 - &lt;a href = &quot;link&quot;&gt;&lt;/a&gt;</span>
+<span class="hljs-comment">#Link 2 - [name](link)</span>
+<span class="hljs-comment">#Link 3 `name &lt;link&gt;`_ -&gt; without a name works too</span>
 
 <span class="hljs-keyword">import</span> nimib, std/strutils, <span class="hljs-comment">#[ nimib / [paths, gits] ]#</span> os, strformat, sugar
 <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
@@ -163,13 +182,26 @@ addToc()
 <span class="hljs-keyword">proc</span> findAndOutputTutorials(videoSeries: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
   <span class="hljs-keyword">var</span> link: <span class="hljs-built_in">string</span>
   <span class="hljs-keyword">var</span> links: <span class="hljs-built_in">string</span>
+  <span class="hljs-keyword">var</span> removeUntil: <span class="hljs-built_in">int</span>
 
   <span class="hljs-keyword">let</span> path = getCurrentDir() &amp; <span class="hljs-string">r&quot;\&quot;</span> &amp; <span class="hljs-string">fmt&quot;{videoSeries}&quot;</span>
 
-  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkDirRec(path): <span class="hljs-comment">#This seems to do the job already</span>
+  <span class="hljs-comment">#&quot;/Nim for Beginners/Sets/Sets.html&quot; this works in a href, so model the output for a href, and cut away everything B4 &quot;/Nim for Beginners/Sets/Sets.html&quot;, </span>
+    <span class="hljs-comment">#or in other words videoSeries + directory found + file found.html</span>
+
+  <span class="hljs-comment">#test using `name &lt;link&gt;`_ style for a link(markup, not html or nimib)</span>
+  <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> walkDirRec(path):
     <span class="hljs-keyword">if</span> file.endsWith(<span class="hljs-string">&quot;.html&quot;</span>):
       link = file.replace(<span class="hljs-string">r&quot;\&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>)
-      links.add &amp;<span class="hljs-string">&quot;* [{link}]({link})</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+      removeUntil = file.find(videoSeries)
+      link.delete(<span class="hljs-number">0</span> .. removeUntil-<span class="hljs-number">1</span>) <span class="hljs-comment">#remove everything before videoSeries -&gt; use .find to find videoSeries index location, then delete everything from there to index 0 - start</span>
+      links.add <span class="hljs-string">&quot;- &lt;a href = &quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">fmt&quot;{link}&quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">&quot;&gt;&quot;</span> &amp; <span class="hljs-string">&quot;A link&quot;</span> &amp; <span class="hljs-string">&quot;&lt;/a&gt;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> <span class="hljs-comment">#&amp;&quot;* [{link}]({link})\n&quot;    &amp;&quot;* `&lt;{link}&gt;`_ \n&quot;</span>
+
+  <span class="hljs-comment">#Default solution attempt</span>
+  <span class="hljs-comment">#[ for file in walkDirRec(path):
+    if file.endsWith(&quot;.html&quot;):
+      link = file.replace(r&quot;\&quot;, &quot;/&quot;)
+      links.add &amp;&quot;* [{link}]({link})\n&quot; ]#</span>
 
       <span class="hljs-comment">#This is very janky... it only works it you open the link in another tab</span>
       <span class="hljs-comment">#[ let extra = &quot;file:///&quot;
@@ -177,11 +209,11 @@ addToc()
       var combined = &quot;file:///&quot; &amp; dQuote &amp; link &amp; dQuote      
       links.add &quot;*&lt;a href = &quot; &amp; r&quot;&quot; &amp; fmt&quot;{combined}&quot; &amp; r&quot;&quot; &amp; &quot;&gt;&quot; &amp; &quot;A link&quot; &amp; &quot;&lt;/a&gt;&quot; &amp; &quot;&lt;br&gt;&quot; ]#</span>
 
-      <span class="hljs-comment">#[ when defined(nblogRerun):
-        let cmd = &quot;nim r &quot; &amp; link.replace(&quot;.html&quot;, &quot;.nim&quot;)
-        echo &quot;executing &quot; &amp; cmd
-        if execShellCmd(cmd) != 0:
-          echo cmd &amp; &quot; FAILED&quot; ]#</span> 
+      <span class="hljs-keyword">when</span> <span class="hljs-keyword">defined</span>(nblogRerun):
+        <span class="hljs-keyword">let</span> cmd = <span class="hljs-string">&quot;nim r &quot;</span> &amp; link.replace(<span class="hljs-string">&quot;.html&quot;</span>, <span class="hljs-string">&quot;.nim&quot;</span>)
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;executing &quot;</span> &amp; cmd
+        <span class="hljs-keyword">if</span> execShellCmd(cmd) != <span class="hljs-number">0</span>:
+          <span class="hljs-keyword">echo</span> cmd &amp; <span class="hljs-string">&quot; FAILED&quot;</span> 
 
   <span class="hljs-literal">result</span> = links
 
@@ -226,8 +258,25 @@ nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 - [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
-- &lt;a href = &quot;file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt;
+- &lt;a href = &quot;file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
+- &lt;a href = &quot;file://C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
+- &lt;a href = &quot;C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
+- &lt;a href = &quot;./kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
+- &lt;a href = &quot;/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; works!
+- [Sets.html](Nim for Beginners/Sets/Sets.html &quot;please work&quot;) nope...
 - [file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html &quot;Test&quot;)
+- Let's try to cut the stuff before the location we are in
+- [/Nim for Beginners/Sets/Sets.html](/Nim for Beginners/Sets/Sets.html &quot;Test&quot;) NOPE
+- How about the files inside the same folder as index.html ? Let's add a file
+- C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\OVpart1copy.html
+- `&lt;OVpart1copy.html&gt;` still nope...
+- &lt;a href = &quot;OVpart1copy.html&quot;&gt;link&lt;/a&gt; this works!
+- &lt;a href = 'OVpart1copy.html'&gt;link&lt;/a&gt; this works!
+- &lt;a href = &quot;./OVpart1copy.html&quot;&gt;link&lt;/a&gt; this works!
+- &lt;a href = &quot;Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; this works!
+- `&lt;&quot;Nim for Beginners/Sets/Sets.html&quot;&gt;`_ nope
+- &lt;https:google.com&gt;_ how is _ not required ?
+- &lt;https:google.com&gt; how is _ not required ?
 &quot;&quot;&quot;</span>
 
 nbSave()</code></pre>
