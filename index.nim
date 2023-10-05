@@ -76,24 +76,6 @@ proc findAndOutputTutorials(videoSeries: string): string =
       links.add "- <a href = " & '"' & fmt"{link}" & '"' & ">" & "A link" & "</a>" & "<br>" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
       #Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...
 
-  #Default solution attempt
-  #[ for file in walkDirRec(path):
-    if file.endsWith(".html"):
-      link = file.replace(r"\", "/")
-      links.add &"* [{link}]({link})\n" ]#
-
-      #This is very janky... it only works it you open the link in another tab
-      #[ let extra = "file:///"
-      let dQuote = '"'
-      var combined = "file:///" & dQuote & link & dQuote      
-      links.add "*<a href = " & r"" & fmt"{combined}" & r"" & ">" & "A link" & "</a>" & "<br>" ]#
-
-      when defined(nblogRerun):
-        let cmd = "nim r " & link.replace(".html", ".nim")
-        echo "executing " & cmd
-        if execShellCmd(cmd) != 0:
-          echo cmd & " FAILED" 
-
   result = links
 
 nbCode:
