@@ -82,6 +82,8 @@ proc findAndOutputTutorials(videoSeries: string): string =
   if result.isEmptyOrWhitespace:
     result = "No offline tutorials exist for this video series yet(coming soon)"
 
+#Add a back to the index.html link... this would require that every single nimib file has it... lots of manual work... skip for now!
+
 #Adding hlMd or hlMdf enables nimiboost's markdown highlight mode
 nbText: hlMdF"""
 - This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
