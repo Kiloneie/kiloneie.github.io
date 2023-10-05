@@ -56,11 +56,6 @@ pre > code {
 <li><a href="#nim-sdl2-game-development-for-beginners">Nim SDL2 Game Development for Beginners</a></li>
 <li><a href="#metaprogramming-in-nim">Metaprogramming in Nim</a></li>
 </ol>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Using proc to retrieve files: &quot;</span>
-
-<span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
-<span class="hljs-keyword">echo</span> nimForBeginners</code></pre><pre class="nb-output">Using proc to retrieve files: 
-- &lt;a href = &quot;Nim for Beginners/Sets/Sets.html&quot;&gt;Sets/Sets.html&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 2/OVpart2.html&quot;&gt;Object Variants Part 2/OVpart2.html&lt;/a&gt;&lt;br&gt;- &lt;a href = &quot;Nim for Beginners/Object Variants Part 1/OVpart1.html&quot;&gt;Object Variants Part 1/OVpart1.html&lt;/a&gt;&lt;br&gt;</pre>
 <ul>
 <li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
@@ -75,15 +70,15 @@ organized by their respective video series.
 <p><a name = "exploring-nim's-standard-library"></a></p>
 <h1>Exploring Nim's Standard Library</h1>
 <hr />
-
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><a name = "nim-sdl2-game-development-for-beginners"></a></p>
 <h1>Nim SDL2 Game Development for Beginners</h1>
 <hr />
-
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><a name = "metaprogramming-in-nim"></a></p>
 <h1>Metaprogramming in Nim</h1>
 <hr />
-
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><b>LINKS:</b></p>
 <ul>
 <li><a href="https://nim-lang.org" title="Nim's main page">Nim's main page</a></li>
@@ -199,15 +194,10 @@ addToc()
       linkName.delete(<span class="hljs-number">0</span> .. videoSeries.len)
       links.add <span class="hljs-string">&quot;- &lt;a href = &quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">fmt&quot;{link}&quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">&quot;&gt;&quot;</span> &amp; linkName &amp; <span class="hljs-string">&quot;&lt;/a&gt;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> <span class="hljs-comment">#&amp;&quot;* [{link}]({link})\n&quot;    &amp;&quot;* `&lt;{link}&gt;`_ \n&quot;</span>
       <span class="hljs-comment">#Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...</span>
-
   <span class="hljs-literal">result</span> = links
 
-nbCode:
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Using proc to retrieve files: &quot;</span>
-
-  <span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
-  <span class="hljs-keyword">echo</span> nimForBeginners
-
+  <span class="hljs-keyword">if</span> <span class="hljs-literal">result</span>.isEmptyOrWhitespace:
+    <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;No offline tutorials exist for this video series yet(coming soon)&quot;</span>
 
 <span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
@@ -217,24 +207,28 @@ nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Nim for Beginners&quot;</span>
+<span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
 &quot;&quot;&quot;</span> &amp; nimForBeginners
 
 nbSection <span class="hljs-string">&quot;Exploring Nim's Standard Library&quot;</span>
+<span class="hljs-keyword">let</span> exploringNimsStandardLibrary = findAndOutputTutorials(<span class="hljs-string">&quot;Exploring Nim's Standard Library&quot;</span>)
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
-&quot;&quot;&quot;</span> 
+&quot;&quot;&quot;</span> &amp; exploringNimsStandardLibrary
 
 nbSection <span class="hljs-string">&quot;Nim SDL2 Game Development for Beginners&quot;</span>
+<span class="hljs-keyword">let</span> nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim SDL2 Game Development for Beginners&quot;</span>)
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
-&quot;&quot;&quot;</span>
+&quot;&quot;&quot;</span> &amp; nimSDL2GameDevelopmentForBeginners
 
 nbSection <span class="hljs-string">&quot;Metaprogramming in Nim&quot;</span>
+<span class="hljs-keyword">let</span> metaprogrammingInNim = findAndOutputTutorials(<span class="hljs-string">&quot;Metaprogramming in Nim&quot;</span>)
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
-&quot;&quot;&quot;</span>
+&quot;&quot;&quot;</span> &amp; metaprogrammingInNim
 
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 &lt;b&gt;LINKS:&lt;/b&gt;

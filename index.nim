@@ -77,15 +77,10 @@ proc findAndOutputTutorials(videoSeries: string): string =
       linkName.delete(0 .. videoSeries.len)
       links.add "- <a href = " & '"' & fmt"{link}" & '"' & ">" & linkName & "</a>" & "<br>" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
       #Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...
-
   result = links
 
-nbCode:
-  echo "Using proc to retrieve files: "
-
-  let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
-  echo nimForBeginners
-
+  if result.isEmptyOrWhitespace:
+    result = "No offline tutorials exist for this video series yet(coming soon)"
 
 #Adding hlMd or hlMdf enables nimiboost's markdown highlight mode
 nbText: hlMdF"""
@@ -95,24 +90,28 @@ nbText: hlMdF"""
 """
 
 nbSection "Nim for Beginners"
+let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
 nbText: hlMdF"""
 
 """ & nimForBeginners
 
 nbSection "Exploring Nim's Standard Library"
+let exploringNimsStandardLibrary = findAndOutputTutorials("Exploring Nim's Standard Library")
 nbText: hlMdF"""
 
-""" 
+""" & exploringNimsStandardLibrary
 
 nbSection "Nim SDL2 Game Development for Beginners"
+let nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials("Nim SDL2 Game Development for Beginners")
 nbText: hlMdF"""
 
-"""
+""" & nimSDL2GameDevelopmentForBeginners
 
 nbSection "Metaprogramming in Nim"
+let metaprogrammingInNim = findAndOutputTutorials("Metaprogramming in Nim")
 nbText: hlMdF"""
 
-"""
+""" & metaprogrammingInNim
 
 nbText: hlMdF"""
 <b>LINKS:</b>
