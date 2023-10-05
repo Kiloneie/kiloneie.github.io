@@ -1,6 +1,12 @@
-#Do NOT use {} inside nbText: hlMdF""" """ fields... 
+#Do NOT use {} inside nbText: hlMdF""" """ fields, sometimes it will error, not always
 #When using - to make a line a list item, you cannot have ANY one of the lines be an empty line
-#Use spaces by a factor of 1x and then 2x for every indentation level
+#Use spaces by a factor of 2x for indentation in levels
+# *text* italic
+# **text** for bold instead of <b></b>
+# ***text*** italic bold
+#Link 1 - <a href = "link"></a>
+#Link 2 - [name](link)
+#Link 3 `name <link>`_ -> without a name works too
 
 import nimib, std/strutils, #[ nimib / [paths, gits] ]# os, strformat, sugar
 #You can use nimib's custom styling or HTML & CSS
