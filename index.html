@@ -57,9 +57,12 @@ pre > code {
 <li><a href="#metaprogramming-in-nim">Metaprogramming in Nim</a></li>
 </ol>
 <ul>
-<li>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
+<li>
+<p>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
 organized by their respective video series.
-(using nbSections for the video series organization)</li>
+(using nbSections for the video series organization)</p>
+<p>(Nimib tutorials are listed newest to oldest(top to bottom))</p>
+</li>
 </ul>
 <p><a name = "nim-for-beginners"></a></p>
 <h1>Nim for Beginners</h1>
@@ -86,25 +89,6 @@ organized by their respective video series.
 <li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
-<li><a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
-<li><a href = "file://C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
-<li><a href = "C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
-<li><a href = "./kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail</li>
-<li><a href = "/Nim for Beginners/Sets/Sets.html">Sets.html</a> works!</li>
-<li>[Sets.html](Nim for Beginners/Sets/Sets.html &quot;please work&quot;) nope...</li>
-<li>[file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html &quot;Test&quot;)</li>
-<li>Let's try to cut the stuff before the location we are in</li>
-<li>[/Nim for Beginners/Sets/Sets.html](/Nim for Beginners/Sets/Sets.html &quot;Test&quot;) NOPE</li>
-<li>How about the files inside the same folder as index.html ? Let's add a file</li>
-<li>C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\OVpart1copy.html</li>
-<li><code>&lt;OVpart1copy.html&gt;</code> still nope...</li>
-<li><a href = "OVpart1copy.html">link</a> this works!</li>
-<li><a href = 'OVpart1copy.html'>link</a> this works!</li>
-<li><a href = "./OVpart1copy.html">link</a> this works!</li>
-<li><a href = "Nim for Beginners/Sets/Sets.html">Sets.html</a> this works!</li>
-<li><code>&lt;&quot;Nim for Beginners/Sets/Sets.html&quot;&gt;</code>_ nope</li>
-<li><a href="https:google.com">https:google.com</a>_ how is _ not required ?</li>
-<li><a href="https:google.com">https:google.com</a> how is _ not required ?</li>
 </ul>
 </main>
 <footer>
@@ -199,11 +183,15 @@ addToc()
   <span class="hljs-keyword">if</span> <span class="hljs-literal">result</span>.isEmptyOrWhitespace:
     <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;No offline tutorials exist for this video series yet(coming soon)&quot;</span>
 
+<span class="hljs-comment">#Add a back to the index.html link... this would require that every single nimib file has it... lots of manual work... skip for now!</span>
+
 <span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 - This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
   organized by their respective video series.
   (using nbSections for the video series organization)
+  
+  (Nimib tutorials are listed newest to oldest(top to bottom))
 &quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Nim for Beginners&quot;</span>
@@ -237,25 +225,6 @@ nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 - [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
-- &lt;a href = &quot;file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
-- &lt;a href = &quot;file://C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
-- &lt;a href = &quot;C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
-- &lt;a href = &quot;./kiloneie/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; fail
-- &lt;a href = &quot;/Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; works!
-- [Sets.html](Nim for Beginners/Sets/Sets.html &quot;please work&quot;) nope...
-- [file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html &quot;Test&quot;)
-- Let's try to cut the stuff before the location we are in
-- [/Nim for Beginners/Sets/Sets.html](/Nim for Beginners/Sets/Sets.html &quot;Test&quot;) NOPE
-- How about the files inside the same folder as index.html ? Let's add a file
-- C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\OVpart1copy.html
-- `&lt;OVpart1copy.html&gt;` still nope...
-- &lt;a href = &quot;OVpart1copy.html&quot;&gt;link&lt;/a&gt; this works!
-- &lt;a href = 'OVpart1copy.html'&gt;link&lt;/a&gt; this works!
-- &lt;a href = &quot;./OVpart1copy.html&quot;&gt;link&lt;/a&gt; this works!
-- &lt;a href = &quot;Nim for Beginners/Sets/Sets.html&quot;&gt;Sets.html&lt;/a&gt; this works!
-- `&lt;&quot;Nim for Beginners/Sets/Sets.html&quot;&gt;`_ nope
-- &lt;https:google.com&gt;_ how is _ not required ?
-- &lt;https:google.com&gt; how is _ not required ?
 &quot;&quot;&quot;</span>
 
 nbSave()</code></pre>

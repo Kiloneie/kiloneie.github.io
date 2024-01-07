@@ -89,6 +89,8 @@ nbText: hlMdF"""
 - This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
   organized by their respective video series.
   (using nbSections for the video series organization)
+  
+  (Nimib tutorials are listed newest to oldest(top to bottom))
 """
 
 nbSection "Nim for Beginners"
@@ -122,25 +124,6 @@ nbText: hlMdF"""
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-- <a href = "file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
-- <a href = "file://C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
-- <a href = "C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
-- <a href = "./kiloneie/Nim for Beginners/Sets/Sets.html">Sets.html</a> fail
-- <a href = "/Nim for Beginners/Sets/Sets.html">Sets.html</a> works!
-- [Sets.html](Nim for Beginners/Sets/Sets.html "please work") nope...
-- [file:///C:/Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html](file:///C://Users/Kiloneie/OneDrive/Documents/GitHub/kiloneie/Nim for Beginners/Sets/Sets.html "Test")
-- Let's try to cut the stuff before the location we are in
-- [/Nim for Beginners/Sets/Sets.html](/Nim for Beginners/Sets/Sets.html "Test") NOPE
-- How about the files inside the same folder as index.html ? Let's add a file
-- C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie\OVpart1copy.html
-- `<OVpart1copy.html>` still nope...
-- <a href = "OVpart1copy.html">link</a> this works!
-- <a href = 'OVpart1copy.html'>link</a> this works!
-- <a href = "./OVpart1copy.html">link</a> this works!
-- <a href = "Nim for Beginners/Sets/Sets.html">Sets.html</a> this works!
-- `<"Nim for Beginners/Sets/Sets.html">`_ nope
-- <https:google.com>_ how is _ not required ?
-- <https:google.com> how is _ not required ?
 """
 
 nbSave()
