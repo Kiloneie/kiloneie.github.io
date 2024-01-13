@@ -95,27 +95,23 @@ nbText: hlMdF"""
 
 nbSection "Nim for Beginners"
 let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
-nbText: hlMdF"""
-
-""" & nimForBeginners
+nbText: hlMdF"" & nimForBeginners
 
 nbSection "Exploring Nim's Standard Library"
 let exploringNimsStandardLibrary = findAndOutputTutorials("Exploring Nim's Standard Library")
-nbText: hlMdF"""
-
-""" & exploringNimsStandardLibrary
+nbText: hlMdF"" & exploringNimsStandardLibrary
 
 nbSection "Nim SDL2 Game Development for Beginners"
 let nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials("Nim SDL2 Game Development for Beginners")
-nbText: hlMdF"""
-
-""" & nimSDL2GameDevelopmentForBeginners
+nbText: hlMdF"" & nimSDL2GameDevelopmentForBeginners
 
 nbSection "Metaprogramming in Nim"
 let metaprogrammingInNim = findAndOutputTutorials("Metaprogramming in Nim")
-nbText: hlMdF"""
+nbText: hlMdF"" & metaprogrammingInNim
 
-""" & metaprogrammingInNim
+nbSection "Work in Progress"
+let workInProgress = findAndOutputTutorials("Work in Progress")
+nbText: hlMdF"" & workInProgress
 
 nbText: hlMdF"""
 <b>LINKS:</b>
