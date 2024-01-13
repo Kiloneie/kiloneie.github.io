@@ -110,7 +110,7 @@ let metaprogrammingInNim = findAndOutputTutorials("Metaprogramming in Nim")
 nbText: hlMdF"" & metaprogrammingInNim
 
 nbSection "Work in Progress"
-let workInProgress = findAndOutputTutorials("Work in Progress")
+let workInProgress = findAndOutputTutorials("WorkInProgress")
 nbText: hlMdF"" & workInProgress
 
 nbText: hlMdF"""
