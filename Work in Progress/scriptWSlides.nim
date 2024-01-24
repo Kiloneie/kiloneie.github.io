@@ -11,11 +11,11 @@
 
 import nimib, std/strutils #You can use nimib's custom styling or HTML & CSS
 import nimislides
-nbInit(#[ theme = revealTheme ]#) #for full screen slides
+nbInit(theme = revealTheme) #for full screen slides
 nb.useLatex() #This existing or not, makes 0 difference
 nb.darkMode()
 
-import ../requiredForEmbeddedSlides/embeddedReveal
+import embeddedReveal
 initEmbeddedSlides()
 
 #If we want nimiBook style of ToC on the left -> https://github.com/HugoGranstrom/nimiSlides/blob/main/nbook.nim and import nimibook

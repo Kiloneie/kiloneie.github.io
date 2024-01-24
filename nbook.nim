@@ -3,10 +3,10 @@ import nimibook
 #Make this automatic with the proc, or a variant of the proc in the "index" file
   #Use the folder's name as argument1/name, arg2 is the filename in Nim's style guide .nim/.md(easy conversion between folder name and filename), arg3 is optional
 var book = initBookWithToc:
-  entry("Temporary front page", "index.nim", numbered = false)
+  entry("Temporary front page", "../index.nim", numbered = false)
   section("Nim for Beginners", "emptyNimForBeginners.nim"):
     entry("Object Variants Part 1", "Nim for Beginners/Object Variants Part 1/objectVariantsPart1.nim")
-    entry("Object Variants Part 2", "Nim for Beginners/Object Variants Part 1/objectVariantsPart2.nim")
+    entry("Object Variants Part 2", "Nim for Beginners/Object Variants Part 2/objectVariantsPart2.nim")
     entry("Sets", "Sets/sets.nim")
   section("Exploring Nim's Standard Library", "eNSL.md"):
     draft("placeholderENSL")

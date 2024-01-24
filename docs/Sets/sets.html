@@ -1,251 +1,883 @@
-<!DOCTYPE HTML>
-<html lang="en-us" class="sidebar-visible no-js light">
-    <head>
-        <!-- Book generated using nimibook -->
-        <meta charset="UTF-8">
-        <title>Sets - Kiloneie's textual versions of his Nim Video Tutorials</title>
-
-        <!-- Custom HTML head -->
-
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="Textual versions of video tutorials(the script used for the videos)">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
-
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
-        <link rel="stylesheet" href="../assets/css/variables.css">
-        <link rel="stylesheet" href="../assets/css/general.css">
-        <link rel="stylesheet" href="../assets/css/chrome.css">
-
-        <!-- Fonts -->
-        <link rel="stylesheet" href="../assets/FontAwesome/css/font-awesome.min.css">
-
-        <!-- Highlight.js Stylesheets - I could use nimib native highlight but let's keep it for styling... -->
-        <link rel="stylesheet" href="../assets/css/highlight.css">
-        <link rel="stylesheet" href="../assets/css/tomorrow-night.css">
-        <link rel="stylesheet" href="../assets/css/ayu-highlight.css">
-
-        <!-- Custom theme stylesheets - why the "../"? -->
-
-
-        
-
-            <script src="https://cdn.jsdelivr.net/gh/pietroppeter/nimib@main/assets/highlight.min.js"></script>
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>Video Data\documentation.nim</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="nimib 0.3.9" name="generator">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://cdn.jsdelivr.net/gh/pietroppeter/nimib@main/assets/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 
+  <style>
+.nb-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb-small {
+  font-size: 0.8rem;
+}
+button.nb-small {
+  float: right;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+section#source {
+  display:none
+}
+pre > code {
+  font-size: 1.2em;
+}
+.nb-output {
+  line-height: 1.15;
+}
+</style>
+  
+</head>
+<body>
+<header>
+<div class="nb-box">
+  <span><a href="..">🏡</a></span>
+  <span><code>Video Data\documentation.nim</code></span>
+  <span></span>
+</div>
+<hr>
+</header><main>
+<h2>Table of Contents:</h2>
+<ol>
+<li><a href="#what-are-sets-?">What are Sets ?</a></li>
+<li><a href="#set-pros">Set pros</a></li>
+<li><a href="#set-cons">Set cons</a></li>
+<li><a href="#set-use-cases">Set use cases</a></li>
+</ol>
+<h2>INTRO - GREETING</h2>
+<ul>
+<li>TITLE: Sets</li>
+</ul>
+<h2>INTRO - FOREWORDS</h2>
+<p><b>(What is the purpose of this video ?)</b><br>
+In this video we will learn about Sets, their pros and cons, as well as their use cases.</p>
+<p>The code for this video and it's script/documentation styled with nimib,
+is in the link in the description as a form of offline tutorial.</p>
+<p><a name = "what-are-sets-?"></a></p>
+<h1>What are Sets ?</h1>
+<hr />
+<ul>
+<li>
+<p>Sets are a data type that can only have ordinal types for it's elements.
+They model a mathematical notion of a set.
+In short Sets are a simple data type that is extremely performant and can be operated upon,
+with distinct mathematics operations, that makes it very easy to determine what belongs to what.
+Here is an example to make you more interested:</p>
+</li>
+<li>
+<p>Say you want to download somefiles from a remote computer via the File Transfer Protocol/FTP.
+You can create a &quot;set&quot; with a listing of your local files and another with a listing of the remote files.</p>
+<p>Then you can easily create a set of only the files you need to download.</p>
+<ul>
+<li>files_to_download = remote_files - local_files</li>
+</ul>
+</li>
+<li>
+<p>Now let's get into the details of Sets:</p>
+<ul>
+<li>They are allocated on the stack(hashSets are on the heap)</li>
+<li>The size of a Set when using singed integers(normal ints, not the unsigned uint ones we haven't covered yet),
+is 0 .. DefaultSetElements-1, where DefaultSetElements is currently always 2^8(0 .. 2^8-1).
+While the maximum range length for the base type of a set, is MaxSetElements which is 2^16.
+Types with bigger range than 2^16 are forced into this range.
+This is because Sets are implemented as high performance bit vectors.</li>
+<li>The order of it's elements is unordered</li>
+<li>There are also HashSets that can have more types than just ordinal and can be ordered,
+but that is the subject of another video</li>
+</ul>
+</li>
+<li>
+<p>Empty Set declaration an initialization:</p>
+</li>
+</ul>
+<pre><code class="nohighlight hljs nim"><span class="hljs-comment">#var emptySet = {} #The compiler cannot infer the data type of it's elements, so we must use declaration instead</span>
+<span class="hljs-keyword">var</span> emptySet: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>]
+<span class="hljs-keyword">echo</span> emptySet</code></pre><pre class="nb-output">{}</pre>
+<ul>
+<li>As you can see curly brackets {} are Set's constructors</li>
+<li>They cannot be accessed via [] brackets, to access them by the index like so:</li>
+</ul>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> accessSet = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>}
+<span class="hljs-comment">#echo accessSet[0] #Nim's Visual Studio Code Extension catches the error</span>
+<span class="hljs-comment">#So instead we do it by calling the element of the Set that we want</span>
+<span class="hljs-keyword">if</span> <span class="hljs-string">'a'</span> <span class="hljs-keyword">in</span> accessSet:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;a is in accessSet&quot;</span></code></pre><pre class="nb-output">a is in accessSet</pre>
+<p>You can also use the &quot;contains&quot; proc to do the same as with the &quot;in&quot; proc
+The reverse as in negated version of the above is done with the &quot;notin&quot; proc</p>
+<ul>
+<li>Sets can only have unique elements of ordinal types, any duplicates get removed</li>
+</ul>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> deduplicatedSet = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>}
+<span class="hljs-keyword">echo</span> deduplicatedSet</code></pre><pre class="nb-output">{'a', 'b'}</pre>
+<p>As you can see, we had 2x 'a' characters as elements of the Set, but displaying them only shown one.
+Again, only unique elements. This is one of the use cases of Sets,
+to convert to a Set and back quickly and efficiently.</p>
+<ul>
+<li>Now that i have mentioned that Sets can only have ordinal types multiple times,
+let's see what those actually are in code:</li>
+</ul>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span>
+  int8Set: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">int8</span>]
+  int16Set: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">int16</span>]
+  charSet: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>]
+
+<span class="hljs-keyword">type</span>
+  enumSet = <span class="hljs-keyword">enum</span>
+    s1, s2, s3</code></pre>
+<p>Maximum size of a Set is 2^16 bits for reasons of performance. HashSets do not have such limitations.
+Here is a list of all the unique procs for ordinal types:</p>
+<ul>
+<li><b>succ</b>	Successor of the value</li>
+<li><b>pred</b>	Predecessor of the value</li>
+<li><b>inc</b>	Increment the ordinal</li>
+<li><b>dec</b>	Decrement the ordinal</li>
+<li><b>high</b>	Return the highest possible value</li>
+<li><b>low</b>	Return the lowest possible value</li>
+<li><b>ord</b>	Return int value of an ordinal value</li>
+</ul>
+<p>Like with every container construct in Nim, we can also use a for loop on them.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> deduplicatedSet:
+  <span class="hljs-keyword">echo</span> e</code></pre><pre class="nb-output">a
+b</pre>
+<p>Here is the full list of procs that you can use to operate on Sets:</p>
+<ul>
+<li><span style="color:pink"><b>incl</b></span>(A, e)	same as A = A + e</li>
+<li><span style="color:pink"><b>excl</b></span>(A, e)	same as A = A - e</li>
+<li><span style="color:pink"><b>card</b></span>(A)	the cardinality of A (number of elements in A)</li>
+<li><span style="color:pink"><b>contains</b></span>(A, e)	A contains element e</li>
+<li>e <span style="color:pink"><b>in</b></span> A	set membership (A contains element e)</li>
+<li>e <span style="color:pink"><b>notin</b></span> A	A does not contain element e</li>
+<li>a <span style="color:pink"><b>*</b></span> b	Intersection</li>
+<li>a <span style="color:pink"><b>+</b></span> b	Union</li>
+<li>a <span style="color:pink"><b>-</b></span> b	Difference</li>
+<li>a <span style="color:pink"><b>==</b></span> b	Set equality</li>
+<li>a <span style="color:pink"><b>&lt;=</b></span> b	subset relation (a is subset of b or equal to b)</li>
+<li>a <span style="color:pink"><b>&lt;</b></span> b	Check if a is a subset of b</li>
+</ul>
+<p>Let's start with difference between 2 similar sets</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setA = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>}
+<span class="hljs-keyword">var</span> setB = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'c'</span>}
+
+<span class="hljs-keyword">echo</span> setA - setB</code></pre><pre class="nb-output">{'b'}</pre>
+<p>{'b'} is the difference between setA - setB<br>
+If we do the same, but reverse the 2 sets</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> setB - setA</code></pre><pre class="nb-output">{'c'}</pre>
+<p>We get {'c'} as the element of the difference.<br>
+What is happening here, is that setA has element 'a' and 'b',
+using &quot;-&quot; setB, it will compare the 2 sets. It will check what setA has that setB doesn't,
+and that is character 'b', or 'c' if we reverse it.</p>
+<p>Second explanation if you did not understand:
+It's basically like subtraction in Math.
+If setA has {'a', 'b'} and setB has {'a', 'b', 'c'},
+then if we do the difference between the two,
+setA being on the left and setB on the right,
+then 'a' - 'a' = 0, 'b' - 'b' = 0 and setA has no elements left and the result is empty,
+but if we reverse it, setB will still have element 'c'.</p>
+<p>By using the + sign with the 2 sets, it will simply join both set's elements and ignore any duplicates</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> setA + setB</code></pre><pre class="nb-output">{'a', 'b', 'c'}</pre>
+<p>As you can see, only one character 'a' is shown. This is also called a Union(joining) in discrete math.</p>
+<p>In order to add or remove elements of sets, instead of using the &quot;add&quot; and &quot;del&quot; procs that sequences use
+(strings only have add), we use &quot;incl&quot; short for include and &quot;excl&quot; short for exclude.</p>
+<pre><code class="nohighlight hljs nim">setA.incl <span class="hljs-string">'d'</span>
+setB.excl <span class="hljs-string">'a'</span>
+
+<span class="hljs-keyword">echo</span> setA
+<span class="hljs-keyword">echo</span> setB</code></pre><pre class="nb-output">{'a', 'b', 'd'}
+{'c'}</pre>
+<p>As you can see, setA now has a third element of char 'd', while setB lost char element 'a'</p>
+<p>Equality operation &quot;==&quot; checks if both sets members and size is equal, so they have to be exactly the same.</p>
+<p>Let's continue with the intersection operation which is done with the star sign &quot;*&quot;.
+Intersection means elements common/shared between both sets. Right now our sets have none of those,
+so let's add them.</p>
+<pre><code class="nohighlight hljs nim">setB.incl <span class="hljs-string">'a'</span>
+setB.incl <span class="hljs-string">'b'</span>
+
+<span class="hljs-keyword">echo</span> setA * setB
+<span class="hljs-keyword">echo</span> setB * setA</code></pre><pre class="nb-output">{'a', 'b'}
+{'a', 'b'}</pre>
+<p>As you can see reversing doesn't do anything here.</p>
+<p>Now let's continue with subsets. Subset meaning if setB has the same elements that setA has,
+but not all of them, just a part of them since in order for a subset to exist,
+there has to be a set larger than it's subset.
+The best way to demonstrate this is with 2x subsets, so let's add another.
+Let's also display all 3 before hand to easly see what is going on.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setC = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'d'</span>}
+
+<span class="hljs-keyword">echo</span> setA
+<span class="hljs-keyword">echo</span> setB
+<span class="hljs-keyword">echo</span> setC
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">echo</span> setB &lt; setA
+<span class="hljs-keyword">echo</span> setC &lt; setA</code></pre><pre class="nb-output">{'a', 'b', 'd'}
+{'a', 'b', 'c'}
+{'a', 'd'}
+
+false
+true</pre>
+<p>Here we go, as you can see setC is a subset of setA, but setB is not,
+since it's third element of char 'c' is not in setA.
+Now even if we remove the different element in setB and make setB identical to setA,
+setB will still not be a subset of setA, that is because again, it has to be a subset,
+a smaller set than the one we are comparing to.
+<br>Let's demonstrate:</p>
+<pre><code class="nohighlight hljs nim">setB.excl <span class="hljs-string">'c'</span>
+setB.incl <span class="hljs-string">'d'</span>
+
+<span class="hljs-keyword">echo</span> setA
+<span class="hljs-keyword">echo</span> setB
+<span class="hljs-keyword">echo</span> setB &lt; setA</code></pre><pre class="nb-output">{'a', 'b', 'd'}
+{'a', 'b', 'd'}
+false</pre>
+<p>As you can see, both sets are identical but the result is false, since a subset has to be smaller.</p>
+<p>There is also the smaller or equal operator &quot;&lt;=&quot; which does NOT require for the subset to be smaller,
+and will return true in this case.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> setB &lt;= setA</code></pre><pre class="nb-output">true</pre>
+<p>Lastly there is the &quot;card&quot; proc, which returns the cardinality of a &quot;set&quot;, it's number of elements.
+Let's echo all 3 and then &quot;card&quot; all 3:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> setA
+<span class="hljs-keyword">echo</span> setB
+<span class="hljs-keyword">echo</span> setC
+
+<span class="hljs-keyword">echo</span> setA.card
+<span class="hljs-keyword">echo</span> setB.card
+<span class="hljs-keyword">echo</span> setC.card</code></pre><pre class="nb-output">{'a', 'b', 'd'}
+{'a', 'b', 'd'}
+{'a', 'd'}
+3
+3
+2</pre>
+<p>You can also still use the &quot;len&quot; proc to get the same result of number of elements.</p>
+<p>There are also integer sets, intsets module for efficient int sets.
+There is also the std/setutils module for a bit more utility for Sets</p>
+<p>Now let's move on to 2 very useful use cases for Sets,
+the first being using Sets with Enumerators to produce flags.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
+  <span class="hljs-type">SandboxFlag</span> = <span class="hljs-keyword">enum</span>
+    allowCast, allowInfiniteLoops 
+
+<span class="hljs-keyword">var</span> sandboxFlags: <span class="hljs-built_in">set</span>[<span class="hljs-type">SandboxFlag</span>]
+
+sandboxFlags.incl allowCast <span class="hljs-comment">#E.g allowCast -&gt; Allow unsafe language features</span>
+sandboxFlags.incl allowInfiniteLoops 
+
+<span class="hljs-comment">#A second more gamey example if the first example was not understandable</span>
+<span class="hljs-keyword">type</span>
+  <span class="hljs-type">Flags</span> = <span class="hljs-keyword">enum</span>
+    walk, attack, defend
+
+<span class="hljs-keyword">var</span> moves: <span class="hljs-built_in">set</span>[<span class="hljs-type">Flags</span>]
+
+moves.incl walk
+moves.incl attack
+moves.incl defend
+
+<span class="hljs-keyword">echo</span> moves</code></pre><pre class="nb-output">{walk, attack, defend}</pre>
+<p>Not much different on the first glance, than when we used a similar enumerator with a sequence,
+but the operations you can do with enumerators in a Set, change the game.</p>
+<p>Now the second use case is for Parsing data. In the following example,
+we are going to make a &quot;split&quot; proc that will use a set of characters,
+in order to search and destroy any of the characters specified in our Set:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> strutils
+
+<span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] = <span class="hljs-comment">#[strutils.Whitespace]#</span> {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}): <span class="hljs-built_in">string</span> = <span class="hljs-comment">#const Whitespace = {' ', '\t', '\v', '\r', '\n', '\f'}</span>
+  <span class="hljs-keyword">var</span> splitString = s
+  <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+  <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+    c = splitString.find(sep)
+    splitString.delete(c, c)
+  
+  <span class="hljs-literal">result</span> = splitString
         
-        <!-- plausible analytics (new in nimibook) -->
-    </head>
-    <body>
-        <!-- Provide site root to javascript -->
-        <script type="text/javascript">
-            var path_to_root = "..//assets";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
+<span class="hljs-keyword">var</span> myString = <span class="hljs-string">&quot;Hello , World !?&quot;</span> 
+<span class="hljs-keyword">echo</span> myString
 
-        <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
-            try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+<span class="hljs-keyword">echo</span> myString.split</code></pre><pre class="nb-output">Hello , World !?
+Hello, World </pre>
+<p>Here we go.</p>
+<p>Now let's move on to Set pros, cons and use cases, many of which i have already mentioned,
+but it's always good to have such a list of condensed data,
+so that one may check it again to know when to use Sets.</p>
+<p><a name = "set-pros"></a></p>
+<h1>Set pros</h1>
+<hr />
+<ul>
+<li>
+<p>Extremely fast due to bitwise operations happening behind the scenes,
+along with being limited to 16 bytes/ordinal types.</p>
+</li>
+<li>
+<p>A ton of powerful operations you can do with them
+(membership testing, deduplication, distinct mathematical operations)</p>
+</li>
+</ul>
+<p><a name = "set-cons"></a></p>
+<h1>Set cons</h1>
+<hr />
+<ul>
+<li>
+<p>No easy way to access an element's data without changing a Set's data to a Sequence,
+or another container construct</p>
+</li>
+<li>
+<p>Sets can only store elements of a single data type,
+and only ordinal types(there are also HashSets which can be ordered and of any type you want,
+but obviously a bit slower, use them if you need Set operations, and normal sets don't cover your data type)</p>
+</li>
+<li>
+<p>Sets are unordered, don't use them if you REALLY need order</p>
+<p>Example: you want objects of say bullets in a game,
+ordered by time created, so that you can destroy them to free memory and not have the game crash,
+due to way too many bullets being rendered in a game. One way of optimizing games with bullets,
+is to remove them after a certain amount of time, another is to remove them when they go out of bounds, etc)</p>
+</li>
+</ul>
+<p><a name = "set-use-cases"></a></p>
+<h1>Set use cases</h1>
+<hr />
+<ul>
+<li>
+<p>Say you want to download some files from a remote computer via the File Transfer Protocol/FTP.
+You can create a &quot;set&quot; with a listing of your local files and another with a listing of the remote files.
+Then you can easily create a set of only the files you need to download.</p>
+<p>files_to_download = remote_files - local_files</p>
+</li>
+<li>
+<p>Removing duplicates/deduplication</p>
+</li>
+<li>
+<p>Ownership checking</p>
+</li>
+<li>
+<p>Say you made your game with a bunch of controller objects,
+which are then checked for their existence.
+And if they do exist say objectSFX, then sound effects will play,
+otherwise the game will have no soud effects.
+Or if you want to enable or disable debug mode.
+This can again be done with other such constructs,
+but if your game has a ton of objects that work in such a way,
+then they could all be checking for existence of controller objects to do their function,
+which would get really slow with Sequences.</p>
+</li>
+<li>
+<p>Setting compiler flags by using Sets with Enumerators(or moves a unit in a game can do)</p>
+</li>
+<li>
+<p>Parsing data(example 2 just before Set pros)</p>
+</li>
+</ul>
+<h2>OUTRO - AFTERWORDS</h2>
+<p>Okay, that's it for this video, thanks for watching like, share and subscribe,
+aswell as click the bell icon if you liked it and want more,
+you can also follow me on twitter of the same name, and support me on Patreon.
+If you had any problems with any part of the video,
+let me know in the comment section,
+the code of this video, script and documentation, are in the link in the description,
+as a form of offline tutorial.</p>
+<h3>Thanks to my past and current Patrons</h3>
+<p><b>Past Patrons:</b></p>
+<ul>
+<li>Goose_Egg: From April 4th 2021 to May 10th 2022</li>
+<li>Davide Galilei(1x month)</li>
+</ul>
+<p><b>Current Patrons</b></p>
+<ul>
+<li>None</li>
+</ul>
+<p><b>Compiler information</b></p>
+<ul>
+<li>Version used: 2.0.0</li>
+<li>Compiler settings used: none, ORC is now the default memory management option</li>
+<li>Timestamps:
+<ul>
+<li>00:15 Start of video example</li>
+</ul>
+</li>
+</ul>
+<p><b>LINKS:</b></p>
+<ul>
+<li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
+<li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
+<li>Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:</li>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
+</ul>
+<p><b>LINKS to this video's subject:</b></p>
+<ul>
+<li><a href="https://nim-lang.org/docs/manual.html#types-set-type" title="Set type">Set type</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#system-module-sets" title="Set operations and extra modules">Set operations and extra modules</a></li>
+<li><a href="https://nim-lang.org/docs/manual.html#types-ordinal-types" title="Ordinal types">Ordinal types</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#system-module-ordinals" title="Ordinal operations">Ordinal operations</a></li>
+<li><a href="https://nim-lang.org/docs/strutils.html" title="strutils module for the last example/use case parsing data">strutils module for the last example/use case of parsing data</a></li>
+</ul>
+</main>
+<footer>
+<div class="nb-box">
+  <span><span class="nb-small">made with <a href="https://pietroppeter.github.io/nimib/">nimib 🐳</a></span></span>
+  <span></span>
+  <span><button class="nb-small" id="show" onclick="toggleSourceDisplay()">Show Source</button></span>
+</div>
+</footer>
+<section id="source">
+<pre><code class="nohighlight nim hljs"><span class="hljs-comment">#Do NOT use {} inside nbText: hlMdF&quot;&quot;&quot; &quot;&quot;&quot; fields... </span>
+<span class="hljs-comment">#When using - to make a line a list item, you cannot have ANY one of the lines be an empty line</span>
+<span class="hljs-comment">#Use spaces by a factor of 1x and then 2x for every indentation level</span>
 
-                if (theme.startsWith('"') && theme.endsWith('"')) {
-                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
-                }
+<span class="hljs-keyword">import</span> nimib, std/strutils <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
+nbInit()
+nb.darkMode()
+<span class="hljs-comment">#nbShow() #This will auto open this file in the browser, but it does not check if it is already open</span>
+  <span class="hljs-comment">#so it keeps bloody opening one after another, i just want a way to update changes quickly</span>
 
-                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
-                }
-            } catch (e) { }
-        </script>
+<span class="hljs-comment"># customize source highlighting:</span>
+nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css&quot;&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;&quot;&quot;&quot;</span>
 
-        <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
-            var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
-            if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
-            html.classList.remove('light')
-            html.classList.add(theme);
-            html.classList.add('js');
-        </script>
+<span class="hljs-comment"># a custom text block that shows markdown source</span>
+<span class="hljs-keyword">template</span> nbTextWithSource*(body: <span class="hljs-built_in">untyped</span>) =
+  newNbBlock(<span class="hljs-string">&quot;nbTextWithSource&quot;</span>, <span class="hljs-literal">false</span>, nb, nb.blk, body):
+    nb.blk.output = body
+  nb.blk.context[<span class="hljs-string">&quot;code&quot;</span>] = body
 
-        <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
-            var html = document.querySelector('html');
-            var sidebar = 'hidden';
-            if (document.body.clientWidth >= 1080) {
-                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
-                sidebar = sidebar || 'visible';
-            }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
-        </script>
+nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
+nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                                <ol class="chapter">
-                <li class="chapter-item expanded ">
-                  <a href="../index.html" tabindex="0">
-                      Temporary front page
-                  </a></li>
-                <li class="chapter-item expanded ">
-                  <a href="../emptyNimForBeginners.html" tabindex="0">
-                    <strong aria-hidden="true">1.</strong> Nim for Beginners
-                  </a></li>
-                  <li>
-                  <ol class="section">
-                <li class="chapter-item expanded ">
-                  <a href="../Nim for Beginners/Object Variants Part 1/objectVariantsPart1.html" tabindex="0">
-                    <strong aria-hidden="true">1.1.</strong> Object Variants Part 1
-                  </a></li>
-                <li class="chapter-item expanded ">
-                  <a href="../Nim for Beginners/Object Variants Part 1/objectVariantsPart2.html" tabindex="0">
-                    <strong aria-hidden="true">1.2.</strong> Object Variants Part 2
-                  </a></li>
-                <li class="chapter-item expanded ">
-                  <a href="../Sets/sets.html" class="active" tabindex="0">
-                    <strong aria-hidden="true">1.3.</strong> Sets
-                  </a></li>
-                  </ol>
-                  </li>
-                <li class="chapter-item expanded ">
-                  <a href="../eNSL.html" tabindex="0">
-                    <strong aria-hidden="true">2.</strong> Exploring Nim's Standard Library
-                  </a></li>
-                  <li>
-                  <ol class="section">
-                <li class="chapter-item expanded ">
-                  <div>
-                    <strong aria-hidden="true">2.1.</strong> placeholderENSL
-                  </div>
-                </li>
-                  </ol>
-                  </li>
-                <li class="chapter-item expanded ">
-                  <a href="../nSDL2GDfB.html" tabindex="0">
-                    <strong aria-hidden="true">3.</strong> Nim SDL2 Game Development for Beginners
-                  </a></li>
-                  <li>
-                  <ol class="section">
-                <li class="chapter-item expanded ">
-                  <div>
-                    <strong aria-hidden="true">3.1.</strong> placeholderNSDL2GDFB
-                  </div>
-                </li>
-                  </ol>
-                  </li>
-                <li class="chapter-item expanded ">
-                  <a href="../mIN.html" tabindex="0">
-                    <strong aria-hidden="true">4.</strong> Metaprogramming in Nim
-                  </a></li>
-                  <li>
-                  <ol class="section">
-                <li class="chapter-item expanded ">
-                  <div>
-                    <strong aria-hidden="true">4.1.</strong> placeholderMIN
-                  </div>
-                </li>
-                  </ol>
-                  </li>
-                <li class="chapter-item expanded ">
-                  <a href="../workInProgress.html" tabindex="0">
-                    <strong aria-hidden="true">5.</strong> Work in Progress
-                  </a></li>
-                  <li>
-                  <ol class="section">
-                <li class="chapter-item expanded ">
-                  <a href="../Work in Progress/scriptWSlides.html" tabindex="0">
-                    <strong aria-hidden="true">5.1.</strong> Current WIP
-                  </a></li>
-                </ol>
-<!-- I could use also an unescaped context value -->
-            </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
-        </nav>
+<span class="hljs-comment"># how to add a ToC</span>
+<span class="hljs-keyword">var</span>
+  nbToc: <span class="hljs-type">NbBlock</span>
 
-        <div id="page-wrapper" class="page-wrapper">
+<span class="hljs-keyword">template</span> addToc =
+  newNbBlock(<span class="hljs-string">&quot;nbText&quot;</span>, <span class="hljs-literal">false</span>, nb, nbToc, <span class="hljs-string">&quot;&quot;</span>):
+    nbToc.output = <span class="hljs-string">&quot;## Table of Contents:</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
 
-            <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
-                    <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
-                        </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                        </ul>
-                    </div>
+<span class="hljs-keyword">template</span> nbSection(name:<span class="hljs-built_in">string</span>) =
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name = </span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+  <span class="hljs-comment"># see below, but any number works for a numbered list</span>
+  nbToc.output.add <span class="hljs-string">&quot;1. &lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+  <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
-                    <h1 class="menu-title">Kiloneie's textual versions of his Nim Video Tutorials</h1>
+<span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
+addToc() 
 
-                    <div class="right-buttons">
+<span class="hljs-comment">#Do NOT forget to have the .html file OPEN at all times, otherwise </span>
+  <span class="hljs-comment">#live preview will NOT work! ANY live preview!</span>
 
-                    </div>
-                </div>
+<span class="hljs-comment">###############</span>
+<span class="hljs-comment">#START OF FILE#</span>
+<span class="hljs-comment">###############</span>
+
+<span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+## INTRO - GREETING
+- TITLE: Sets
+
+## INTRO - FOREWORDS
+&lt;b&gt;(What is the purpose of this video ?)&lt;/b&gt;&lt;br&gt;
+In this video we will learn about Sets, their pros and cons, as well as their use cases.
+   
+The code for this video and it's script/documentation styled with nimib,
+is in the link in the description as a form of offline tutorial.
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;What are Sets ?&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+- Sets are a data type that can only have ordinal types for it's elements. 
+  They model a mathematical notion of a set.
+  In short Sets are a simple data type that is extremely performant and can be operated upon,
+  with distinct mathematics operations, that makes it very easy to determine what belongs to what.
+  Here is an example to make you more interested:
+- Say you want to download somefiles from a remote computer via the File Transfer Protocol/FTP. 
+  You can create a &quot;set&quot; with a listing of your local files and another with a listing of the remote files. 
+
+  Then you can easily create a set of only the files you need to download.
+	- files_to_download = remote_files - local_files
+
+- Now let's get into the details of Sets:
+  - They are allocated on the stack(hashSets are on the heap)
+  - The size of a Set when using singed integers(normal ints, not the unsigned uint ones we haven't covered yet),
+    is 0 .. DefaultSetElements-1, where DefaultSetElements is currently always 2^8(0 .. 2^8-1).
+    While the maximum range length for the base type of a set, is MaxSetElements which is 2^16.
+    Types with bigger range than 2^16 are forced into this range. 
+    This is because Sets are implemented as high performance bit vectors.
+  - The order of it's elements is unordered
+  - There are also HashSets that can have more types than just ordinal and can be ordered,
+   but that is the subject of another video
+
+- Empty Set declaration an initialization:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-comment">#var emptySet = {} #The compiler cannot infer the data type of it's elements, so we must use declaration instead</span>
+  <span class="hljs-keyword">var</span> emptySet: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>]
+  <span class="hljs-keyword">echo</span> emptySet
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+- As you can see curly brackets {} are Set's constructors
+- They cannot be accessed via [] brackets, to access them by the index like so:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> accessSet = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>}
+  <span class="hljs-comment">#echo accessSet[0] #Nim's Visual Studio Code Extension catches the error</span>
+  <span class="hljs-comment">#So instead we do it by calling the element of the Set that we want</span>
+  <span class="hljs-keyword">if</span> <span class="hljs-string">'a'</span> <span class="hljs-keyword">in</span> accessSet:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;a is in accessSet&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+You can also use the &quot;contains&quot; proc to do the same as with the &quot;in&quot; proc
+The reverse as in negated version of the above is done with the &quot;notin&quot; proc
+&quot;&quot;&quot;</span>    
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+-  Sets can only have unique elements of ordinal types, any duplicates get removed
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> deduplicatedSet = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>}
+  <span class="hljs-keyword">echo</span> deduplicatedSet
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+As you can see, we had 2x 'a' characters as elements of the Set, but displaying them only shown one.
+  Again, only unique elements. This is one of the use cases of Sets, 
+  to convert to a Set and back quickly and efficiently.
+
+-  Now that i have mentioned that Sets can only have ordinal types multiple times,
+  let's see what those actually are in code:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span>
+    int8Set: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">int8</span>]
+    int16Set: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">int16</span>]
+    charSet: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>]
+
+  <span class="hljs-keyword">type</span>
+    enumSet = <span class="hljs-keyword">enum</span>
+      s1, s2, s3
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+Maximum size of a Set is 2^16 bits for reasons of performance. HashSets do not have such limitations.
+Here is a list of all the unique procs for ordinal types:
+-  &lt;b&gt;succ&lt;/b&gt;	Successor of the value
+-  &lt;b&gt;pred&lt;/b&gt;	Predecessor of the value
+-  &lt;b&gt;inc&lt;/b&gt;	Increment the ordinal
+-  &lt;b&gt;dec&lt;/b&gt;	Decrement the ordinal
+-  &lt;b&gt;high&lt;/b&gt;	Return the highest possible value
+-  &lt;b&gt;low&lt;/b&gt;	Return the lowest possible value
+-  &lt;b&gt;ord&lt;/b&gt;	Return int value of an ordinal value
+
+Like with every container construct in Nim, we can also use a for loop on them.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> deduplicatedSet:
+    <span class="hljs-keyword">echo</span> e
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+Here is the full list of procs that you can use to operate on Sets:
+
+-  &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;incl&lt;/b&gt;&lt;/span&gt;(A, e)	same as A = A + e
+-  &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;excl&lt;/b&gt;&lt;/span&gt;(A, e)	same as A = A - e
+-  &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;card&lt;/b&gt;&lt;/span&gt;(A)	the cardinality of A (number of elements in A)
+-  &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;contains&lt;/b&gt;&lt;/span&gt;(A, e)	A contains element e
+-  e &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;in&lt;/b&gt;&lt;/span&gt; A	set membership (A contains element e)
+-  e &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;notin&lt;/b&gt;&lt;/span&gt; A	A does not contain element e
+-  a &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;*&lt;/b&gt;&lt;/span&gt; b	Intersection
+-  a &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/span&gt; b	Union
+-  a &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;-&lt;/b&gt;&lt;/span&gt; b	Difference
+-  a &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;==&lt;/b&gt;&lt;/span&gt; b	Set equality
+-  a &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;&lt;=&lt;/b&gt;&lt;/span&gt; b	subset relation (a is subset of b or equal to b)
+-  a &lt;span style=&quot;color:pink&quot;&gt;&lt;b&gt;&lt;&lt;/b&gt;&lt;/span&gt; b	Check if a is a subset of b
+
+Let's start with difference between 2 similar sets
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> setA = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>}
+  <span class="hljs-keyword">var</span> setB = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'c'</span>}
+
+  <span class="hljs-keyword">echo</span> setA - setB
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+{'b'} is the difference between setA - setB&lt;br&gt;
+If we do the same, but reverse the 2 sets
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">echo</span> setB - setA
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+We get {'c'} as the element of the difference.&lt;br&gt;
+What is happening here, is that setA has element 'a' and 'b',
+using &quot;-&quot; setB, it will compare the 2 sets. It will check what setA has that setB doesn't,
+and that is character 'b', or 'c' if we reverse it.
+
+Second explanation if you did not understand:
+  It's basically like subtraction in Math.
+  If setA has {'a', 'b'} and setB has {'a', 'b', 'c'},
+  then if we do the difference between the two,
+  setA being on the left and setB on the right,
+  then 'a' - 'a' = 0, 'b' - 'b' = 0 and setA has no elements left and the result is empty,
+  but if we reverse it, setB will still have element 'c'.
+
+By using the + sign with the 2 sets, it will simply join both set's elements and ignore any duplicates
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">echo</span> setA + setB
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+As you can see, only one character 'a' is shown. This is also called a Union(joining) in discrete math.
+
+In order to add or remove elements of sets, instead of using the &quot;add&quot; and &quot;del&quot; procs that sequences use
+(strings only have add), we use &quot;incl&quot; short for include and &quot;excl&quot; short for exclude.
+&quot;&quot;&quot;</span>
+nbCode:
+  setA.incl <span class="hljs-string">'d'</span>
+  setB.excl <span class="hljs-string">'a'</span>
+
+  <span class="hljs-keyword">echo</span> setA
+  <span class="hljs-keyword">echo</span> setB
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+As you can see, setA now has a third element of char 'd', while setB lost char element 'a'
+
+Equality operation &quot;==&quot; checks if both sets members and size is equal, so they have to be exactly the same.
+
+Let's continue with the intersection operation which is done with the star sign &quot;*&quot;.
+Intersection means elements common/shared between both sets. Right now our sets have none of those,
+so let's add them.
+&quot;&quot;&quot;</span>
+nbCode:
+  setB.incl <span class="hljs-string">'a'</span>
+  setB.incl <span class="hljs-string">'b'</span>
+
+  <span class="hljs-keyword">echo</span> setA * setB
+  <span class="hljs-keyword">echo</span> setB * setA
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+As you can see reversing doesn't do anything here.
+
+Now let's continue with subsets. Subset meaning if setB has the same elements that setA has,
+but not all of them, just a part of them since in order for a subset to exist, 
+there has to be a set larger than it's subset.
+The best way to demonstrate this is with 2x subsets, so let's add another.
+Let's also display all 3 before hand to easly see what is going on.
+&quot;&quot;&quot;</span>
+nbCode: 
+  <span class="hljs-keyword">var</span> setC = {<span class="hljs-string">'a'</span>, <span class="hljs-string">'d'</span>}
+
+  <span class="hljs-keyword">echo</span> setA
+  <span class="hljs-keyword">echo</span> setB
+  <span class="hljs-keyword">echo</span> setC
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-keyword">echo</span> setB &lt; setA
+  <span class="hljs-keyword">echo</span> setC &lt; setA
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+Here we go, as you can see setC is a subset of setA, but setB is not,
+since it's third element of char 'c' is not in setA.
+Now even if we remove the different element in setB and make setB identical to setA,
+setB will still not be a subset of setA, that is because again, it has to be a subset,
+a smaller set than the one we are comparing to.
+&lt;br&gt;Let's demonstrate:
+&quot;&quot;&quot;</span>
+nbCode:
+  setB.excl <span class="hljs-string">'c'</span>
+  setB.incl <span class="hljs-string">'d'</span>
+  
+  <span class="hljs-keyword">echo</span> setA
+  <span class="hljs-keyword">echo</span> setB
+  <span class="hljs-keyword">echo</span> setB &lt; setA
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+As you can see, both sets are identical but the result is false, since a subset has to be smaller.
+
+There is also the smaller or equal operator &quot;&lt;=&quot; which does NOT require for the subset to be smaller,
+and will return true in this case.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">echo</span> setB &lt;= setA
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+Lastly there is the &quot;card&quot; proc, which returns the cardinality of a &quot;set&quot;, it's number of elements.
+Let's echo all 3 and then &quot;card&quot; all 3:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">echo</span> setA
+  <span class="hljs-keyword">echo</span> setB
+  <span class="hljs-keyword">echo</span> setC
+
+  <span class="hljs-keyword">echo</span> setA.card
+  <span class="hljs-keyword">echo</span> setB.card
+  <span class="hljs-keyword">echo</span> setC.card
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+You can also still use the &quot;len&quot; proc to get the same result of number of elements.
+
+There are also integer sets, intsets module for efficient int sets.
+There is also the std/setutils module for a bit more utility for Sets
+
+Now let's move on to 2 very useful use cases for Sets, 
+the first being using Sets with Enumerators to produce flags.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">SandboxFlag</span> = <span class="hljs-keyword">enum</span>
+      allowCast, allowInfiniteLoops 
+
+  <span class="hljs-keyword">var</span> sandboxFlags: <span class="hljs-built_in">set</span>[<span class="hljs-type">SandboxFlag</span>]
+
+  sandboxFlags.incl allowCast <span class="hljs-comment">#E.g allowCast -&gt; Allow unsafe language features</span>
+  sandboxFlags.incl allowInfiniteLoops 
+
+  <span class="hljs-comment">#A second more gamey example if the first example was not understandable</span>
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">Flags</span> = <span class="hljs-keyword">enum</span>
+      walk, attack, defend
+
+  <span class="hljs-keyword">var</span> moves: <span class="hljs-built_in">set</span>[<span class="hljs-type">Flags</span>]
+
+  moves.incl walk
+  moves.incl attack
+  moves.incl defend
+
+  <span class="hljs-keyword">echo</span> moves
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+Not much different on the first glance, than when we used a similar enumerator with a sequence,
+but the operations you can do with enumerators in a Set, change the game.
+
+Now the second use case is for Parsing data. In the following example,
+we are going to make a &quot;split&quot; proc that will use a set of characters,
+in order to search and destroy any of the characters specified in our Set:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> strutils
+
+  <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] = <span class="hljs-comment">#[strutils.Whitespace]#</span> {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}): <span class="hljs-built_in">string</span> = <span class="hljs-comment">#const Whitespace = {' ', '\t', '\v', '\r', '\n', '\f'}</span>
+    <span class="hljs-keyword">var</span> splitString = s
+    <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+    <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+      c = splitString.find(sep)
+      splitString.delete(c, c)
+    
+    <span class="hljs-literal">result</span> = splitString
+          
+  <span class="hljs-keyword">var</span> myString = <span class="hljs-string">&quot;Hello , World !?&quot;</span> 
+  <span class="hljs-keyword">echo</span> myString
+
+  <span class="hljs-keyword">echo</span> myString.split 
 
 
-                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
-                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
-                    });
-                </script>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+Here we go.
 
-                <div id="content" class="content">
-                    <main>
-                        <h2>Sets</h2>
-                    </main>
+Now let's move on to Set pros, cons and use cases, many of which i have already mentioned,
+but it's always good to have such a list of condensed data, 
+so that one may check it again to know when to use Sets.
+&quot;&quot;&quot;</span>
 
-                    <nav class="nav-wrapper" aria-label="Page navigation">
-                        <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../Nim for Beginners/Object Variants Part 1/objectVariantsPart2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+nbSection <span class="hljs-string">&quot;Set pros&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+- Extremely fast due to bitwise operations happening behind the scenes,
+  along with being limited to 16 bytes/ordinal types.
 
-                            <a rel="next" href="../eNSL.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
+- A ton of powerful operations you can do with them
+  (membership testing, deduplication, distinct mathematical operations)
+&quot;&quot;&quot;</span>
 
-                        <div style="clear: both"></div>
-                    </nav>
-                </div>
-            </div>
+nbSection <span class="hljs-string">&quot;Set cons&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+- No easy way to access an element's data without changing a Set's data to a Sequence, 
+  or another container construct
+- Sets can only store elements of a single data type, 
+  and only ordinal types(there are also HashSets which can be ordered and of any type you want, 
+  but obviously a bit slower, use them if you need Set operations, and normal sets don't cover your data type)
+- Sets are unordered, don't use them if you REALLY need order
 
-            <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../Nim for Beginners/Object Variants Part 1/objectVariantsPart2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
+    Example: you want objects of say bullets in a game,
+    ordered by time created, so that you can destroy them to free memory and not have the game crash,
+    due to way too many bullets being rendered in a game. One way of optimizing games with bullets,
+    is to remove them after a certain amount of time, another is to remove them when they go out of bounds, etc)
+&quot;&quot;&quot;</span>
+nbSection <span class="hljs-string">&quot;Set use cases&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+-  Say you want to download some files from a remote computer via the File Transfer Protocol/FTP. 
+    You can create a &quot;set&quot; with a listing of your local files and another with a listing of the remote files. 
+    Then you can easily create a set of only the files you need to download.
 
-                    <a rel="next" href="../eNSL.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-            </nav>
+	  files_to_download = remote_files - local_files
+-  Removing duplicates/deduplication
+-  Ownership checking
+-  Say you made your game with a bunch of controller objects,
+   which are then checked for their existence.
+   And if they do exist say objectSFX, then sound effects will play,
+   otherwise the game will have no soud effects.
+   Or if you want to enable or disable debug mode.
+   This can again be done with other such constructs, 
+   but if your game has a ton of objects that work in such a way, 
+   then they could all be checking for existence of controller objects to do their function,
+   which would get really slow with Sequences.
+-  Setting compiler flags by using Sets with Enumerators(or moves a unit in a game can do)
+-  Parsing data(example 2 just before Set pros)
+&quot;&quot;&quot;</span>
 
-        </div>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+## OUTRO - AFTERWORDS
 
+  Okay, that's it for this video, thanks for watching like, share and subscribe, 
+    aswell as click the bell icon if you liked it and want more, 
+    you can also follow me on twitter of the same name, and support me on Patreon. 
+    If you had any problems with any part of the video, 
+    let me know in the comment section, 
+    the code of this video, script and documentation, are in the link in the description,
+    as a form of offline tutorial.
 
+### Thanks to my past and current Patrons
+&lt;b&gt;Past Patrons:&lt;/b&gt;
+- Goose_Egg: From April 4th 2021 to May 10th 2022
+- Davide Galilei(1x month)
 
+&lt;b&gt;Current Patrons&lt;/b&gt;
+- None
 
+&lt;b&gt;Compiler information&lt;/b&gt;
+- Version used: 2.0.0
+- Compiler settings used: none, ORC is now the default memory management option
+- Timestamps:
+  - 00:15 Start of video example
+  
+&quot;&quot;&quot;</span>
 
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+&lt;b&gt;LINKS:&lt;/b&gt;
+- [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
+- [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
+- Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:
+- [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
 
+&lt;b&gt;LINKS to this video's subject:&lt;/b&gt;
+- [Set type](https://nim-lang.org/docs/manual.html#types-set-type &quot;Set type&quot;)
+- [Set operations and extra modules](https://nim-lang.org/docs/system.html#system-module-sets &quot;Set operations and extra modules&quot;)
+- [Ordinal types](https://nim-lang.org/docs/manual.html#types-ordinal-types &quot;Ordinal types&quot;)
+- [Ordinal operations](https://nim-lang.org/docs/system.html#system-module-ordinals &quot;Ordinal operations&quot;)
+- [strutils module for the last example/use case of parsing data](https://nim-lang.org/docs/strutils.html &quot;strutils module for the last example/use case parsing data&quot;)
+&quot;&quot;&quot;</span>
 
-        <script src="../assets/js/clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../assets/js/book.js" type="text/javascript" charset="utf-8"></script>
-
-        <!-- Custom JS scripts -->
-
-
-    </body>
+nbSave()</code></pre>
+</section><script>
+function toggleSourceDisplay() {
+  var btn = document.getElementById("show")
+  var source = document.getElementById("source");
+  if (btn.innerHTML=="Show Source") {
+    btn.innerHTML = "Hide Source";
+    source.style.display = "block";
+  } else {
+    btn.innerHTML = "Show Source";
+    source.style.display = "none";
+  }
+}
+</script></body>
 </html>

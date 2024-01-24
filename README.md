@@ -12,3 +12,6 @@ To Do:
 - Get all of the nimib styled tutorials into the respective folders. There are not that many.
 - One day maybe... make every single one of my videos to have a nimib styled file...
 - Split our nimib tutorials by their sections to fit into nbook
+
+Problems:
+- nimib.toml interferes with our find tutorials proc in the "index" file

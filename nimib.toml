@@ -1,8 +1,9 @@
-[nimib]
-srcDir = "book"
-homeDir = "docs"
+# This is only to be used when init & building nbook, otherwise cut it/commenting it errors...
+# [nimib]
+# srcDir = "book"
+# homeDir = "docs"
 
-[nimibook]
-language = "en-us"
-title = "Kiloneie's textual versions of his Nim Video Tutorials"
-description = "Textual versions of video tutorials(the script used for the videos)"
+# [nimibook]
+# language = "en-us"
+# title = "Kiloneie's textual versions of his Nim Video Tutorials"
+# description = "Textual versions of video tutorials(the script used for the videos)"
