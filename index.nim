@@ -13,9 +13,8 @@ import nimib, std/strutils, #[ nimib / [paths, gits] ]# os, strformat, sugar
 import nimislides, nimibook
 
 #You can use nimib's custom styling or HTML & CSS
-#[ nbInit()
-nb.darkMode() ]#
-nbInit(theme = useNimibook)
+nbInit()
+nb.darkMode()
 
 import /requiredForEmbeddedSlides/embeddedReveal
 initEmbeddedSlides()
