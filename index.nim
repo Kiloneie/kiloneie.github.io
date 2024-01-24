@@ -7,11 +7,19 @@
 #Link 1 - <a href = "link"></a>
 #Link 2 - [name](link)
 #Link 3 `name <link>`_ -> without a name works too
+#nbCodeSkip -> skips the output/echo calls from the file, everything else remains the same
 
 import nimib, std/strutils, #[ nimib / [paths, gits] ]# os, strformat, sugar
+import nimislides, nimibook
+
 #You can use nimib's custom styling or HTML & CSS
-nbInit()
-nb.darkMode()
+#[ nbInit()
+nb.darkMode() ]#
+nbInit(theme = useNimibook)
+
+import /requiredForEmbeddedSlides/embeddedReveal
+initEmbeddedSlides()
+
 #nbShow() #This will auto open this file in the browser, but it does not check if it is already open
   #so it keeps bloody opening one after another, i just want a way to update changes quickly
 

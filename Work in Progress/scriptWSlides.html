@@ -1,27 +1,54 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="content-type">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css" integrity="sha512-USp+nLNMZ1hR0Ll/LpYDxIq47Ypcm3KfjIleOnyFrB1N5KfHLXjfPQD1wQlhv7kVHRRgPvNVtendDS72LyHviA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css" integrity="sha512-z8wQkuDRFwCBfoj7KOiu1MECaRVoXx6rZQWL21x0BsVVH7JkqCp1Otf39qve6CrCycOOL5o9vgfII5Smds23rg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-    
-    .nimislides-li {
-      position: relative;
-    }
-
-    .nimislides-li::before {
-      position: absolute;
-    }
-  
-    </style>
-  </head>
-  <body>
-  <div class="reveal">
-    <div class="slides">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css" integrity="sha512-USp+nLNMZ1hR0Ll/LpYDxIq47Ypcm3KfjIleOnyFrB1N5KfHLXjfPQD1wQlhv7kVHRRgPvNVtendDS72LyHviA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<html lang="en-us">
+<head>
+  <title>..\Work in Progress\scriptWSlides.nim</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="nimib 0.3.9" name="generator">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+  <style>
+.nb-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb-small {
+  font-size: 0.8rem;
+}
+button.nb-small {
+  float: right;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+section#source {
+  display:none
+}
+pre > code {
+  font-size: 1.2em;
+}
+.nb-output {
+  line-height: 1.15;
+}
+</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+<header>
+<div class="nb-box">
+  <span><a href="..\book">🏡</a></span>
+  <span><code>..\Work in Progress\scriptWSlides.nim</code></span>
+  <span><a href="https://github.com/Kiloneie/kiloneie.github.io"><svg aria-hidden="true" width="1.2em" height="1.2em" style="vertical-align: middle; fill: #fff" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a></span>
+</div>
+<hr>
+</header><main>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css" integrity="sha512-USp+nLNMZ1hR0Ll/LpYDxIq47Ypcm3KfjIleOnyFrB1N5KfHLXjfPQD1wQlhv7kVHRRgPvNVtendDS72LyHviA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css" integrity="sha512-z8wQkuDRFwCBfoj7KOiu1MECaRVoXx6rZQWL21x0BsVVH7JkqCp1Otf39qve6CrCycOOL5o9vgfII5Smds23rg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -30,13 +57,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js" integrity="sha512-RCedMo/DOyawQOh4zYtqEHTZAfgrrVQctN3LVCX5kELGsN52TOdwZ8inRY0l9Mo4vtyDFn6oOAgRUilWXgb+wA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js" integrity="sha512-MZ7Ehjbh2soaeCZJGaw6vBNAa7+eunl0SUmRPNESchLlboH73lHLEeUa6pZJ2Pcui4NcpDFatr6M+VlcmaH1QA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/math/math.min.js" integrity="sha512-skPZpuRwuUAnF9iEEFBXc4zJaucKcHUDgY1wDBTv0ILy82C2gn8MJsbcinzj2u8r/iZjD/78HRgw2/n//poOhQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-      <style>
+<style>
 table tbody tr:nth-child(2n) {
   background: 0;
 }
 </style>
-      <section data-nimib-slide-number="1" >
-      <h2>Table of Contents:</h2>
+<section data-nimib-slide-number="1" >
+<h2>Table of Contents:</h2>
 <ol>
 <li><a href="#what-is-hashing-?">What is hashing ?</a></li>
 <li><a href="#hashing-in-nim">Hashing in Nim</a></li>
@@ -44,220 +71,220 @@ table tbody tr:nth-child(2n) {
 <li><a href="#hashsets">hashSets</a></li>
 <li><a href="#hashset-use-cases">hashSet use cases</a></li>
 </ol>
-      </section>
-      <section data-nimib-slide-number="2" >
-      <section data-nimib-slide-number="3" >
-      <h2 class="r-fit-text"> <p>hashSets, more on hashTables and hashing</p> </h2>
-      </section>
-      <section data-nimib-slide-number="4" >
-      <aside class="notes">
+</section>
+<section data-nimib-slide-number="2" >
+<section data-nimib-slide-number="3" >
+<h2 class="r-fit-text"> <p>hashSets, more on hashTables and hashing</p> </h2>
+</section>
+<section data-nimib-slide-number="4" >
+<aside class="notes">
   <p>(What is the purpose of this video ?)</p>
 
 </aside>
-      <p>In this video, we will go over hashSets and hashes that are used with hashSets, as well as hashing in general in the world.
+<p>In this video, we will go over hashSets and hashes that are used with hashSets, as well as hashing in general in the world.
 We will also refresh our memory on Tables(hashTables), and add some more on that knowledge.</p>
-      </section>
-      <section data-nimib-slide-number="5" >
-      <p>The code for this video and it's script/documentation styled with nimib, is in the link in the description as a form of offline tutorial.</p>
-      </section>
-      </section>
-      <section data-nimib-slide-number="6" >
-      <section data-nimib-slide-number="7" >
-      <p><a name = "what-is-hashing-?"></a></p>
+</section>
+<section data-nimib-slide-number="5" >
+<p>The code for this video and it's script/documentation styled with nimib, is in the link in the description as a form of offline tutorial.</p>
+</section>
+</section>
+<section data-nimib-slide-number="6" >
+<section data-nimib-slide-number="7" >
+<p><a name = "what-is-hashing-?"></a></p>
 <h1>What is hashing ?</h1>
 <hr />
-      </section>
-      <section data-nimib-slide-number="8" >
-      <div class="fragment fade-in" data-fragment-index="0" data-fragment-index-nimib="0"> 
+</section>
+<section data-nimib-slide-number="8" >
+<div class="fragment fade-in" data-fragment-index="0" data-fragment-index-nimib="0"> 
   
-      <p>First of, we have already used a bit of hashing in my Tables video without even knowing it.</p>
-      </div>
+<p>First of, we have already used a bit of hashing in my Tables video without even knowing it.</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="1" data-fragment-index-nimib="1"> 
+<div class="fragment fade-in" data-fragment-index="1" data-fragment-index-nimib="1"> 
   
-      <p>The 'tables' module uses variants of an efficient hashTable(dictionaries in other programming languages).</p>
-      </div>
+<p>The 'tables' module uses variants of an efficient hashTable(dictionaries in other programming languages).</p>
+</div>
   
-      </section>
-      <section data-nimib-slide-number="9" >
-      <p>Hashing is the process of transforming any given key or string, into a usually another shorter and more efficient value, by the use of a one way mathematical hashing algorithm/function.</p>
-      </section>
-      <section data-nimib-slide-number="10" >
-      <p>One way algorithms are used, because Hashes are also used for encrypting data, and a 2 way algorithm would fail that.</p>
-      </section>
-      <section data-nimib-slide-number="11" >
-      <p>The most popular use for hashing, is the usage of hash tables.</p>
-      </section>
-      <section data-nimib-slide-number="12" >
-      <div class="fragment fade-in" data-fragment-index="2" data-fragment-index-nimib="2"> 
+</section>
+<section data-nimib-slide-number="9" >
+<p>Hashing is the process of transforming any given key or string, into a usually another shorter and more efficient value, by the use of a one way mathematical hashing algorithm/function.</p>
+</section>
+<section data-nimib-slide-number="10" >
+<p>One way algorithms are used, because Hashes are also used for encrypting data, and a 2 way algorithm would fail that.</p>
+</section>
+<section data-nimib-slide-number="11" >
+<p>The most popular use for hashing, is the usage of hash tables.</p>
+</section>
+<section data-nimib-slide-number="12" >
+<div class="fragment fade-in" data-fragment-index="2" data-fragment-index-nimib="2"> 
   
-      <p>A hash table stores key and value pairs, in a list that is accessible trough it's index.</p>
-      </div>
+<p>A hash table stores key and value pairs, in a list that is accessible trough it's index.</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="3" data-fragment-index-nimib="3"> 
+<div class="fragment fade-in" data-fragment-index="3" data-fragment-index-nimib="3"> 
   
-      <p>Because key and value pairs are unlimited, the hash function will map the keys to the table size. A hash value then becomes the index for a specific element.</p>
-      </div>
+<p>Because key and value pairs are unlimited, the hash function will map the keys to the table size. A hash value then becomes the index for a specific element.</p>
+</div>
   
-      </section>
-      <section data-nimib-slide-number="13" >
-      <div class="fragment fade-in" data-fragment-index="4" data-fragment-index-nimib="4"> 
+</section>
+<section data-nimib-slide-number="13" >
+<div class="fragment fade-in" data-fragment-index="4" data-fragment-index-nimib="4"> 
   
-      <p>Hashing is used in data indexing and retrieval, digital signatures, cybersecurity and cryptography.</p>
-      </div>
+<p>Hashing is used in data indexing and retrieval, digital signatures, cybersecurity and cryptography.</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="5" data-fragment-index-nimib="5"> 
+<div class="fragment fade-in" data-fragment-index="5" data-fragment-index-nimib="5"> 
   
-      <p>They are also used on some websites, especially those dedicated to Linux OSs and programs,</p>
-      </div>
+<p>They are also used on some websites, especially those dedicated to Linux OSs and programs,</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="6" data-fragment-index-nimib="6"> 
+<div class="fragment fade-in" data-fragment-index="6" data-fragment-index-nimib="6"> 
   
-      <p>to check your checksum(Secure Hash Algorithm/SHA, Message-Digest functions/MD), against the one on their website,</p>
-      </div>
+<p>to check your checksum(Secure Hash Algorithm/SHA, Message-Digest functions/MD), against the one on their website,</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="7" data-fragment-index-nimib="7"> 
+<div class="fragment fade-in" data-fragment-index="7" data-fragment-index-nimib="7"> 
   
-      <p>to ensure it is exactly the same, without any tampering by a malicious person.</p>
-      </div>
+<p>to ensure it is exactly the same, without any tampering by a malicious person.</p>
+</div>
   
-      </section>
-      <section data-nimib-slide-number="14" >
-      <div class="fragment fade-in" data-fragment-index="8" data-fragment-index-nimib="8"> 
+</section>
+<section data-nimib-slide-number="14" >
+<div class="fragment fade-in" data-fragment-index="8" data-fragment-index-nimib="8"> 
   
-      <p>There are several modules in nim, for dealing with hash function algorithms:</p>
-      </div>
+<p>There are several modules in nim, for dealing with hash function algorithms:</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="9" data-fragment-index-nimib="9"> 
+<div class="fragment fade-in" data-fragment-index="9" data-fragment-index-nimib="9"> 
   
-      <p><code>nimble install checksum</code> before use, of the <code>Sha</code> and <code>MD5</code> modules</p>
-      </div>
+<p><code>nimble install checksum</code> before use, of the <code>Sha</code> and <code>MD5</code> modules</p>
+</div>
   
-      <div style="text-align: left;">
-      <ol>
-      <div class="fragment fade-in" data-fragment-index="10" data-fragment-index-nimib="10"> 
+<div style="text-align: left;">
+<ol>
+<div class="fragment fade-in" data-fragment-index="10" data-fragment-index-nimib="10"> 
   
-      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="10" data-fragment-index-nimib="10">
-      <p>Sha1(old, used for legacy purposes</p>
-      </li>
-      </div>
+<li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="10" data-fragment-index-nimib="10">
+<p>Sha1(old, used for legacy purposes</p>
+</li>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="11" data-fragment-index-nimib="11"> 
+<div class="fragment fade-in" data-fragment-index="11" data-fragment-index-nimib="11"> 
   
-      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="11" data-fragment-index-nimib="11">
-      <p>Sha2(newer, but still insufficient for data security)</p>
-      </li>
-      </div>
+<li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="11" data-fragment-index-nimib="11">
+<p>Sha2(newer, but still insufficient for data security)</p>
+</li>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="12" data-fragment-index-nimib="12"> 
+<div class="fragment fade-in" data-fragment-index="12" data-fragment-index-nimib="12"> 
   
-      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="12" data-fragment-index-nimib="12">
-      <p>Sha3(newest, use this one)</p>
-      </li>
-      </div>
+<li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="12" data-fragment-index-nimib="12">
+<p>Sha3(newest, use this one)</p>
+</li>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="13" data-fragment-index-nimib="13"> 
+<div class="fragment fade-in" data-fragment-index="13" data-fragment-index-nimib="13"> 
   
-      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="13" data-fragment-index-nimib="13">
-      <p>MD5</p>
-      </li>
-      </div>
+<li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="13" data-fragment-index-nimib="13">
+<p>MD5</p>
+</li>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="14" data-fragment-index-nimib="14"> 
+<div class="fragment fade-in" data-fragment-index="14" data-fragment-index-nimib="14"> 
   
-      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="14" data-fragment-index-nimib="14">
-      <p>Base64(for encoding and decoding data)</p>
-      </li>
-      </div>
+<li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="14" data-fragment-index-nimib="14">
+<p>Base64(for encoding and decoding data)</p>
+</li>
+</div>
   
-      </ol>
-      </div>
-      <div class="fragment fade-in" data-fragment-index="15" data-fragment-index-nimib="15"> 
+</ol>
+</div>
+<div class="fragment fade-in" data-fragment-index="15" data-fragment-index-nimib="15"> 
   
-      <p>The usage of hashing in data structure, is used for the reasons of speed.</p>
-      </div>
+<p>The usage of hashing in data structure, is used for the reasons of speed.</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="16" data-fragment-index-nimib="16"> 
+<div class="fragment fade-in" data-fragment-index="16" data-fragment-index-nimib="16"> 
   
-      <p>It is much faster to find something if the value, is much smaller than the original in a large database</p>
-      </div>
+<p>It is much faster to find something if the value, is much smaller than the original in a large database</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="17" data-fragment-index-nimib="17"> 
+<div class="fragment fade-in" data-fragment-index="17" data-fragment-index-nimib="17"> 
   
-      <p>There is a phenomenon called <code>collision</code>, which is when 2x or more hashes manage to generate an identical hash.</p>
-      </div>
+<p>There is a phenomenon called <code>collision</code>, which is when 2x or more hashes manage to generate an identical hash.</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="18" data-fragment-index-nimib="18"> 
+<div class="fragment fade-in" data-fragment-index="18" data-fragment-index-nimib="18"> 
   
-      <p>Different hash functions have different margin of collisions. To address this, there are methods like:</p>
-      </div>
+<p>Different hash functions have different margin of collisions. To address this, there are methods like:</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="19" data-fragment-index-nimib="19"> 
+<div class="fragment fade-in" data-fragment-index="19" data-fragment-index-nimib="19"> 
   
-      <p>Double hashing</p>
-      </div>
+<p>Double hashing</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="20" data-fragment-index-nimib="20"> 
+<div class="fragment fade-in" data-fragment-index="20" data-fragment-index-nimib="20"> 
   
-      <p>Linear probing</p>
-      </div>
+<p>Linear probing</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="21" data-fragment-index-nimib="21"> 
+<div class="fragment fade-in" data-fragment-index="21" data-fragment-index-nimib="21"> 
   
-      <p>Quadratic probing</p>
-      </div>
+<p>Quadratic probing</p>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="22" data-fragment-index-nimib="22"> 
+<div class="fragment fade-in" data-fragment-index="22" data-fragment-index-nimib="22"> 
   
-      <p>Separate chaining(making every hash table cell point to linked lists of records with identical hash function values)</p>
-      </div>
+<p>Separate chaining(making every hash table cell point to linked lists of records with identical hash function values)</p>
+</div>
   
-      </section>
-      <section data-nimib-slide-number="15" >
-      <pre><code>In cybersecurity, they can go a step further with the term Salting.
+</section>
+<section data-nimib-slide-number="15" >
+<pre><code>In cybersecurity, they can go a step further with the term Salting.
 Which is adding random data into the hash function. It helps with attackers from accessing non-unique passwords,
 by the use of rainbow tables(reverse engineered data)
 </code></pre>
-      </section>
-      </section>
-      <section data-nimib-slide-number="16" >
-      <p><a name = "hashing-in-nim"></a></p>
+</section>
+</section>
+<section data-nimib-slide-number="16" >
+<p><a name = "hashing-in-nim"></a></p>
 <h1>Hashing in Nim</h1>
 <hr />
-      <p>Hey Araq, what is the default hash function used with hash() procs ?</p>
-      <div class="fragment fade-in" data-fragment-index="23" data-fragment-index-nimib="23"> 
+<p>Hey Araq, what is the default hash function used with hash() procs ?</p>
+<div class="fragment fade-in" data-fragment-index="23" data-fragment-index-nimib="23"> 
   
-      <pre><code>  First of, hashSets are allocated on the heap.
+<pre><code>  First of, hashSets are allocated on the heap.
 </code></pre>
-      </div>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="24" data-fragment-index-nimib="24"> 
+<div class="fragment fade-in" data-fragment-index="24" data-fragment-index-nimib="24"> 
   
-      <pre><code>  You can hash just about any data type in Nim. 
+<pre><code>  You can hash just about any data type in Nim. 
   There is no list of what you can, but mostly everything. 
 </code></pre>
-      </div>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="25" data-fragment-index-nimib="25"> 
+<div class="fragment fade-in" data-fragment-index="25" data-fragment-index-nimib="25"> 
   
-      <pre><code>  You can easily hash your own data types, 
+<pre><code>  You can easily hash your own data types, 
   but first you must use a bit of skeleton/boilerplate code to do so.
 </code></pre>
-      </div>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="26" data-fragment-index-nimib="26"> 
+<div class="fragment fade-in" data-fragment-index="26" data-fragment-index-nimib="26"> 
   
-      <pre><code>  The following 2 examples are taken from the hashes module page, 
+<pre><code>  The following 2 examples are taken from the hashes module page, 
   that are required for your own data types:
 </code></pre>
-      </div>
+</div>
   
-      <section data-nimib-slide-number="17" >
-      <aside class="notes">
+<section data-nimib-slide-number="17" >
+<aside class="notes">
   <p>Show, don't tell</p>
 
 </aside>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> std/hashes
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> std/hashes
 
 <span class="hljs-keyword">type</span>
   <span class="hljs-type">Something</span> = <span class="hljs-keyword">object</span>
@@ -277,18 +304,18 @@ by the use of rainbow tables(reverse engineered data)
     h = h !&amp; xAtom
   <span class="hljs-comment"># Finish the hash.</span>
   <span class="hljs-literal">result</span> = !$h</code></pre>
-      </section>
-      <div class="fragment fade-in" data-fragment-index="27" data-fragment-index-nimib="27"> 
+</section>
+<div class="fragment fade-in" data-fragment-index="27" data-fragment-index-nimib="27"> 
   
-      <pre><code>If your custom types contain fields for which there already is a &quot;hash&quot; proc,
+<pre><code>If your custom types contain fields for which there already is a &quot;hash&quot; proc,
 you can simply hash together the hash values of the individual fields,
 no need for the overload of the &quot;items&quot; iterator:
 </code></pre>
-      <aside class="notes">
+<aside class="notes">
   <p>Show, don't tell</p>
 
 </aside>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> std/hashes
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> std/hashes
 
 <span class="hljs-keyword">type</span>
   <span class="hljs-type">Something2</span> = <span class="hljs-keyword">object</span>
@@ -301,11 +328,11 @@ no need for the overload of the &quot;items&quot; iterator:
   h = h !&amp; hash(x.foo)
   h = h !&amp; hash(x.bar) <span class="hljs-comment"># &quot;!&amp;&quot; Mixes a hash value &quot;h&quot; with &quot;val&quot; to produce a new hash value(only for custom types)</span>
   <span class="hljs-literal">result</span> = !$h <span class="hljs-comment"># &quot;!$&quot; Finishes the computation of the hash value(only for custom types)</span></code></pre>
-      </div>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="28" data-fragment-index-nimib="28"> 
+<div class="fragment fade-in" data-fragment-index="28" data-fragment-index-nimib="28"> 
   
-      <pre><code>**Important:** Use -d:nimPreviewHashRef to enable hashing refs.
+<pre><code>**Important:** Use -d:nimPreviewHashRef to enable hashing refs.
 It is expected that this behaviour becomes the new default in upcoming versions.
 
 **Note:** If the type has &quot;==&quot; operator, the following must hold:
@@ -314,11 +341,11 @@ If two values compare equal, their hashes must also be equal.
 - Now let's continue by hashing some simple data types that normal Sets can't use,
 like strings, sequences and objects(don't forget to import the hashes module).
 </code></pre>
-      </div>
+</div>
   
-      <div class="fragment fade-in" data-fragment-index="29" data-fragment-index-nimib="29"> 
+<div class="fragment fade-in" data-fragment-index="29" data-fragment-index-nimib="29"> 
   
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> std/hashes
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> std/hashes
 
 <span class="hljs-keyword">let</span> data = <span class="hljs-string">&quot;Hello, World&quot;</span>
 <span class="hljs-keyword">let</span> hashedData = data.hash
@@ -326,20 +353,20 @@ like strings, sequences and objects(don't forget to import the hashes module).
 <span class="hljs-keyword">echo</span> data
 <span class="hljs-keyword">echo</span> hashedData</code></pre><pre style="width: 100%;"><samp class="hljs">Hello, World
 1798448400</samp></pre>
-      </div>
+</div>
   
-      <p>As you can see, the hashed result is a random like number, which we could use with tables as a hashed key.</p>
+<p>As you can see, the hashed result is a random like number, which we could use with tables as a hashed key.</p>
 <p>Now let's how it looks like for sequences:
 (show, don't tell)</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> seqData = @[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>]
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> seqData = @[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>]
 <span class="hljs-keyword">let</span> hashedSeqData = seqData.hash
 
 <span class="hljs-keyword">echo</span> seqData
 <span class="hljs-keyword">echo</span> hashedSeqData</code></pre><pre style="width: 100%;"><samp class="hljs">@[1, 3, 5, 7]
 -5765842931636332056</samp></pre>
-      <p>And now for objects:
+<p>And now for objects:
 (show, don't tell)</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">type</span>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">type</span>
   <span class="hljs-type">Student</span> = <span class="hljs-keyword">object</span>
     name: <span class="hljs-built_in">string</span>
     id: <span class="hljs-built_in">int</span>
@@ -350,14 +377,14 @@ like strings, sequences and objects(don't forget to import the hashes module).
 <span class="hljs-keyword">echo</span> person
 <span class="hljs-keyword">echo</span> hashedPerson</code></pre><pre style="width: 100%;"><samp class="hljs">(name: &quot;Kiloneie&quot;, id: 404)
 -1951849001622500428</samp></pre>
-      <p>Lots of quite long random looking, hashed values.</p>
+<p>Lots of quite long random looking, hashed values.</p>
 <p>Now let's try using a hashTable, hash the key, then reinsert to get the value.</p>
-      </section>
-      <section data-nimib-slide-number="18" >
-      <p><a name = "hashing-keys-with-hashtables"></a></p>
+</section>
+<section data-nimib-slide-number="18" >
+<p><a name = "hashing-keys-with-hashtables"></a></p>
 <h1>Hashing keys with hashTables</h1>
 <hr />
-      <p>Now we are going to play around with hashTables a bit,
+<p>Now we are going to play around with hashTables a bit,
 to have you understand what you can do with hashes,
 other than be more efficient values and enable hashSets to have just about any data type.</p>
 <p>But first, let me tell you about all the different variants of hash tables.
@@ -374,7 +401,7 @@ Then there is the CountTable for mapping from a key to it's number of occurrence
 - When generating JSON(lightweight data-interchange format), before it gets stringified, it's represented as a Table(dictionary)
 - Nested Tables(example 2 below)</p>
 <p>Now let's make a new hashTable and hash one of it's keys and then reinsert it back:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> tables
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> tables
 
 <span class="hljs-keyword">var</span> tData = {<span class="hljs-number">1.</span>hash: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable
 <span class="hljs-keyword">echo</span> tData
@@ -383,36 +410,36 @@ Then there is the CountTable for mapping from a key to it's number of occurrence
 <span class="hljs-keyword">echo</span> tData[<span class="hljs-number">2</span>]</code></pre><pre style="width: 100%;"><samp class="hljs">{8641844181895329213: &quot;one&quot;, 2: &quot;two&quot;}
 one
 two</samp></pre>
-      <p>Here we go, it worked perfectly.</p>
+<p>Here we go, it worked perfectly.</p>
 <p>Example 2: You can nest hashTables to create accounts that have usernames and passwords linked together like this:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> passwordIndex = {<span class="hljs-string">&quot;Account 1&quot;</span> : {<span class="hljs-string">&quot;Username&quot;</span> : <span class="hljs-string">&quot;littleMouse&quot;</span>, <span class="hljs-string">&quot;Password&quot;</span> : <span class="hljs-string">&quot;Ter3456fgdgh&quot;</span>}.toTable, 
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> passwordIndex = {<span class="hljs-string">&quot;Account 1&quot;</span> : {<span class="hljs-string">&quot;Username&quot;</span> : <span class="hljs-string">&quot;littleMouse&quot;</span>, <span class="hljs-string">&quot;Password&quot;</span> : <span class="hljs-string">&quot;Ter3456fgdgh&quot;</span>}.toTable, 
                     <span class="hljs-string">&quot;Account 2&quot;</span> : {<span class="hljs-string">&quot;Username&quot;</span> : <span class="hljs-string">&quot;bigDog&quot;</span>, <span class="hljs-string">&quot;Password&quot;</span> : <span class="hljs-string">&quot;mashthatkeyboard&quot;</span>}.toTable}.toTable
 
 <span class="hljs-keyword">echo</span> passwordIndex</code></pre><pre style="width: 100%;"><samp class="hljs">{&quot;Account 2&quot;: {&quot;Password&quot;: &quot;mashthatkeyboard&quot;, &quot;Username&quot;: &quot;bigDog&quot;}, &quot;Account 1&quot;: {&quot;Password&quot;: &quot;Ter3456fgdgh&quot;, &quot;Username&quot;: &quot;littleMouse&quot;}}</samp></pre>
-      <p>Obviously if you don't like the random order, you can make an ordered table instead.</p>
+<p>Obviously if you don't like the random order, you can make an ordered table instead.</p>
 <p>Now let's proceed to hashSets.</p>
-      </section>
-      <section data-nimib-slide-number="19" >
-      <p><a name = "hashsets"></a></p>
+</section>
+<section data-nimib-slide-number="19" >
+<p><a name = "hashsets"></a></p>
 <h1>hashSets</h1>
 <hr />
-      <p>Now let's make the simplest hashSet data type a normal Set cannot use, String.
+<p>Now let's make the simplest hashSet data type a normal Set cannot use, String.
 We cannot declare an empty hashSets, it can only be initialized.
 So this example is just for show, since every hashSet is always initialized
 in this same way by default anyways.
 We are going to need the &quot;sets&quot; module for all hashSets.</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> sets
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> sets
 <span class="hljs-keyword">var</span> emptyHashSet = initHashSet[<span class="hljs-built_in">string</span>]()
 
 <span class="hljs-keyword">echo</span> emptyHashSet</code></pre><pre style="width: 100%;"><samp class="hljs">{}</samp></pre>
-      <p>Now the initialization version:
+<p>Now the initialization version:
 (show, don't tell)</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> hashedString = [<span class="hljs-string">&quot;Hello, World!&quot;</span>].toHashSet
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> hashedString = [<span class="hljs-string">&quot;Hello, World!&quot;</span>].toHashSet
 
 <span class="hljs-keyword">echo</span> hashedString</code></pre><pre style="width: 100%;"><samp class="hljs">{&quot;Hello, World!&quot;}</samp></pre>
-      <p>Now remember that the order of the elements is unordered, not the value of an element.</p>
+<p>Now remember that the order of the elements is unordered, not the value of an element.</p>
 <p>Now let's have a look on how hashSets and hashTables look like in procs:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">proc</span> paramHashSet(data: <span class="hljs-type">HashSet</span>): <span class="hljs-type">HashSet</span> = <span class="hljs-comment"># data: initHashSet[string]() does NOT work</span>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">proc</span> paramHashSet(data: <span class="hljs-type">HashSet</span>): <span class="hljs-type">HashSet</span> = <span class="hljs-comment"># data: initHashSet[string]() does NOT work</span>
   data
 
 <span class="hljs-keyword">proc</span> paramHashTable(data: <span class="hljs-type">Table</span>): <span class="hljs-type">Table</span> = <span class="hljs-comment">#same for hashTables</span>
@@ -426,10 +453,10 @@ We are going to need the &quot;sets&quot; module for all hashSets.</p>
 initParamHashTable()</code></pre><pre style="width: 100%;"><samp class="hljs">{3.14}
 {1: &quot;one&quot;}
 {2: &quot;two&quot;, 1: &quot;one&quot;}</samp></pre>
-      <p>There is an additional operation you can do with hashSets that you cannot do with normal Sets, which is symmetricDifference(s1, s2).
+<p>There is an additional operation you can do with hashSets that you cannot do with normal Sets, which is symmetricDifference(s1, s2).
 symmetricDifference(s1, s2). &quot;-+-&quot; is the alias for that proc. This proc gives you only the elements that are not present in both sets at the same time.
 E.g. if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c'] because 'a' is only in one of them, and the same goes for 'c'. 'b' is in both of them so it gets excluded from this list.</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> setSD1 = [(<span class="hljs-string">&quot;key1&quot;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>)].toHashSet <span class="hljs-comment">#Anonymous tuple - must be inside [], and tuples require (,) -&gt; [()]</span>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> setSD1 = [(<span class="hljs-string">&quot;key1&quot;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>)].toHashSet <span class="hljs-comment">#Anonymous tuple - must be inside [], and tuples require (,) -&gt; [()]</span>
 <span class="hljs-keyword">let</span> setSD2 = [(<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>), (<span class="hljs-string">&quot;key3&quot;</span>, <span class="hljs-number">30</span>)].toHashSet
 
 <span class="hljs-keyword">echo</span> setSD1
@@ -439,8 +466,8 @@ E.g. if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c'] because 'a' is only in on
 {(&quot;key3&quot;, 30), (&quot;key2&quot;, 20)}
 
 {(&quot;key3&quot;, 30), (&quot;key1&quot;, 10)}</samp></pre>
-      <p>There is also disjoint(s1, s2: bool) returns true if the sets s1 and s2 have no items in common,</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> setD1 = [<span class="hljs-number">9223372036854775807</span>, -<span class="hljs-number">9223372036854775807</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#9,223,372,036,854,775,807 or -/negative of that value is the max value of int64</span>
+<p>There is also disjoint(s1, s2: bool) returns true if the sets s1 and s2 have no items in common,</p>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> setD1 = [<span class="hljs-number">9223372036854775807</span>, -<span class="hljs-number">9223372036854775807</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#9,223,372,036,854,775,807 or -/negative of that value is the max value of int64</span>
 <span class="hljs-keyword">let</span> setD2 = [<span class="hljs-number">2147483648</span>, -<span class="hljs-number">2147483648</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#2,147,483,647 or -/negative of that value, is the max value of int32, had to add +1 and -1 at the end  to make them int64, otherwise disjoint won't work</span>
 
 <span class="hljs-keyword">echo</span> setD1
@@ -450,8 +477,8 @@ E.g. if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c'] because 'a' is only in on
 {2147483648, 2, -2147483648, 1}
 
 false</samp></pre>
-      <p>missingOrExcl(s, key) Excludes a key and tells you if the key was already missing from &quot;s&quot;. (no proc for missingOrIncl)</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> setMOE = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+<p>missingOrExcl(s, key) Excludes a key and tells you if the key was already missing from &quot;s&quot;. (no proc for missingOrIncl)</p>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> setMOE = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
 
 <span class="hljs-keyword">echo</span> setMOE
 
@@ -467,9 +494,9 @@ false</samp></pre>
 false
 1 true
 {2, 3, 4, 5}</samp></pre>
-      <p>containsOrIncl(s, key) Includes a key in the set &quot;s&quot; and tells if key was already in &quot;s&quot;.
+<p>containsOrIncl(s, key) Includes a key in the set &quot;s&quot; and tells if key was already in &quot;s&quot;.
 Inverse of missingOrExcl(s, key)</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> setCOI = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> setCOI = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
 
 <span class="hljs-keyword">echo</span> setCOI
 
@@ -485,17 +512,17 @@ Inverse of missingOrExcl(s, key)</p>
     <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span></code></pre><pre style="width: 100%;"><samp class="hljs">{1, 2, 3, 4, 5}
 6 is not is setCOI, adding
 6 was already in setCOI</samp></pre>
-      <p>map(data, op) Returns a new set after applying &quot;op&quot; proc(anonymous proc) on each of the elements of &quot;data&quot;set.
+<p>map(data, op) Returns a new set after applying &quot;op&quot; proc(anonymous proc) on each of the elements of &quot;data&quot;set.
 Here is a simple example from the Sets module that demonstrates the &quot;map&quot; proc very well:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it with &quot;b&quot;</span>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it with &quot;b&quot;</span>
   a = toHashSet([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
   b = a.map(<span class="hljs-keyword">proc</span> (x: <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> = $x)
 
 <span class="hljs-keyword">echo</span> a
 <span class="hljs-keyword">echo</span> b</code></pre><pre style="width: 100%;"><samp class="hljs">{3, 2, 1}
 {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;}</samp></pre>
-      <p>And here is my example at this proc:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> setM = [<span class="hljs-string">&quot;lowercase&quot;</span>, <span class="hljs-string">&quot;UPPERCASE&quot;</span>, <span class="hljs-string">&quot;l&quot;</span>, <span class="hljs-string">&quot;U&quot;</span>].toHashSet <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it</span>
+<p>And here is my example at this proc:</p>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">let</span> setM = [<span class="hljs-string">&quot;lowercase&quot;</span>, <span class="hljs-string">&quot;UPPERCASE&quot;</span>, <span class="hljs-string">&quot;l&quot;</span>, <span class="hljs-string">&quot;U&quot;</span>].toHashSet <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it</span>
 
 <span class="hljs-keyword">let</span> setNewL = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
   <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
@@ -510,16 +537,16 @@ Here is a simple example from the Sets module that demonstrates the &quot;map&qu
 <span class="hljs-keyword">echo</span> setNewL
 <span class="hljs-keyword">echo</span> setNewU</code></pre><pre style="width: 100%;"><samp class="hljs">{&quot;&quot;, &quot;l&quot;, &quot;lowercase&quot;}
 {&quot;U&quot;, &quot;&quot;, &quot;UPPERCASE&quot;}</samp></pre>
-      <p>Not sure why there is a third empty &quot;&quot; element in the new sets...</p>
-      <p>clear(s) Clears the hashSet back to an empty state, without shrinking any of the existing storage.</p>
+<p>Not sure why there is a third empty &quot;&quot; element in the new sets...</p>
+<p>clear(s) Clears the hashSet back to an empty state, without shrinking any of the existing storage.</p>
 <p>QUESTION FOR ARAQ, DO READ THIS PLEASE:
 Araq, does this mean that the size is of type X's size + whatever the extra size of making it a hashSet is ?
 or does it mean that if we had 10x elements of type &quot;string&quot;, the size will be default hashSet size + 10x string elements ?</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">discard</span></code></pre>
-      <p>pop(s) Removes and returns an element from the set &quot;s&quot;. Not sure what this is useful for,
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">discard</span></code></pre>
+<p>pop(s) Removes and returns an element from the set &quot;s&quot;. Not sure what this is useful for,
 since it gives us no control. We can have some control with an ordered hashSet,
 but popping a specific element would take a long of computing time...</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> myHashSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toHashSet
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> myHashSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toHashSet
 <span class="hljs-keyword">var</span> orderedSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toOrderedSet
 
 <span class="hljs-keyword">echo</span> myHashSet.pop <span class="hljs-comment">#Doesn't let me specify what to pop... proc pop only has 1x argument</span>
@@ -533,12 +560,12 @@ but popping a specific element would take a long of computing time...</p>
 b
 c
 myHashSet is empty</samp></pre>
-      <p>There is a use case for the &quot;pop&quot; proc. For example if you have a pool of jobs to be done in no particular order.
+<p>There is a use case for the &quot;pop&quot; proc. For example if you have a pool of jobs to be done in no particular order.
 Let's say that on weekends you clean your room, do your laundry, change the sheets, etc. That job only requires to be done once.
 So you would use a doTheJob()/processJob() proc that woould &quot;pop&quot; a job from your pool of jobs and execute it.
 Once all the jobs are done, you can put the exact same ones back in when weekend comes, or some relatives are coming to visit.
 Here is an example:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">proc</span> executeJob(job: <span class="hljs-built_in">string</span>) =
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">proc</span> executeJob(job: <span class="hljs-built_in">string</span>) =
   <span class="hljs-keyword">echo</span> job, <span class="hljs-string">&quot; finished&quot;</span>
 
 <span class="hljs-keyword">var</span> jobs = [<span class="hljs-string">&quot;laundry&quot;</span>, <span class="hljs-string">&quot;sh8eets&quot;</span>, <span class="hljs-string">&quot;cleaning&quot;</span>].toHashSet
@@ -548,24 +575,24 @@ Here is an example:</p>
   job.executeJob</code></pre><pre style="width: 100%;"><samp class="hljs">sh8eets finished
 cleaning finished
 laundry finished</samp></pre>
-      <p>And lastly &quot;[]&quot; - Which returns the element that is actually stored in &quot;s&quot; which has the same value as &quot;key&quot; or raises the &quot;KeyError&quot; exception.
+<p>And lastly &quot;[]&quot; - Which returns the element that is actually stored in &quot;s&quot; which has the same value as &quot;key&quot; or raises the &quot;KeyError&quot; exception.
 This is useful when one overloaded the &quot;hash&quot; proc and the &quot;==&quot; operator, but still needs reference semantics for sharing.</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> setWithAKey = [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;tree&quot;</span>].toHashSet
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">var</span> setWithAKey = [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;tree&quot;</span>].toHashSet
 <span class="hljs-keyword">echo</span> setWithAKey[<span class="hljs-string">&quot;one&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, setWithAKey[<span class="hljs-string">&quot;one&quot;</span>].<span class="hljs-keyword">type</span></code></pre><pre style="width: 100%;"><samp class="hljs">one string</samp></pre>
-      </section>
-      <section data-nimib-slide-number="20" >
-      <p><a name = "hashset-use-cases"></a></p>
+</section>
+<section data-nimib-slide-number="20" >
+<p><a name = "hashset-use-cases"></a></p>
 <h1>hashSet use cases</h1>
 <hr />
-      <p>One of the hashSet uses cases is very similar to the last use case example of the previous video of normal Sets.
+<p>One of the hashSet uses cases is very similar to the last use case example of the previous video of normal Sets.
 The example being, splitting a string based on character elements as separators.
 With hashSets, we can go a step further. We can use whole words as separators.
 So let's use the split() proc we made in the last tutorial and update it for string hashSets.
 We are also going to add another argument of type bool, to tell the proc if we are working with set[char],
 or hashSet[string]. Currently the compiler cannot infer which to use,
 since the second argument of &quot;seps&quot; is not an argument we can give, since it is already initialized.</p>
-      <p>Original version:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> strutils
+<p>Original version:</p>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> strutils
 
 <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}): <span class="hljs-built_in">string</span> = 
   <span class="hljs-keyword">var</span> splitString = s
@@ -582,8 +609,8 @@ since the second argument of &quot;seps&quot; is not an argument we can give, si
 
 <span class="hljs-keyword">echo</span> myString.split</code></pre><pre style="width: 100%;"><samp class="hljs">Hello , World !?
 Hello, World </samp></pre>
-      <p>Modified version:</p>
-      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> strutils
+<p>Modified version:</p>
+<pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> strutils
 
 <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; useNormalSet: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">string</span> = 
   <span class="hljs-keyword">if</span> useNormalSet == <span class="hljs-literal">true</span>:
@@ -613,9 +640,9 @@ Hello, World </samp></pre>
 <span class="hljs-keyword">echo</span> myString.split(<span class="hljs-literal">true</span>)
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I have a var, a const, and a let me in pony&quot;</span>.split(<span class="hljs-literal">false</span>) <span class="hljs-comment">#43 length</span></code></pre><pre style="width: 100%;"><samp class="hljs">Hello, World 
 I have a  a  and a me in pony</samp></pre>
-      </section>
-      <section data-nimib-slide-number="21" >
-      <h2>OUTRO - AFTERWORDS</h2>
+</section>
+<section data-nimib-slide-number="21" >
+<h2>OUTRO - AFTERWORDS</h2>
 <pre><code>Okay, that's it for this video, thanks for watching like, share and subscribe, 
   aswell as click the bell icon if you liked it and want more, 
   you can also follow me on twitter of the same name, and support me on Patreon. 
@@ -644,7 +671,7 @@ I have a  a  and a me in pony</samp></pre>
 </ul>
 </li>
 </ul>
-      <p><b>LINKS:</b></p>
+<p><b>LINKS:</b></p>
 <ul>
 <li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
@@ -656,23 +683,649 @@ I have a  a  and a me in pony</samp></pre>
 <li><a href="https://vladar4.github.io/sdl2_nim/" title="Example link to an example video's subject">E.G.1. SDL2_nim documentation</a></li>
 <li><a href="https://wiki.libsdl.org/APIByCategory" title="Example link to an example video's subject">E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)</a></li>
 </ul>
-      </section>
-    </div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js" integrity="sha512-9dFFU5pcR8K4bvw4ng6mLMW5IjslYbA57amHEMtHn3TT9RkKivsDabKffqjUUJ4pCaojAyH05T1OESld199Gcw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js" integrity="sha512-RCedMo/DOyawQOh4zYtqEHTZAfgrrVQctN3LVCX5kELGsN52TOdwZ8inRY0l9Mo4vtyDFn6oOAgRUilWXgb+wA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js" integrity="sha512-MZ7Ehjbh2soaeCZJGaw6vBNAa7+eunl0SUmRPNESchLlboH73lHLEeUa6pZJ2Pcui4NcpDFatr6M+VlcmaH1QA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/math/math.min.js" integrity="sha512-skPZpuRwuUAnF9iEEFBXc4zJaucKcHUDgY1wDBTv0ILy82C2gn8MJsbcinzj2u8r/iZjD/78HRgw2/n//poOhQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script>
-    Reveal.initialize({
-      plugins: [ 
-        RevealHighlight,
-        RevealNotes,
-        RevealMath.KaTeX,
-      ],
-      mouseWheel: true,
-      slideNumber: 'c/t',
-    });
-  </script>
-  </body>
+</section>
+</main>
+<footer>
+<div class="nb-box">
+  <span><span class="nb-small">made with <a href="https://pietroppeter.github.io/nimib/">nimib 🐳</a></span></span>
+  <span></span>
+  <span><button class="nb-small" id="show" onclick="toggleSourceDisplay()">Show Source</button></span>
+</div>
+</footer>
+<section id="source">
+<pre><code class="nohighlight nim hljs"><span class="hljs-comment">#Do NOT use {} inside nbText: hlMdF&quot;&quot;&quot; &quot;&quot;&quot; fields, sometimes it will error, not always</span>
+<span class="hljs-comment">#When using - to make a line a list item, you cannot have ANY one of the lines be an empty line</span>
+<span class="hljs-comment">#Use spaces by a factor of 2x for indentation in levels</span>
+<span class="hljs-comment"># *text* italic</span>
+<span class="hljs-comment"># **text** for bold instead of &lt;b&gt;&lt;/b&gt;</span>
+<span class="hljs-comment"># ***text*** italic bold</span>
+<span class="hljs-comment">#Link 1 - &lt;a href = &quot;link&quot;&gt;&lt;/a&gt;</span>
+<span class="hljs-comment">#Link 2 - [name](link)</span>
+<span class="hljs-comment">#Link 3 `name &lt;link&gt;`_ -&gt; without a name works too</span>
+<span class="hljs-comment">#nbCodeSkip -&gt; skips the output/echo calls from the file, everything else remains the same</span>
+
+<span class="hljs-keyword">import</span> nimib, std/strutils <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
+<span class="hljs-keyword">import</span> nimislides
+nbInit(<span class="hljs-comment">#[ theme = revealTheme ]#</span>) <span class="hljs-comment">#for full screen slides</span>
+nb.useLatex() <span class="hljs-comment">#This existing or not, makes 0 difference</span>
+nb.darkMode()
+
+<span class="hljs-keyword">import</span> ../requiredForEmbeddedSlides/embeddedReveal
+initEmbeddedSlides()
+
+<span class="hljs-comment">#If we want nimiBook style of ToC on the left -&gt; https://github.com/HugoGranstrom/nimiSlides/blob/main/nbook.nim and import nimibook</span>
+
+<span class="hljs-comment">#nbShow() #This will auto open this file in the browser, but it does not check if it is already open</span>
+  <span class="hljs-comment">#so it keeps bloody opening one after another, i just want a way to update changes quickly</span>
+
+<span class="hljs-comment"># customize source highlighting:</span>
+nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css&quot;&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># a custom text block that shows markdown source</span>
+<span class="hljs-keyword">template</span> nbTextWithSource*(body: <span class="hljs-built_in">untyped</span>) =
+  newNbBlock(<span class="hljs-string">&quot;nbTextWithSource&quot;</span>, <span class="hljs-literal">false</span>, nb, nb.blk, body):
+    nb.blk.output = body
+  nb.blk.context[<span class="hljs-string">&quot;code&quot;</span>] = body
+
+nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
+nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># how to add a ToC</span>
+<span class="hljs-keyword">var</span>
+  nbToc: <span class="hljs-type">NbBlock</span>
+
+<span class="hljs-keyword">template</span> addToc =
+  newNbBlock(<span class="hljs-string">&quot;nbText&quot;</span>, <span class="hljs-literal">false</span>, nb, nbToc, <span class="hljs-string">&quot;&quot;</span>):
+    nbToc.output = <span class="hljs-string">&quot;## Table of Contents:</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+
+<span class="hljs-keyword">template</span> nbSection(name:<span class="hljs-built_in">string</span>) =
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name = </span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+  <span class="hljs-comment"># see below, but any number works for a numbered list</span>
+  nbToc.output.add <span class="hljs-string">&quot;1. &lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+  <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
+useScrollWheel()
+showSlideNumber()
+
+slide:
+  addToc() <span class="hljs-comment">#Not working with slides... make it work!</span>
+
+<span class="hljs-comment">#Do NOT forget to have the .html file OPEN at all times, otherwise </span>
+  <span class="hljs-comment">#live preview will NOT work! ANY live preview!</span>
+
+<span class="hljs-comment">###############</span>
+<span class="hljs-comment">#START OF FILE#</span>
+<span class="hljs-comment">###############</span>
+
+<span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
+<span class="hljs-comment">#Cannot use &quot;&quot;&quot; &quot;&quot;&quot; multiline text, it gets a weird coloring of certain keywords and just appears in a box...</span>
+slide:
+  slide:
+    bigText: <span class="hljs-string">&quot;hashSets, more on hashTables and hashing&quot;</span>
+  slide:
+    speakerNote <span class="hljs-string">&quot;(What is the purpose of this video ?)&quot;</span>
+    nbText: <span class="hljs-string">&quot;&quot;&quot;In this video, we will go over hashSets and hashes that are used with hashSets, as well as hashing in general in the world. 
+            We will also refresh our memory on Tables(hashTables), and add some more on that knowledge.&quot;&quot;&quot;</span>
+  slide:
+    nbText: <span class="hljs-string">&quot;The code for this video and it's script/documentation styled with nimib, is in the link in the description as a form of offline tutorial.&quot;</span>
+
+slide:
+  slide:
+    nbSection <span class="hljs-string">&quot;What is hashing ?&quot;</span>
+  slide:
+    fragment:
+      nbText: <span class="hljs-string">&quot;First of, we have already used a bit of hashing in my Tables video without even knowing it.&quot;</span> 
+    fragment:
+      nbText: <span class="hljs-string">&quot;The 'tables' module uses variants of an efficient hashTable(dictionaries in other programming languages).&quot;</span>
+  slide: 
+    nbText: <span class="hljs-string">&quot;Hashing is the process of transforming any given key or string, into a usually another shorter and more efficient value, by the use of a one way mathematical hashing algorithm/function.&quot;</span>
+  slide: 
+    nbTexT: <span class="hljs-string">&quot;One way algorithms are used, because Hashes are also used for encrypting data, and a 2 way algorithm would fail that.&quot;</span>
+  slide:
+    nbText: <span class="hljs-string">&quot;The most popular use for hashing, is the usage of hash tables.&quot;</span>
+  slide:
+    fragment:
+      nbText: <span class="hljs-string">&quot;A hash table stores key and value pairs, in a list that is accessible trough it's index.&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;Because key and value pairs are unlimited, the hash function will map the keys to the table size. A hash value then becomes the index for a specific element.&quot;</span>
+  slide:
+    fragment:
+      nbText: <span class="hljs-string">&quot;Hashing is used in data indexing and retrieval, digital signatures, cybersecurity and cryptography.&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;They are also used on some websites, especially those dedicated to Linux OSs and programs,&quot;</span> 
+    fragment:
+      nbText: <span class="hljs-string">&quot;to check your checksum(Secure Hash Algorithm/SHA, Message-Digest functions/MD), against the one on their website,&quot;</span> 
+    fragment:
+      nbTexT: <span class="hljs-string">&quot;to ensure it is exactly the same, without any tampering by a malicious person.&quot;</span>
+   
+  slide:
+    fragment:
+      nbText: <span class="hljs-string">&quot;There are several modules in nim, for dealing with hash function algorithms:&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;`nimble install checksum` before use, of the `Sha` and `MD5` modules&quot;</span>
+    align(<span class="hljs-string">&quot;left&quot;</span>):
+      orderedList:
+        listItem():
+          nbText: <span class="hljs-string">&quot;Sha1(old, used for legacy purposes&quot;</span>
+        listItem():
+          nbTexT: <span class="hljs-string">&quot;Sha2(newer, but still insufficient for data security)&quot;</span>
+        listItem():
+          nbText: <span class="hljs-string">&quot;Sha3(newest, use this one)&quot;</span>
+        listItem():
+          nbText: <span class="hljs-string">&quot;MD5&quot;</span>
+        listItem():
+          nbText: <span class="hljs-string">&quot;Base64(for encoding and decoding data)&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;The usage of hashing in data structure, is used for the reasons of speed.&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;It is much faster to find something if the value, is much smaller than the original in a large database&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;There is a phenomenon called `collision`, which is when 2x or more hashes manage to generate an identical hash.&quot;</span>
+    fragment:
+      nbText: <span class="hljs-string">&quot;Different hash functions have different margin of collisions. To address this, there are methods like:&quot;</span>
+    fragmentList(@[<span class="hljs-string">&quot;Double hashing&quot;</span>,
+                   <span class="hljs-string">&quot;Linear probing&quot;</span>,
+                   <span class="hljs-string">&quot;Quadratic probing&quot;</span>,
+                   <span class="hljs-string">&quot;Separate chaining(making every hash table cell point to linked lists of records with identical hash function values)&quot;</span>], fadeIn)
+  slide:
+    nbText: <span class="hljs-string">&quot;&quot;&quot;
+    In cybersecurity, they can go a step further with the term Salting.
+    Which is adding random data into the hash function. It helps with attackers from accessing non-unique passwords,
+    by the use of rainbow tables(reverse engineered data)
+    &quot;&quot;&quot;</span>
+
+slide:
+  nbSection <span class="hljs-string">&quot;Hashing in Nim&quot;</span>
+  nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+  Hey Araq, what is the default hash function used with hash() procs ?&quot;&quot;&quot;</span>
+  fragment:
+    nbText: <span class="hljs-string">&quot;&quot;&quot;
+      First of, hashSets are allocated on the heap.&quot;&quot;&quot;</span>
+  fragment:
+    nbText: <span class="hljs-string">&quot;&quot;&quot;
+      You can hash just about any data type in Nim. 
+      There is no list of what you can, but mostly everything. &quot;&quot;&quot;</span>
+  fragment:
+    nbText: <span class="hljs-string">&quot;&quot;&quot;
+      You can easily hash your own data types, 
+      but first you must use a bit of skeleton/boilerplate code to do so.&quot;&quot;&quot;</span>
+  fragment:
+    nbText: <span class="hljs-string">&quot;&quot;&quot;
+      The following 2 examples are taken from the hashes module page, 
+      that are required for your own data types:&quot;&quot;&quot;</span>
+  slide:
+    speakerNote <span class="hljs-string">&quot;Show, don't tell&quot;</span>
+    nbCodeSkip:
+      <span class="hljs-keyword">import</span> std/hashes
+
+      <span class="hljs-keyword">type</span>
+        <span class="hljs-type">Something</span> = <span class="hljs-keyword">object</span>
+          foo: <span class="hljs-built_in">int</span>
+          bar: <span class="hljs-built_in">string</span>
+
+      <span class="hljs-keyword">iterator</span> items(x: <span class="hljs-type">Something</span>): <span class="hljs-type">Hash</span> =
+        <span class="hljs-keyword">yield</span> hash(x.foo)
+        <span class="hljs-keyword">yield</span> hash(x.bar)
+
+      <span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">Something</span>): <span class="hljs-type">Hash</span> =
+        <span class="hljs-comment">## Computes a Hash from `x`.</span>
+        <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+        <span class="hljs-comment"># Iterate over parts of `x`.</span>
+        <span class="hljs-keyword">for</span> xAtom <span class="hljs-keyword">in</span> x:
+          <span class="hljs-comment"># Mix the atom with the partial hash.</span>
+          h = h !&amp; xAtom
+        <span class="hljs-comment"># Finish the hash.</span>
+        <span class="hljs-literal">result</span> = !$h
+
+  fragment:
+    nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+    If your custom types contain fields for which there already is a &quot;hash&quot; proc,
+    you can simply hash together the hash values of the individual fields,
+    no need for the overload of the &quot;items&quot; iterator:&quot;&quot;&quot;</span>
+
+    speakerNote: <span class="hljs-string">&quot;Show, don't tell&quot;</span>
+    nbCodeSkip:
+      <span class="hljs-keyword">import</span> std/hashes
+
+      <span class="hljs-keyword">type</span>
+        <span class="hljs-type">Something2</span> = <span class="hljs-keyword">object</span>
+          foo: <span class="hljs-built_in">int</span>
+          bar: <span class="hljs-built_in">string</span>
+
+      <span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">Something2</span>): <span class="hljs-type">Hash</span> =
+        <span class="hljs-comment">## Computes a Hash from `x`.</span>
+        <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+        h = h !&amp; hash(x.foo)
+        h = h !&amp; hash(x.bar) <span class="hljs-comment"># &quot;!&amp;&quot; Mixes a hash value &quot;h&quot; with &quot;val&quot; to produce a new hash value(only for custom types)</span>
+        <span class="hljs-literal">result</span> = !$h <span class="hljs-comment"># &quot;!$&quot; Finishes the computation of the hash value(only for custom types)</span>
+
+  fragment:
+    nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+    **Important:** Use -d:nimPreviewHashRef to enable hashing refs.
+    It is expected that this behaviour becomes the new default in upcoming versions.
+
+    **Note:** If the type has &quot;==&quot; operator, the following must hold:
+    If two values compare equal, their hashes must also be equal.
+
+    - Now let's continue by hashing some simple data types that normal Sets can't use,
+    like strings, sequences and objects(don't forget to import the hashes module).
+    &quot;&quot;&quot;</span>
+  fragment:
+    nbCode:
+      <span class="hljs-keyword">import</span> std/hashes
+
+      <span class="hljs-keyword">let</span> data = <span class="hljs-string">&quot;Hello, World&quot;</span>
+      <span class="hljs-keyword">let</span> hashedData = data.hash
+
+      <span class="hljs-keyword">echo</span> data
+      <span class="hljs-keyword">echo</span> hashedData
+
+  nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+  As you can see, the hashed result is a random like number, which we could use with tables as a hashed key.
+
+  Now let's how it looks like for sequences:
+  (show, don't tell)
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">let</span> seqData = @[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>]
+    <span class="hljs-keyword">let</span> hashedSeqData = seqData.hash
+
+    <span class="hljs-keyword">echo</span> seqData
+    <span class="hljs-keyword">echo</span> hashedSeqData
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  And now for objects:
+  (show, don't tell)
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">type</span>
+      <span class="hljs-type">Student</span> = <span class="hljs-keyword">object</span>
+        name: <span class="hljs-built_in">string</span>
+        id: <span class="hljs-built_in">int</span>
+
+    <span class="hljs-keyword">let</span> person = <span class="hljs-type">Student</span>(name: <span class="hljs-string">&quot;Kiloneie&quot;</span>, id: <span class="hljs-number">404</span>)
+    <span class="hljs-keyword">let</span> hashedPerson = person.hash
+
+    <span class="hljs-keyword">echo</span> person
+    <span class="hljs-keyword">echo</span> hashedPerson
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Lots of quite long random looking, hashed values.
+
+  Now let's try using a hashTable, hash the key, then reinsert to get the value.
+  &quot;&quot;&quot;</span>
+
+slide:
+  nbSection: <span class="hljs-string">&quot;Hashing keys with hashTables&quot;</span>
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now we are going to play around with hashTables a bit,
+  to have you understand what you can do with hashes,
+  other than be more efficient values and enable hashSets to have just about any data type.
+
+  But first, let me tell you about all the different variants of hash tables.
+  Besides the normal hash tables i have shown in the Tables video(Table),
+  there is also OrderedTable which remembers the element insertion order.
+  Then there is the CountTable for mapping from a key to it's number of occurrences.
+
+  And lastly, there a Ref/Reference versions of each, with &quot;Ref&quot; affixed/appended at the end like so:
+    - TableRef
+    - OrderedTableRef
+    - CountTableRef
+
+  In case it wasn't clear on when to use Tables(hashTables) in Nim, here are a few examples/use cases:
+    - Whenever you have 2 pieces of data that you want linked together(e.g. your phone contacts -&gt; name : number)
+    - Games/music listing on your computer(name of the game/music as key : value as location)
+    - When generating JSON(lightweight data-interchange format), before it gets stringified, it's represented as a Table(dictionary)
+    - Nested Tables(example 2 below)
+
+  Now let's make a new hashTable and hash one of it's keys and then reinsert it back:
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">import</span> tables
+
+    <span class="hljs-keyword">var</span> tData = {<span class="hljs-number">1.</span>hash: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable
+    <span class="hljs-keyword">echo</span> tData
+
+    <span class="hljs-keyword">echo</span> tData[<span class="hljs-number">8641844181895329213</span>]
+    <span class="hljs-keyword">echo</span> tData[<span class="hljs-number">2</span>]
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Here we go, it worked perfectly.
+
+  Example 2: You can nest hashTables to create accounts that have usernames and passwords linked together like this:
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">var</span> passwordIndex = {<span class="hljs-string">&quot;Account 1&quot;</span> : {<span class="hljs-string">&quot;Username&quot;</span> : <span class="hljs-string">&quot;littleMouse&quot;</span>, <span class="hljs-string">&quot;Password&quot;</span> : <span class="hljs-string">&quot;Ter3456fgdgh&quot;</span>}.toTable, 
+                        <span class="hljs-string">&quot;Account 2&quot;</span> : {<span class="hljs-string">&quot;Username&quot;</span> : <span class="hljs-string">&quot;bigDog&quot;</span>, <span class="hljs-string">&quot;Password&quot;</span> : <span class="hljs-string">&quot;mashthatkeyboard&quot;</span>}.toTable}.toTable
+
+    <span class="hljs-keyword">echo</span> passwordIndex
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Obviously if you don't like the random order, you can make an ordered table instead.
+
+  Now let's proceed to hashSets.
+  &quot;&quot;&quot;</span>
+
+slide:
+  nbSection: <span class="hljs-string">&quot;hashSets&quot;</span>
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now let's make the simplest hashSet data type a normal Set cannot use, String.
+  We cannot declare an empty hashSets, it can only be initialized.
+  So this example is just for show, since every hashSet is always initialized
+  in this same way by default anyways.
+  We are going to need the &quot;sets&quot; module for all hashSets.
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">import</span> sets
+    <span class="hljs-keyword">var</span> emptyHashSet = initHashSet[<span class="hljs-built_in">string</span>]()
+
+    <span class="hljs-keyword">echo</span> emptyHashSet
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now the initialization version:
+  (show, don't tell)
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">var</span> hashedString = [<span class="hljs-string">&quot;Hello, World!&quot;</span>].toHashSet
+
+    <span class="hljs-keyword">echo</span> hashedString
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now remember that the order of the elements is unordered, not the value of an element.
+
+  Now let's have a look on how hashSets and hashTables look like in procs:
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">proc</span> paramHashSet(data: <span class="hljs-type">HashSet</span>): <span class="hljs-type">HashSet</span> = <span class="hljs-comment"># data: initHashSet[string]() does NOT work</span>
+      data
+
+    <span class="hljs-keyword">proc</span> paramHashTable(data: <span class="hljs-type">Table</span>): <span class="hljs-type">Table</span> = <span class="hljs-comment">#same for hashTables</span>
+      data
+
+    <span class="hljs-keyword">proc</span> initParamHashTable(data = {<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable) =
+      <span class="hljs-keyword">echo</span> data <span class="hljs-comment">#We have to use this &quot;data&quot;, the compiler will not let us return it with the &quot;result&quot; variable, it must be used right here</span>
+
+    <span class="hljs-keyword">echo</span> paramHashSet([<span class="hljs-number">3.14</span>].toHashSet)
+    <span class="hljs-keyword">echo</span> paramHashTable({<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>}.toTable)
+    initParamHashTable()
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  There is an additional operation you can do with hashSets that you cannot do with normal Sets, which is symmetricDifference(s1, s2).
+  symmetricDifference(s1, s2). &quot;-+-&quot; is the alias for that proc. This proc gives you only the elements that are not present in both sets at the same time.
+  E.g. if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c'] because 'a' is only in one of them, and the same goes for 'c'. 'b' is in both of them so it gets excluded from this list.
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">let</span> setSD1 = [(<span class="hljs-string">&quot;key1&quot;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>)].toHashSet <span class="hljs-comment">#Anonymous tuple - must be inside [], and tuples require (,) -&gt; [()]</span>
+    <span class="hljs-keyword">let</span> setSD2 = [(<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>), (<span class="hljs-string">&quot;key3&quot;</span>, <span class="hljs-number">30</span>)].toHashSet
+
+    <span class="hljs-keyword">echo</span> setSD1
+    <span class="hljs-keyword">echo</span> setSD2
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-keyword">echo</span> setSD1 -+- setSD2
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  There is also disjoint(s1, s2: bool) returns true if the sets s1 and s2 have no items in common,
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">let</span> setD1 = [<span class="hljs-number">9223372036854775807</span>, -<span class="hljs-number">9223372036854775807</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#9,223,372,036,854,775,807 or -/negative of that value is the max value of int64</span>
+    <span class="hljs-keyword">let</span> setD2 = [<span class="hljs-number">2147483648</span>, -<span class="hljs-number">2147483648</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#2,147,483,647 or -/negative of that value, is the max value of int32, had to add +1 and -1 at the end  to make them int64, otherwise disjoint won't work</span>
+
+    <span class="hljs-keyword">echo</span> setD1
+    <span class="hljs-keyword">echo</span> setD2
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-keyword">echo</span> disjoint(setD1, setD2)
+      
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  missingOrExcl(s, key) Excludes a key and tells you if the key was already missing from &quot;s&quot;. (no proc for missingOrIncl)
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">var</span> setMOE = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+
+    <span class="hljs-keyword">echo</span> setMOE
+
+    <span class="hljs-keyword">if</span> setMOE.missingOrExcl(<span class="hljs-number">1</span>) == <span class="hljs-literal">true</span>:
+      <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
+    <span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
+
+    <span class="hljs-keyword">if</span> setMOE.missingOrExcl(<span class="hljs-number">1</span>) == <span class="hljs-literal">true</span>:
+      <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
+    <span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
+
+    <span class="hljs-keyword">echo</span> setMOE
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  containsOrIncl(s, key) Includes a key in the set &quot;s&quot; and tells if key was already in &quot;s&quot;.
+  Inverse of missingOrExcl(s, key)
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">var</span> setCOI = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+
+    <span class="hljs-keyword">echo</span> setCOI
+
+    <span class="hljs-keyword">block</span> <span class="hljs-type">COI</span>:
+      <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>) == <span class="hljs-literal">true</span>:
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
+      <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span>
+
+      <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>) == <span class="hljs-literal">true</span>:
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
+      <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span>
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  map(data, op) Returns a new set after applying &quot;op&quot; proc(anonymous proc) on each of the elements of &quot;data&quot;set.
+  Here is a simple example from the Sets module that demonstrates the &quot;map&quot; proc very well:
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">let</span> <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it with &quot;b&quot;</span>
+      a = toHashSet([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+      b = a.map(<span class="hljs-keyword">proc</span> (x: <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> = $x)
+
+    <span class="hljs-keyword">echo</span> a
+    <span class="hljs-keyword">echo</span> b
+    
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  And here is my example at this proc:
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">let</span> setM = [<span class="hljs-string">&quot;lowercase&quot;</span>, <span class="hljs-string">&quot;UPPERCASE&quot;</span>, <span class="hljs-string">&quot;l&quot;</span>, <span class="hljs-string">&quot;U&quot;</span>].toHashSet <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it</span>
+
+    <span class="hljs-keyword">let</span> setNewL = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
+      <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
+        <span class="hljs-keyword">if</span> c.isLowerAscii == <span class="hljs-literal">true</span>:
+          <span class="hljs-literal">result</span> = elem)
+
+    <span class="hljs-keyword">let</span> setNewU = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
+      <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
+        <span class="hljs-keyword">if</span> c.isLowerAscii != <span class="hljs-literal">true</span>:
+          <span class="hljs-literal">result</span> = elem)
+      
+    <span class="hljs-keyword">echo</span> setNewL
+    <span class="hljs-keyword">echo</span> setNewU
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Not sure why there is a third empty &quot;&quot; element in the new sets...
+  &quot;&quot;&quot;</span>
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  clear(s) Clears the hashSet back to an empty state, without shrinking any of the existing storage.
+
+  QUESTION FOR ARAQ, DO READ THIS PLEASE:
+  Araq, does this mean that the size is of type X's size + whatever the extra size of making it a hashSet is ?
+  or does it mean that if we had 10x elements of type &quot;string&quot;, the size will be default hashSet size + 10x string elements ?
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">discard</span>
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+
+  pop(s) Removes and returns an element from the set &quot;s&quot;. Not sure what this is useful for,
+    since it gives us no control. We can have some control with an ordered hashSet,
+    but popping a specific element would take a long of computing time...
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">var</span> myHashSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toHashSet
+    <span class="hljs-keyword">var</span> orderedSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toOrderedSet
+
+    <span class="hljs-keyword">echo</span> myHashSet.pop <span class="hljs-comment">#Doesn't let me specify what to pop... proc pop only has 1x argument</span>
+    <span class="hljs-keyword">echo</span> myHashSet.pop
+    <span class="hljs-keyword">echo</span> myHashSet.pop
+
+    <span class="hljs-keyword">if</span> myHashSet.len != <span class="hljs-number">0</span>:
+      <span class="hljs-keyword">echo</span> myHashSet.pop
+    <span class="hljs-keyword">else</span>:
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;myHashSet is empty&quot;</span>
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  There is a use case for the &quot;pop&quot; proc. For example if you have a pool of jobs to be done in no particular order.
+  Let's say that on weekends you clean your room, do your laundry, change the sheets, etc. That job only requires to be done once.
+  So you would use a doTheJob()/processJob() proc that woould &quot;pop&quot; a job from your pool of jobs and execute it.
+  Once all the jobs are done, you can put the exact same ones back in when weekend comes, or some relatives are coming to visit.
+  Here is an example:
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">proc</span> executeJob(job: <span class="hljs-built_in">string</span>) =
+      <span class="hljs-keyword">echo</span> job, <span class="hljs-string">&quot; finished&quot;</span>
+
+    <span class="hljs-keyword">var</span> jobs = [<span class="hljs-string">&quot;laundry&quot;</span>, <span class="hljs-string">&quot;sh8eets&quot;</span>, <span class="hljs-string">&quot;cleaning&quot;</span>].toHashSet
+
+    <span class="hljs-keyword">while</span> jobs.len != <span class="hljs-number">0</span>:
+      <span class="hljs-keyword">let</span> job = jobs.pop
+      job.executeJob
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  And lastly &quot;[]&quot; - Which returns the element that is actually stored in &quot;s&quot; which has the same value as &quot;key&quot; or raises the &quot;KeyError&quot; exception.
+  This is useful when one overloaded the &quot;hash&quot; proc and the &quot;==&quot; operator, but still needs reference semantics for sharing.
+  &quot;&quot;&quot;</span>
+  nbCode:
+    <span class="hljs-keyword">var</span> setWithAKey = [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;tree&quot;</span>].toHashSet
+    <span class="hljs-keyword">echo</span> setWithAKey[<span class="hljs-string">&quot;one&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, setWithAKey[<span class="hljs-string">&quot;one&quot;</span>].<span class="hljs-keyword">type</span>
+
+slide:
+  nbSection: <span class="hljs-string">&quot;hashSet use cases&quot;</span>
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  One of the hashSet uses cases is very similar to the last use case example of the previous video of normal Sets.
+  The example being, splitting a string based on character elements as separators.
+  With hashSets, we can go a step further. We can use whole words as separators.
+  So let's use the split() proc we made in the last tutorial and update it for string hashSets.
+  We are also going to add another argument of type bool, to tell the proc if we are working with set[char],
+  or hashSet[string]. Currently the compiler cannot infer which to use, 
+  since the second argument of &quot;seps&quot; is not an argument we can give, since it is already initialized.
+  &quot;&quot;&quot;</span>
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Original version:
+  &quot;&quot;&quot;</span>
+  nbCode: <span class="hljs-comment">#Original version</span>
+    <span class="hljs-keyword">import</span> strutils
+
+    <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}): <span class="hljs-built_in">string</span> = 
+      <span class="hljs-keyword">var</span> splitString = s
+      <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+      <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+        c = splitString.find(sep)
+        splitString.delete(c, c)
+      
+      <span class="hljs-literal">result</span> = splitString
+            
+    <span class="hljs-keyword">var</span> myString = <span class="hljs-string">&quot;Hello , World !?&quot;</span> 
+    <span class="hljs-keyword">echo</span> myString
+
+    <span class="hljs-keyword">echo</span> myString.split 
+
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Modified version:
+  &quot;&quot;&quot;</span>
+  nbCode: <span class="hljs-comment">#Modified version for string hashSets</span>
+    <span class="hljs-keyword">import</span> strutils
+
+    <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; useNormalSet: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">string</span> = 
+      <span class="hljs-keyword">if</span> useNormalSet == <span class="hljs-literal">true</span>:
+        <span class="hljs-keyword">var</span> seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}
+        <span class="hljs-keyword">var</span> splitString = s
+        <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+        <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+          c = splitString.find(sep)
+          splitString.delete(c, c) 
+          
+        <span class="hljs-literal">result</span> = splitString
+      <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">discard</span>
+        <span class="hljs-keyword">var</span> seps = [<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>].toHashSet
+        <span class="hljs-keyword">var</span> splitString = s
+        <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+        <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+          c = splitString.find(sep)
+
+          <span class="hljs-keyword">if</span> (c + sep.len) &lt; splitString.len:
+            splitString.delete(c, c+sep.len)
+      
+        <span class="hljs-literal">result</span> = splitString
+            
+    <span class="hljs-keyword">echo</span> myString.split(<span class="hljs-literal">true</span>)
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I have a var, a const, and a let me in pony&quot;</span>.split(<span class="hljs-literal">false</span>) <span class="hljs-comment">#43 length</span>
+
+slide:
+  nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  ## OUTRO - AFTERWORDS
+
+    Okay, that's it for this video, thanks for watching like, share and subscribe, 
+      aswell as click the bell icon if you liked it and want more, 
+      you can also follow me on twitter of the same name, and support me on Patreon. 
+      If you had any problems with any part of the video, 
+      let me know in the comment section, 
+      the code of this video, script and documentation, are in the link in the description,
+      as a form of offline tutorial.
+
+  ### Thanks to my past and current Patrons
+  &lt;b&gt;Past Patrons:&lt;/b&gt;
+  - Goose_Egg: From April 4th 2021 to May 10th 2022
+  - Davide Galilei(1x month)
+
+  &lt;b&gt;Current Patrons&lt;/b&gt;
+  - None
+
+  &lt;b&gt;Compiler information&lt;/b&gt;
+  - Version used: E.G. 2.0.2
+  - Compiler settings used: none, ORC is now the default memory management option
+  - Timestamps:
+    - 00:15 Start of video example
+    
+  &quot;&quot;&quot;</span>
+  nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+
+  &lt;b&gt;LINKS:&lt;/b&gt;
+  - [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
+  - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
+  - Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:
+  - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
+
+  &lt;b&gt;LINKS to this video's subject:&lt;/b&gt;
+  - [E.G.1. SDL2_nim documentation](https://vladar4.github.io/sdl2_nim/ &quot;Example link to an example video's subject&quot;)
+  - [E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)](https://wiki.libsdl.org/APIByCategory &quot;Example link to an example video's subject&quot;)
+
+  &quot;&quot;&quot;</span>
+
+nbSave()</code></pre>
+</section><script>
+function toggleSourceDisplay() {
+  var btn = document.getElementById("show")
+  var source = document.getElementById("source");
+  if (btn.innerHTML=="Show Source") {
+    btn.innerHTML = "Hide Source";
+    source.style.display = "block";
+  } else {
+    btn.innerHTML = "Show Source";
+    source.style.display = "none";
+  }
+}
+</script></body>
 </html>

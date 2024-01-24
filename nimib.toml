@@ -1,0 +1,8 @@
+[nimib]
+srcDir = "book"
+homeDir = "docs"
+
+[nimibook]
+language = "en-us"
+title = "Kiloneie's textual versions of his Nim Video Tutorials"
+description = "Textual versions of video tutorials(the script used for the videos)"
