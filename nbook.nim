@@ -8,11 +8,11 @@ var book = initBookWithToc:
     entry("Object Variants Part 1", "Nim for Beginners/Object Variants Part 1/objectVariantsPart1.nim")
     entry("Object Variants Part 2", "Nim for Beginners/Object Variants Part 1/objectVariantsPart2.nim")
     entry("Sets", "Sets/sets.nim")
-  section("Exploring Nim's Standard Library", "emptyExploringNimsStandardLibrary.nim"):
+  section("Exploring Nim's Standard Library", "eNSL.md"):
     draft("placeholderENSL")
-  section("Nim SDL2 Game Development for Beginners", "emptyNimSDL2GameDevelopmentForBeginners.nim"):
+  section("Nim SDL2 Game Development for Beginners", "nSDL2GDfB.md"):
     draft("placeholderNSDL2GDFB")
-  section("Metaprogramming in Nim", "emptyMetaprogrammingInNim.nim"):
+  section("Metaprogramming in Nim", "mIN.md"):
     draft("placeholderMIN")
   section("Work in Progress", "workInProgress.md"):
     entry("Current WIP", "Work in Progress/scriptWSlides.nim")
