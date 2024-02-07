@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>Video Data\documentation.nim</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="nimib 0.3.9" name="generator">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://cdn.jsdelivr.net/gh/pietroppeter/nimib@main/assets/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+  <style>
+.nb-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb-small {
+  font-size: 0.8rem;
+}
+button.nb-small {
+  float: right;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+section#source {
+  display:none
+}
+pre > code {
+  font-size: 1.2em;
+}
+.nb-output {
+  line-height: 1.15;
+}
+</style>
+  
+</head>
+<body>
+<header>
+<div class="nb-box">
+  <span><a href="..">🏡</a></span>
+  <span><code>Video Data\documentation.nim</code></span>
+  <span></span>
+</div>
+<hr>
+</header><main>
+<h2>Table of Contents:</h2>
+<ol>
+<li><a href="#tables-refresh">Tables refresh</a></li>
+<li><a href="#what-is-hashing-?">What is hashing ?</a></li>
+<li><a href="#hashing-in-nim">Hashing in Nim</a></li>
+<li><a href="#hashing-ref-objects">Hashing ref objects</a></li>
+<li><a href="#all-variants-of-tables-and-some-use-cases">All variants of Tables and some use cases</a></li>
+<li><a href="#hashsets">hashSets</a></li>
+<li><a href="#hashset-use-cases">hashSet use cases</a></li>
+<li><a href="#quick-re-explanation-of-hashing">Quick re-explanation of hashing</a></li>
+</ol>
+<h2>INTRO - GREETING</h2>
+<ul>
+<li>TITLE: hashSets, more on hashTables and hashing</li>
+</ul>
+<h2>INTRO - FOREWORDS</h2>
+<p><b>(What is the purpose of this video ?)</b></p>
+<ul>
+<li>In this video, we will go over hashSets and hashes that are used with hashSets,
+as well as hashing in general in the world. We will also refresh our memory on Tables(hashTables),
+and add some more on that knowledge.</li>
+</ul>
+<p>The code for this video and it's script/documentation styled with nimib,
+is in the link in the description as a form of written tutorial.</p>
+<p><a name = "tables-refresh"></a></p>
+<h1>Tables refresh</h1>
+<hr />
+<p>First of, we have already used a bit of hashing in my Tables video without even knowing it.
+The <code>tables</code> module uses variants of an efficient hashTable(dictionaries in other programming languages).</p>
+<p>Here is an example:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/tables
+
+<span class="hljs-comment">#The first key: value element that you use, will determine the data type for the Table</span>
+  <span class="hljs-comment">#&quot;Germany&quot;: &quot;Berlin&quot; -&gt; string, string</span>
+<span class="hljs-keyword">var</span> countryCapitals = {<span class="hljs-string">&quot;Germany&quot;</span>: <span class="hljs-string">&quot;Berlin&quot;</span>, <span class="hljs-string">&quot;Slovenia&quot;</span>: <span class="hljs-string">&quot;Ljubljana&quot;</span>}.toOrderedTable
+
+<span class="hljs-keyword">echo</span> countryCapitals</code></pre><pre class="nb-output">{&quot;Germany&quot;: &quot;Berlin&quot;, &quot;Slovenia&quot;: &quot;Ljubljana&quot;}</pre>
+<p>And here is an example of a nested table:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> countryCapitalsWithPostCode = {<span class="hljs-string">&quot;Germany&quot;</span>: {<span class="hljs-string">&quot;Berlin&quot;</span>: <span class="hljs-number">10000</span>}.toOrderedTable, 
+                                  <span class="hljs-string">&quot;Slovenia&quot;</span>: {<span class="hljs-string">&quot;Ljubljana&quot;</span>: <span class="hljs-number">1000</span>}.toOrderedTable}.toOrderedTable
+
+<span class="hljs-keyword">echo</span> countryCapitalsWithPostCode
+<span class="hljs-keyword">echo</span> countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>].typeof</code></pre><pre class="nb-output">{&quot;Germany&quot;: {&quot;Berlin&quot;: 10000}, &quot;Slovenia&quot;: {&quot;Ljubljana&quot;: 1000}}
+{&quot;Berlin&quot;: 10000} OrderedTable[system.string, system.int]</pre>
+<p>Don't forget to style/indent such Tables by commas like above.
+It's a good practice to separate long lines of code by commas,
+since it makes it much cleaner and easier to read.</p>
+<p>Now let's try Tables with an object for it's <code>key</code>:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
+  <span class="hljs-type">Kobold</span> = <span class="hljs-keyword">object</span>
+    name: <span class="hljs-built_in">string</span>
+    age: <span class="hljs-built_in">int</span>
+
+<span class="hljs-keyword">var</span> oldKobold = <span class="hljs-type">Kobold</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>)
+<span class="hljs-keyword">var</span> geomancerKobold = <span class="hljs-type">Kobold</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>)
+
+<span class="hljs-keyword">var</span> koboldTable = {oldKobold: <span class="hljs-string">&quot;fighter&quot;</span>, geomancerKobold: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+<span class="hljs-keyword">echo</span> koboldTable</code></pre><pre class="nb-output">{(name: &quot;Goldtooth&quot;, age: 31): &quot;fighter&quot;, (name: &quot;Rocktooth&quot;, age: 20): &quot;mage&quot;}</pre>
+<p>Now, if we were to try to output each of the keys of the Table <code>oldKobold</code> and <code>geomancerKobold</code> with a for loop,
+it wouldn't work, since the implicitly called <code>items</code> iterator,
+does not exist for objects inside a Table.</p>
+<p>The following code will not compile:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable: <span class="hljs-comment">#ERROR: implicitly called &quot;items&quot; iterator does not exist for Kobold object inside a Table</span>
+  <span class="hljs-keyword">echo</span> kobold</code></pre>
+<p>Now this can be solved in 2 ways. The first way is kinda messy,
+and it involves using some boilerplate code to overload the <code>items</code> iterator,
+as well as the <code>hash</code> proc from the <code>hashes</code> module,
+which is used to <code>hash</code> the value into a more performant value.
+This messy way, as well as a lot of details on what Hashing is, etc, later.</p>
+<p>Let's solve this problem with the clean and easy solution,
+of using the <code>keys</code> iterator specifically made for <code>Tables</code>.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.keys:
+  <span class="hljs-keyword">echo</span> kobold</code></pre><pre class="nb-output">(name: &quot;Goldtooth&quot;, age: 31)
+(name: &quot;Rocktooth&quot;, age: 20)</pre>
+<p>Now, this code only outputs the actual <code>keys</code> of our table.
+In order to get the <code>values</code> associated with those <code>keys</code>,
+we must insert those <code>keys</code> back into our table with the index access <code>[]</code>.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.keys:
+  <span class="hljs-keyword">echo</span> kobold, <span class="hljs-string">&quot; -&gt; &quot;</span>, koboldTable[kobold]</code></pre><pre class="nb-output">(name: &quot;Goldtooth&quot;, age: 31) -&gt; fighter
+(name: &quot;Rocktooth&quot;, age: 20) -&gt; mage</pre>
+<p>There is also the <code>values</code> iterator amongst others for Tables.
+This iterator will go trough all of the <code>values</code> of a Table,
+just like how the <code>keys</code> iterator went trough all of the <code>keys</code>.</p>
+<p>With this iterator, we then don't have to insert the key back into our Table to get the value,
+when iterating over the entire Table like this:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.values:
+  <span class="hljs-keyword">echo</span> kobold</code></pre><pre class="nb-output">fighter
+mage</pre>
+<p>I believe i have never shown that you can also use multiple variables for capturing data in a for loop,
+so let's do that with the <code>pairs</code> iterator:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> koboldTable.pairs:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;key: &quot;</span>, key, <span class="hljs-string">&quot; -&gt; value: &quot;</span>, value</code></pre><pre class="nb-output">key: (name: &quot;Goldtooth&quot;, age: 31) -&gt; value: fighter
+key: (name: &quot;Rocktooth&quot;, age: 20) -&gt; value: mage</pre>
+<p>The <code>pairs</code> iterator can also be used for when you want to capture the index,
+when iterating over the elements of a container, like so:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> pos, ele <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello World!&quot;</span>.pairs:
+  <span class="hljs-keyword">echo</span> pos, <span class="hljs-string">&quot; &quot;</span>, ele</code></pre><pre class="nb-output">0 H
+1 e
+2 l
+3 l
+4 o
+5  
+6 W
+7 o
+8 r
+9 l
+10 d
+11 !</pre>
+<p><a name = "what-is-hashing-?"></a></p>
+<h1>What is hashing ?</h1>
+<hr />
+<ul>
+<li>
+<p>Hashing is the process of transforming any given key or string,
+into a usually another shorter and more efficient value,
+by the use of a one way mathematical hashing algorithm/function.</p>
+</li>
+<li>
+<p>One way algorithms are used, because Hashes are also used for encrypting data,
+and a 2 way algorithm would fail that.</p>
+</li>
+<li>
+<p>The most popular use for hashing, is the usage of hash tables. A hash table stores key and value pairs,
+in a list that is accessible trough it's index. Because key and value pairs are unlimited,
+the hash function will map the keys to the table size.
+A hash value then becomes the index for a specific element.</p>
+</li>
+<li>
+<p>Hashing is used in data indexing and retrieval, digital signatures, cybersecurity and cryptography.
+They are also used on some websites, especially those dedicated to Linux OSs and programs,
+to check your checksum(Secure Hash Algorithm/SHA, Message-Digest functions/MD),
+against the one on their website, to ensure it is exactly the same,
+without any tampering by a malicious person.</p>
+</li>
+<li>
+<p>There are several modules in nim for dealing with hash function algorithms:</p>
+<ul>
+<li><code>nimble install checksum</code> before use of the <code>Sha</code> and <code>MD5</code> modules
+<ul>
+<li>Sha1(old, used for legacy purposes)</li>
+<li>Sha2(newer, but still insufficient for data security)</li>
+<li>Sha3(newest, use this one)</li>
+<li>MD5</li>
+</ul>
+</li>
+<li>Base64(for encoding and decoding data)</li>
+</ul>
+</li>
+<li>
+<p>The usage of hashing in data structure, is used for the reasons of speed.
+That speed is due to the fact that value is much smaller once hashed,
+and also because hashed keys are mapped to the size of the Table,
+which serves as an index to quickly find the desired data,
+without the use of loops, which can take much longer to find the data.</p>
+</li>
+<li>
+<p>There is a phenomenon called <code>collision</code>, which is when 2x or more hashes manage to generate an identical hash.
+Different hash functions have different margin of collisions.
+To address this, there are methods like:</p>
+<ul>
+<li>Double hashing</li>
+<li>Linear probing</li>
+<li>Quadratic probing</li>
+<li>Separate chaining(making every hash table cell point to linked lists of records with identical hash function values)</li>
+</ul>
+</li>
+<li>
+<p>In cybersecurity, they can go a step further with the term Salting.
+Which is adding random data into the hash function. It helps with attackers from accessing non-unique passwords,
+by the use of rainbow tables(reverse engineered data)</p>
+</li>
+</ul>
+<p><a name = "hashing-in-nim"></a></p>
+<h1>Hashing in Nim</h1>
+<hr />
+<p>You can hash just about any data type in Nim. There is no list of what you can, but mostly everything.
+You can easily hash your own data types, but first you must use a bit of skeleton/boilerplate code to do so.</p>
+<p>The following <code>2 examples</code> are taken from the hashes module page, that are required for your own data types.
+Both of the examples are slightly renamed, with the first no longer overloading the <code>items</code> iterator,
+from the implicitly imported <code>system</code> module, in order to avoid the <code>items</code> iterator,
+from being used implicitly for yielding hashed values.
+Remember, the <code>items</code> iterator is the one called by default implicitly(invisibly) in a for loop,
+when not specifying the iterator.</p>
+<p>Here is a quick reminder example:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello&quot;</span>: <span class="hljs-comment">#Nim's VS Code Extension will tell you the iterator used here</span>
+  <span class="hljs-keyword">echo</span> c</code></pre><pre class="nb-output">H
+e
+l
+l
+o</pre>
+<img src="images/vsCodeNimExtensionHelper.png" alt="VS Code Nim Extension Help/Details">
+<p>The above is the same as the following:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello&quot;</span>.items:
+  <span class="hljs-keyword">echo</span> c</code></pre><pre class="nb-output">H
+e
+l
+l
+o</pre>
+<p><strong>Example 1</strong> boilerplate code without using the implicitly called by default <code>items</code> iterator:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/hashes
+
+<span class="hljs-keyword">type</span>
+  <span class="hljs-type">CustomObject</span> = <span class="hljs-keyword">object</span>
+    foo: <span class="hljs-built_in">int</span>
+    bar: <span class="hljs-built_in">string</span>
+
+<span class="hljs-keyword">iterator</span> hashedFields(x: <span class="hljs-type">CustomObject</span>): <span class="hljs-type">Hash</span> =
+  <span class="hljs-keyword">yield</span> hash(x.foo)
+  <span class="hljs-keyword">yield</span> hash(x.bar)
+
+<span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">CustomObject</span>): <span class="hljs-type">Hash</span> =
+  <span class="hljs-comment">## Computes a Hash from `x`.</span>
+  <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+  <span class="hljs-comment"># Iterate over parts of `x`.</span>
+  <span class="hljs-keyword">for</span> xAtom <span class="hljs-keyword">in</span> x.hashedFields:
+    <span class="hljs-comment"># Mix the atom with the partial hash.</span>
+    h = h !&amp; xAtom
+  <span class="hljs-comment"># Finish the hash.</span>
+  <span class="hljs-literal">result</span> = !$h</code></pre>
+<p>Sample code using the above <strong>example 1</strong> boilerplate code which will output each field hashed separately:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> customObject = <span class="hljs-type">CustomObject</span>(foo: <span class="hljs-number">10</span>, bar: <span class="hljs-string">&quot;Hello&quot;</span>)
+
+<span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> customObject.hashedFields: <span class="hljs-comment">#Must use our &quot;hashedFields&quot; iterator -&gt; otherwise error</span>
+  <span class="hljs-keyword">echo</span> field</code></pre><pre class="nb-output">-6375197177782184730
+316307400</pre>
+<p>If your custom types contain fields for which there already is a <code>hash</code> proc,
+you can simply hash together the hash values of the individual fields,
+no need for the overload of the <code>items</code> iterator:</p>
+<p><strong>Example 2</strong> without using an iterator(meaning you will have to <code>hash</code> explicitly):</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
+  <span class="hljs-type">CustomObject2</span> = <span class="hljs-keyword">object</span>
+    foo: <span class="hljs-built_in">int</span>
+    bar: <span class="hljs-built_in">string</span>
+
+<span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">CustomObject2</span>): <span class="hljs-type">Hash</span> =
+  <span class="hljs-comment">## Computes a Hash from `x`.</span>
+  <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+  h = h !&amp; hash(x.foo)
+  h = h !&amp; hash(x.bar) <span class="hljs-comment"># &quot;!&amp;&quot; Mixes a hash value &quot;h&quot; with &quot;val&quot; to produce a new hash value(only for custom types)</span>
+  <span class="hljs-literal">result</span> = !$h <span class="hljs-comment"># &quot;!$&quot; Finishes the computation of the hash value(only for custom types)</span></code></pre>
+<p>Sample code using the <strong>example 2</strong> boilerplate code(no iterator) which will output the entire object hashed:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> customObject2 = <span class="hljs-type">CustomObject2</span>(foo: <span class="hljs-number">20</span>, bar: <span class="hljs-string">&quot;World!&quot;</span>)
+
+<span class="hljs-keyword">echo</span> customObject2.hash <span class="hljs-comment">#No loop here, since it's not defined</span></code></pre><pre class="nb-output">-7400502187742009486</pre>
+<p>As you have seen from the outputs of the 2x examples of boilerplate code,
+the very random looking data is the hashed value.</p>
+<p><a name = "hashing-ref-objects"></a></p>
+<h1>Hashing ref objects</h1>
+<hr />
+<ul>
+<li>
+<p><strong>Note:</strong> If the type has <code>==</code> operator, the following must hold:
+If two values compare equal, their hashes must also be equal.</p>
+<p>First of, i am going to show you what happens if you try to use a <code>ref object</code>,
+for the <code>key</code> of a Table:</p>
+</li>
+</ul>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/tables
+<span class="hljs-keyword">import</span> std/hashes
+
+<span class="hljs-keyword">type</span>
+  <span class="hljs-type">RefKobold</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
+    name: <span class="hljs-built_in">string</span>
+    age: <span class="hljs-built_in">int</span></code></pre>
+<p>The following code will error, <code>initTable[keyType, valueType]()</code> does not work with <strong>ref objects</strong>.
+It crashes immediately on any attempt of setting a <strong>ref object</strong>'s <strong>fields</strong>(not the case for normal objects),
+with the error message of <strong>SIGSEGV: Illegal storage access. (Attempt to read from nil?)</strong>:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span>
+  refKoboldTable = initTable[<span class="hljs-type">RefKobold</span>, <span class="hljs-built_in">string</span>]()
+  refOldKobold: <span class="hljs-type">RefKobold</span>
+  refGeomancerKobold: <span class="hljs-type">RefKobold</span>
+
+refOldKobold.name = <span class="hljs-string">&quot;Goldtooth&quot;</span></code></pre>
+<p>So let's do what we did so far without the use of <code>initTable[ keyType, valueType ]()</code>,
+but with direct initialization <code>{}.toOrderedTable</code>:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span>
+  refOldKobold = <span class="hljs-type">RefKobold</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>)
+  refGeomancerKobold = <span class="hljs-type">RefKobold</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>)
+
+  refKoboldTable = {refOldKobold: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+refOldKobold.name = <span class="hljs-string">&quot;NewGoldTooth&quot;</span></code></pre>
+<img src="images/CompilerError.png" alt="Ref Object Compiler Error">
+<img src="images/CompilerErrorCropped.png" alt="Ref Object Compiler Error Cropped">
+<p>As you can see, we get an error.
+This can be easily fixed by using the following compiler configuration parameter with a <code>config.nims</code> config file:</p>
+<ul>
+<li><code>--d:nimPreviewHashRef</code>(1x &quot;-&quot; less when used in the terminal)</li>
+</ul>
+<p>This configuration parameter allows for hashing of ref objects,
+and will likely be used by default in future version of Nim.</p>
+<p>Due note that we haven't actually <code>hashed</code> the key(RefKobold) yet.</p>
+<p>Now that the above code works, let's quickly see if the <code>keys</code>, <code>values</code> and <code>pairs</code> iterators,
+work with the <code>ref</code> version of our Kobold object:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> refKoboldTable.keys: <span class="hljs-comment">#Yes</span>
+  <span class="hljs-keyword">echo</span> key[]</code></pre><pre class="nb-output">(name: &quot;NewGoldTooth&quot;, age: 31)
+(name: &quot;Rocktooth&quot;, age: 20)</pre>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> refKoboldTable.values: <span class="hljs-comment">#Yes</span>
+  <span class="hljs-keyword">echo</span> v</code></pre><pre class="nb-output">fighter
+mage</pre>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable.pairs: <span class="hljs-comment">#Yes</span>
+  <span class="hljs-keyword">echo</span> key[], <span class="hljs-string">&quot; &quot;</span>, value</code></pre><pre class="nb-output">(name: &quot;NewGoldTooth&quot;, age: 31) fighter
+(name: &quot;Rocktooth&quot;, age: 20) mage</pre>
+<p>Slight change from earlier, <code>ref</code> objects and other <code>ref</code> containers,
+require dereferencing via <code>[]</code>.</p>
+<p>Even though it appears that we don't need any boilerplate code to make it work,
+again <code>hashed</code> values are much more performant than their non hashed counterparts.
+This is especially true for <code>objects</code>, which are often quite numerous in fields,
+fields which can contain other containers and other objects(structures).</p>
+<p><strong>Quick reminder:</strong> <code>echo</code> and the implicitly called <code>items</code> iterator, do not work with objects as keys inside Tables.
+Also, do not overload the implicitly called by default <code>items</code> iterator.</p>
+<p>Now let's hash our <code>ref object</code> of RefKobold.
+First let's bring the above boilerplate code and modify it to <code>RefKobold1</code>(example 1),
+as arguments of the custom <code>hashedFields</code> iterator and the <code>hash</code> proc overload.</p>
+<ul>
+<li>iterator hashedFields(x: <code>Kobold</code>): Hash = -&gt; iterator hashedFields(x: <code>RefKobold1</code>): Hash =</li>
+<li>proc hash(x: <code>Kobold</code>): Hash = -&gt; proc hash(x: <code>RefKobold1</code>): Hash =</li>
+</ul>
+<p><strong>Example 1 boilerplate code:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/tables
+<span class="hljs-keyword">import</span> std/hashes
+
+<span class="hljs-keyword">type</span>
+  <span class="hljs-type">RefKobold1</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
+    name: <span class="hljs-built_in">string</span>
+    age: <span class="hljs-built_in">int</span>
+
+<span class="hljs-keyword">iterator</span> hashedFields(x: <span class="hljs-type">RefKobold1</span>): <span class="hljs-type">Hash</span> =
+  <span class="hljs-keyword">yield</span> hash(x.name)
+  <span class="hljs-keyword">yield</span> hash(x.age)
+
+<span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">RefKobold1</span>): <span class="hljs-type">Hash</span> =
+  <span class="hljs-comment">## Computes a Hash from `x`.</span>
+  <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+  <span class="hljs-comment"># Iterate over parts of `x`.</span>
+  <span class="hljs-keyword">for</span> xAtom <span class="hljs-keyword">in</span> x.hashedFields:
+    <span class="hljs-comment"># Mix the atom with the partial hash.</span>
+    h = h !&amp; xAtom
+  <span class="hljs-comment"># Finish the hash.</span>
+  <span class="hljs-literal">result</span> = !$h
+
+<span class="hljs-keyword">var</span> 
+  refOldKobold1 = <span class="hljs-type">RefKobold1</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>)
+  refGeomancerKobold1 = <span class="hljs-type">RefKobold1</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>)
+
+  refKoboldTable1 = {refOldKobold1: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold1: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+<span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable1:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> key.hashedFields:
+    <span class="hljs-keyword">echo</span> field</code></pre><pre class="nb-output">
+2596742758
+-9181144820678043562
+
+1032607287
+-2697042507132587840</pre>
+<p>The following snippet of the code above is changed from <code>example 1</code>'s from earlier to this,
+because the earlier version only looped trough the <code>object</code>'s fields inside a variable, not a <code>Table</code> like here:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable1:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> key.hashedFields:
+    <span class="hljs-keyword">echo</span> field</code></pre>
+<p><strong>Example 2 boilerplate code:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/tables
+<span class="hljs-keyword">import</span> std/hashes
+
+<span class="hljs-keyword">type</span>
+  <span class="hljs-type">RefKobold2</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
+    name: <span class="hljs-built_in">string</span>
+    age: <span class="hljs-built_in">int</span>
+
+<span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">RefKobold2</span>): <span class="hljs-type">Hash</span> =
+  <span class="hljs-comment">## Computes a Hash from `x`.</span>
+  <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+  h = h !&amp; hash(x.name)
+  h = h !&amp; hash(x.age)
+  <span class="hljs-literal">result</span> = !$h
+
+<span class="hljs-keyword">var</span> 
+  refOldKobold2 = <span class="hljs-type">RefKobold2</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>).hash <span class="hljs-comment"># &lt;-</span>
+  refGeomancerKobold2 = <span class="hljs-type">RefKobold2</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>).hash <span class="hljs-comment"># &lt;-</span>
+
+  refKoboldTable2 = {refOldKobold2: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold2: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+<span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable2.pairs:
+  <span class="hljs-keyword">echo</span> key, <span class="hljs-string">&quot; &quot;</span>, value
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Or just reinserting the key: &quot;</span>, key, <span class="hljs-string">&quot; to get the value -&gt; &quot;</span>, refKoboldTable2[key]
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span></code></pre><pre class="nb-output">8548044415117994811 fighter
+Or just reinserting the key: 8548044415117994811 to get the value -&gt; fighter
+
+-4179016716304925836 mage
+Or just reinserting the key: -4179016716304925836 to get the value -&gt; mage</pre>
+<p><a name = "all-variants-of-tables-and-some-use-cases"></a></p>
+<h1>All variants of Tables and some use cases</h1>
+<hr />
+<p>In this video, i have introduced you to the OrderedTable besides the normal unorded one from the Tables video.
+There is also the CountTable for mapping from a key to it's number of occurrences.</p>
+<p>And lastly, there a Ref/Reference versions of each, with <code>Ref</code> affixed/appended at the end like so:</p>
+<ul>
+<li>TableRef(         {}.newTable)</li>
+<li>OrderedTableRef(  {}.newOrderedTable)</li>
+<li>CountTableRef(    {}.newCountTable)</li>
+</ul>
+<p>In case it wasn't clear on when to use Tables(hashTables) in Nim, here are a few examples/use cases:</p>
+<ul>
+<li>Whenever you have 2 pieces of data that you want linked together(e.g. your phone contacts -&gt; name : number)</li>
+<li>Games/music listing on your computer(name of the game/music as key : value as location)</li>
+<li>When generating JSON(lightweight data-interchange format), before it gets stringified, it's represented as a Table(dictionary)</li>
+<li>Nested Tables(example 2 below)</li>
+</ul>
+<p>Now let's make a new hashTable and hash one of it's keys,
+and then reinsert the hashed key from the output back into itself:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/tables
+
+<span class="hljs-keyword">var</span> tData = {<span class="hljs-number">1.</span>hash: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable
+<span class="hljs-keyword">echo</span> tData
+
+<span class="hljs-keyword">echo</span> tData[<span class="hljs-number">8641844181895329213</span>]
+<span class="hljs-keyword">echo</span> tData[<span class="hljs-number">2</span>]</code></pre><pre class="nb-output">{8641844181895329213: &quot;one&quot;, 2: &quot;two&quot;}
+one
+two</pre>
+<p>Here we go, it worked perfectly.</p>
+<p>Now lastly, i will show you a very useful proc for Tables called <code>mgetOrPut</code>.
+<code>mgetOrPut</code> retrieves the value of a specified key,
+or inserts/puts a (key,value) pair into the Table if that (key,value) pair is not present,
+and then returns back the value of that key in a modifiable state( <code>proc modifiable(a: var int) =</code> ):</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> stringIntTable = {<span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">4</span>}.newTable
+
+<span class="hljs-keyword">echo</span> stringIntTable
+<span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
+<span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
+<span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;c&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
+<span class="hljs-keyword">echo</span> stringIntTable</code></pre><pre class="nb-output">{&quot;a&quot;: 1, &quot;b&quot;: 4}
+1 {&quot;a&quot;: 1, &quot;b&quot;: 4}
+4 {&quot;a&quot;: 1, &quot;b&quot;: 4}
+10 {&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;c&quot;: 10}
+{&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;c&quot;: 10}</pre>
+<p>Now that modifiable state of the value, can easily be accidentally used to create a copy of the value,
+instead of modifying it. This is the case when trying to use this <code>mgetOrPut() proc</code> with sequences and strings,
+which are value types by design, meaning that they cannot be copied into a different variable,
+and then use that variable to modify the value of a given key from the Table.
+(This is mostly for people coming from other programming languages where sequences and strings are passed by reference)</p>
+<p>(Note: if you see procs starting with <code>m</code>, as in <code>mThenSomeProcName</code>, it means it's modifiable e.g. <code>mitems</code>)</p>
+<p>Here is an example of what not to do:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> declaredTable = newTable[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]]() <span class="hljs-comment">#No declaration with &quot;:&quot; for Tables</span>
+
+<span class="hljs-keyword">var</span> copiedTable = declaredTable.mgetOrPut(<span class="hljs-number">10</span>, @[<span class="hljs-number">10</span>])
+
+<span class="hljs-comment">#In other languages, this would add to key 10, 20 into @[10] -&gt; 10: @[10, 20], not in Nim</span>
+copiedTable.add <span class="hljs-number">20</span> 
+
+<span class="hljs-keyword">echo</span> declaredTable
+<span class="hljs-keyword">echo</span> copiedTable</code></pre><pre class="nb-output">{10: @[10]}
+@[10, 20]</pre>
+<p>Since the value returned by <code>mgetOrPut</code> proc is modifiable, you can do the following:</p>
+<pre><code class="nohighlight hljs nim">declaredTable.mgetOrPut(<span class="hljs-number">10</span>, @[<span class="hljs-number">10</span>]).add <span class="hljs-number">50</span>
+<span class="hljs-keyword">echo</span> declaredTable</code></pre><pre class="nb-output">{10: @[10, 50]}</pre>
+<p><a name = "hashsets"></a></p>
+<h1>hashSets</h1>
+<hr />
+<p>First of, hashSets are allocated on the heap.</p>
+<p>Now let's make the simplest hashSet data type a normal Set cannot use, String.
+We cannot declare an empty hashSet, it can only be initialized.
+So this example is just for show, since every hashSet is always initialized
+in this same way by default anyways.
+We are going to need the <code>sets</code> module for all hashSets.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/sets
+<span class="hljs-keyword">var</span> emptyHashSet = initHashSet[<span class="hljs-built_in">string</span>]()
+
+<span class="hljs-keyword">echo</span> emptyHashSet</code></pre><pre class="nb-output">{}</pre>
+<p>Now the initialization version:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> hashedString = [<span class="hljs-string">&quot;Hello, World!&quot;</span>].toHashSet
+
+<span class="hljs-keyword">echo</span> hashedString</code></pre><pre class="nb-output">{&quot;Hello, World!&quot;}</pre>
+<p>Now remember that the order of the elements is unordered, not the value of an element.</p>
+<p>Now let's have a look on how hashSets and hashTables look like in procs:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> paramHashSet(data: <span class="hljs-type">HashSet</span>): <span class="hljs-type">HashSet</span> = <span class="hljs-comment"># data: initHashSet[string]() does NOT work</span>
+  data
+
+<span class="hljs-keyword">proc</span> paramHashTable(data: <span class="hljs-type">Table</span>): <span class="hljs-type">Table</span> = <span class="hljs-comment">#same for hashTables</span>
+  data
+
+<span class="hljs-keyword">proc</span> initParamHashTable(data = {<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable) =
+  <span class="hljs-keyword">echo</span> data <span class="hljs-comment">#We have to use this &quot;data&quot;, the compiler will not let us return it with the &quot;result&quot; variable, it must be used right here</span>
+
+<span class="hljs-keyword">echo</span> paramHashSet([<span class="hljs-number">3.14</span>].toHashSet)
+<span class="hljs-keyword">echo</span> paramHashTable({<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>}.toTable)
+initParamHashTable()</code></pre><pre class="nb-output">{3.14}
+{1: &quot;one&quot;}
+{2: &quot;two&quot;, 1: &quot;one&quot;}</pre>
+<p>There is an additional operation you can do with hashSets that you cannot do with normal Sets, which is <code>symmetricDifference(s1, s2)</code>.
+<code>-+-</code> is the alias for that proc. This proc gives you only the elements that are not present in both sets at the same time.</p>
+<p>E.g. <code>if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c']</code> because <code>'a'</code> is only in one of them, and the same goes for <code>'c'</code>.
+<code>'b'</code> is in both of them so it gets excluded from this list.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> setSD1 = [(<span class="hljs-string">&quot;key1&quot;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>)].toHashSet <span class="hljs-comment">#Anonymous tuple - must be inside [], and tuples require (,) -&gt; [()]</span>
+<span class="hljs-keyword">let</span> setSD2 = [(<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>), (<span class="hljs-string">&quot;key3&quot;</span>, <span class="hljs-number">30</span>)].toHashSet
+
+<span class="hljs-keyword">echo</span> setSD1
+<span class="hljs-keyword">echo</span> setSD2
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">echo</span> setSD1 -+- setSD2</code></pre><pre class="nb-output">{(&quot;key1&quot;, 10), (&quot;key2&quot;, 20)}
+{(&quot;key3&quot;, 30), (&quot;key2&quot;, 20)}
+
+{(&quot;key3&quot;, 30), (&quot;key1&quot;, 10)}</pre>
+<p>There is also <code>disjoint(s1, s2: bool)</code> returns true if the sets s1 and s2 have no items in common,</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> setD1 = [<span class="hljs-number">9223372036854775807</span>, -<span class="hljs-number">9223372036854775807</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#9,223,372,036,854,775,807 or -/negative of that value is the max value of int64</span>
+<span class="hljs-keyword">let</span> setD2 = [<span class="hljs-number">2147483648</span>, -<span class="hljs-number">2147483648</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#2,147,483,647 or -/negative of that value, is the max value of int32, had to add +1 and -1 at the end  to make them int64, otherwise disjoint won't work</span>
+
+<span class="hljs-keyword">echo</span> setD1
+<span class="hljs-keyword">echo</span> setD2
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">echo</span> disjoint(setD1, setD2)</code></pre><pre class="nb-output">{2, 9223372036854775807, -9223372036854775807, 1}
+{2147483648, 2, -2147483648, 1}
+
+false</pre>
+<p><code>missingOrExcl(s, key)</code> Excludes a key and tells you if the key was already missing from <code>s</code>. (no proc for missingOrIncl)</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setMOE = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+
+<span class="hljs-keyword">echo</span> setMOE
+
+<span class="hljs-keyword">if</span> setMOE.missingOrExcl(<span class="hljs-number">1</span>):
+  <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
+<span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
+
+<span class="hljs-keyword">if</span> setMOE.missingOrExcl(<span class="hljs-number">1</span>):
+  <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
+<span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
+
+<span class="hljs-keyword">echo</span> setMOE</code></pre><pre class="nb-output">{1, 2, 3, 4, 5}
+false
+1 true
+{2, 3, 4, 5}</pre>
+<p><code>containsOrIncl(s, key)</code> Includes a key in the set <code>s</code> and tells if key was already in <code>s</code>.
+Inverse of missingOrExcl(s, key)</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setCOI = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+
+<span class="hljs-keyword">echo</span> setCOI
+
+<span class="hljs-keyword">block</span> <span class="hljs-type">COI</span>:
+  <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>):
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
+  <span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span>
+
+  <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>):
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
+  <span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span></code></pre><pre class="nb-output">{1, 2, 3, 4, 5}
+6 is not is setCOI, adding
+6 was already in setCOI</pre>
+<p><code>map(data, op)</code> Returns a new set after applying <code>op</code> -&gt; <code>proc(anonymous proc)</code> on each of the elements of <code>data</code> set.
+Here is a simple example from the Sets module that demonstrates the <code>map</code> proc very well:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it with &quot;b&quot;</span>
+  a = toHashSet([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+  b = a.map(<span class="hljs-keyword">proc</span> (x: <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> = $x)
+
+<span class="hljs-keyword">echo</span> a
+<span class="hljs-keyword">echo</span> b</code></pre><pre class="nb-output">{3, 2, 1}
+{&quot;1&quot;, &quot;2&quot;, &quot;3&quot;}</pre>
+<p>And here is my example at this proc:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> setM = [<span class="hljs-string">&quot;lowercase&quot;</span>, <span class="hljs-string">&quot;UPPERCASE&quot;</span>, <span class="hljs-string">&quot;l&quot;</span>, <span class="hljs-string">&quot;U&quot;</span>].toHashSet <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it</span>
+
+<span class="hljs-keyword">let</span> setNewL = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
+  <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
+    <span class="hljs-keyword">if</span> c.isLowerAscii: <span class="hljs-comment">#== true needless verbosity</span>
+      <span class="hljs-literal">result</span> = elem)
+
+<span class="hljs-keyword">let</span> setNewU = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
+  <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
+    <span class="hljs-keyword">if</span> c.isLowerAscii != <span class="hljs-literal">true</span>:
+      <span class="hljs-literal">result</span> = elem)
+  
+<span class="hljs-keyword">echo</span> setNewL
+<span class="hljs-keyword">echo</span> setNewU</code></pre><pre class="nb-output">{&quot;&quot;, &quot;l&quot;, &quot;lowercase&quot;}
+{&quot;U&quot;, &quot;&quot;, &quot;UPPERCASE&quot;}</pre>
+<p>The default return value of a proc returning string is <code>&quot;&quot;</code> empty string,
+that is why there are 2x <code>&quot;&quot;</code> empty string elements in the output.</p>
+<p><code>clear(s)</code> Clears the hashSet back to an empty state, without shrinking any of the existing storage.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> someSizedSet = [<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>, <span class="hljs-string">&quot;4&quot;</span>, <span class="hljs-string">&quot;5&quot;</span>].toHashSet
+<span class="hljs-keyword">var</span> copiedSet = someSizedSet
+
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;someSizedSet: &quot;</span>, someSizedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;copiedSet: &quot;</span>, copiedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+
+copiedSet.clear
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;someSizedSet: &quot;</span>, someSizedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;copiedSet: &quot;</span>, copiedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span></code></pre><pre class="nb-output">someSizedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
+copiedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
+
+someSizedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
+copiedSet: {} of size: 24 bytes</pre>
+<p>As you can see, the size remained at 24 bytes.</p>
+<p><code>pop(s)</code> Removes and returns an element from the set <code>s</code>.
+You cannot specify which element to pop.</p>
+<p>Here is some sample code that shows how it works(not the use case):</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> myHashSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toHashSet
+
+<span class="hljs-keyword">echo</span> myHashSet.pop <span class="hljs-comment">#You can't specify what element to pop</span>
+<span class="hljs-keyword">echo</span> myHashSet.pop
+<span class="hljs-keyword">echo</span> myHashSet.pop
+
+<span class="hljs-keyword">if</span> myHashSet.len != <span class="hljs-number">0</span>:
+  <span class="hljs-keyword">echo</span> myHashSet.pop
+<span class="hljs-keyword">else</span>:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;myHashSet is empty&quot;</span></code></pre><pre class="nb-output">a
+b
+c
+myHashSet is empty</pre>
+<p><strong>There is a use case for the <code>pop</code></strong> proc. For example if you have a pool of jobs to be done in no particular order.
+Let's say that on weekends you clean your room, do your laundry, change the sheets, etc. That job only requires to be done once.
+So you would use a doTheJob()/processJob() proc that would <code>pop</code> a job from your pool of jobs and execute it.
+Once all the jobs are done, you can put the exact same ones back in when weekend comes, or some relatives are coming to visit.
+Here is an example:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> executeJob(job: <span class="hljs-built_in">string</span>) =
+  <span class="hljs-keyword">echo</span> job, <span class="hljs-string">&quot; finished&quot;</span>
+
+<span class="hljs-keyword">var</span> jobs = [<span class="hljs-string">&quot;laundry&quot;</span>, <span class="hljs-string">&quot;sheets&quot;</span>, <span class="hljs-string">&quot;cleaning&quot;</span>].toHashSet
+
+<span class="hljs-keyword">while</span> jobs.len != <span class="hljs-number">0</span>:
+  <span class="hljs-keyword">let</span> job = jobs.pop
+  job.executeJob</code></pre><pre class="nb-output">sheets finished
+cleaning finished
+laundry finished</pre>
+<p>And lastly <code>[]</code> - Which returns the element that is actually stored in <code>s</code> which has the same value as <code>key</code>,
+or raises the <code>KeyError</code> exception. This is useful when one overloaded the <code>hash</code> proc,
+and the <code>==</code> operator, but still needs reference semantics for sharing.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setWithAKey = [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;tree&quot;</span>].toHashSet
+<span class="hljs-keyword">echo</span> setWithAKey[<span class="hljs-string">&quot;one&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, setWithAKey[<span class="hljs-string">&quot;one&quot;</span>].<span class="hljs-keyword">type</span></code></pre><pre class="nb-output">one string</pre>
+<p><a name = "hashset-use-cases"></a></p>
+<h1>hashSet use cases</h1>
+<hr />
+<p>One of the hashSet uses cases is very similar to the last use case example of the previous video of normal Sets.
+The example being, splitting a string based on character elements as separators.
+With hashSets, we can go a step further. We can use whole words as separators.
+So let's use the <code>split()</code> proc we made in the last tutorial and update it for string hashSets.
+We are also going to add another argument of type bool, to tell the proc if we are working with set[char],
+or hashSet[string]. Currently the compiler cannot infer which to use,
+since the second argument of <code>seps</code> is not an argument we can give, since it is already initialized.</p>
+<p><strong>Original version:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils
+
+<span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}): <span class="hljs-built_in">string</span> = 
+  <span class="hljs-keyword">var</span> splitString = s
+  <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+  <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+    c = splitString.find(sep)
+    splitString.delete(c, c)
+  
+  <span class="hljs-literal">result</span> = splitString
+        
+<span class="hljs-keyword">var</span> myString = <span class="hljs-string">&quot;Hello , World !?&quot;</span> 
+<span class="hljs-keyword">echo</span> myString
+
+<span class="hljs-keyword">echo</span> myString.split</code></pre><pre class="nb-output">Hello , World !?
+Hello, World </pre>
+<p><strong>Modified version:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils
+
+<span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; useNormalSet: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">string</span> = 
+  <span class="hljs-keyword">if</span> useNormalSet:
+    <span class="hljs-keyword">var</span> seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}
+    <span class="hljs-keyword">var</span> splitString = s
+    <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+    <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+      c = splitString.find(sep)
+      splitString.delete(c, c) 
+      
+    <span class="hljs-literal">result</span> = splitString
+  <span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">var</span> seps = [<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>].toHashSet
+    <span class="hljs-keyword">var</span> splitString = s
+    <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+    <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+      c = splitString.find(sep)
+
+      <span class="hljs-keyword">if</span> (c + sep.len) &lt; splitString.len:
+        splitString.delete(c, c+sep.len)
+  
+    <span class="hljs-literal">result</span> = splitString
+        
+<span class="hljs-keyword">echo</span> myString.split(<span class="hljs-literal">true</span>)
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I have a var, a const, and a let me in pony&quot;</span>.split(<span class="hljs-literal">false</span>) <span class="hljs-comment">#43 length</span></code></pre><pre class="nb-output">Hello, World 
+I have a  a  and a me in pony</pre>
+<p><a name = "quick-re-explanation-of-hashing"></a></p>
+<h1>Quick re-explanation of hashing</h1>
+<hr />
+<p>In case i did not explain or convey this information well -&gt;
+Hashing a value with the <code>hash</code> proc(lower case &quot;h&quot;), returns a value of type <code>Hash</code> (uppercase &quot;H&quot;),
+which allows for containers such as <code>arrays</code>, <code>sequences</code>, <code>sets(hashSets)</code>, etc,
+which only allow for a single data type to be used,
+to instead store just about <code>any</code> data type you want.
+Obviously this also works for variables and structures such as objects, tuples, etc.</p>
+<p>Hash values must be available for any type that you want to use as a <code>key</code> in a so called Table data structure.
+And also again, for <code>hashing</code> of usually complex and large structures such as <code>objects</code>,
+and obviously Tables(implemented in such a way) for the reasons of <code>speed</code>.
+Tables are also often called dictionaries or <code>lookup</code> tables.</p>
+<h2>OUTRO - AFTERWORDS</h2>
+<p>Okay, that's it for this video, thanks for watching like, share and subscribe,
+aswell as click the bell icon if you liked it and want more,
+you can also follow me on twitter of the same name, and support me on Patreon.
+If you had any problems with any part of the video,
+let me know in the comment section,
+the code of this video, script and documentation, are in the link in the description,
+as a form of written tutorial.</p>
+<h3>Thanks to my past and current Patrons</h3>
+<p><b>Past Patrons:</b></p>
+<ul>
+<li>Goose_Egg: From April 4th 2021 to May 10th 2022</li>
+<li>Davide Galilei(1x month)</li>
+</ul>
+<p><b>Current Patrons</b></p>
+<ul>
+<li>None</li>
+</ul>
+<p><b>Compiler information</b></p>
+<ul>
+<li>Version used: E.G. 2.0.2</li>
+<li>Compiler settings used: --d:nimPreviewHashRef(when specified in the section of Ref Objects as keys of Tables)</li>
+<li>Timestamps:
+<ul>
+<li>00:15 Start of video example</li>
+</ul>
+</li>
+</ul>
+<p><b>LINKS:</b></p>
+<ul>
+<li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
+<li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
+</ul>
+<p><b>LINKS to this video's subject:</b></p>
+<ul>
+<li><a href="https://nim-lang.org/docs/tables.html" title="Tables(hashTables)">Tables(hashTables)</a></li>
+<li><a href="https://nim-lang.org/docs/sets.html" title="hashSets">hashSets</a></li>
+<li><a href="https://nim-lang.org/docs/hashes.html" title="Hashes">Hashes</a></li>
+</ul>
+</main>
+<footer>
+<div class="nb-box">
+  <span><span class="nb-small">made with <a href="https://pietroppeter.github.io/nimib/">nimib 🐳</a></span></span>
+  <span></span>
+  <span><button class="nb-small" id="show" onclick="toggleSourceDisplay()">Show Source</button></span>
+</div>
+</footer>
+<section id="source">
+<pre><code class="nohighlight nim hljs"><span class="hljs-comment">#Do NOT use {} inside nbText: hlMdF&quot;&quot;&quot; &quot;&quot;&quot; fields, sometimes it will error, not always</span>
+<span class="hljs-comment">#When using - to make a line a list item, you cannot have ANY one of the lines be an empty line</span>
+<span class="hljs-comment">#Use spaces by a factor of 2x for indentation in levels</span>
+<span class="hljs-comment"># *text* italic</span>
+<span class="hljs-comment"># **text** for bold instead of &lt;b&gt;&lt;/b&gt;</span>
+<span class="hljs-comment"># ***text*** italic bold</span>
+<span class="hljs-comment">#Link 1 - &lt;a href = &quot;link&quot;&gt;&lt;/a&gt;</span>
+<span class="hljs-comment">#Link 2 - [name](link)</span>
+<span class="hljs-comment">#Link 3 `name &lt;link&gt;`_ -&gt; without a name works too</span>
+<span class="hljs-comment">#nbCodeSkip -&gt; skips the output/echo calls from the file, everything else remains the same</span>
+<span class="hljs-comment">#nbCodeInBlock -&gt; opens up a new scope like the &quot;block&quot; statement, useful for when you don't want to use different variable names etc</span>
+<span class="hljs-comment">#https://pietroppeter.github.io/nimib/allblocks.html</span>
+
+<span class="hljs-keyword">import</span> nimib, std/strutils <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
+
+nbInit()
+nb.darkMode()
+<span class="hljs-comment">#nbShow() #This will auto open this file in the browser, but it does not check if it is already open</span>
+  <span class="hljs-comment">#so it keeps bloody opening one after another, i just want a way to update changes quickly</span>
+
+<span class="hljs-comment"># customize source highlighting:</span>
+nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css&quot;&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># a custom text block that shows markdown source</span>
+<span class="hljs-keyword">template</span> nbTextWithSource*(body: <span class="hljs-built_in">untyped</span>) =
+  newNbBlock(<span class="hljs-string">&quot;nbTextWithSource&quot;</span>, <span class="hljs-literal">false</span>, nb, nb.blk, body):
+    nb.blk.output = body
+  nb.blk.context[<span class="hljs-string">&quot;code&quot;</span>] = body
+
+nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
+nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># how to add a ToC</span>
+<span class="hljs-keyword">var</span>
+  nbToc: <span class="hljs-type">NbBlock</span>
+
+<span class="hljs-keyword">template</span> addToc =
+  newNbBlock(<span class="hljs-string">&quot;nbText&quot;</span>, <span class="hljs-literal">false</span>, nb, nbToc, <span class="hljs-string">&quot;&quot;</span>):
+    nbToc.output = <span class="hljs-string">&quot;## Table of Contents:</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+
+<span class="hljs-keyword">template</span> nbSection(name:<span class="hljs-built_in">string</span>) =
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name = </span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+  <span class="hljs-comment"># see below, but any number works for a numbered list</span>
+  nbToc.output.add <span class="hljs-string">&quot;1. &lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+  <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
+addToc() 
+
+<span class="hljs-comment">#Do NOT forget to have the .html file OPEN at all times, otherwise </span>
+  <span class="hljs-comment">#live preview will NOT work! ANY live preview!</span>
+
+<span class="hljs-comment">###############</span>
+<span class="hljs-comment">#START OF FILE#</span>
+<span class="hljs-comment">###############</span>
+
+<span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+## INTRO - GREETING
+- TITLE: hashSets, more on hashTables and hashing
+
+## INTRO - FOREWORDS
+&lt;b&gt;(What is the purpose of this video ?)&lt;/b&gt;
+- In this video, we will go over hashSets and hashes that are used with hashSets,
+  as well as hashing in general in the world. We will also refresh our memory on Tables(hashTables), 
+  and add some more on that knowledge.
+ 
+The code for this video and it's script/documentation styled with nimib,
+is in the link in the description as a form of written tutorial.
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Tables refresh&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+First of, we have already used a bit of hashing in my Tables video without even knowing it.
+The `tables` module uses variants of an efficient hashTable(dictionaries in other programming languages).
+
+Here is an example:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/tables
+
+  <span class="hljs-comment">#The first key: value element that you use, will determine the data type for the Table</span>
+    <span class="hljs-comment">#&quot;Germany&quot;: &quot;Berlin&quot; -&gt; string, string</span>
+  <span class="hljs-keyword">var</span> countryCapitals = {<span class="hljs-string">&quot;Germany&quot;</span>: <span class="hljs-string">&quot;Berlin&quot;</span>, <span class="hljs-string">&quot;Slovenia&quot;</span>: <span class="hljs-string">&quot;Ljubljana&quot;</span>}.toOrderedTable
+
+  <span class="hljs-keyword">echo</span> countryCapitals
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  And here is an example of a nested table:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> countryCapitalsWithPostCode = {<span class="hljs-string">&quot;Germany&quot;</span>: {<span class="hljs-string">&quot;Berlin&quot;</span>: <span class="hljs-number">10000</span>}.toOrderedTable, 
+                                    <span class="hljs-string">&quot;Slovenia&quot;</span>: {<span class="hljs-string">&quot;Ljubljana&quot;</span>: <span class="hljs-number">1000</span>}.toOrderedTable}.toOrderedTable
+
+  <span class="hljs-keyword">echo</span> countryCapitalsWithPostCode
+  <span class="hljs-keyword">echo</span> countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>].typeof
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Don't forget to style/indent such Tables by commas like above. 
+  It's a good practice to separate long lines of code by commas, 
+  since it makes it much cleaner and easier to read.
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now let's try Tables with an object for it's `key`:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">Kobold</span> = <span class="hljs-keyword">object</span>
+      name: <span class="hljs-built_in">string</span>
+      age: <span class="hljs-built_in">int</span>
+
+  <span class="hljs-keyword">var</span> oldKobold = <span class="hljs-type">Kobold</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>)
+  <span class="hljs-keyword">var</span> geomancerKobold = <span class="hljs-type">Kobold</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>)
+
+  <span class="hljs-keyword">var</span> koboldTable = {oldKobold: <span class="hljs-string">&quot;fighter&quot;</span>, geomancerKobold: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+  <span class="hljs-keyword">echo</span> koboldTable
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now, if we were to try to output each of the keys of the Table `oldKobold` and `geomancerKobold` with a for loop,
+    it wouldn't work, since the implicitly called `items` iterator, 
+    does not exist for objects inside a Table.
+
+  The following code will not compile:
+&quot;&quot;&quot;</span>
+
+nbCodeSkip:
+  <span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable: <span class="hljs-comment">#ERROR: implicitly called &quot;items&quot; iterator does not exist for Kobold object inside a Table</span>
+    <span class="hljs-keyword">echo</span> kobold
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now this can be solved in 2 ways. The first way is kinda messy, 
+    and it involves using some boilerplate code to overload the `items` iterator,
+    as well as the `hash` proc from the `hashes` module,
+    which is used to `hash` the value into a more performant value.
+    This messy way, as well as a lot of details on what Hashing is, etc, later.
+
+  Let's solve this problem with the clean and easy solution,
+    of using the `keys` iterator specifically made for `Tables`.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.keys:
+    <span class="hljs-keyword">echo</span> kobold
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now, this code only outputs the actual `keys` of our table.
+    In order to get the `values` associated with those `keys`,
+    we must insert those `keys` back into our table with the index access `[]`.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.keys:
+    <span class="hljs-keyword">echo</span> kobold, <span class="hljs-string">&quot; -&gt; &quot;</span>, koboldTable[kobold]
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  There is also the `values` iterator amongst others for Tables.
+    This iterator will go trough all of the `values` of a Table,
+    just like how the `keys` iterator went trough all of the `keys`.
+
+  With this iterator, we then don't have to insert the key back into our Table to get the value,
+    when iterating over the entire Table like this:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.values:
+    <span class="hljs-keyword">echo</span> kobold
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  I believe i have never shown that you can also use multiple variables for capturing data in a for loop,
+    so let's do that with the `pairs` iterator:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> koboldTable.pairs:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;key: &quot;</span>, key, <span class="hljs-string">&quot; -&gt; value: &quot;</span>, value
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The `pairs` iterator can also be used for when you want to capture the index, 
+    when iterating over the elements of a container, like so:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> pos, ele <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello World!&quot;</span>.pairs:
+    <span class="hljs-keyword">echo</span> pos, <span class="hljs-string">&quot; &quot;</span>, ele
+
+nbSection <span class="hljs-string">&quot;What is hashing ?&quot;</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+  - Hashing is the process of transforming any given key or string, 
+    into a usually another shorter and more efficient value,
+    by the use of a one way mathematical hashing algorithm/function.
+
+  - One way algorithms are used, because Hashes are also used for encrypting data, 
+    and a 2 way algorithm would fail that.
+
+  - The most popular use for hashing, is the usage of hash tables. A hash table stores key and value pairs,
+    in a list that is accessible trough it's index. Because key and value pairs are unlimited,
+    the hash function will map the keys to the table size. 
+    A hash value then becomes the index for a specific element.
+
+  - Hashing is used in data indexing and retrieval, digital signatures, cybersecurity and cryptography.
+    They are also used on some websites, especially those dedicated to Linux OSs and programs, 
+    to check your checksum(Secure Hash Algorithm/SHA, Message-Digest functions/MD),
+    against the one on their website, to ensure it is exactly the same, 
+    without any tampering by a malicious person.
+
+  - There are several modules in nim for dealing with hash function algorithms:
+    - `nimble install checksum` before use of the `Sha` and `MD5` modules
+      - Sha1(old, used for legacy purposes)
+      - Sha2(newer, but still insufficient for data security)
+      - Sha3(newest, use this one)
+      - MD5
+    - Base64(for encoding and decoding data)
+  
+  - The usage of hashing in data structure, is used for the reasons of speed.
+    That speed is due to the fact that value is much smaller once hashed,
+    and also because hashed keys are mapped to the size of the Table,
+    which serves as an index to quickly find the desired data,
+    without the use of loops, which can take much longer to find the data.
+
+  - There is a phenomenon called `collision`, which is when 2x or more hashes manage to generate an identical hash.
+    Different hash functions have different margin of collisions.
+    To address this, there are methods like:
+      -  Double hashing
+      -  Linear probing
+      -  Quadratic probing
+      -  Separate chaining(making every hash table cell point to linked lists of records with identical hash function values)
+  
+  - In cybersecurity, they can go a step further with the term Salting.
+    Which is adding random data into the hash function. It helps with attackers from accessing non-unique passwords,
+    by the use of rainbow tables(reverse engineered data)
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Hashing in Nim&quot;</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+  You can hash just about any data type in Nim. There is no list of what you can, but mostly everything.
+  You can easily hash your own data types, but first you must use a bit of skeleton/boilerplate code to do so.
+  
+  The following `2 examples` are taken from the hashes module page, that are required for your own data types.
+  Both of the examples are slightly renamed, with the first no longer overloading the `items` iterator,
+  from the implicitly imported `system` module, in order to avoid the `items` iterator,
+  from being used implicitly for yielding hashed values. 
+  Remember, the `items` iterator is the one called by default implicitly(invisibly) in a for loop,
+  when not specifying the iterator. 
+
+  Here is a quick reminder example:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello&quot;</span>: <span class="hljs-comment">#Nim's VS Code Extension will tell you the iterator used here</span>
+    <span class="hljs-keyword">echo</span> c
+nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;&lt;img src=&quot;images/vsCodeNimExtensionHelper.png&quot; alt=&quot;VS Code Nim Extension Help/Details&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The above is the same as the following:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello&quot;</span>.items:
+    <span class="hljs-keyword">echo</span> c
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **Example 1** boilerplate code without using the implicitly called by default `items` iterator:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/hashes
+
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">CustomObject</span> = <span class="hljs-keyword">object</span>
+      foo: <span class="hljs-built_in">int</span>
+      bar: <span class="hljs-built_in">string</span>
+
+  <span class="hljs-keyword">iterator</span> hashedFields(x: <span class="hljs-type">CustomObject</span>): <span class="hljs-type">Hash</span> =
+    <span class="hljs-keyword">yield</span> hash(x.foo)
+    <span class="hljs-keyword">yield</span> hash(x.bar)
+
+  <span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">CustomObject</span>): <span class="hljs-type">Hash</span> =
+    <span class="hljs-comment">## Computes a Hash from `x`.</span>
+    <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Iterate over parts of `x`.</span>
+    <span class="hljs-keyword">for</span> xAtom <span class="hljs-keyword">in</span> x.hashedFields:
+      <span class="hljs-comment"># Mix the atom with the partial hash.</span>
+      h = h !&amp; xAtom
+    <span class="hljs-comment"># Finish the hash.</span>
+    <span class="hljs-literal">result</span> = !$h
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+Sample code using the above **example 1** boilerplate code which will output each field hashed separately:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> customObject = <span class="hljs-type">CustomObject</span>(foo: <span class="hljs-number">10</span>, bar: <span class="hljs-string">&quot;Hello&quot;</span>)
+
+  <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> customObject.hashedFields: <span class="hljs-comment">#Must use our &quot;hashedFields&quot; iterator -&gt; otherwise error</span>
+    <span class="hljs-keyword">echo</span> field
+
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+  If your custom types contain fields for which there already is a `hash` proc,
+  you can simply hash together the hash values of the individual fields,
+  no need for the overload of the `items` iterator:
+
+  **Example 2** without using an iterator(meaning you will have to `hash` explicitly):
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">CustomObject2</span> = <span class="hljs-keyword">object</span>
+      foo: <span class="hljs-built_in">int</span>
+      bar: <span class="hljs-built_in">string</span>
+
+  <span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">CustomObject2</span>): <span class="hljs-type">Hash</span> =
+    <span class="hljs-comment">## Computes a Hash from `x`.</span>
+    <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+    h = h !&amp; hash(x.foo)
+    h = h !&amp; hash(x.bar) <span class="hljs-comment"># &quot;!&amp;&quot; Mixes a hash value &quot;h&quot; with &quot;val&quot; to produce a new hash value(only for custom types)</span>
+    <span class="hljs-literal">result</span> = !$h <span class="hljs-comment"># &quot;!$&quot; Finishes the computation of the hash value(only for custom types)</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Sample code using the **example 2** boilerplate code(no iterator) which will output the entire object hashed:
+&quot;&quot;&quot;</span>
+nbcode:
+  <span class="hljs-keyword">var</span> customObject2 = <span class="hljs-type">CustomObject2</span>(foo: <span class="hljs-number">20</span>, bar: <span class="hljs-string">&quot;World!&quot;</span>)
+
+  <span class="hljs-keyword">echo</span> customObject2.hash <span class="hljs-comment">#No loop here, since it's not defined</span>
+
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+  As you have seen from the outputs of the 2x examples of boilerplate code,
+  the very random looking data is the hashed value.
+&quot;&quot;&quot;</span>
+
+nbSection: <span class="hljs-string">&quot;Hashing ref objects&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- **Note:** If the type has `==` operator, the following must hold:
+  If two values compare equal, their hashes must also be equal.
+
+  First of, i am going to show you what happens if you try to use a `ref object`,
+  for the `key` of a Table:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/tables
+  <span class="hljs-keyword">import</span> std/hashes
+
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">RefKobold</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
+      name: <span class="hljs-built_in">string</span>
+      age: <span class="hljs-built_in">int</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  The following code will error, `initTable[keyType, valueType]()` does not work with **ref objects**.
+  It crashes immediately on any attempt of setting a **ref object**'s **fields**(not the case for normal objects),
+  with the error message of **SIGSEGV: Illegal storage access. (Attempt to read from nil?)**:
+&quot;&quot;&quot;</span>      
+nbCodeSkip:
+  <span class="hljs-keyword">var</span>
+    refKoboldTable = initTable[<span class="hljs-type">RefKobold</span>, <span class="hljs-built_in">string</span>]()
+    refOldKobold: <span class="hljs-type">RefKobold</span>
+    refGeomancerKobold: <span class="hljs-type">RefKobold</span>
+
+  refOldKobold.name = <span class="hljs-string">&quot;Goldtooth&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  So let's do what we did so far without the use of `initTable[ keyType, valueType ]()`,
+  but with direct initialization `{}.toOrderedTable`:
+&quot;&quot;&quot;</span> 
+nbCode:
+  <span class="hljs-keyword">var</span>
+    refOldKobold = <span class="hljs-type">RefKobold</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>)
+    refGeomancerKobold = <span class="hljs-type">RefKobold</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>)
+
+    refKoboldTable = {refOldKobold: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+  refOldKobold.name = <span class="hljs-string">&quot;NewGoldTooth&quot;</span>
+  
+<span class="hljs-comment">#nbImage(url=&quot;images/CompilerErrorCropped.png&quot;, caption=&quot;Ref Object Compiler Error&quot;)</span>
+  <span class="hljs-comment">#for some reason it's not showing...</span>
+nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;&lt;img src=&quot;images/CompilerError.png&quot; alt=&quot;Ref Object Compiler Error&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;&lt;img src=&quot;images/CompilerErrorCropped.png&quot; alt=&quot;Ref Object Compiler Error Cropped&quot;&gt;&quot;&quot;&quot;</span> 
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  As you can see, we get an error. 
+  This can be easily fixed by using the following compiler configuration parameter with a `config.nims` config file:
+  - `--d:nimPreviewHashRef`(1x &quot;-&quot; less when used in the terminal)
+
+  This configuration parameter allows for hashing of ref objects, 
+  and will likely be used by default in future version of Nim.
+
+  Due note that we haven't actually `hashed` the key(RefKobold) yet.
+
+  Now that the above code works, let's quickly see if the `keys`, `values` and `pairs` iterators,
+  work with the `ref` version of our Kobold object:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> refKoboldTable.keys: <span class="hljs-comment">#Yes</span>
+    <span class="hljs-keyword">echo</span> key[]
+
+nbCode:
+  <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> refKoboldTable.values: <span class="hljs-comment">#Yes</span>
+    <span class="hljs-keyword">echo</span> v
+
+nbCode:
+  <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable.pairs: <span class="hljs-comment">#Yes</span>
+    <span class="hljs-keyword">echo</span> key[], <span class="hljs-string">&quot; &quot;</span>, value
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Slight change from earlier, `ref` objects and other `ref` containers,
+  require dereferencing via `[]`.
+&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Even though it appears that we don't need any boilerplate code to make it work,
+  again `hashed` values are much more performant than their non hashed counterparts.
+  This is especially true for `objects`, which are often quite numerous in fields,
+  fields which can contain other containers and other objects(structures).
+
+  **Quick reminder:** `echo` and the implicitly called `items` iterator, do not work with objects as keys inside Tables.
+  Also, do not overload the implicitly called by default `items` iterator.
+&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now let's hash our `ref object` of RefKobold.
+  First let's bring the above boilerplate code and modify it to `RefKobold1`(example 1),
+  as arguments of the custom `hashedFields` iterator and the `hash` proc overload.
+  - iterator hashedFields(x: `Kobold`): Hash = -&gt; iterator hashedFields(x: `RefKobold1`): Hash =
+  - proc hash(x: `Kobold`): Hash = -&gt; proc hash(x: `RefKobold1`): Hash =
+
+  **Example 1 boilerplate code:**
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/tables
+  <span class="hljs-keyword">import</span> std/hashes
+
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">RefKobold1</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
+      name: <span class="hljs-built_in">string</span>
+      age: <span class="hljs-built_in">int</span>
+
+  <span class="hljs-keyword">iterator</span> hashedFields(x: <span class="hljs-type">RefKobold1</span>): <span class="hljs-type">Hash</span> =
+    <span class="hljs-keyword">yield</span> hash(x.name)
+    <span class="hljs-keyword">yield</span> hash(x.age)
+
+  <span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">RefKobold1</span>): <span class="hljs-type">Hash</span> =
+    <span class="hljs-comment">## Computes a Hash from `x`.</span>
+    <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Iterate over parts of `x`.</span>
+    <span class="hljs-keyword">for</span> xAtom <span class="hljs-keyword">in</span> x.hashedFields:
+      <span class="hljs-comment"># Mix the atom with the partial hash.</span>
+      h = h !&amp; xAtom
+    <span class="hljs-comment"># Finish the hash.</span>
+    <span class="hljs-literal">result</span> = !$h
+
+  <span class="hljs-keyword">var</span> 
+    refOldKobold1 = <span class="hljs-type">RefKobold1</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>)
+    refGeomancerKobold1 = <span class="hljs-type">RefKobold1</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>)
+
+    refKoboldTable1 = {refOldKobold1: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold1: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+  <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable1:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> key.hashedFields:
+      <span class="hljs-keyword">echo</span> field
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The following snippet of the code above is changed from `example 1`'s from earlier to this,
+  because the earlier version only looped trough the `object`'s fields inside a variable, not a `Table` like here:
+&quot;&quot;&quot;</span>
+nbCodeSkip:
+  <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable1:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> key.hashedFields:
+      <span class="hljs-keyword">echo</span> field
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **Example 2 boilerplate code:**
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/tables
+  <span class="hljs-keyword">import</span> std/hashes
+
+  <span class="hljs-keyword">type</span>
+    <span class="hljs-type">RefKobold2</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
+      name: <span class="hljs-built_in">string</span>
+      age: <span class="hljs-built_in">int</span>
+
+  <span class="hljs-keyword">proc</span> hash(x: <span class="hljs-type">RefKobold2</span>): <span class="hljs-type">Hash</span> =
+    <span class="hljs-comment">## Computes a Hash from `x`.</span>
+    <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
+    h = h !&amp; hash(x.name)
+    h = h !&amp; hash(x.age)
+    <span class="hljs-literal">result</span> = !$h
+
+  <span class="hljs-keyword">var</span> 
+    refOldKobold2 = <span class="hljs-type">RefKobold2</span>(name: <span class="hljs-string">&quot;Goldtooth&quot;</span>, age: <span class="hljs-number">31</span>).hash <span class="hljs-comment"># &lt;-</span>
+    refGeomancerKobold2 = <span class="hljs-type">RefKobold2</span>(name: <span class="hljs-string">&quot;Rocktooth&quot;</span>, age: <span class="hljs-number">20</span>).hash <span class="hljs-comment"># &lt;-</span>
+
+    refKoboldTable2 = {refOldKobold2: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold2: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
+
+  <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable2.pairs:
+    <span class="hljs-keyword">echo</span> key, <span class="hljs-string">&quot; &quot;</span>, value
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Or just reinserting the key: &quot;</span>, key, <span class="hljs-string">&quot; to get the value -&gt; &quot;</span>, refKoboldTable2[key]
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
+nbSection: <span class="hljs-string">&quot;All variants of Tables and some use cases&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+In this video, i have introduced you to the OrderedTable besides the normal unorded one from the Tables video.
+There is also the CountTable for mapping from a key to it's number of occurrences.
+
+And lastly, there a Ref/Reference versions of each, with `Ref` affixed/appended at the end like so:
+  - TableRef(         {}.newTable)
+  - OrderedTableRef(  {}.newOrderedTable)
+  - CountTableRef(    {}.newCountTable)
+
+In case it wasn't clear on when to use Tables(hashTables) in Nim, here are a few examples/use cases:
+  - Whenever you have 2 pieces of data that you want linked together(e.g. your phone contacts -&gt; name : number)
+  - Games/music listing on your computer(name of the game/music as key : value as location)
+  - When generating JSON(lightweight data-interchange format), before it gets stringified, it's represented as a Table(dictionary)
+  - Nested Tables(example 2 below)
+
+  Now let's make a new hashTable and hash one of it's keys, 
+  and then reinsert the hashed key from the output back into itself:
+  &quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/tables
+
+  <span class="hljs-keyword">var</span> tData = {<span class="hljs-number">1.</span>hash: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable
+  <span class="hljs-keyword">echo</span> tData
+
+  <span class="hljs-keyword">echo</span> tData[<span class="hljs-number">8641844181895329213</span>]
+  <span class="hljs-keyword">echo</span> tData[<span class="hljs-number">2</span>]
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Here we go, it worked perfectly.
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now lastly, i will show you a very useful proc for Tables called `mgetOrPut`.
+  `mgetOrPut` retrieves the value of a specified key, 
+  or inserts/puts a (key,value) pair into the Table if that (key,value) pair is not present,
+  and then returns back the value of that key in a modifiable state( `proc modifiable(a: var int) =` ):
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> stringIntTable = {<span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">4</span>}.newTable
+
+  <span class="hljs-keyword">echo</span> stringIntTable
+  <span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
+  <span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
+  <span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;c&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
+  <span class="hljs-keyword">echo</span> stringIntTable
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now that modifiable state of the value, can easily be accidentally used to create a copy of the value, 
+  instead of modifying it. This is the case when trying to use this `mgetOrPut() proc` with sequences and strings,
+  which are value types by design, meaning that they cannot be copied into a different variable,
+  and then use that variable to modify the value of a given key from the Table.
+  (This is mostly for people coming from other programming languages where sequences and strings are passed by reference)
+
+  (Note: if you see procs starting with `m`, as in `mThenSomeProcName`, it means it's modifiable e.g. `mitems`)
+
+  Here is an example of what not to do:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> declaredTable = newTable[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]]() <span class="hljs-comment">#No declaration with &quot;:&quot; for Tables</span>
+
+  <span class="hljs-keyword">var</span> copiedTable = declaredTable.mgetOrPut(<span class="hljs-number">10</span>, @[<span class="hljs-number">10</span>])
+
+  <span class="hljs-comment">#In other languages, this would add to key 10, 20 into @[10] -&gt; 10: @[10, 20], not in Nim</span>
+  copiedTable.add <span class="hljs-number">20</span> 
+
+  <span class="hljs-keyword">echo</span> declaredTable
+  <span class="hljs-keyword">echo</span> copiedTable
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Since the value returned by `mgetOrPut` proc is modifiable, you can do the following:
+&quot;&quot;&quot;</span>
+nbCode:
+  declaredTable.mgetOrPut(<span class="hljs-number">10</span>, @[<span class="hljs-number">10</span>]).add <span class="hljs-number">50</span>
+  <span class="hljs-keyword">echo</span> declaredTable  
+
+nbSection: <span class="hljs-string">&quot;hashSets&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  First of, hashSets are allocated on the heap.
+
+  Now let's make the simplest hashSet data type a normal Set cannot use, String.
+  We cannot declare an empty hashSet, it can only be initialized.
+  So this example is just for show, since every hashSet is always initialized
+  in this same way by default anyways.
+  We are going to need the `sets` module for all hashSets.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/sets
+  <span class="hljs-keyword">var</span> emptyHashSet = initHashSet[<span class="hljs-built_in">string</span>]()
+
+  <span class="hljs-keyword">echo</span> emptyHashSet
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now the initialization version:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> hashedString = [<span class="hljs-string">&quot;Hello, World!&quot;</span>].toHashSet
+
+  <span class="hljs-keyword">echo</span> hashedString
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  Now remember that the order of the elements is unordered, not the value of an element.
+
+  Now let's have a look on how hashSets and hashTables look like in procs:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">proc</span> paramHashSet(data: <span class="hljs-type">HashSet</span>): <span class="hljs-type">HashSet</span> = <span class="hljs-comment"># data: initHashSet[string]() does NOT work</span>
+    data
+
+  <span class="hljs-keyword">proc</span> paramHashTable(data: <span class="hljs-type">Table</span>): <span class="hljs-type">Table</span> = <span class="hljs-comment">#same for hashTables</span>
+    data
+
+  <span class="hljs-keyword">proc</span> initParamHashTable(data = {<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}.toTable) =
+    <span class="hljs-keyword">echo</span> data <span class="hljs-comment">#We have to use this &quot;data&quot;, the compiler will not let us return it with the &quot;result&quot; variable, it must be used right here</span>
+
+  <span class="hljs-keyword">echo</span> paramHashSet([<span class="hljs-number">3.14</span>].toHashSet)
+  <span class="hljs-keyword">echo</span> paramHashTable({<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>}.toTable)
+  initParamHashTable()
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  There is an additional operation you can do with hashSets that you cannot do with normal Sets, which is `symmetricDifference(s1, s2)`.
+  `-+-` is the alias for that proc. This proc gives you only the elements that are not present in both sets at the same time.
+  
+  E.g. `if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c']` because `'a'` is only in one of them, and the same goes for `'c'`. 
+  `'b'` is in both of them so it gets excluded from this list.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> setSD1 = [(<span class="hljs-string">&quot;key1&quot;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>)].toHashSet <span class="hljs-comment">#Anonymous tuple - must be inside [], and tuples require (,) -&gt; [()]</span>
+  <span class="hljs-keyword">let</span> setSD2 = [(<span class="hljs-string">&quot;key2&quot;</span>, <span class="hljs-number">20</span>), (<span class="hljs-string">&quot;key3&quot;</span>, <span class="hljs-number">30</span>)].toHashSet
+
+  <span class="hljs-keyword">echo</span> setSD1
+  <span class="hljs-keyword">echo</span> setSD2
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-keyword">echo</span> setSD1 -+- setSD2
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  There is also `disjoint(s1, s2: bool)` returns true if the sets s1 and s2 have no items in common,
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> setD1 = [<span class="hljs-number">9223372036854775807</span>, -<span class="hljs-number">9223372036854775807</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#9,223,372,036,854,775,807 or -/negative of that value is the max value of int64</span>
+  <span class="hljs-keyword">let</span> setD2 = [<span class="hljs-number">2147483648</span>, -<span class="hljs-number">2147483648</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#2,147,483,647 or -/negative of that value, is the max value of int32, had to add +1 and -1 at the end  to make them int64, otherwise disjoint won't work</span>
+
+  <span class="hljs-keyword">echo</span> setD1
+  <span class="hljs-keyword">echo</span> setD2
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-keyword">echo</span> disjoint(setD1, setD2)
+    
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  `missingOrExcl(s, key)` Excludes a key and tells you if the key was already missing from `s`. (no proc for missingOrIncl)
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> setMOE = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+
+  <span class="hljs-keyword">echo</span> setMOE
+
+  <span class="hljs-keyword">if</span> setMOE.missingOrExcl(<span class="hljs-number">1</span>):
+    <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
+  <span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
+
+  <span class="hljs-keyword">if</span> setMOE.missingOrExcl(<span class="hljs-number">1</span>):
+    <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
+  <span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
+
+  <span class="hljs-keyword">echo</span> setMOE
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  `containsOrIncl(s, key)` Includes a key in the set `s` and tells if key was already in `s`.
+  Inverse of missingOrExcl(s, key)
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> setCOI = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
+
+  <span class="hljs-keyword">echo</span> setCOI
+
+  <span class="hljs-keyword">block</span> <span class="hljs-type">COI</span>:
+    <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>):
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
+    <span class="hljs-keyword">else</span>:
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span>
+
+    <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>):
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
+    <span class="hljs-keyword">else</span>:
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  `map(data, op)` Returns a new set after applying `op` -&gt; `proc(anonymous proc)` on each of the elements of `data` set.
+  Here is a simple example from the Sets module that demonstrates the `map` proc very well:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it with &quot;b&quot;</span>
+    a = toHashSet([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+    b = a.map(<span class="hljs-keyword">proc</span> (x: <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> = $x)
+
+  <span class="hljs-keyword">echo</span> a
+  <span class="hljs-keyword">echo</span> b
+  
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  And here is my example at this proc:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> setM = [<span class="hljs-string">&quot;lowercase&quot;</span>, <span class="hljs-string">&quot;UPPERCASE&quot;</span>, <span class="hljs-string">&quot;l&quot;</span>, <span class="hljs-string">&quot;U&quot;</span>].toHashSet <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it</span>
+
+  <span class="hljs-keyword">let</span> setNewL = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
+    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
+      <span class="hljs-keyword">if</span> c.isLowerAscii: <span class="hljs-comment">#== true needless verbosity</span>
+        <span class="hljs-literal">result</span> = elem)
+
+  <span class="hljs-keyword">let</span> setNewU = setM.map(<span class="hljs-keyword">proc</span> (elem: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> = 
+    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> elem:
+      <span class="hljs-keyword">if</span> c.isLowerAscii != <span class="hljs-literal">true</span>:
+        <span class="hljs-literal">result</span> = elem)
+    
+  <span class="hljs-keyword">echo</span> setNewL
+  <span class="hljs-keyword">echo</span> setNewU
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  The default return value of a proc returning string is `&quot;&quot;` empty string,
+  that is why there are 2x `&quot;&quot;` empty string elements in the output.
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  `clear(s)` Clears the hashSet back to an empty state, without shrinking any of the existing storage.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> someSizedSet = [<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>, <span class="hljs-string">&quot;4&quot;</span>, <span class="hljs-string">&quot;5&quot;</span>].toHashSet
+  <span class="hljs-keyword">var</span> copiedSet = someSizedSet
+
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;someSizedSet: &quot;</span>, someSizedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;copiedSet: &quot;</span>, copiedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+
+  copiedSet.clear
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;someSizedSet: &quot;</span>, someSizedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;copiedSet: &quot;</span>, copiedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  As you can see, the size remained at 24 bytes.
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  `pop(s)` Removes and returns an element from the set `s`. 
+  You cannot specify which element to pop.
+
+  Here is some sample code that shows how it works(not the use case):
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> myHashSet = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>].toHashSet
+
+  <span class="hljs-keyword">echo</span> myHashSet.pop <span class="hljs-comment">#You can't specify what element to pop</span>
+  <span class="hljs-keyword">echo</span> myHashSet.pop
+  <span class="hljs-keyword">echo</span> myHashSet.pop
+
+  <span class="hljs-keyword">if</span> myHashSet.len != <span class="hljs-number">0</span>:
+    <span class="hljs-keyword">echo</span> myHashSet.pop
+  <span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;myHashSet is empty&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  **There is a use case for the `pop`** proc. For example if you have a pool of jobs to be done in no particular order.
+  Let's say that on weekends you clean your room, do your laundry, change the sheets, etc. That job only requires to be done once.
+  So you would use a doTheJob()/processJob() proc that would `pop` a job from your pool of jobs and execute it.
+  Once all the jobs are done, you can put the exact same ones back in when weekend comes, or some relatives are coming to visit.
+  Here is an example:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">proc</span> executeJob(job: <span class="hljs-built_in">string</span>) =
+    <span class="hljs-keyword">echo</span> job, <span class="hljs-string">&quot; finished&quot;</span>
+
+  <span class="hljs-keyword">var</span> jobs = [<span class="hljs-string">&quot;laundry&quot;</span>, <span class="hljs-string">&quot;sheets&quot;</span>, <span class="hljs-string">&quot;cleaning&quot;</span>].toHashSet
+
+  <span class="hljs-keyword">while</span> jobs.len != <span class="hljs-number">0</span>:
+    <span class="hljs-keyword">let</span> job = jobs.pop
+    job.executeJob
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  And lastly `[]` - Which returns the element that is actually stored in `s` which has the same value as `key`, 
+  or raises the `KeyError` exception. This is useful when one overloaded the `hash` proc, 
+  and the `==` operator, but still needs reference semantics for sharing.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> setWithAKey = [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;tree&quot;</span>].toHashSet
+  <span class="hljs-keyword">echo</span> setWithAKey[<span class="hljs-string">&quot;one&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, setWithAKey[<span class="hljs-string">&quot;one&quot;</span>].<span class="hljs-keyword">type</span>
+
+nbSection: <span class="hljs-string">&quot;hashSet use cases&quot;</span>
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  One of the hashSet uses cases is very similar to the last use case example of the previous video of normal Sets.
+  The example being, splitting a string based on character elements as separators.
+  With hashSets, we can go a step further. We can use whole words as separators.
+  So let's use the `split()` proc we made in the last tutorial and update it for string hashSets.
+  We are also going to add another argument of type bool, to tell the proc if we are working with set[char],
+  or hashSet[string]. Currently the compiler cannot infer which to use, 
+  since the second argument of `seps` is not an argument we can give, since it is already initialized.
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  **Original version:**
+&quot;&quot;&quot;</span>
+nbCode: <span class="hljs-comment">#Original version</span>
+  <span class="hljs-keyword">import</span> std/strutils
+
+  <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}): <span class="hljs-built_in">string</span> = 
+    <span class="hljs-keyword">var</span> splitString = s
+    <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+    <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+      c = splitString.find(sep)
+      splitString.delete(c, c)
+    
+    <span class="hljs-literal">result</span> = splitString
+          
+  <span class="hljs-keyword">var</span> myString = <span class="hljs-string">&quot;Hello , World !?&quot;</span> 
+  <span class="hljs-keyword">echo</span> myString
+
+  <span class="hljs-keyword">echo</span> myString.split 
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+  **Modified version:**
+&quot;&quot;&quot;</span>
+nbCode: <span class="hljs-comment">#Modified version for string hashSets</span>
+  <span class="hljs-keyword">import</span> std/strutils
+
+  <span class="hljs-keyword">proc</span> split(s: <span class="hljs-built_in">string</span>; useNormalSet: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">string</span> = 
+    <span class="hljs-keyword">if</span> useNormalSet:
+      <span class="hljs-keyword">var</span> seps: <span class="hljs-built_in">set</span>[<span class="hljs-built_in">char</span>] =  {<span class="hljs-string">' '</span>, <span class="hljs-string">'!'</span>, <span class="hljs-string">'?'</span>}
+      <span class="hljs-keyword">var</span> splitString = s
+      <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+      <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+        c = splitString.find(sep)
+        splitString.delete(c, c) 
+        
+      <span class="hljs-literal">result</span> = splitString
+    <span class="hljs-keyword">else</span>:
+      <span class="hljs-keyword">var</span> seps = [<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>].toHashSet
+      <span class="hljs-keyword">var</span> splitString = s
+      <span class="hljs-keyword">var</span> c: <span class="hljs-built_in">int</span>
+
+      <span class="hljs-keyword">for</span> sep <span class="hljs-keyword">in</span> seps:
+        c = splitString.find(sep)
+
+        <span class="hljs-keyword">if</span> (c + sep.len) &lt; splitString.len:
+          splitString.delete(c, c+sep.len)
+    
+      <span class="hljs-literal">result</span> = splitString
+          
+  <span class="hljs-keyword">echo</span> myString.split(<span class="hljs-literal">true</span>)
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I have a var, a const, and a let me in pony&quot;</span>.split(<span class="hljs-literal">false</span>) <span class="hljs-comment">#43 length</span>
+
+nbSection: <span class="hljs-string">&quot;Quick re-explanation of hashing&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  In case i did not explain or convey this information well -&gt;
+  Hashing a value with the `hash` proc(lower case &quot;h&quot;), returns a value of type `Hash` (uppercase &quot;H&quot;),
+  which allows for containers such as `arrays`, `sequences`, `sets(hashSets)`, etc,
+  which only allow for a single data type to be used,
+  to instead store just about `any` data type you want.
+  Obviously this also works for variables and structures such as objects, tuples, etc.
+
+  Hash values must be available for any type that you want to use as a `key` in a so called Table data structure.
+  And also again, for `hashing` of usually complex and large structures such as `objects`,
+  and obviously Tables(implemented in such a way) for the reasons of `speed`.
+  Tables are also often called dictionaries or `lookup` tables.
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
+## OUTRO - AFTERWORDS
+
+  Okay, that's it for this video, thanks for watching like, share and subscribe, 
+    aswell as click the bell icon if you liked it and want more, 
+    you can also follow me on twitter of the same name, and support me on Patreon. 
+    If you had any problems with any part of the video, 
+    let me know in the comment section, 
+    the code of this video, script and documentation, are in the link in the description,
+    as a form of written tutorial.
+
+### Thanks to my past and current Patrons
+&lt;b&gt;Past Patrons:&lt;/b&gt;
+- Goose_Egg: From April 4th 2021 to May 10th 2022
+- Davide Galilei(1x month)
+
+&lt;b&gt;Current Patrons&lt;/b&gt;
+- None
+
+&lt;b&gt;Compiler information&lt;/b&gt;
+- Version used: E.G. 2.0.2
+- Compiler settings used: --d:nimPreviewHashRef(when specified in the section of Ref Objects as keys of Tables)
+- Timestamps:
+  - 00:15 Start of video example
+  
+&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
+
+&lt;b&gt;LINKS:&lt;/b&gt;
+- [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
+- [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
+- [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
+
+&lt;b&gt;LINKS to this video's subject:&lt;/b&gt;
+- [Tables(hashTables)](https://nim-lang.org/docs/tables.html &quot;Tables(hashTables)&quot;)
+- [hashSets](https://nim-lang.org/docs/sets.html &quot;hashSets&quot;)
+- [Hashes](https://nim-lang.org/docs/hashes.html &quot;Hashes&quot;)
+&quot;&quot;&quot;</span>
+
+nbSave()</code></pre>
+</section><script>
+function toggleSourceDisplay() {
+  var btn = document.getElementById("show")
+  var source = document.getElementById("source");
+  if (btn.innerHTML=="Show Source") {
+    btn.innerHTML = "Hide Source";
+    source.style.display = "block";
+  } else {
+    btn.innerHTML = "Show Source";
+    source.style.display = "none";
+  }
+}
+</script></body>
+</html>
