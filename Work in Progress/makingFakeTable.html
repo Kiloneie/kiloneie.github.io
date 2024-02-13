@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>Video Data\documentation.nim</title>
+  <title>Video Data\makingFakeTable.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -44,7 +44,7 @@ pre > code {
 <header>
 <div class="nb-box">
   <span><a href="..">🏡</a></span>
-  <span><code>Video Data\documentation.nim</code></span>
+  <span><code>Video Data\makingFakeTable.nim</code></span>
   <span></span>
 </div>
 <hr>
@@ -619,6 +619,32 @@ at once. Like this:</p>
 <span class="hljs-keyword">echo</span> l1</code></pre><pre class="nb-output">var
 const
 let</pre>
+<p>You may also ommit assignment of any of them:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> (v2, _, l2) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
+
+<span class="hljs-keyword">let</span> (_, _, _) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)</code></pre>
+<p>Not sure why anyone would ommit all of them... but you can!</p>
+<p>All of this is treated as syntatic sugar for basically the following code(look at the first example):</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span>
+  temporaryTuple = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
+  v3 = temporaryTuple[<span class="hljs-number">0</span>]
+  c3 = temporaryTuple[<span class="hljs-number">1</span>]
+  l3 = temporaryTuple[<span class="hljs-number">2</span>]</code></pre>
+<p>I don't think i have ever shown this before, but yes, you can access any field of a <code>tuple</code>,
+without knowing the name of the field, especially useful for <code>anonymous</code> tuples like here(fields without names).
+I do recommend though, that you do use the <code>names</code> of the fields over the <code>index</code> when the <code>names</code> are present.</p>
+<p>(When tuple unpacking with tuples with numbers(literals) into <code>var</code> and <code>let</code> variables,
+they get assigned their values without a <code>temporaryTuple</code>)</p>
+<p>Since you can nest any container withing another container(array, seq, set, table, etc),
+as well as data structure in a data structure(object, tuple),
+you can also use nested tuples for tuple unpacking, like this:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> returnsNestedTuple(): (<span class="hljs-built_in">int</span>, (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>), <span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>) = (<span class="hljs-number">4</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">7</span>), <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
+
+<span class="hljs-keyword">let</span> (x, (_, y), _, z) = returnsNestedTuple()</code></pre>
+<p>I have NO ideas of a good example of tuple unpacking... in this entire endeavour of making a FakeTable,
+i had no use for it.</p>
+<p>This script is complete from our standpoint, time to send for review,
+and find what to do next.</p>
 <h2>OUTRO - AFTERWORDS</h2>
 <p>Okay, that's it for this video, thanks for watching like, share and subscribe,
 aswell as click the bell icon if you liked it and want more,
@@ -1432,7 +1458,48 @@ nbCode:
   <span class="hljs-keyword">echo</span> v1
   <span class="hljs-keyword">echo</span> c1
   <span class="hljs-keyword">echo</span> l1
-  
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  You may also ommit assignment of any of them:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> (v2, _, l2) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
+
+  <span class="hljs-keyword">let</span> (_, _, _) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Not sure why anyone would ommit all of them... but you can!
+
+  All of this is treated as syntatic sugar for basically the following code(look at the first example):
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span>
+    temporaryTuple = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
+    v3 = temporaryTuple[<span class="hljs-number">0</span>]
+    c3 = temporaryTuple[<span class="hljs-number">1</span>]
+    l3 = temporaryTuple[<span class="hljs-number">2</span>]
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  I don't think i have ever shown this before, but yes, you can access any field of a `tuple`,
+  without knowing the name of the field, especially useful for `anonymous` tuples like here(fields without names).
+  I do recommend though, that you do use the `names` of the fields over the `index` when the `names` are present.
+
+  (When tuple unpacking with tuples with numbers(literals) into `var` and `let` variables,
+  they get assigned their values without a `temporaryTuple`)
+
+  Since you can nest any container withing another container(array, seq, set, table, etc), 
+  as well as data structure in a data structure(object, tuple),
+  you can also use nested tuples for tuple unpacking, like this:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">proc</span> returnsNestedTuple(): (<span class="hljs-built_in">int</span>, (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>), <span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>) = (<span class="hljs-number">4</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">7</span>), <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
+
+  <span class="hljs-keyword">let</span> (x, (_, y), _, z) = returnsNestedTuple()
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  I have NO ideas of a good example of tuple unpacking... in this entire endeavour of making a FakeTable,
+  i had no use for it.
+
+  This script is complete from our standpoint, time to send for review,
+  and find what to do next.
+&quot;&quot;&quot;</span>
 
 nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
 ## OUTRO - AFTERWORDS
