@@ -68,6 +68,52 @@ table tbody tr:nth-child(2n) {
 <li><a href="#metaprogramming-in-nim">Metaprogramming in Nim</a></li>
 <li><a href="#work-in-progress">Work in Progress</a></li>
 </ol>
+      <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+      <style>
+      body {} <!-- This is a comment, this needs to be here body {} -->
+
+      #myBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+
+      #myBtn:hover {background-color: #555;}
+      </style>
+      <body>
+
+      <button onclick = "topFunction()" id = "myBtn" title = "Go to top">Top</button>
+
+      <script>
+      // Get the button
+      let mybutton = document.getElementById("myBtn");
+
+      // When the user scrolls down 20px from the top of the document, show the button
+      window.onscroll = function() {scrollFunction()};
+
+      function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          mybutton.style.display = "block";
+        } else {mybutton.style.display = "none";}
+      }
+
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+      </script>
+    
 <ul>
 <li>
 <p>This is the index file to list all of my nimib styled offline tutorials of my Nim Tutorial videos,
@@ -97,9 +143,7 @@ organized by their respective video series.
 <p><a name = "work-in-progress"></a></p>
 <h1>Work in Progress</h1>
 <hr />
-<ul>
-<li><a href = "Work in Progress/documentation.html">documentation.html</a><br>- <a href = "Work in Progress/makingFakeTable.html">makingFakeTable.html</a><br>- <a href = "Work in Progress/scriptWSlides.html">scriptWSlides.html</a><br></li>
-</ul>
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><b>LINKS:</b></p>
 <ul>
 <li><a href="https://nim-lang.org" title="Nim's main page">Nim's main page</a></li>
@@ -172,8 +216,67 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
   nbToc.output.add <span class="hljs-string">&quot;1. &lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
+<span class="hljs-keyword">template</span> nbSubSection(name:<span class="hljs-built_in">string</span>) =
+  index.subsection.inc
+
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name = </span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; <span class="hljs-string">&quot;&amp;nbsp;&amp;nbsp;&quot;</span> &amp; $index.section &amp; <span class="hljs-string">&quot;.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">&quot;. &quot;</span>  &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span> <span class="hljs-comment">#&amp;nbsp; is inline HTML for a single white space(nothing in markdown)</span>
+  <span class="hljs-comment"># see below, but any number works for a numbered list</span>
+  nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+  <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-keyword">template</span> addButtonBackToTop() =
+  nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+      &lt;meta name = &quot;viewport&quot; content = &quot;width=device-width, initial-scale = 1&quot;&gt;
+      &lt;style&gt;
+      body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
+
+      #myBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+
+      #myBtn:hover {background-color: #555;}
+      &lt;/style&gt;
+      &lt;body&gt;
+
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;myBtn&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+
+      &lt;script&gt;
+      // Get the button
+      let mybutton = document.getElementById(&quot;myBtn&quot;);
+
+      // When the user scrolls down 20px from the top of the document, show the button
+      window.onscroll = function() {scrollFunction()};
+
+      function scrollFunction() {
+        if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
+          mybutton.style.display = &quot;block&quot;;
+        } else {mybutton.style.display = &quot;none&quot;;}
+      }
+
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+      &lt;/script&gt;
+    &quot;&quot;&quot;</span>
+
 <span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
 addToc() 
+addButtonBackToTop()
 
 <span class="hljs-comment">#Do NOT forget to have the .html file OPEN at all times, otherwise </span>
   <span class="hljs-comment">#live preview will NOT work! ANY live preview!</span>
