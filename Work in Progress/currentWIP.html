@@ -49,6 +49,9 @@ pre > code {
 </div>
 <hr>
 </header><main>
+<script>
+  if (typeof screen.orientation !== 'undefined') {alert("Today's date is " + d);}
+</script>
 <h2>Table of Contents:</h2>
 <ul>
 <li>1. <a href="#multiple-type-arguments-and-returns">Multiple Type Arguments and Returns</a>
@@ -86,11 +89,11 @@ pre > code {
 </ul>
 </li>
 </ul>
-      <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+      <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
       body {} <!-- This is a comment, this needs to be here body {} -->
 
-      #myBtn {
+      #ToTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -106,15 +109,15 @@ pre > code {
         border-radius: 4px;
       }
 
-      #myBtn:hover {background-color: #555;}
+      #ToTop:hover {background-color: #555;}
       </style>
       <body>
 
-      <button onclick = "topFunction()" id = "myBtn" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "ToTop" title = "Go to top">Top</button>
 
       <script>
       // Get the button
-      let mybutton = document.getElementById("myBtn");
+      let mybutton = document.getElementById("ToTop");
 
       // When the user scrolls down 20px from the top of the document, show the button
       window.onscroll = function() {scrollFunction()};
@@ -698,11 +701,11 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
 
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
   nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
-      &lt;meta name = &quot;viewport&quot; content = &quot;width=device-width, initial-scale = 1&quot;&gt;
+      &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
       &lt;style&gt;
       body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
 
-      #myBtn {
+      #ToTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -718,15 +721,15 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
         border-radius: 4px;
       }
 
-      #myBtn:hover {background-color: #555;}
+      #ToTop:hover {background-color: #555;}
       &lt;/style&gt;
       &lt;body&gt;
 
-      &lt;button onclick = &quot;topFunction()&quot; id = &quot;myBtn&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;ToTop&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
 
       &lt;script&gt;
       // Get the button
-      let mybutton = document.getElementById(&quot;myBtn&quot;);
+      let mybutton = document.getElementById(&quot;ToTop&quot;);
 
       // When the user scrolls down 20px from the top of the document, show the button
       window.onscroll = function() {scrollFunction()};
@@ -744,6 +747,15 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
       }
       &lt;/script&gt;
     &quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#Checking if mobile user</span>
+nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+&lt;script&gt;
+  if (typeof screen.orientation !== 'undefined') {alert(&quot;Today's date is &quot; + d);}
+&lt;/script&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#If yes, we will put the button and the bottom right most point of the content area and transparent,</span>
+  <span class="hljs-comment">#until hovered and clicked</span>
 
 <span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
 addToc() 
