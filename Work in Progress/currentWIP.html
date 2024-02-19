@@ -109,15 +109,15 @@ pre > code {
 
       #toTopMobile {
         display: none;
-        position: fixed;
-        bottom: -6px;
-        right: 540px;
+        position: sticky;
+        bottom: -86px;
+        right: 500px;
         z-index: 99;
         font-size: 18px;
         border: none;
         outline: none;
         background-color: #1A222D;
-        color: red;
+        color: white;
         cursor: pointer;
         padding: 15px;
         border-radius: 4px;
@@ -172,6 +172,10 @@ pre > code {
 
         if (hasTouchScreen)
             currentButton = myButtonMobile
+
+        //Well it now works!!!, but, we need to move it more to the right
+          //and it only follows correctly when we scroll down,
+          //if we go back up, it stays down there
 
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
@@ -778,15 +782,15 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
 
       #toTopMobile {
         display: none;
-        position: fixed;
-        bottom: -6px;
-        right: 540px;
+        position: sticky;
+        bottom: -86px;
+        right: 500px;
         z-index: 99;
         font-size: 18px;
         border: none;
         outline: none;
         background-color: #1A222D;
-        color: red;
+        color: white;
         cursor: pointer;
         padding: 15px;
         border-radius: 4px;
@@ -841,6 +845,10 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
 
         if (hasTouchScreen)
             currentButton = myButtonMobile
+
+        //Well it now works!!!, but, we need to move it more to the right
+          //and it only follows correctly when we scroll down,
+          //if we go back up, it stays down there
 
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
