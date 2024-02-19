@@ -179,6 +179,10 @@ nbSection "Work in Progress"
 let workInProgress = findAndOutputTutorials("Work in Progress")
 nbText: hlMdF"" & workInProgress
 
+nbSection "Extra Content"
+let extraContent = findAndOutputTutorials("Extra Content")
+nbText: hlMdF"" & extraContent
+
 nbText: hlMdF"""
 <b>LINKS:</b>
 - [Nim's main page](https://nim-lang.org "Nim's main page")
