@@ -136,10 +136,42 @@ pre > code {
         let myButtonMobile = document.getElementById("toTopMobile");
         var currentButton = myButton
 
-        // If on Mobile
-        //if (typeof screen.orientation == 'undefined') {currentButton = myButtonMobile}
+        var hasTouchScreen = false;
 
-        if (( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 )) {currentButton = myButtonMobile}
+        // Detecting if the device is a mobile device
+        if ("maxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints > 0;
+          } 
+        else if ("msMaxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints > 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+
+            if (mQ && mQ.media === "(pointer:coarse)") 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
 
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
@@ -773,10 +805,42 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
         let myButtonMobile = document.getElementById(&quot;toTopMobile&quot;);
         var currentButton = myButton
 
-        // If on Mobile
-        //if (typeof screen.orientation == 'undefined') {currentButton = myButtonMobile}
+        var hasTouchScreen = false;
 
-        if (( window.innerWidth &lt;= 800 ) &amp;&amp; ( window.innerHeight &lt;= 600 )) {currentButton = myButtonMobile}
+        // Detecting if the device is a mobile device
+        if (&quot;maxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints &gt; 0;
+          } 
+        else if (&quot;msMaxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints &gt; 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia &amp;&amp; matchMedia(&quot;(pointer:coarse)&quot;);
+
+            if (mQ &amp;&amp; mQ.media === &quot;(pointer:coarse)&quot;) 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
 
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
