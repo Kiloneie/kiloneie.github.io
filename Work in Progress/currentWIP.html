@@ -49,9 +49,6 @@ pre > code {
 </div>
 <hr>
 </header><main>
-<script>
-  if (typeof screen.orientation !== 'undefined') {alert("Today's date is " + d);}
-</script>
 <h2>Table of Contents:</h2>
 <ul>
 <li>1. <a href="#multiple-type-arguments-and-returns">Multiple Type Arguments and Returns</a>
@@ -93,7 +90,7 @@ pre > code {
       <style>
       body {} <!-- This is a comment, this needs to be here body {} -->
 
-      #ToTop {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -108,31 +105,57 @@ pre > code {
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #ToTop:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -6px;
+        right: 540px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        color: red;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       </style>
       <body>
 
-      <button onclick = "topFunction()" id = "ToTop" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTop" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTopMobile" title = "Go to top">Top</button>
 
       <script>
-      // Get the button
-      let mybutton = document.getElementById("ToTop");
+        // Get the button
+        let myButton = document.getElementById("toTop");
+        let myButtonMobile = document.getElementById("toTopMobile");
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        // If on Mobile
+        //if (typeof screen.orientation == 'undefined') {currentButton = myButtonMobile}
 
-      function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-          mybutton.style.display = "block";
-        } else {mybutton.style.display = "none";}
-      }
+        if (( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 )) {currentButton = myButtonMobile}
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            currentButton.style.display = "block";
+          } else {currentButton.style.display = "none";}
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       </script>
     
 <h2>INTRO - GREETING</h2>
@@ -705,7 +728,7 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
       &lt;style&gt;
       body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
 
-      #ToTop {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -720,39 +743,69 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #ToTop:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -6px;
+        right: 540px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        color: red;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       &lt;/style&gt;
       &lt;body&gt;
 
-      &lt;button onclick = &quot;topFunction()&quot; id = &quot;ToTop&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTop&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTopMobile&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
 
       &lt;script&gt;
-      // Get the button
-      let mybutton = document.getElementById(&quot;ToTop&quot;);
+        // Get the button
+        let myButton = document.getElementById(&quot;toTop&quot;);
+        let myButtonMobile = document.getElementById(&quot;toTopMobile&quot;);
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        // If on Mobile
+        //if (typeof screen.orientation == 'undefined') {currentButton = myButtonMobile}
 
-      function scrollFunction() {
-        if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
-          mybutton.style.display = &quot;block&quot;;
-        } else {mybutton.style.display = &quot;none&quot;;}
-      }
+        if (( window.innerWidth &lt;= 800 ) &amp;&amp; ( window.innerHeight &lt;= 600 )) {currentButton = myButtonMobile}
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
+            currentButton.style.display = &quot;block&quot;;
+          } else {currentButton.style.display = &quot;none&quot;;}
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       &lt;/script&gt;
     &quot;&quot;&quot;</span>
 
 <span class="hljs-comment">#Checking if mobile user</span>
-nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+<span class="hljs-comment">#[ nbRawHtml: &quot;&quot;&quot;
 &lt;script&gt;
-  if (typeof screen.orientation !== 'undefined') {alert(&quot;Today's date is &quot; + d);}
-&lt;/script&gt;&quot;&quot;&quot;</span>
+  if (typeof screen.orientation !== 'undefined') {
+      let d = new Date();
+      document.body.innerHTML = &quot;&lt;h1&gt;Today's date is &quot; + d + &quot;&lt;/h1&gt;&quot;
+  }
+&lt;/script&gt;
+&quot;&quot;&quot; ]#</span>
 
 <span class="hljs-comment">#If yes, we will put the button and the bottom right most point of the content area and transparent,</span>
   <span class="hljs-comment">#until hovered and clicked</span>
