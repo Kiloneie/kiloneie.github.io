@@ -366,7 +366,7 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
     countedNumbers.add (tempNum, tempSeq)
   
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;countedNumbers:&quot;</span>
-<span class="hljs-keyword">echo</span> countedNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-comment">#echo countedNumbers; echo &quot;&quot; #uncomment after fix</span>
 
 <span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
 <span class="hljs-keyword">var</span> smallestNumber: (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]) = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[])
@@ -388,8 +388,6 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
 @[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]
 
 countedNumbers:
-@[(1, @[0]), (2, @[1]), (50, @[2]), (20, @[3]), (100, @[4, 10]), (0, @[5, 9, 11]), (-5, @[6]), (68, @[7]), (-100, @[8])]
-
 sortedListOfNumbers
 @[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre>
 <p>As you can see, for just sorting numbers in a sequence, it takes a lot of code to do so.</p>
@@ -473,18 +471,16 @@ and on the fields of a <code>type</code> like so:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
 <span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)
 
-<span class="hljs-keyword">echo</span> genericObject, <span class="hljs-string">&quot; of type &quot;</span>, genericObject.typeof
-<span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof</code></pre><pre class="nb-output">(data: &quot;A String&quot;) of type GenericObject[system.string]
-(data: 101) of type GenericObject[system.int]</pre>
+<span class="hljs-comment">#echo genericObject, &quot; of type &quot;, genericObject.typeof #uncomment after fix</span>
+<span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof</code></pre><pre class="nb-output">(data: 101) of type GenericObject[system.int]</pre>
 <p><a name = "generic-tuple-initialization"></a></p>
 <h2>  3.3. Generic Tuple Initialization</h2>
 <hr />
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
 <span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)
 
-<span class="hljs-keyword">echo</span> genericTuple, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple.typeof
-<span class="hljs-keyword">echo</span> genericTuple2, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple2.typeof</code></pre><pre class="nb-output">(name: &quot;Bob&quot;, age: 20) of type GenericTuple[system.string, system.int]
-(name: @[0.5, 1.1, 3.25], age: true) of type GenericTuple[seq[float], system.bool]</pre>
+<span class="hljs-comment">#echo genericTuple, &quot; of type &quot;, genericTuple.typeof #uncomment after fix</span>
+<span class="hljs-comment">#echo genericTuple2, &quot; of type &quot;, genericTuple2.typeof #uncomment after fix</span></code></pre>
 <p>Calling generic procs and iterators is exactly the same as non generic versions,
 unlike structures like <code>objects</code> and <code>tuples</code>(shown above).</p>
 <p><a name = "more-overloading"></a></p>
@@ -1102,7 +1098,7 @@ nbCode:
       countedNumbers.add (tempNum, tempSeq)
     
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;countedNumbers:&quot;</span>
-  <span class="hljs-keyword">echo</span> countedNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-comment">#echo countedNumbers; echo &quot;&quot; #uncomment after fix</span>
 
   <span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
   <span class="hljs-keyword">var</span> smallestNumber: (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]) = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[])
@@ -1225,7 +1221,7 @@ nbCode:
   <span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
   <span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)
 
-  <span class="hljs-keyword">echo</span> genericObject, <span class="hljs-string">&quot; of type &quot;</span>, genericObject.typeof
+  <span class="hljs-comment">#echo genericObject, &quot; of type &quot;, genericObject.typeof #uncomment after fix</span>
   <span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof
 
 nbSubSection <span class="hljs-string">&quot;Generic Tuple Initialization&quot;</span>
@@ -1233,8 +1229,8 @@ nbCode:
   <span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
   <span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)
 
-  <span class="hljs-keyword">echo</span> genericTuple, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple.typeof
-  <span class="hljs-keyword">echo</span> genericTuple2, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple2.typeof
+  <span class="hljs-comment">#echo genericTuple, &quot; of type &quot;, genericTuple.typeof #uncomment after fix</span>
+  <span class="hljs-comment">#echo genericTuple2, &quot; of type &quot;, genericTuple2.typeof #uncomment after fix</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Calling generic procs and iterators is exactly the same as non generic versions,
   unlike structures like `objects` and `tuples`(shown above).
