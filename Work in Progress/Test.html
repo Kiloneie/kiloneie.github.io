@@ -139,12 +139,12 @@ pre > code {
 
         var hasTouchScreen = false;
 
-        var contentBody = document.getElementsByTagName("body");
+        //var contentBody = document.getElementsByTagName("body"); //gives a query object
 
-        myButton.style.color = "red"; //This works
-        myButton.textContent = contentBody; //This also works .innerHTML, .innerText
-
-
+        //myButton.style.color = "red"; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop > 20 || document.documentElement.scrollTop > 20
+        //Above could be used to position the button relativly ?
 
         // Detecting if the device is a mobile device
         if ("maxTouchPoints" in navigator) 
@@ -182,19 +182,20 @@ pre > code {
             currentButton = myButtonMobile
 
         // When the user scrolls down 20px from the top of the document, show the button
-        if (currentButton == myButton)
-          window.onscroll = function() 
+        window.onscroll = function() 
           {
             scrollFunction()
           };
-        else
-          {currentButton.textContent = "Mobile";}
 
-        function scrollFunction() {
-          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            currentButton.style.display = "block";
-          } else {currentButton.style.display = "none";}
-        }
+        function scrollFunction() 
+          {
+            if (currentButton == myButton)
+              {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                  currentButton.style.display = "block";
+                } else {currentButton.style.display = "none";}
+              }
+          }
 
         // When the user clicks on the button, scroll to the top of the document
         function topFunction() {
@@ -767,6 +768,8 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
   nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
+<span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
+  <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
   nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
       &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
@@ -822,12 +825,12 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
 
         var hasTouchScreen = false;
 
-        var contentBody = document.getElementsByTagName(&quot;body&quot;);
+        //var contentBody = document.getElementsByTagName(&quot;body&quot;); //gives a query object
 
-        myButton.style.color = &quot;red&quot;; //This works
-        myButton.textContent = contentBody; //This also works .innerHTML, .innerText
-
-
+        //myButton.style.color = &quot;red&quot;; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20
+        //Above could be used to position the button relativly ?
 
         // Detecting if the device is a mobile device
         if (&quot;maxTouchPoints&quot; in navigator) 
@@ -865,19 +868,20 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
             currentButton = myButtonMobile
 
         // When the user scrolls down 20px from the top of the document, show the button
-        if (currentButton == myButton)
-          window.onscroll = function() 
+        window.onscroll = function() 
           {
             scrollFunction()
           };
-        else
-          {currentButton.textContent = &quot;Mobile&quot;;}
 
-        function scrollFunction() {
-          if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
-            currentButton.style.display = &quot;block&quot;;
-          } else {currentButton.style.display = &quot;none&quot;;}
-        }
+        function scrollFunction() 
+          {
+            if (currentButton == myButton)
+              {
+                if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
+                  currentButton.style.display = &quot;block&quot;;
+                } else {currentButton.style.display = &quot;none&quot;;}
+              }
+          }
 
         // When the user clicks on the button, scroll to the top of the document
         function topFunction() {
