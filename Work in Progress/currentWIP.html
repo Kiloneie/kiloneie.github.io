@@ -110,8 +110,8 @@ pre > code {
       #toTopMobile {
         display: none;
         position: fixed;
-        bottom: -10px;
-        right: -10px;
+        bottom: -5px;
+        right: -5px;
         z-index: 99;
         font-size: 18px;
         border: none;
@@ -791,8 +791,8 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
       #toTopMobile {
         display: none;
         position: fixed;
-        bottom: -10px;
-        right: -10px;
+        bottom: -5px;
+        right: -5px;
         z-index: 99;
         font-size: 18px;
         border: none;
@@ -882,19 +882,6 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
         }
       &lt;/script&gt;
     &quot;&quot;&quot;</span>
-
-<span class="hljs-comment">#Checking if mobile user</span>
-<span class="hljs-comment">#[ nbRawHtml: &quot;&quot;&quot;
-&lt;script&gt;
-  if (typeof screen.orientation !== 'undefined') {
-      let d = new Date();
-      document.body.innerHTML = &quot;&lt;h1&gt;Today's date is &quot; + d + &quot;&lt;/h1&gt;&quot;
-  }
-&lt;/script&gt;
-&quot;&quot;&quot; ]#</span>
-
-<span class="hljs-comment">#If yes, we will put the button and the bottom right most point of the content area and transparent,</span>
-  <span class="hljs-comment">#until hovered and clicked</span>
 
 <span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
 addToc() 
