@@ -83,11 +83,11 @@ pre > code {
 </ul>
 </li>
 </ul>
-      <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+      <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
       body {} <!-- This is a comment, this needs to be here body {} -->
 
-      #myBtn {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -102,31 +102,100 @@ pre > code {
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #myBtn:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       </style>
       <body>
 
-      <button onclick = "topFunction()" id = "myBtn" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTop" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTopMobile" title = "Go to top">Top</button>
 
       <script>
-      // Get the button
-      let mybutton = document.getElementById("myBtn");
+        // Get the button
+        let myButton = document.getElementById("toTop");
+        let myButtonMobile = document.getElementById("toTopMobile");
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        var hasTouchScreen = false;
 
-      function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-          mybutton.style.display = "block";
-        } else {mybutton.style.display = "none";}
-      }
+        //var contentBody = document.getElementsByTagName("body"); //gives a query object
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+        //myButton.style.color = "red"; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop > 20 || document.documentElement.scrollTop > 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if ("maxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints > 0;
+          } 
+        else if ("msMaxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints > 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+
+            if (mQ && mQ.media === "(pointer:coarse)") 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+              currentButton.style.display = "block";
+            } else {currentButton.style.display = "none";}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       </script>
     
 <h2>INTRO - GREETING</h2>
@@ -178,7 +247,8 @@ followed by <code>FakeTable</code>, which is also easier to read and write than,
     key: <span class="hljs-type">K</span>
     value: <span class="hljs-type">V</span>
   
-  <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>] = <span class="hljs-type">HashSet</span>[<span class="hljs-type">KeyValue</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>]]</code></pre>
+  <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>] = <span class="hljs-type">HashSet</span>[<span class="hljs-type">KeyValue</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>]]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
   <h6>(From now on, when you see fakeTable or fake Table, i mean the idea, implementation of a "fake table",
   and NOT the `FakeTable` type)</h6>
 <p><a name = "`hash`-proc-overload-with-an-iterator"></a></p>
@@ -200,7 +270,8 @@ except for the generic part and the &quot;runnableExamples&quot;:</p>
     keyValue.incl (<span class="hljs-string">&quot;Key 2&quot;</span>, <span class="hljs-number">202</span>)
 
     <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> keyValue.elements:
-      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;keyValue.elements: &quot;</span>, e</code></pre>
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;keyValue.elements: &quot;</span>, e</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>In order to achieve a fakeTable with hashSets, we must again use hashSets,
 and so this <code>hash</code> proc takes a <code>HashSet</code> of type <code>KeyValue</code> with generic parameters of <code>K, V</code>,
 so that this fakeTable can function like a Table, which can use just about any data type.</p>
@@ -212,7 +283,8 @@ of our programs. It's simply an area meant for examples of the proc, iterator et
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">iterator</span> elements[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>](fakeTable: <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>]): <span class="hljs-type">Hash</span> =
   <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> fakeTable:
     <span class="hljs-keyword">yield</span> hash(tup.key)
-    <span class="hljs-keyword">yield</span> hash(tup.value)</code></pre>
+    <span class="hljs-keyword">yield</span> hash(tup.value)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Again the first changes to this custom iterator are the generic parts.
 The second change is because we are giving this iterator,
 instead of fields of an object, a <code>FakeTable</code> type which is a <code>HashSet</code> container of type <code>KeyValue</code>, our tuple.
@@ -225,10 +297,11 @@ keyValue.incl (<span class="hljs-string">&quot;Key 1&quot;</span>, <span class="
 keyValue.incl (<span class="hljs-string">&quot;Key 2&quot;</span>, <span class="hljs-number">202</span>)
 
 <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> keyValue.elements:
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;keyValue.elements: &quot;</span>, e</code></pre><pre class="nb-output">keyValue.elements: 277569625
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;keyValue.elements: &quot;</span>, e</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">keyValue.elements: 277569625
 keyValue.elements: -103088068849849363
 keyValue.elements: 2624693060
-keyValue.elements: 9147201994791625791</pre>
+keyValue.elements: 9147201994791625791</pre></code></pre>
+
 <p>Here we go, both fields of the 2x tuples hashed.</p>
 <p><a name = "`hash`-proc-overload-without-an-iterator"></a></p>
 <h2>  2.4. <code>hash</code> proc overload WITHOUT an iterator</h2>
@@ -249,7 +322,8 @@ keyValue.elements: 9147201994791625791</pre>
 
     <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> keyValue:
       <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hashing tuple: &quot;</span>, tup
-      <span class="hljs-keyword">echo</span> tup.hash</code></pre>
+      <span class="hljs-keyword">echo</span> tup.hash</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><a name = "making-a-constructor-proc-for-`faketable`"></a></p>
 <h2>  2.5. Making a constructor proc for <code>FakeTable</code></h2>
 <hr />
@@ -274,12 +348,15 @@ to initialize our fakeTable of type <code>FakeTable</code>.</p>
   runnableExamples:
     <span class="hljs-keyword">var</span> fakeTable = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
     fakeTable.incl (<span class="hljs-string">'a'</span>, <span class="hljs-number">10</span>)
-    <span class="hljs-keyword">echo</span> fakeTable, <span class="hljs-string">&quot; &quot;</span>, fakeTable.typeof</code></pre>
+    <span class="hljs-keyword">echo</span> fakeTable, <span class="hljs-string">&quot; &quot;</span>, fakeTable.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>Now let's run the runnable example:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> fakeTable = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
 fakeTable.incl (<span class="hljs-string">'a'</span>, <span class="hljs-number">10</span>)
-<span class="hljs-keyword">echo</span> fakeTable, <span class="hljs-string">&quot; &quot;</span>, fakeTable.typeof</code></pre><pre class="nb-output">{(key: 'a', value: 10)} FakeTable[system.char, system.int]</pre>
-<p><strong>As you can see, initializing our fakeTable is much simpler than the original of:</strong></p>
+
+<span class="hljs-keyword">echo</span> fakeTable, <span class="hljs-string">&quot; &quot;</span>, fakeTable.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(key: 'a', value: 10)} FakeTable[system.char, system.int]</pre></code></pre>
+
+<p>As you can see, initializing our fakeTable is much simpler than the original of:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> keyValue = initHashSet[<span class="hljs-type">KeyValue</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>]]()</code></pre>
 <p><a name = "making-a-`orderedset`-version-of-our-constructor-proc"></a></p>
 <h2>  2.6. Making a <code>OrderedSet</code> version of our constructor proc</h2>
@@ -296,7 +373,8 @@ And then lastly, we simply rename the return type to <code>FakeOrderedTable</cod
   runnableExamples:
     <span class="hljs-keyword">var</span> fakeOrderedTable = newOrderedFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
     fakeOrderedTable.incl (<span class="hljs-string">'a'</span>, <span class="hljs-number">10</span>)
-    <span class="hljs-keyword">echo</span> fakeOrderedTable, <span class="hljs-string">&quot; &quot;</span>, fakeOrderedTable.typeof</code></pre>
+    <span class="hljs-keyword">echo</span> fakeOrderedTable, <span class="hljs-string">&quot; &quot;</span>, fakeOrderedTable.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><a name = "overloading"></a></p>
 <h1>3. Overloading</h1>
 <hr />
@@ -332,7 +410,8 @@ and with that <code>key</code>, it's `value:</p>
 <span class="hljs-keyword">proc</span> contains[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>](fakeTable: <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>], k: <span class="hljs-type">K</span>): <span class="hljs-built_in">bool</span> =
   <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> fakeTable:
     <span class="hljs-keyword">if</span> tup.key == k:
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span></code></pre>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>As you can see, we make it a <code>generic</code> proc that takes our <code>FakeTable</code> type,
 unwraps the <code>fakeTable</code>, and then checks every <code>KeyValue</code> tuple's first field of <code>key</code>,
 against <code>k</code>, the key we are looking for, and then returns true or false if it found it or not.</p>
@@ -343,7 +422,8 @@ fakeTableContains.incl (<span class="hljs-string">&quot;Key 1&quot;</span>, <spa
 fakeTableContains.incl (<span class="hljs-string">&quot;Key 2&quot;</span>, <span class="hljs-number">202</span>) <span class="hljs-comment">#elements as tuples</span>
 
 <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;Key 2&quot;</span> <span class="hljs-keyword">in</span> fakeTableContains:
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;SUCCESS: Key 2 is in fakeTableContains&quot;</span></code></pre><pre class="nb-output">SUCCESS: Key 2 is in fakeTableContains</pre>
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;SUCCESS: Key 2 is in fakeTableContains&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">SUCCESS: Key 2 is in fakeTableContains</pre></code></pre>
+
 <p><a name = "&#96;[]&#96;-overload"></a></p>
 <h2>  3.2. `[]` overload</h2>
 <hr />
@@ -353,7 +433,8 @@ and with that <code>key</code>, it's `value:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> `[]`[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>](fakeTable: <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>], k: <span class="hljs-type">K</span>): <span class="hljs-type">V</span> {.inline.} =
   <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> fakeTable:
     <span class="hljs-keyword">if</span> tup.key == k:
-      <span class="hljs-keyword">return</span> tup.value</code></pre>
+      <span class="hljs-keyword">return</span> tup.value</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Very similar to the <code>contains</code>(<code>in</code> is the alias) overload.
 The strange part here is the <code>{.inline.}</code> pragma,
 which is simply there to mark it for the compiler(which will warn us) and us,
@@ -361,8 +442,9 @@ that we should not call this proc <code>[]</code> directly,
 as in like a proc <code>[](arg1, arg2)</code>.</p>
 <p><strong>Here is the example of what that overload enables us:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> fakeTableContains
-<span class="hljs-keyword">echo</span> fakeTableContains[<span class="hljs-string">&quot;Key 1&quot;</span>]</code></pre><pre class="nb-output">{(key: &quot;Key 2&quot;, value: 202), (key: &quot;Key 1&quot;, value: 101)}
-101</pre>
+<span class="hljs-keyword">echo</span> fakeTableContains[<span class="hljs-string">&quot;Key 1&quot;</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(key: &quot;Key 2&quot;, value: 202), (key: &quot;Key 1&quot;, value: 101)}
+101</pre></code></pre>
+
 <p><strong>NOTE:</strong> All of these overloads have to focus on the <code>key</code> part of the <code>KeyValue</code> tuple,
 in order to achieve the functionality of a <code>Table</code>.
 Meaning, these overloads must make it so that we only work with the <code>keys</code>,
@@ -378,7 +460,8 @@ meaning both sets.</p>
     <span class="hljs-keyword">for</span> tupB <span class="hljs-keyword">in</span> b:
       <span class="hljs-keyword">if</span> tupA.key != tupB.key:
         <span class="hljs-literal">result</span>.incl tupA
-        <span class="hljs-literal">result</span>.incl tupB</code></pre>
+        <span class="hljs-literal">result</span>.incl tupB</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>The overload proc's head, could also put both arguments together like this:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> `+`[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>](a, b: <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>]): <span class="hljs-type">FakeTable</span>[<span class="hljs-type">K</span>, <span class="hljs-type">V</span>] =
   <span class="hljs-keyword">discard</span></code></pre>
@@ -406,7 +489,8 @@ fTableA.incl (<span class="hljs-string">'B'</span>, <span class="hljs-number">2<
 fTableB.incl (<span class="hljs-string">'B'</span>, <span class="hljs-number">2</span>)
 fTableB.incl (<span class="hljs-string">'C'</span>, <span class="hljs-number">3</span>)
 
-<span class="hljs-keyword">echo</span> fTableA + fTableB</code></pre><pre class="nb-output">{(key: 'C', value: 3), (key: 'B', value: 2), (key: 'A', value: 1)}</pre>
+<span class="hljs-keyword">echo</span> fTableA + fTableB</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(key: 'C', value: 3), (key: 'B', value: 2), (key: 'A', value: 1)}</pre></code></pre>
+
 <p>Here we go, all the elements of both <code>FakeTables</code>, without duplicates.</p>
 <p><a name = "&#96;-&#96;---difference---operator-overload"></a></p>
 <h2>  3.4. `-` - difference - operator overload</h2>
@@ -431,7 +515,8 @@ but <code>fTableB</code> does not.</p>
         <span class="hljs-keyword">if</span> tupA <span class="hljs-keyword">in</span> <span class="hljs-literal">result</span>:
           <span class="hljs-keyword">discard</span>
         <span class="hljs-keyword">else</span>:
-          <span class="hljs-literal">result</span>.incl tupA</code></pre>
+          <span class="hljs-literal">result</span>.incl tupA</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>First of, we copy the 2 <code>FakeTable</code>s of <code>a</code> and <code>b</code> into temporary variables of <code>tempA</code> and <code>tempB</code>,
 because want to de-duplicate the <code>FakeTable</code>s and only return different elements,
 and we can't do that with the <code>FakeTables</code> we supplied to the 2x arguments of <code>a</code> and <code>b</code>,
@@ -462,7 +547,8 @@ requiring further de-duplication. Checking the <code>result</code> variable, fix
 <span class="hljs-comment">#3 b != d -&gt; yes adding `b`</span>
 <span class="hljs-comment">#4 b != e -&gt; yes adding `b`</span>
 <span class="hljs-comment">#result = {'a', 'a', 'b', 'b'} -&gt; correct if we deduplicate... this could go on to infinity.</span>
-<span class="hljs-comment">#So checking the `result` variable fixes the above problem</span></code></pre>
+<span class="hljs-comment">#So checking the `result` variable fixes the above problem</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>And here is the code for the above manual explanation:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> ftA = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
 <span class="hljs-keyword">var</span> ftB = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
@@ -473,11 +559,13 @@ ftB.incl (<span class="hljs-string">'c'</span>, <span class="hljs-number">30</sp
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftA: &quot;</span>, ftA
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftB: &quot;</span>, ftB
 
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftA - ftB = &quot;</span>, ftA - ftB</code></pre><pre class="nb-output">ftA: {(key: 'c', value: 30), (key: 'a', value: 10), (key: 'b', value: 20)}
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftA - ftB = &quot;</span>, ftA - ftB</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">ftA: {(key: 'c', value: 30), (key: 'a', value: 10), (key: 'b', value: 20)}
 ftB: {(key: 'c', value: 30), (key: 'd', value: 40), (key: 'e', value: 50)}
-ftA - ftB = {(key: 'a', value: 10), (key: 'b', value: 20)}</pre>
+ftA - ftB = {(key: 'a', value: 10), (key: 'b', value: 20)}</pre></code></pre>
+
 <p><strong>And the reverse:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftB - ftA = &quot;</span>, ftB - ftA</code></pre><pre class="nb-output">ftB - ftA = {(key: 'd', value: 40), (key: 'e', value: 50)}</pre>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftB - ftA = &quot;</span>, ftB - ftA</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">ftB - ftA = {(key: 'd', value: 40), (key: 'e', value: 50)}</pre></code></pre>
+
 <p><a name = "optional-semicolon-`;`"></a></p>
 <h2>  3.5. Optional Semicolon <code>;</code></h2>
 <hr />
@@ -498,9 +586,11 @@ This one is very simple, simply compare the keys, and add one of them into the <
   <span class="hljs-keyword">for</span> tupA <span class="hljs-keyword">in</span> a:
     <span class="hljs-keyword">for</span> tupB <span class="hljs-keyword">in</span> b:
       <span class="hljs-keyword">if</span> tupA.key == tupB.key:
-        <span class="hljs-literal">result</span>.incl tupA</code></pre>
+        <span class="hljs-literal">result</span>.incl tupA</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>Example:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> ftA * ftB</code></pre><pre class="nb-output">{(key: 'c', value: 30)}</pre>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> ftA * ftB</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(key: 'c', value: 30)}</pre></code></pre>
+
 <p><a name = "&#96;<&#96;---subset-of---operator-overload"></a></p>
 <h2>  3.7. `&lt;` - subset of - operator overload</h2>
 <hr />
@@ -532,7 +622,8 @@ we could find a matching key, but then on the second element override it to fals
             <span class="hljs-keyword">break</span> subsetA <span class="hljs-comment">#1 so if we find &quot;true&quot;, we don't keep on checking(the Set could be gigantic), AND so that if the results would be false, true, false, we don't overwrite the true on the third check.</span>
           <span class="hljs-keyword">else</span>: <span class="hljs-literal">result</span> = <span class="hljs-literal">false</span>
       <span class="hljs-keyword">if</span> <span class="hljs-literal">result</span> == <span class="hljs-literal">false</span>: <span class="hljs-comment">#2 we end up here after the break, if false, then it's not a subset, otherwise next tupA</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#This is here, again like #1, so we don't keep on checking.</span></code></pre>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#This is here, again like #1, so we don't keep on checking.</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>Here is an example:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-comment">#ftA has 'a', 'b', 'c'</span>
 <span class="hljs-keyword">var</span> subsetOfA = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
@@ -545,10 +636,11 @@ subsetOfA.incl (<span class="hljs-string">'c'</span>, <span class="hljs-number">
 <span class="hljs-keyword">echo</span> subsetOfA &lt; ftA
 
 <span class="hljs-keyword">var</span> subsetofA2 = ftA
-<span class="hljs-keyword">echo</span> subsetofA2 &lt; ftA</code></pre><pre class="nb-output">{(key: 'c', value: 30), (key: 'a', value: 10), (key: 'b', value: 20)}
+<span class="hljs-keyword">echo</span> subsetofA2 &lt; ftA</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(key: 'c', value: 30), (key: 'a', value: 10), (key: 'b', value: 20)}
 {(key: 'c', value: 30), (key: 'a', value: 10)}
 true
-false</pre>
+false</pre></code></pre>
+
 <p><code>subsetofA2 is false because it is equal in size of </code>ftA`, again, has to be smaller.</p>
 <p><a name = "&#96;<=&#96;---subset-relation---operator-overload"></a></p>
 <h2>  3.8. `&lt;=` - subset relation - operator overload</h2>
@@ -570,7 +662,8 @@ except that the subset can be equal in size.</p>
       <span class="hljs-keyword">if</span> <span class="hljs-literal">result</span> == <span class="hljs-literal">false</span>: <span class="hljs-comment">#2 we end up here after the break, if false, then it's not a subset, otherwise next tupA</span>
         <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#This is here, again like #1, so we don't keep on checking.</span>
   <span class="hljs-keyword">else</span>:
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span></code></pre>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>The only real change here compared to the <code>&lt;</code> overload,
 is that instead of checking for the <code>subset</code> to be smaller,
 we check for smaller or equal.
@@ -600,7 +693,8 @@ to make this easier, as well as a <code>continue</code> statement, instead of re
       <span class="hljs-keyword">else</span>:
         <span class="hljs-literal">result</span> = <span class="hljs-literal">false</span>
   <span class="hljs-keyword">else</span>: 
-    <span class="hljs-literal">result</span> = <span class="hljs-literal">false</span></code></pre>
+    <span class="hljs-literal">result</span> = <span class="hljs-literal">false</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>And an example:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> a = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
 <span class="hljs-keyword">var</span> b = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
@@ -612,8 +706,9 @@ b.incl (<span class="hljs-string">'a'</span>, <span class="hljs-number">10</span
 c.incl (<span class="hljs-string">'a'</span>, <span class="hljs-number">10</span>); c.incl (<span class="hljs-string">'c'</span>, <span class="hljs-number">30</span>)
 
 <span class="hljs-keyword">echo</span> a == b
-<span class="hljs-keyword">echo</span> a == c</code></pre><pre class="nb-output">true
-false</pre>
+<span class="hljs-keyword">echo</span> a == c</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">true
+false</pre></code></pre>
+
 <p><a name = "`excl`-proc-overload"></a></p>
 <h2>  3.10. <code>excl</code> proc overload</h2>
 <hr />
@@ -626,14 +721,16 @@ based on the <code>key</code> provided. <code>del</code> is the proc for doing t
 
   <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> temp:
     <span class="hljs-keyword">if</span> tup.key == k:
-      fakeTable.excl(tup)</code></pre>
+      fakeTable.excl(tup)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>We have to use the <code>var</code> keyword in the overload's definition/head for our <code>FakeTable</code> in order to remove a <code>key</code>,
 from the supplied <code>FakeTable</code>. Without <code>var</code> you only copy the argument's data.</p>
 <p><strong>Example(using variables from above):</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> a
 a.excl(<span class="hljs-string">'a'</span>)
-<span class="hljs-keyword">echo</span> a</code></pre><pre class="nb-output">{(key: 'a', value: 10), (key: 'b', value: 20)}
-{(key: 'b', value: 20)}</pre>
+<span class="hljs-keyword">echo</span> a</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(key: 'a', value: 10), (key: 'b', value: 20)}
+{(key: 'b', value: 20)}</pre></code></pre>
+
 <p><a name = "`missingorexcl`-proc-overload"></a></p>
 <h2>  3.11. <code>missingOrExcl</code> proc overload</h2>
 <hr />
@@ -643,7 +740,8 @@ a.excl(<span class="hljs-string">'a'</span>)
   <span class="hljs-keyword">if</span> k <span class="hljs-keyword">in</span> fakeTable:
     fakeTable.excl(k)
     <span class="hljs-literal">result</span> = <span class="hljs-literal">false</span>
-  <span class="hljs-keyword">else</span>: <span class="hljs-literal">result</span> = <span class="hljs-literal">true</span></code></pre>
+  <span class="hljs-keyword">else</span>: <span class="hljs-literal">result</span> = <span class="hljs-literal">true</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Quite simple with the <code>excl</code> and <code>contains</code> proc overloads.
 Without them, it would of been quite longer and harder to understand.</p>
 <p><strong>Here is an example from the <code>sets</code> module's example for <code>missingOrExcl</code> for <code>HashSet</code>s:</strong></p>
@@ -652,9 +750,10 @@ s.incl (<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
 
 <span class="hljs-keyword">echo</span> s.missingOrExcl(<span class="hljs-number">4</span>) <span class="hljs-comment">#should be: true</span>
 <span class="hljs-keyword">echo</span> s.missingOrExcl(<span class="hljs-number">6</span>) <span class="hljs-comment">#should be: false</span>
-<span class="hljs-keyword">echo</span> s.missingOrExcl(<span class="hljs-number">6</span>) <span class="hljs-comment">#should be: true</span></code></pre><pre class="nb-output">true
+<span class="hljs-keyword">echo</span> s.missingOrExcl(<span class="hljs-number">6</span>) <span class="hljs-comment">#should be: true</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">true
 false
-true</pre>
+true</pre></code></pre>
+
 <h2>OUTRO - AFTERWORDS</h2>
 <p>I hope you enjoyed and learned something more from this extra content.
 Let me know in the comments for the video.</p>
@@ -732,6 +831,20 @@ nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = 
 nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
 &lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
 
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
+
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>
   nbToc: <span class="hljs-type">NbBlock</span>
@@ -761,13 +874,15 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
   nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
+<span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
+  <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
   nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
-      &lt;meta name = &quot;viewport&quot; content = &quot;width=device-width, initial-scale = 1&quot;&gt;
+      &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
       &lt;style&gt;
       body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
 
-      #myBtn {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -782,31 +897,100 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #myBtn:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       &lt;/style&gt;
       &lt;body&gt;
 
-      &lt;button onclick = &quot;topFunction()&quot; id = &quot;myBtn&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTop&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTopMobile&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
 
       &lt;script&gt;
-      // Get the button
-      let mybutton = document.getElementById(&quot;myBtn&quot;);
+        // Get the button
+        let myButton = document.getElementById(&quot;toTop&quot;);
+        let myButtonMobile = document.getElementById(&quot;toTopMobile&quot;);
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        var hasTouchScreen = false;
 
-      function scrollFunction() {
-        if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
-          mybutton.style.display = &quot;block&quot;;
-        } else {mybutton.style.display = &quot;none&quot;;}
-      }
+        //var contentBody = document.getElementsByTagName(&quot;body&quot;); //gives a query object
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+        //myButton.style.color = &quot;red&quot;; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if (&quot;maxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints &gt; 0;
+          } 
+        else if (&quot;msMaxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints &gt; 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia &amp;&amp; matchMedia(&quot;(pointer:coarse)&quot;);
+
+            if (mQ &amp;&amp; mQ.media === &quot;(pointer:coarse)&quot;) 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
+              currentButton.style.display = &quot;block&quot;;
+            } else {currentButton.style.display = &quot;none&quot;;}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       &lt;/script&gt;
     &quot;&quot;&quot;</span>
 
@@ -993,9 +1177,10 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 nbCode:
   <span class="hljs-keyword">var</span> fakeTable = newFakeTable(<span class="hljs-built_in">char</span>, <span class="hljs-built_in">int</span>)
   fakeTable.incl (<span class="hljs-string">'a'</span>, <span class="hljs-number">10</span>)
+
   <span class="hljs-keyword">echo</span> fakeTable, <span class="hljs-string">&quot; &quot;</span>, fakeTable.typeof
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **As you can see, initializing our fakeTable is much simpler than the original of:**
+  As you can see, initializing our fakeTable is much simpler than the original of:
 &quot;&quot;&quot;</span>
 nbCodeSkip:
   <span class="hljs-keyword">var</span> keyValue = initHashSet[<span class="hljs-type">KeyValue</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>]]()
@@ -1153,6 +1338,7 @@ nbCode:
   fTableB.incl (<span class="hljs-string">'C'</span>, <span class="hljs-number">3</span>)
 
   <span class="hljs-keyword">echo</span> fTableA + fTableB
+
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Here we go, all the elements of both `FakeTables`, without duplicates.
 &quot;&quot;&quot;</span>
@@ -1234,7 +1420,7 @@ nbCode:
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftB: &quot;</span>, ftB
 
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ftA - ftB = &quot;</span>, ftA - ftB
-nbTexT: <span class="hljs-string">&quot;&quot;&quot;
+nbText: <span class="hljs-string">&quot;&quot;&quot;
   **And the reverse:**
 &quot;&quot;&quot;</span>
 nbCode:

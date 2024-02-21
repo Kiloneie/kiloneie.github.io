@@ -36,6 +36,20 @@ nb.renderPlans["nbTextWithSource"] = @["mdOutputToHtml"]
 nb.partials["nbTextWithSource"] = """{{&outputToHtml}}
 <pre><code class=\"language-markdown\">{{code}}</code></pre>"""
 
+#Overriding nimib's nbCode -> with a version that has horizontal scroll for overflowing output
+import nimib / [capture]
+
+template nbCode(body: untyped) =
+  newNbCodeBlock("nbCode", body): #Writes to stdout `lineNumb typeOfNBblock: a bit of first line
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials["nbCode"] = """
+{{>nbCodeSource}}
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">{{>nbCodeOutput}}</code></pre>
+""" 
+nb.renderPlans["nbCode"] = @["highlightCode"] # default partial automatically escapes output (code is escaped when highlighting)
+
 # how to add a ToC
 var
   nbToc: NbBlock
@@ -65,13 +79,15 @@ template nbSubSection(name:string) =
   nbToc.output.add "  - " & $index.section & r"\." & $index.subsection & r"\. " & "<a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
+#Updating the same file is shown instantly once deployed via Github Page on PC. 
+  #Mobile takes either a random amount of time, or NOT at all!
 template addButtonBackToTop() =
   nbRawHtml: """
-      <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+      <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
       body {} <!-- This is a comment, this needs to be here body {} -->
 
-      #myBtn {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -86,31 +102,100 @@ template addButtonBackToTop() =
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #myBtn:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       </style>
       <body>
 
-      <button onclick = "topFunction()" id = "myBtn" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTop" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTopMobile" title = "Go to top">Top</button>
 
       <script>
-      // Get the button
-      let mybutton = document.getElementById("myBtn");
+        // Get the button
+        let myButton = document.getElementById("toTop");
+        let myButtonMobile = document.getElementById("toTopMobile");
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        var hasTouchScreen = false;
 
-      function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-          mybutton.style.display = "block";
-        } else {mybutton.style.display = "none";}
-      }
+        //var contentBody = document.getElementsByTagName("body"); //gives a query object
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+        //myButton.style.color = "red"; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop > 20 || document.documentElement.scrollTop > 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if ("maxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints > 0;
+          } 
+        else if ("msMaxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints > 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+
+            if (mQ && mQ.media === "(pointer:coarse)") 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+              currentButton.style.display = "block";
+            } else {currentButton.style.display = "none";}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       </script>
     """
 
@@ -297,9 +382,10 @@ nbText: """
 nbCode:
   var fakeTable = newFakeTable(char, int)
   fakeTable.incl ('a', 10)
+
   echo fakeTable, " ", fakeTable.typeof
 nbText: """
-  **As you can see, initializing our fakeTable is much simpler than the original of:**
+  As you can see, initializing our fakeTable is much simpler than the original of:
 """
 nbCodeSkip:
   var keyValue = initHashSet[KeyValue[string, int]]()
@@ -457,6 +543,7 @@ nbCode:
   fTableB.incl ('C', 3)
 
   echo fTableA + fTableB
+
 nbText: """
   Here we go, all the elements of both `FakeTables`, without duplicates.
 """
@@ -538,7 +625,7 @@ nbCode:
   echo "ftB: ", ftB
 
   echo "ftA - ftB = ", ftA - ftB
-nbTexT: """
+nbText: """
   **And the reverse:**
 """
 nbCode:
