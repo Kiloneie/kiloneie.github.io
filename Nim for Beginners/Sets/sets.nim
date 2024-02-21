@@ -62,6 +62,12 @@ template nbSubSection(name:string) =
   nbToc.output.add "  - " & $index.section & r"\." & $index.subsection & r"\. " & "<a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
+template nbUoSection(name: string) =
+  nbText "\n# " & name & "\n\n---"
+
+template nbUoSubSection(name: string) =
+  nbText "\n## " & name & "\n\n---"
+
 #Updating the same file is shown instantly once deployed via Github Page on PC. 
   #Mobile takes either a random amount of time, or NOT at all!
 template addButtonBackToTop() =
@@ -536,9 +542,8 @@ nbText: hlMd"""
 -  Parsing data(example 2 just before Set pros)
 """
 
-nbText: hlMd"""
-## OUTRO - AFTERWORDS
-
+nbUoSection "Outro - Afterwords"
+nbText: """
   Okay, that's it for this video, thanks for watching like, share and subscribe, 
     aswell as click the bell icon if you liked it and want more, 
     you can also follow me on twitter of the same name, and support me on Patreon. 
@@ -546,31 +551,34 @@ nbText: hlMd"""
     let me know in the comment section, 
     the code of this video, script and documentation, are in the link in the description,
     as a form of offline tutorial.
-
-### Thanks to my past and current Patrons
-<b>Past Patrons:</b>
+"""
+nbUoSection "Thanks to my past and current Patrons"
+nbUoSubSection "Past Patrons"
+nbText: """
 - Goose_Egg: From April 4th 2021 to May 10th 2022
 - Davide Galilei(1x month)
-
-<b>Current Patrons</b>
-- None
-
-<b>Compiler information</b>
+"""
+nbUoSubSection "Current Patrons"
+nbText: """
+- jaap groot (from October 2023)
+- Dimitri Lesnoff (from October 2023)
+"""
+nbUoSubSection "Compiler Information"
+nbText """
 - Version used: 2.0.0
 - Compiler settings used: none, ORC is now the default memory management option
 - Timestamps:
   - 00:15 Start of video example
-  
 """
-
+nbUoSubSection "My and General Links"
 nbText: hlMdF"""
-<b>LINKS:</b>
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - Video's script/documentation with all of the code styled with nimib as a form of offline tutorial:
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-
-<b>LINKS to this video's subject:</b>
+"""
+nbUoSubSection "Links to the video's subject"
+nbText: """
 - [Set type](https://nim-lang.org/docs/manual.html#types-set-type "Set type")
 - [Set operations and extra modules](https://nim-lang.org/docs/system.html#system-module-sets "Set operations and extra modules")
 - [Ordinal types](https://nim-lang.org/docs/manual.html#types-ordinal-types "Ordinal types")

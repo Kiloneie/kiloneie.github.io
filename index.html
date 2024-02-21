@@ -222,11 +222,11 @@ organized by their respective video series.
 <ul>
 <li><a href = "Extra Content/extraMakingFakeTable.html">extraMakingFakeTable.html</a><br></li>
 </ul>
-<p><b>LINKS:</b></p>
+<h1>My and General Links</h1>
+<hr />
 <ul>
 <li><a href="https://nim-lang.org" title="Nim's main page">Nim's main page</a></li>
 <li><a href="https://nim-lang.org/docs/manual.html" title="Nim's manual/documentation">Nim's manual/documentation</a></li>
-<li><a href="https://twitter.com/Kiloneie" title="My Twitter">Twitter</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
 </ul>
@@ -316,6 +316,12 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
   <span class="hljs-comment"># see below, but any number works for a numbered list</span>
   nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-keyword">template</span> nbUoSection(name: <span class="hljs-built_in">string</span>) =
+  nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+
+<span class="hljs-keyword">template</span> nbUoSubSection(name: <span class="hljs-built_in">string</span>) =
+  nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
 
 <span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
   <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
@@ -509,11 +515,10 @@ nbSection <span class="hljs-string">&quot;Extra Content&quot;</span>
 <span class="hljs-keyword">let</span> extraContent = findAndOutputTutorials(<span class="hljs-string">&quot;Extra Content&quot;</span>)
 nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; extraContent
 
-nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
-&lt;b&gt;LINKS:&lt;/b&gt;
+nbUoSection <span class="hljs-string">&quot;My and General Links&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 - [Nim's main page](https://nim-lang.org &quot;Nim's main page&quot;)
 - [Nim's manual/documentation](https://nim-lang.org/docs/manual.html &quot;Nim's manual/documentation&quot;)
-- [Twitter](https://twitter.com/Kiloneie &quot;My Twitter&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
 &quot;&quot;&quot;</span>

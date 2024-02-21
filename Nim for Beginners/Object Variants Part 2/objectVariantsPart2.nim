@@ -58,6 +58,12 @@ template nbSubSection(name:string) =
   nbToc.output.add "  - " & $index.section & r"\." & $index.subsection & r"\. " & "<a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
+template nbUoSection(name: string) =
+  nbText "\n# " & name & "\n\n---"
+
+template nbUoSubSection(name: string) =
+  nbText "\n## " & name & "\n\n---"
+
 #Updating the same file is shown instantly once deployed via Github Page on PC. 
   #Mobile takes either a random amount of time, or NOT at all!
 template addButtonBackToTop() =
@@ -629,40 +635,43 @@ override in Nim is the default, but the downside is that "base" methods have to 
 
 """
 
-nbText: hlMdf"""
-## OUTRO - AFTERWORDS
-
+nbUoSection "Outro - Afterwords"
+nbText: """
   Okay, that's it for this video, thanks for watching like, share and subscribe, 
-    aswell as click the bell icon if you liked it, 
+    aswell as click the bell icon if you liked it and want more, 
     you can also follow me on twitter of the same name, and support me on Patreon. 
     If you had any problems with any part of the video, 
     let me know in the comment section, 
-    the code for this video will be from now on inside the script/documentation
-    page styled with nimib, as a form of offline tutorial, 
-    the link is in the description, have fun.
-
-### Thanks to my past and current Patrons
-<b>Past Patrons:</b>
+    the code of this video, script and documentation, are in the link in the description,
+    as a form of offline tutorial.
+"""
+nbUoSection "Thanks to my past and current Patrons"
+nbUoSubSection "Past Patrons"
+nbText: """
 - Goose_Egg: From April 4th 2021 to May 10th 2022
-- Davide Galilei
-
-<b>Current Patrons</b>
-- None
-
-<b>Compiler information</b>
-- Version used: E.G. 1.6.8
-- Compiler settings used: --gc:orc
+- Davide Galilei(1x month)
+"""
+nbUoSubSection "Current Patrons"
+nbText: """
+- jaap groot (from October 2023)
+- Dimitri Lesnoff (from October 2023)
+"""
+nbUoSubSection "Compiler Information"
+nbText: """
+- Version used: E.G. 2.0.2
+- Compiler settings used: none, ORC is now the default memory management option
 - Timestamps:
   - 00:15 Start of video example
-
-
-<b>LINKS:</b>
+"""
+nbUoSubSection "My and General Links"
+nbText: """
 - [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - Video's script/documentation styled with nimib as a form of offline tutorial:
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-
-<b>LINKS to this video's subject:</b>
+"""
+nbUoSubSection "Links to this video's subject"
+nbText: """
 - [Object Variants](https://nim-lang.org/docs/manual.html#types-object-variants "Object Variants")
 """
 

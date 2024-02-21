@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>FAQ Restructuring\FAQrestructure.nim</title>
+  <title>..\#3 Overloading in Depth\FAQ Restructuring\FAQrestructure.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,8 +43,8 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..">🏡</a></span>
-  <span><code>FAQ Restructuring\FAQrestructure.nim</code></span>
+  <span><a href="..\..\#4 Sugar collect List Comprehensions">🏡</a></span>
+  <span><code>..\#3 Overloading in Depth\FAQ Restructuring\FAQrestructure.nim</code></span>
   <span></span>
 </div>
 <hr>
@@ -674,7 +674,8 @@ into variables and containers.</p>
 
 <p>Another very useful part of <code>tuple unpacking</code> is that, you don't need to return anything.
 1, 2, all or none.</p>
-<h2>OUTRO - AFTERWORDS</h2>
+<h1>Outro - Afterwords</h1>
+<hr />
 <p>Okay, that's it for this video, thanks for watching like, share and subscribe,
 aswell as click the bell icon if you liked it and want more,
 you can also follow me on twitter of the same name, and support me on Patreon.
@@ -682,19 +683,22 @@ If you had any problems with any part of the video,
 let me know in the comment section,
 the code of this video, script and documentation, are in the link in the description,
 as a form of offline tutorial.</p>
-<p>Also, don't forget checking out the Extra cut content!</p>
-<h3>Thanks to my past and current Patrons</h3>
-<p><b>Past Patrons:</b></p>
+<h1>Thanks to my past and current Patrons</h1>
+<hr />
+<h2>Past Patrons</h2>
+<hr />
 <ul>
 <li>Goose_Egg: From April 4th 2021 to May 10th 2022</li>
 <li>Davide Galilei(1x month)</li>
 </ul>
-<p><b>Current Patrons</b></p>
+<h2>Current Patrons</h2>
+<hr />
 <ul>
 <li>jaap groot (from October 2023)</li>
 <li>Dimitri Lesnoff (from October 2023)</li>
 </ul>
-<p><b>Compiler information</b></p>
+<h2>Compiler Information</h2>
+<hr />
 <ul>
 <li>Version used: E.G. 2.0.2</li>
 <li>Compiler settings used: none, ORC is now the default memory management option</li>
@@ -704,13 +708,15 @@ as a form of offline tutorial.</p>
 </ul>
 </li>
 </ul>
-<p><b>LINKS:</b></p>
+<h2>My and General Links</h2>
+<hr />
 <ul>
 <li><a href="https://kiloneie.github.io/Extra%20Content/extraMakingFakeTable.html" title="Extra Content">Extra Content</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
 </ul>
-<p><b>LINKS to this video's subject:</b></p>
+<h2>Links to this video's subject</h2>
+<hr />
 <ul>
 <li><a href="https://nim-lang.org/docs/sequtils.html#minIndex%2CopenArray%5BT%5D" title="min/maxIndex procs">min/maxIndex procs</a></li>
 <li><a href="https://nim-lang.org/docs/algorithm.html#sort%2CopenArray%5BT%5D%2Cproc%28T%2CT%29" title="for `sort` func and `sorted` proc">for <code>sort</code> func and <code>sorted</code> proc</a></li>
@@ -806,6 +812,12 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
   <span class="hljs-comment"># see below, but any number works for a numbered list</span>
   nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-keyword">template</span> nbUoSection(name: <span class="hljs-built_in">string</span>) =
+  nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+
+<span class="hljs-keyword">template</span> nbUoSubSection(name: <span class="hljs-built_in">string</span>) =
+  nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
 
 <span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
   <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
@@ -1490,9 +1502,8 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   1, 2, all or none.
 &quot;&quot;&quot;</span>
 
-nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
-## OUTRO - AFTERWORDS
-
+nbUoSection <span class="hljs-string">&quot;Outro - Afterwords&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
   Okay, that's it for this video, thanks for watching like, share and subscribe, 
     aswell as click the bell icon if you liked it and want more, 
     you can also follow me on twitter of the same name, and support me on Patreon. 
@@ -1500,32 +1511,33 @@ nbText: <span class="hljs-string">hlMd&quot;&quot;&quot;
     let me know in the comment section, 
     the code of this video, script and documentation, are in the link in the description,
     as a form of offline tutorial.
-
-  Also, don't forget checking out the Extra cut content!
-
-### Thanks to my past and current Patrons
-&lt;b&gt;Past Patrons:&lt;/b&gt;
+&quot;&quot;&quot;</span>
+nbUoSection <span class="hljs-string">&quot;Thanks to my past and current Patrons&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Past Patrons&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 - Goose_Egg: From April 4th 2021 to May 10th 2022
 - Davide Galilei(1x month)
-
-&lt;b&gt;Current Patrons&lt;/b&gt;
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Current Patrons&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 - jaap groot (from October 2023)
 - Dimitri Lesnoff (from October 2023)
-
-&lt;b&gt;Compiler information&lt;/b&gt;
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Compiler Information&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 - Version used: E.G. 2.0.2
 - Compiler settings used: none, ORC is now the default memory management option
 - Timestamps:
   - 00:15 Start of video example
 &quot;&quot;&quot;</span>
-nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
-
-&lt;b&gt;LINKS:&lt;/b&gt;
+nbUoSubSection <span class="hljs-string">&quot;My and General Links&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 - [Extra Content](https://kiloneie.github.io/Extra%20Content/extraMakingFakeTable.html &quot;Extra Content&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
-
-&lt;b&gt;LINKS to this video's subject:&lt;/b&gt;
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Links to this video's subject&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
 - [min/maxIndex procs](https://nim-lang.org/docs/sequtils.html#minIndex%2CopenArray%5BT%5D &quot;min/maxIndex procs&quot;)
 - [for `sort` func and `sorted` proc](https://nim-lang.org/docs/algorithm.html#sort%2CopenArray%5BT%5D%2Cproc%28T%2CT%29 &quot;for `sort` func and `sorted` proc&quot;)
 - [parseInt](https://nim-lang.org/docs/strutils.html#parseInt%2Cstring &quot;parseInt&quot;)

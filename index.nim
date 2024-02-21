@@ -76,6 +76,12 @@ template nbSubSection(name:string) =
   nbToc.output.add "  - " & $index.section & r"\." & $index.subsection & r"\. " & "<a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
+template nbUoSection(name: string) =
+  nbText "\n# " & name & "\n\n---"
+
+template nbUoSubSection(name: string) =
+  nbText "\n## " & name & "\n\n---"
+
 #Updating the same file is shown instantly once deployed via Github Page on PC. 
   #Mobile takes either a random amount of time, or NOT at all!
 template addButtonBackToTop() =
@@ -268,11 +274,10 @@ nbSection "Extra Content"
 let extraContent = findAndOutputTutorials("Extra Content")
 nbText: hlMdF"" & extraContent
 
-nbText: hlMdF"""
-<b>LINKS:</b>
+nbUoSection "My and General Links"
+nbText: """
 - [Nim's main page](https://nim-lang.org "Nim's main page")
 - [Nim's manual/documentation](https://nim-lang.org/docs/manual.html "Nim's manual/documentation")
-- [Twitter](https://twitter.com/Kiloneie "My Twitter")
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
 """

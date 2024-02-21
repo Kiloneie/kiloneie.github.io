@@ -79,6 +79,12 @@ template nbSubSection(name:string) =
   nbToc.output.add "  - " & $index.section & r"\." & $index.subsection & r"\. " & "<a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
+template nbUoSection(name: string) =
+  nbText "\n# " & name & "\n\n---"
+
+template nbUoSubSection(name: string) =
+  nbText "\n## " & name & "\n\n---"
+
 #Updating the same file is shown instantly once deployed via Github Page on PC. 
   #Mobile takes either a random amount of time, or NOT at all!
 template addButtonBackToTop() =
@@ -844,31 +850,39 @@ nbCode:
   echo s.missingOrExcl(6) #should be: false
   echo s.missingOrExcl(6) #should be: true
 
-nbText: hlMd"""
-## OUTRO - AFTERWORDS
-  I hope you enjoyed and learned something more from this extra content.
-  Let me know in the comments for the video.
-
-### Thanks to my past and current Patrons
-<b>Past Patrons:</b>
+nbUoSection "Outro - Afterwords"
+nbText: """
+  Okay, that's it for this video, thanks for watching like, share and subscribe, 
+    aswell as click the bell icon if you liked it and want more, 
+    you can also follow me on twitter of the same name, and support me on Patreon. 
+    If you had any problems with any part of the video, 
+    let me know in the comment section, 
+    the code of this video, script and documentation, are in the link in the description,
+    as a form of offline tutorial.
+"""
+nbUoSection "Thanks to my past and current Patrons"
+nbUoSubSection "Past Patrons"
+nbText: """
 - Goose_Egg: From April 4th 2021 to May 10th 2022
 - Davide Galilei(1x month)
-
-<b>Current Patrons</b>
+"""
+nbUoSubSection "Current Patrons"
+nbText: """
 - jaap groot (from October 2023)
 - Dimitri Lesnoff (from October 2023)
-
-<b>Compiler information</b>
-- Version used: 2.0.2
+"""
+nbUoSubSection "Compiler Information"
+nbText: """
+- Version used: E.G. 2.0.2
 - Compiler settings used: none, ORC is now the default memory management option
 """
-nbText: hlMdF"""
-
-<b>LINKS:</b>
+nbUoSubSection "My and General Links"
+nbText: """
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true "Patreon")
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf "Visual Studio Code Shortcuts")
-
-<b>LINKS to this video's subject:</b>
+"""
+nbUoSubSection "Links to this video's subject"
+nbText: """
 - [Sets(hashSets)](https://nim-lang.org/docs/sets.html "Sets(hashSets)")
 - [Hashes](https://nim-lang.org/docs/hashes.html "Hashes")
 - [Tables(hashTables)](https://nim-lang.org/docs/tables.html "Tables(hashTables)")
