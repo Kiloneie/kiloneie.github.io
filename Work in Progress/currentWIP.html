@@ -368,14 +368,12 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
 
     <span class="hljs-comment">#Multi occurance numbers</span>
     tempSeq = tempSeq.deduplicate
-    countedNumbers.add (tempNum, tempSeq)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Original listOfNumbers:
-@[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]</pre></code></pre>
+    countedNumbers.add (tempNum, tempSeq)
 
-<h6>The following is required to be written in this way, otherwise the output of the code overflows and breaks the page for mobile users</h6>
-<p><code>echo &quot;countedNumbers:&quot;</code> <br>
-<code>echo countedNumbers; echo &quot;&quot;</code> <br></p>
-<h5>@[(1, @[0]), (2, @[1]), (50, @[2]), (20, @[3]), (100, @[4, 10]), (0, @[5, 9, 11]), (-5, @[6]), (68, @[7]), (-100, @[8])]</h5>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;countedNumbers:&quot;</span>
+<span class="hljs-keyword">echo</span> countedNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
+<span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
 <span class="hljs-keyword">var</span> smallestNumber: (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]) = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[])
 <span class="hljs-keyword">var</span> sNlocation: <span class="hljs-built_in">int</span>
 <span class="hljs-keyword">while</span> countedNumbers.len &gt; <span class="hljs-number">0</span>:
@@ -391,7 +389,13 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
     sortedListOfNumbers.add smallestNumber[<span class="hljs-number">0</span>]
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">sortedListOfNumbers
+<span class="hljs-keyword">echo</span> sortedListOfNumbers</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Original listOfNumbers:
+@[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]
+
+countedNumbers:
+@[(1, @[0]), (2, @[1]), (50, @[2]), (20, @[3]), (100, @[4, 10]), (0, @[5, 9, 11]), (-5, @[6]), (68, @[7]), (-100, @[8])]
+
+sortedListOfNumbers
 @[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
 
 <p>As you can see, for just sorting numbers in a sequence, it takes a lot of code to do so.</p>
@@ -479,22 +483,22 @@ and on the fields of a <code>type</code> like so:</p>
 <h2>  3.2. Generic Object Initialization</h2>
 <hr />
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
-<span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+<span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)
 
-<p><code>echo genericObject, &quot; of type &quot;, genericObject.typeof</code> <br>
-<code>echo genericObject2, &quot; of type &quot;, genericObject2.typeof</code></p>
-  <h5>(data: "A String"), " of type ", GenericObject[system.string] <br>
-      (data: 101), " of type ", GenericObject[system.int] </h5>
+<span class="hljs-keyword">echo</span> genericObject, <span class="hljs-string">&quot; of type &quot;</span>, genericObject.typeof
+<span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(data: &quot;A String&quot;) of type GenericObject[system.string]
+(data: 101) of type GenericObject[system.int]</pre></code></pre>
+
 <p><a name = "generic-tuple-initialization"></a></p>
 <h2>  3.3. Generic Tuple Initialization</h2>
 <hr />
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
-<span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+<span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)
 
-<p><code>echo genericTuple, &quot; of type &quot;, genericTuple.typeof</code> <br>
-<code>echo genericTuple2, &quot; of type &quot;, genericTuple2.typeof</code></p>
-  <h5>(name: "Bob", age: 20), " of type ", GenericTuple[system.string, system.int] <br> 
-  (name: @[0.5, 1.1, 3.25], age: true), " of type ", GenericTuple[seq[float], system.bool] </h5>
+<span class="hljs-keyword">echo</span> genericTuple, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple.typeof
+<span class="hljs-keyword">echo</span> genericTuple2, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple2.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(name: &quot;Bob&quot;, age: 20) of type GenericTuple[system.string, system.int]
+(name: @[0.5, 1.1, 3.25], age: true) of type GenericTuple[seq[float], system.bool]</pre></code></pre>
+
 <p>Calling generic procs and iterators is exactly the same as non generic versions,
 unlike structures like <code>objects</code> and <code>tuples</code>(shown above).</p>
 <p><a name = "more-overloading"></a></p>
@@ -738,7 +742,6 @@ as a form of offline tutorial.</p>
 <span class="hljs-comment">#https://nim-lang.org/docs/manual.html#lexical-analysis-raw-string-literals raw strings r&quot;&quot;</span>
 
 <span class="hljs-keyword">import</span> nimib, std/strutils <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
-<span class="hljs-keyword">import</span> std/strformat <span class="hljs-comment">#Required for nbTextWithCode: fmt&quot;&quot;&quot;{variable/code}&quot;&quot;&quot;</span>
 
 nbInit()
 nb.darkMode()
@@ -1127,13 +1130,9 @@ nbCode:
       tempSeq = tempSeq.deduplicate
       countedNumbers.add (tempNum, tempSeq)
 
-nbText <span class="hljs-string">&quot;&quot;&quot;&lt;h6&gt;The following is required to be written in this way, otherwise the output of the code overflows and breaks the page for mobile users&lt;/h6&gt;&quot;&quot;&quot;</span>
-nbTextWithCode: <span class="hljs-string">fmt&quot;&quot;&quot;
-`echo &quot;countedNumbers:&quot;` &lt;br&gt;
-`echo countedNumbers; echo &quot;&quot;` &lt;br&gt;
-&lt;h5&gt;{countedNumbers}&lt;/h5&gt;
-&quot;&quot;&quot;</span>
-nbCode:
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;countedNumbers:&quot;</span>
+  <span class="hljs-keyword">echo</span> countedNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
   <span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
   <span class="hljs-keyword">var</span> smallestNumber: (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]) = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[])
   <span class="hljs-keyword">var</span> sNlocation: <span class="hljs-built_in">int</span>
@@ -1254,26 +1253,17 @@ nbSubSection <span class="hljs-string">&quot;Generic Object Initialization&quot;
 nbCode:
   <span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
   <span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)
-<span class="hljs-comment">#Must use $ for .typeof inside fmt's {}</span>
-nbTextWithCode: <span class="hljs-string">fmt&quot;&quot;&quot;
-  `echo genericObject, &quot; of type &quot;, genericObject.typeof` &lt;br&gt;
-  `echo genericObject2, &quot; of type &quot;, genericObject2.typeof`
 
-  &lt;h5&gt;{genericObject}, &quot; of type &quot;, {$genericObject.typeof} &lt;br&gt;
-      {genericObject2}, &quot; of type &quot;, {$genericObject2.typeof} &lt;/h5&gt;
-&quot;&quot;&quot;</span>
+  <span class="hljs-keyword">echo</span> genericObject, <span class="hljs-string">&quot; of type &quot;</span>, genericObject.typeof
+  <span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof
 
 nbSubSection <span class="hljs-string">&quot;Generic Tuple Initialization&quot;</span>
 nbCode:
   <span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
   <span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)
-nbTextWithCode: <span class="hljs-string">fmt&quot;&quot;&quot;
-  `echo genericTuple, &quot; of type &quot;, genericTuple.typeof` &lt;br&gt;
-  `echo genericTuple2, &quot; of type &quot;, genericTuple2.typeof`
 
-  &lt;h5&gt;{genericTuple}, &quot; of type &quot;, {$genericTuple.typeof} &lt;br&gt; 
-  {genericTuple2}, &quot; of type &quot;, {$genericTuple2.typeof} &lt;/h5&gt;
-&quot;&quot;&quot;</span>
+  <span class="hljs-keyword">echo</span> genericTuple, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple.typeof
+  <span class="hljs-keyword">echo</span> genericTuple2, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple2.typeof
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Calling generic procs and iterators is exactly the same as non generic versions,
