@@ -239,17 +239,19 @@ str.stringOrInt
 num.stringOrInt
 
 str.stringOrIntOr
-num.stringOrIntOr</code></pre><pre class="nb-output">Hello
+num.stringOrIntOr</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Hello
 101
 Hello
-101</pre>
+101</pre></code></pre>
+
 <p><strong>Example of multiple types for return:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> multipleReturn(data: <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span> = <span class="hljs-comment">#This is now a `generic`! Multi return = generic</span>
   <span class="hljs-literal">result</span> = data
 
 <span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-number">101</span>)
-<span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-string">&quot;Hello&quot;</span>)</code></pre><pre class="nb-output">101
-Hello</pre>
+<span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-string">&quot;Hello&quot;</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">101
+Hello</pre></code></pre>
+
 <p><a name = "`type-or-|-type`-approach-problem"></a></p>
 <h2>  1.1. <code>type or | type</code> approach problem</h2>
 <hr />
@@ -284,8 +286,9 @@ therefore we do NOT need to check the types beforehand.</p>
     <span class="hljs-number">101</span>
 
 <span class="hljs-keyword">echo</span> test <span class="hljs-literal">true</span>
-<span class="hljs-keyword">echo</span> test <span class="hljs-literal">false</span></code></pre><pre class="nb-output">Hello
-101</pre>
+<span class="hljs-keyword">echo</span> test <span class="hljs-literal">false</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Hello
+101</pre></code></pre>
+
 <p>The following <code>runtime</code> version does NOT compile:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> testR(x: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">int</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">string</span> = <span class="hljs-comment">#Multi return = generic</span>
   <span class="hljs-keyword">when</span> x:
@@ -314,7 +317,8 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
   <span class="hljs-keyword">if</span> number &lt; smallestNumber:
     smallestNumber = number
 
-<span class="hljs-keyword">echo</span> smallestNumber</code></pre><pre class="nb-output">-100</pre>
+<span class="hljs-keyword">echo</span> smallestNumber</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-100</pre></code></pre>
+
 <p><a name = "finding-the-lowest-number-in-a-sequence-using-`min/maxindex`"></a></p>
 <h2>  2.2. Finding the lowest number in a sequence using <code>min/maxIndex</code></h2>
 <hr />
@@ -325,8 +329,9 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
 numbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
 
 <span class="hljs-keyword">echo</span> numbers[numbers.minIndex]
-<span class="hljs-keyword">echo</span> numbers[numbers.maxIndex]</code></pre><pre class="nb-output">-100
-100</pre>
+<span class="hljs-keyword">echo</span> numbers[numbers.maxIndex]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-100
+100</pre></code></pre>
+
 <p>As you can see it's much simpler, but it is always valuable to learn how to do it yourself,
 especially if you plan to make a similar proc.</p>
 <p><a name = "sorting-a-sequence-of-integers"></a></p>
@@ -363,8 +368,9 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
 
     <span class="hljs-comment">#Multi occurance numbers</span>
     tempSeq = tempSeq.deduplicate
-    countedNumbers.add (tempNum, tempSeq)</code></pre><pre class="nb-output">Original listOfNumbers:
-@[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]</pre>
+    countedNumbers.add (tempNum, tempSeq)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Original listOfNumbers:
+@[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]</pre></code></pre>
+
 <h6>The following is required to be written in this way, otherwise the output of the code overflows and breaks the page for mobile users</h6>
 <p><code>echo &quot;countedNumbers:&quot;</code> <br>
 <code>echo countedNumbers; echo &quot;&quot;</code> <br></p>
@@ -385,8 +391,9 @@ listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">
     sortedListOfNumbers.add smallestNumber[<span class="hljs-number">0</span>]
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers</code></pre><pre class="nb-output">sortedListOfNumbers
-@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre>
+<span class="hljs-keyword">echo</span> sortedListOfNumbers</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">sortedListOfNumbers
+@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
+
 <p>As you can see, for just sorting numbers in a sequence, it takes a lot of code to do so.</p>
 <p><a name = "sorting-a-sequence-of-integers-using-`sort`"></a></p>
 <h2>  2.4. Sorting a sequence of integers using <code>sort</code></h2>
@@ -404,21 +411,24 @@ listOfNumbers2 = @[<span class="hljs-number">1</span>, <span class="hljs-number"
 sortedListOfNumbers2.sort() <span class="hljs-comment">#Default is lowest to highest - Ascending</span>
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers2&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers2</code></pre><pre class="nb-output">Original listOfNumbers2:
+<span class="hljs-keyword">echo</span> sortedListOfNumbers2</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Original listOfNumbers2:
 @[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]
 
 sortedListOfNumbers2
-@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre>
+@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
+
 <p>As you can see, it saves you a LOT of time(it took me quite a bit to write my own above).</p>
 <p><strong>Descending <code>sort</code> example:</strong></p>
 <pre><code class="nohighlight hljs nim">sortedListOfNumbers2.sort(order = <span class="hljs-type">SortOrder</span>.<span class="hljs-type">Descending</span>)
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers2 in Descending order:&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers2</code></pre><pre class="nb-output">sortedListOfNumbers2 in Descending order:
-@[100, 100, 68, 50, 20, 2, 1, 0, 0, 0, -5, -100]</pre>
+<span class="hljs-keyword">echo</span> sortedListOfNumbers2</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">sortedListOfNumbers2 in Descending order:
+@[100, 100, 68, 50, 20, 2, 1, 0, 0, 0, -5, -100]</pre></code></pre>
+
 <p><code>sort</code> proc modifies the existing variable, and uses the <code>system.cmp</code> for comparisons by default.
 There is also the <code>sorted</code> proc, which returns a new copy instead of modifying the existing container.</p>
 <p><strong><code>sorted</code> proc example:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> listOfNumbers2.sorted() <span class="hljs-comment">#You can't use `sort` with an echo like this</span></code></pre><pre class="nb-output">@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> listOfNumbers2.sorted() <span class="hljs-comment">#You can't use `sort` with an echo like this</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
+
 <p>You can also specify which comparison/<code>cmp</code> proc to use, like this:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> listOfNumbers2.sorted(system.cmp[<span class="hljs-built_in">int</span>])</code></pre>
 <p>You can replace that <code>cmp</code>(compare) proc, with one of the following from the Nim's Standard Library's docs search results:</p>
@@ -458,16 +468,19 @@ and on the fields of a <code>type</code> like so:</p>
   <span class="hljs-keyword">discard</span>
 
 <span class="hljs-keyword">iterator</span> genericIterator[<span class="hljs-type">T</span>](anyType: <span class="hljs-type">T</span>): <span class="hljs-type">T</span> =
-  <span class="hljs-keyword">discard</span></code></pre>
+  <span class="hljs-keyword">discard</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>And also for generic containers proc definition example</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> genericContainerProc[<span class="hljs-type">T</span>](anyTypeContainer: <span class="hljs-built_in">seq</span>[<span class="hljs-type">T</span>]) =
-  <span class="hljs-keyword">discard</span></code></pre>
+  <span class="hljs-keyword">discard</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now let's see how to use this <code>generic object</code></p>
 <p><a name = "generic-object-initialization"></a></p>
 <h2>  3.2. Generic Object Initialization</h2>
 <hr />
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
-<span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)</code></pre>
+<span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><code>echo genericObject, &quot; of type &quot;, genericObject.typeof</code> <br>
 <code>echo genericObject2, &quot; of type &quot;, genericObject2.typeof</code></p>
   <h5>(data: "A String"), " of type ", GenericObject[system.string] <br>
@@ -476,7 +489,8 @@ and on the fields of a <code>type</code> like so:</p>
 <h2>  3.3. Generic Tuple Initialization</h2>
 <hr />
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
-<span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)</code></pre>
+<span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><code>echo genericTuple, &quot; of type &quot;, genericTuple.typeof</code> <br>
 <code>echo genericTuple2, &quot; of type &quot;, genericTuple2.typeof</code></p>
   <h5>(name: "Bob", age: 20), " of type ", GenericTuple[system.string, system.int] <br> 
@@ -500,11 +514,13 @@ which does not deal with <code>strings</code> but with an element of some type.<
 <hr />
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> mySequence = @[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">10</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">50</span>]
 
-<span class="hljs-keyword">echo</span> mySequence.find(-<span class="hljs-number">10</span>)</code></pre><pre class="nb-output">3</pre>
+<span class="hljs-keyword">echo</span> mySequence.find(-<span class="hljs-number">10</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">3</pre></code></pre>
+
 <p>Like with all <code>find</code> proc versions, you give it what you want it to find, and it returns the <code>index</code> of where it is.</p>
 <p><strong>If you were to reinsert the index back, you would get -10 in this case:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> location = mySequence.find(-<span class="hljs-number">10</span>)
-<span class="hljs-keyword">echo</span> mySequence[location]</code></pre><pre class="nb-output">-10</pre>
+<span class="hljs-keyword">echo</span> mySequence[location]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-10</pre></code></pre>
+
 <p><a name = "using-`find`-with-a-sequence-of-objects"></a></p>
 <h2>  4.2. Using <code>find</code> with a sequence of objects</h2>
 <hr />
@@ -516,7 +532,8 @@ which does not deal with <code>strings</code> but with an element of some type.<
 
 <span class="hljs-keyword">var</span> seqOfSomeObject: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>]
 seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Wombat&quot;</span>, age: <span class="hljs-number">3</span>)
-seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Womp rat&quot;</span>, age: <span class="hljs-number">5</span>)</code></pre>
+seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Womp rat&quot;</span>, age: <span class="hljs-number">5</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> wompRat = seqOfSomeObject.find(<span class="hljs-string">&quot;Womp rat&quot;</span>)
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;index of Womp rat: &quot;</span>, wompRat, <span class="hljs-string">&quot; reinsertion: &quot;</span>, seqOfSomeObject[wompRat]</code></pre>
 <img src = "images/findProcError.png" alt = "`find` proc error">
@@ -544,17 +561,20 @@ First off, here is how the <code>system.find</code> proc is defined(a generic):<
       <span class="hljs-keyword">if</span> f.typeof <span class="hljs-keyword">is</span> item.typeof:
         <span class="hljs-keyword">if</span> $f == $item: <span class="hljs-keyword">return</span> index <span class="hljs-comment">#To string($) -&gt; f(int) == item(string) -&gt; ERROR</span>
       <span class="hljs-comment">#inc(result) #No longer needed as we are using the `pairs` iterator</span>
-  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre>
+  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> wompRat = seqOfSomeObject.find(<span class="hljs-string">&quot;Womp rat&quot;</span>)
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Found name Womp rat at index: &quot;</span>, wompRat
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[wompRat]</code></pre><pre class="nb-output">Found name Womp rat at index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[wompRat]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Found name Womp rat at index: 1
+Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
+
 <p>And now for the <code>age</code> field:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> ageOfWompRat = seqOfSomeObject.find(<span class="hljs-number">5</span>)
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Found age 5 at index: &quot;</span>, ageOfWompRat
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[ageOfWompRat]</code></pre><pre class="nb-output">Found age 5 at index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[ageOfWompRat]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Found age 5 at index: 1
+Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
+
 <p><a name = "`[]`-overload-for-ease-of-life"></a></p>
 <h2>  4.4. <code>[]</code> overload for ease of life</h2>
 <hr />
@@ -575,11 +595,13 @@ resulting in an error.</p>
         <span class="hljs-keyword">if</span> $f == $item: <span class="hljs-keyword">return</span> index <span class="hljs-comment">#To string($) -&gt; f(int) == item(string) -&gt; ERROR</span>
       <span class="hljs-keyword">elif</span> $f == $item: <span class="hljs-keyword">return</span> index 
       <span class="hljs-comment">#inc(result) #No longer needed as we are using the `pairs` iterator</span>
-  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre>
+  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> name = seqOfSomeObject[<span class="hljs-string">&quot;Womp rat&quot;</span>]
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;name's index: &quot;</span>, name
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[name]</code></pre><pre class="nb-output">name's index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[name]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">name's index: 1
+Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
+
 <p>The following will NOT compile, and crash if the <code>item</code> argument is a generic.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> age = seqOfSomeObject[<span class="hljs-number">5</span>] <span class="hljs-comment">#Index out of bounds - no crash yet</span>
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;age's index: &quot;</span>, age
@@ -590,8 +612,9 @@ to <code>if parseInt($f) is int:</code>, in order to see if the parsed string is
 and then the same process as before continues.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> age = seqOfSomeObject[$<span class="hljs-number">5</span>]
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;age's index: &quot;</span>, age
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[age]</code></pre><pre class="nb-output">age's index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[age]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">age's index: 1
+Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
+
 <p><a name = "tuple-unpacking"></a></p>
 <h1>5. Tuple Unpacking</h1>
 <hr />
@@ -605,19 +628,22 @@ at once.</p>
 
 <span class="hljs-keyword">echo</span> v1
 <span class="hljs-keyword">echo</span> c1
-<span class="hljs-keyword">echo</span> l1</code></pre><pre class="nb-output">var
+<span class="hljs-keyword">echo</span> l1</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">var
 const
-let</pre>
+let</pre></code></pre>
+
 <p><strong>You may also ommit assignment of any of them:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> (v2, _, l2) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
 
-<span class="hljs-keyword">let</span> (_, _, _) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)</code></pre>
+<span class="hljs-keyword">let</span> (_, _, _) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p><strong>All of this is treated as syntatic sugar for basically the following code(Example 1):</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span>
   temporaryTuple = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
   v3 = temporaryTuple[<span class="hljs-number">0</span>]
   c3 = temporaryTuple[<span class="hljs-number">1</span>]
-  l3 = temporaryTuple[<span class="hljs-number">2</span>]</code></pre>
+  l3 = temporaryTuple[<span class="hljs-number">2</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>I don't think i have ever shown this before, but yes, you can access any field of a <code>tuple</code>,
 without knowing the name of the field, especially useful for <code>anonymous</code> tuples like here(fields without names).
 I do recommend though, that you do use the <code>names</code> of the fields over the <code>index</code> when the <code>names</code> are present.</p>
@@ -640,7 +666,8 @@ into variables and containers.</p>
 
 <span class="hljs-keyword">let</span> (x, (_, y), _, z) = returnsNestedTuple()
 
-<span class="hljs-keyword">echo</span> x, <span class="hljs-string">&quot; &quot;</span>, y, <span class="hljs-string">&quot; &quot;</span>, z</code></pre><pre class="nb-output">4 7 3</pre>
+<span class="hljs-keyword">echo</span> x, <span class="hljs-string">&quot; &quot;</span>, y, <span class="hljs-string">&quot; &quot;</span>, z</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">4 7 3</pre></code></pre>
+
 <p>Another very useful part of <code>tuple unpacking</code> is that, you don't need to return anything.
 1, 2, all or none.</p>
 <h2>OUTRO - AFTERWORDS</h2>
@@ -733,6 +760,20 @@ nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class
 nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
 nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
 &lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
 
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>

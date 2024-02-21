@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>..\..\..\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart1.nim</title>
+  <title>f:\Nim\Nim YouTube Projects\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart1.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,9 +43,9 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..\..\..\Current Projects\List comprehensions sugar collect\#3 Overloading in Depth">🏡</a></span>
-  <span><code>..\..\..\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart1.nim</code></span>
-  <span></span>
+  <span><a href="C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie">🏡</a></span>
+  <span><code>f:\Nim\Nim YouTube Projects\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart1.nim</code></span>
+  <span><a href="https://github.com/Kiloneie/kiloneie.github.io"><svg aria-hidden="true" width="1.2em" height="1.2em" style="vertical-align: middle; fill: #fff" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a></span>
 </div>
 <hr>
 </header><main>
@@ -191,7 +191,8 @@ First we make an enumerator withing a type section,
 with it's enumerations of line, circle, rectangle</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
   <span class="hljs-type">Kind</span> = <span class="hljs-keyword">enum</span>
-    line, circle, rectangle</code></pre>
+    line, circle, rectangle</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Secondly we make our object with it's variants by using a case statement,
 with the enumerator from above like this:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
@@ -203,7 +204,8 @@ with the enumerator from above like this:</p>
         cx, cy: <span class="hljs-built_in">int</span>
         radius: <span class="hljs-built_in">float</span> <span class="hljs-comment">#PI = 3.14</span>
       <span class="hljs-keyword">of</span> rectangle:
-        rx1, ry1, rx2, ry2: <span class="hljs-built_in">int</span></code></pre>
+        rx1, ry1, rx2, ry2: <span class="hljs-built_in">int</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>How this works is simple, you initialize a new variable of type Draw object,
 and then for it's field select one of it's kind enumerations,
 and then based on the kind of the object, you give that kind's field's data,
@@ -220,18 +222,20 @@ and echo them, also make a constant for pi, circle's radius:</p>
 
 <span class="hljs-keyword">echo</span> drawLine, <span class="hljs-string">&quot; drawLine's type is: &quot;</span>, drawLine.<span class="hljs-keyword">type</span> 
 <span class="hljs-keyword">echo</span> drawCircle, <span class="hljs-string">&quot; drawCircle's type is: &quot;</span>, drawCircle.<span class="hljs-keyword">type</span> 
-<span class="hljs-keyword">echo</span> drawRectangle, <span class="hljs-string">&quot; drawRectangle's type is: &quot;</span>, drawRectangle.<span class="hljs-keyword">type</span></code></pre><pre class="nb-output">(kind: line, lx: 10, ly: 50) drawLine's type is: Draw
+<span class="hljs-keyword">echo</span> drawRectangle, <span class="hljs-string">&quot; drawRectangle's type is: &quot;</span>, drawRectangle.<span class="hljs-keyword">type</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(kind: line, lx: 10, ly: 50) drawLine's type is: Draw
 (kind: circle, cx: 10, cy: 50, radius: 3.14) drawCircle's type is: Draw
-(kind: rectangle, rx1: 10, ry1: 50, rx2: 10, ry2: 0) drawRectangle's type is: Draw</pre>
+(kind: rectangle, rx1: 10, ry1: 50, rx2: 10, ry2: 0) drawRectangle's type is: Draw</pre></code></pre>
+
 <p>Here we go 3 different variants of the same object Draw.
 We can also display their kind such as line, circle,
 rectangle that the case statement uses,
 so let's display that using &quot;variableName.kind&quot;</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> drawLine, <span class="hljs-string">&quot; drawLine's type is: &quot;</span>, drawLine.<span class="hljs-keyword">type</span>, <span class="hljs-string">&quot; of kind: &quot;</span>, drawLine.kind
 <span class="hljs-keyword">echo</span> drawCircle, <span class="hljs-string">&quot; drawCircle's type is: &quot;</span>, drawCircle.<span class="hljs-keyword">type</span>, <span class="hljs-string">&quot; of kind: &quot;</span>, drawCircle.kind 
-<span class="hljs-keyword">echo</span> drawRectangle, <span class="hljs-string">&quot; drawRectangle's type is: &quot;</span>, drawRectangle.<span class="hljs-keyword">type</span>, <span class="hljs-string">&quot; of kind: &quot;</span>, drawRectangle.kind</code></pre><pre class="nb-output">(kind: line, lx: 10, ly: 50) drawLine's type is: Draw of kind: line
+<span class="hljs-keyword">echo</span> drawRectangle, <span class="hljs-string">&quot; drawRectangle's type is: &quot;</span>, drawRectangle.<span class="hljs-keyword">type</span>, <span class="hljs-string">&quot; of kind: &quot;</span>, drawRectangle.kind</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(kind: line, lx: 10, ly: 50) drawLine's type is: Draw of kind: line
 (kind: circle, cx: 10, cy: 50, radius: 3.14) drawCircle's type is: Draw of kind: circle
-(kind: rectangle, rx1: 10, ry1: 50, rx2: 10, ry2: 0) drawRectangle's type is: Draw of kind: rectangle</pre>
+(kind: rectangle, rx1: 10, ry1: 50, rx2: 10, ry2: 0) drawRectangle's type is: Draw of kind: rectangle</pre></code></pre>
+
 <p>Here we go it works.</p>
 <p><a name = "shared-fields"></a></p>
 <h1>Shared fields</h1>
@@ -258,7 +262,8 @@ Let's try this with a different example:</p>
       <span class="hljs-keyword">of</span> footman:
         armor: <span class="hljs-type">Armor</span>
       <span class="hljs-keyword">of</span> mage:
-        spells: <span class="hljs-built_in">seq</span>[<span class="hljs-type">Spells</span>]</code></pre>
+        spells: <span class="hljs-built_in">seq</span>[<span class="hljs-type">Spells</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Okay here i have made 3 enumerators,
 1x for the Enemies1 with footman and mage as it's enumerations,
 another for Armour our footman will be using and Spells for the mage.</p>
@@ -272,8 +277,9 @@ of the enumerator i have made for each of them.</p>
 <span class="hljs-keyword">var</span> sorcerer = <span class="hljs-type">Enemy</span>(kind: mage, spells: @[root, heal], health: <span class="hljs-number">75</span>, damage: <span class="hljs-number">10</span>, attackRange: <span class="hljs-number">600</span>)
 
 <span class="hljs-keyword">echo</span> soldier, <span class="hljs-string">&quot; soldier's type is: &quot;</span>, soldier.kind
-<span class="hljs-keyword">echo</span> sorcerer, <span class="hljs-string">&quot; sorcerer's type is: &quot;</span>, sorcerer.kind</code></pre><pre class="nb-output">(damage: 5, attackRange: 100, health: 200, kind: footman, armor: medium) soldier's type is: footman
-(damage: 10, attackRange: 600, health: 75, kind: mage, spells: @[root, heal]) sorcerer's type is: mage</pre>
+<span class="hljs-keyword">echo</span> sorcerer, <span class="hljs-string">&quot; sorcerer's type is: &quot;</span>, sorcerer.kind</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(damage: 5, attackRange: 100, health: 200, kind: footman, armor: medium) soldier's type is: footman
+(damage: 10, attackRange: 600, health: 75, kind: mage, spells: @[root, heal]) sorcerer's type is: mage</pre></code></pre>
+
 <p>Here we go, that's how you do Object Variants and have shared fields for them.</p>
 <p><a name = "circle-ellipse-problem"></a></p>
 <h1>Circle-Ellipse problem</h1>
@@ -350,6 +356,20 @@ nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class
 nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
 nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
 &lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
 
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>

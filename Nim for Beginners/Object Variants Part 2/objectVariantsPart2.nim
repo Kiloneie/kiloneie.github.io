@@ -20,6 +20,20 @@ nb.renderPlans["nbTextWithSource"] = @["mdOutputToHtml"]
 nb.partials["nbTextWithSource"] = """{{&outputToHtml}}
 <pre><code class=\"language-markdown\">{{code}}</code></pre>"""
 
+#Overriding nimib's nbCode -> with a version that has horizontal scroll for overflowing output
+import nimib / [capture]
+
+template nbCode(body: untyped) =
+  newNbCodeBlock("nbCode", body): #Writes to stdout `lineNumb typeOfNBblock: a bit of first line
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials["nbCode"] = """
+{{>nbCodeSource}}
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">{{>nbCodeOutput}}</code></pre>
+""" 
+nb.renderPlans["nbCode"] = @["highlightCode"] # default partial automatically escapes output (code is escaped when highlighting)
+
 # how to add a ToC
 var
   nbToc: NbBlock

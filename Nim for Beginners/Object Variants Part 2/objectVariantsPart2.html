@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>..\..\..\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart2.nim</title>
+  <title>f:\Nim\Nim YouTube Projects\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart2.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,9 +43,9 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..\..\..\Current Projects\List comprehensions sugar collect\#3 Overloading in Depth">🏡</a></span>
-  <span><code>..\..\..\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart2.nim</code></span>
-  <span></span>
+  <span><a href="C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie">🏡</a></span>
+  <span><code>f:\Nim\Nim YouTube Projects\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart2.nim</code></span>
+  <span><a href="https://github.com/Kiloneie/kiloneie.github.io"><svg aria-hidden="true" width="1.2em" height="1.2em" style="vertical-align: middle; fill: #fff" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a></span>
 </div>
 <hr>
 </header><main>
@@ -221,7 +221,8 @@ So let's begin:</p>
     attackMoves: <span class="hljs-built_in">seq</span>[<span class="hljs-type">HumanoidAttackMovesI</span>]
 
   <span class="hljs-type">WolfI</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span> <span class="hljs-keyword">of</span> <span class="hljs-type">EnemyI</span>
-    attackMoves: <span class="hljs-built_in">seq</span>[<span class="hljs-type">AnimalAttackMovesI</span>]</code></pre>
+    attackMoves: <span class="hljs-built_in">seq</span>[<span class="hljs-type">AnimalAttackMovesI</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now here we are going to use &quot;methods&quot; over procs, because methods enable dynamic dispatch,
 selecting the appropriate function(proc, method etc), at runtime, when the program is running,
 instead of doing it at compile time with <b>procs</b>, when writting our code</p>
@@ -243,7 +244,8 @@ as parameters, so we can't give them the parameters we want to make creation of 
 objects via constructors easier, object variants will be able to do that:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">method</span> newEnemyI(b: <span class="hljs-type">EnemyI</span>): <span class="hljs-type">EnemyI</span> {.base.} = b
 <span class="hljs-keyword">method</span> newEnemyI(b: <span class="hljs-type">BanditI</span>): <span class="hljs-type">BanditI</span> {.base.} = b
-<span class="hljs-keyword">method</span> newEnemyI(b: <span class="hljs-type">WolfI</span>): <span class="hljs-type">WolfI</span> {.base.} = b</code></pre>
+<span class="hljs-keyword">method</span> newEnemyI(b: <span class="hljs-type">WolfI</span>): <span class="hljs-type">WolfI</span> {.base.} = b</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now we are going to make 3 methods for a hypothetical attack for all 3 objects.
 First of AGAIN as i said above, the parent object, EnemyI requires it's attack method,
 to be as barebones/simple as possible, because it's function in this code will be to
@@ -253,7 +255,8 @@ simply be a parent, it's child objects will have more functionality:</p>
 <span class="hljs-keyword">method</span> attackI(this: <span class="hljs-type">BanditI</span>): <span class="hljs-built_in">string</span> =
   randomize() <span class="hljs-comment">#Unless you use randomize, every program run will result in the same random numbers</span>
   <span class="hljs-keyword">let</span> max = this.attackMoves.<span class="hljs-keyword">high</span>
-  <span class="hljs-literal">result</span> = $this.attackMoves[rand(<span class="hljs-number">0.</span>.max)] <span class="hljs-comment">#0..max -&gt; so we don't make an illegal storage access</span></code></pre>
+  <span class="hljs-literal">result</span> = $this.attackMoves[rand(<span class="hljs-number">0.</span>.max)] <span class="hljs-comment">#0..max -&gt; so we don't make an illegal storage access</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now we are going to copy paste the bandit's attackI method and simply change it's
 parameter of BanditI to WolfI. By naming a proc/method and more, with the same name
 we overload that method/proc. Overloading means that the compiler will determine which
@@ -261,7 +264,8 @@ of the same named overloaded procs/methods is to be used</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">method</span> attackI(this: <span class="hljs-type">WolfI</span>): <span class="hljs-built_in">string</span> =
   randomize()
   <span class="hljs-keyword">let</span> max = this.attackMoves.<span class="hljs-keyword">high</span>
-  <span class="hljs-literal">result</span> = $this.attackMoves[rand(<span class="hljs-number">0.</span>.max)]</code></pre>
+  <span class="hljs-literal">result</span> = $this.attackMoves[rand(<span class="hljs-number">0.</span>.max)]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now we will make a variable that will use the parent object of EnemyI,
 a sequence to store 100 of randomly picked and stored BanditI and WolfI objects,
 as well as the parent object, and the display that sequence</p>
@@ -274,7 +278,8 @@ as well as the parent object, and the display that sequence</p>
   <span class="hljs-keyword">if</span> x == <span class="hljs-number">0</span>:
     enemiesI.add newEnemyI(<span class="hljs-type">BanditI</span>(x: e.toFloat, y: e.toFloat, attackMoves: @[backstabI], parent: overlordI))
   <span class="hljs-keyword">if</span> x == <span class="hljs-number">1</span>:
-    enemiesI.add newEnemyI(<span class="hljs-type">WolfI</span>(x: e.toFloat, y: e.toFloat, attackMoves: @[biteI], parent: overlordI))</code></pre>
+    enemiesI.add newEnemyI(<span class="hljs-type">WolfI</span>(x: e.toFloat, y: e.toFloat, attackMoves: @[biteI], parent: overlordI))</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Earlier we made a variable to use the parent object of EnemyI, now we are going to store
 it into our sequence in order to satisfy/meet the requirements of dynamic dispatch</p>
 <pre><code class="nohighlight hljs nim">enemiesI.add overlordI <span class="hljs-comment">#Used simply to meet the requirements of methods, otherwise we could use procs instead</span>
@@ -282,21 +287,8 @@ it into our sequence in order to satisfy/meet the requirements of dynamic dispat
 <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> enemiesI:
   <span class="hljs-keyword">echo</span> e.attackI
 
-<span class="hljs-comment">#Now let's run this. Okay it works, end of this section(nimib restriction)</span></code></pre><pre class="nb-output">backstabI
-backstabI
-backstabI
+<span class="hljs-comment">#Now let's run this. Okay it works, end of this section(nimib restriction)</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">biteI
 biteI
-backstabI
-biteI
-backstabI
-biteI
-backstabI
-biteI
-backstabI
-backstabI
-backstabI
-backstabI
-backstabI
 biteI
 backstabI
 biteI
@@ -311,30 +303,6 @@ biteI
 biteI
 backstabI
 backstabI
-biteI
-biteI
-biteI
-backstabI
-biteI
-biteI
-biteI
-biteI
-backstabI
-backstabI
-biteI
-backstabI
-biteI
-biteI
-biteI
-backstabI
-biteI
-biteI
-biteI
-backstabI
-backstabI
-backstabI
-biteI
-backstabI
 backstabI
 backstabI
 biteI
@@ -342,7 +310,16 @@ backstabI
 biteI
 backstabI
 biteI
+backstabI
 biteI
+backstabI
+biteI
+biteI
+biteI
+biteI
+biteI
+biteI
+backstabI
 backstabI
 biteI
 biteI
@@ -351,27 +328,8 @@ backstabI
 backstabI
 backstabI
 backstabI
-backstabI
 biteI
 backstabI
-backstabI
-biteI
-biteI
-backstabI
-backstabI
-biteI
-biteI
-biteI
-biteI
-backstabI
-biteI
-biteI
-biteI
-backstabI
-backstabI
-biteI
-backstabI
-biteI
 biteI
 backstabI
 backstabI
@@ -379,10 +337,58 @@ biteI
 backstabI
 backstabI
 backstabI
+biteI
 backstabI
 backstabI
 backstabI
-...</pre>
+biteI
+backstabI
+backstabI
+biteI
+backstabI
+backstabI
+backstabI
+biteI
+biteI
+biteI
+biteI
+backstabI
+backstabI
+backstabI
+backstabI
+biteI
+biteI
+biteI
+backstabI
+backstabI
+backstabI
+backstabI
+biteI
+biteI
+backstabI
+backstabI
+biteI
+biteI
+biteI
+biteI
+backstabI
+biteI
+backstabI
+backstabI
+backstabI
+backstabI
+biteI
+backstabI
+biteI
+biteI
+biteI
+backstabI
+backstabI
+backstabI
+biteI
+biteI
+...</pre></code></pre>
+
 <p><a name = "object-variants"></a></p>
 <h1>Object Variants</h1>
 <hr />
@@ -405,7 +411,8 @@ but with &quot;V&quot; for it's affix:</p>
     backstabV, eviscerateV
 
   <span class="hljs-type">AnimalAttackMovesV</span> = <span class="hljs-keyword">enum</span>
-    biteV, clawV</code></pre>
+    biteV, clawV</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now we will create our &quot;EnemyV&quot; object which will have 2 variants of itself,
 instead of 2 children. To do this all we have to do is use our &quot;Enemies&quot; enumerator,
 as a discriminator/selector in a case statement and then using different names
@@ -421,7 +428,8 @@ which i am using to write the script/documentation of this video, and onwards fr
       <span class="hljs-keyword">of</span> bandit:
         attackMovesB: <span class="hljs-built_in">seq</span>[<span class="hljs-type">HumanoidAttackMovesV</span>]
       <span class="hljs-keyword">of</span> wolf:
-        attackMovesW: <span class="hljs-built_in">seq</span>[<span class="hljs-type">AnimalAttackMovesV</span>]</code></pre>
+        attackMovesW: <span class="hljs-built_in">seq</span>[<span class="hljs-type">AnimalAttackMovesV</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now let's create our constructors which unlike the ones we made and used for inheritance,
 will actually make the construction of our objects a bit easier. We can give them
 the parameters they require, so we will give them x, y and attack moves parameters,
@@ -431,7 +439,8 @@ like this:</p>
   <span class="hljs-literal">result</span> = <span class="hljs-type">EnemyV</span>(x: x, y: y, kind: bandit, attackMovesB: aMoves)
 
 <span class="hljs-keyword">proc</span> newEnemyV(x, y: <span class="hljs-built_in">float</span>, aMoves: <span class="hljs-built_in">seq</span>[<span class="hljs-type">AnimalAttackMovesV</span>]): <span class="hljs-type">EnemyV</span> =
-  <span class="hljs-literal">result</span> = <span class="hljs-type">EnemyV</span>(x: x, y: y, kind: wolf, attackMovesW: aMoves)</code></pre>
+  <span class="hljs-literal">result</span> = <span class="hljs-type">EnemyV</span>(x: x, y: y, kind: wolf, attackMovesW: aMoves)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now we need to to make a proc that does what the 2 attack methods did for inheritance.
 So instead of using 2 methods, with object variants we can simply use a &quot;case&quot; statement
 instead. So let's copy paste the 2 methods and put them together into a single proc,
@@ -445,7 +454,8 @@ by using a &quot;case&quot; statement like this:</p>
     <span class="hljs-keyword">of</span> wolf:
       randomize()
       <span class="hljs-keyword">let</span> max = this.attackMovesW.<span class="hljs-keyword">high</span>
-      <span class="hljs-literal">result</span> = $this.attackMovesW[rand(<span class="hljs-number">0.</span>.max)]</code></pre>
+      <span class="hljs-literal">result</span> = $this.attackMovesW[rand(<span class="hljs-number">0.</span>.max)]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now we make the sequence, fill it and display it like before, except that
 we won't be adding the base object variant, EnemyV object without a kind field specified,
 because it will crash our program, you can't mix the base object with it's variants.</p>
@@ -463,26 +473,14 @@ because it will crash our program, you can't mix the base object with it's varia
 <span class="hljs-comment">#[ enemiesV.add overlordV ]#</span> <span class="hljs-comment">#This will crash, overlord.attackV ...</span>
 
 <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> enemiesV:
-  <span class="hljs-keyword">echo</span> e.attackV</code></pre><pre class="nb-output">backstabV
-biteV
-backstabV
-biteV
+  <span class="hljs-keyword">echo</span> e.attackV</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">backstabV
 biteV
 backstabV
 backstabV
 biteV
 biteV
 backstabV
-biteV
 backstabV
-backstabV
-biteV
-backstabV
-biteV
-biteV
-backstabV
-biteV
-biteV
 backstabV
 biteV
 backstabV
@@ -490,15 +488,11 @@ backstabV
 biteV
 backstabV
 backstabV
-backstabV
-backstabV
-backstabV
-backstabV
-backstabV
+biteV
 biteV
 backstabV
 backstabV
-backstabV
+biteV
 backstabV
 backstabV
 backstabV
@@ -508,14 +502,6 @@ backstabV
 backstabV
 biteV
 biteV
-backstabV
-biteV
-backstabV
-biteV
-backstabV
-biteV
-backstabV
-backstabV
 biteV
 biteV
 biteV
@@ -532,37 +518,62 @@ biteV
 biteV
 backstabV
 backstabV
-biteV
-backstabV
-biteV
-biteV
-biteV
-biteV
-backstabV
-backstabV
-biteV
-biteV
-backstabV
-biteV
-biteV
-backstabV
-biteV
-biteV
-biteV
-biteV
-biteV
-backstabV
-backstabV
-backstabV
-backstabV
-biteV
 backstabV
 backstabV
 backstabV
 backstabV
 backstabV
 biteV
-biteV</pre>
+biteV
+biteV
+biteV
+biteV
+biteV
+biteV
+biteV
+backstabV
+biteV
+biteV
+biteV
+biteV
+biteV
+backstabV
+backstabV
+backstabV
+biteV
+backstabV
+backstabV
+biteV
+backstabV
+backstabV
+biteV
+biteV
+biteV
+biteV
+biteV
+biteV
+backstabV
+backstabV
+biteV
+biteV
+backstabV
+backstabV
+biteV
+backstabV
+backstabV
+biteV
+backstabV
+biteV
+biteV
+biteV
+backstabV
+backstabV
+backstabV
+biteV
+biteV
+backstabV
+backstabV</pre></code></pre>
+
 <p><a name = "child-a-to-child-b-conversion"></a></p>
 <h1>Child A to Child B conversion</h1>
 <hr />
@@ -595,9 +606,10 @@ o = s <span class="hljs-comment">#Variant to variant conversion</span>
 <span class="hljs-keyword">echo</span> b
 
 b = s
-<span class="hljs-keyword">echo</span> o</code></pre><pre class="nb-output">(x: 0.0, y: 0.0, kind: spider, poisonous: false)
+<span class="hljs-keyword">echo</span> o</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(x: 0.0, y: 0.0, kind: spider, poisonous: false)
 (x: 0.0, y: 0.0, kind: outlaw, stealth: false)
-(x: 0.0, y: 0.0, kind: spider, poisonous: false)</pre>
+(x: 0.0, y: 0.0, kind: spider, poisonous: false)</pre></code></pre>
+
 <p>As you can see the output of the base object is a variant of kind &quot;outlaw&quot;, that is
 because the default value of &quot;kind&quot; is 0, and 0 is also the integer value of &quot;outlaw&quot;
 enumeration. So conversion between variants and the base object with no kind,
@@ -615,7 +627,8 @@ works perfectly.</p>
 
 <span class="hljs-keyword">var</span> oI = <span class="hljs-type">Outlaw</span>()
 <span class="hljs-keyword">var</span> oI2: <span class="hljs-type">ChildEnemy</span> = <span class="hljs-type">Outlaw</span>(stealth: <span class="hljs-literal">true</span>)
-<span class="hljs-keyword">var</span> sI = <span class="hljs-type">Spider</span>() <span class="hljs-comment">#Must include :ParentName for child to parent and reverse, conversion</span></code></pre>
+<span class="hljs-keyword">var</span> sI = <span class="hljs-type">Spider</span>() <span class="hljs-comment">#Must include :ParentName for child to parent and reverse, conversion</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Now that we got our definitions and variables set, i will demonstrate that
 well child to child conversion for normal objects and inheritance is possible,
 but only on a quick glance. The conversion is only possible if a variable is first
@@ -623,14 +636,16 @@ defined as the parent and then given the values of one of it's child objects,
 like &quot;oI2&quot;. All this does is, fill the values of the object's fields and nothing more.
 So let's echo both our outlaw variables to see their details:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> oI[], <span class="hljs-string">&quot; &quot;</span>, oI.<span class="hljs-keyword">type</span>
-<span class="hljs-keyword">echo</span> oI2[], <span class="hljs-string">&quot; &quot;</span>, oI2.<span class="hljs-keyword">type</span></code></pre><pre class="nb-output">(stealth: false, x: 0.0, y: 0.0) Outlaw
-(x: 0.0, y: 0.0) ChildEnemy</pre>
+<span class="hljs-keyword">echo</span> oI2[], <span class="hljs-string">&quot; &quot;</span>, oI2.<span class="hljs-keyword">type</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(stealth: false, x: 0.0, y: 0.0) Outlaw
+(x: 0.0, y: 0.0) ChildEnemy</pre></code></pre>
+
 <p>As you can see &quot;oI&quot; is of type &quot;outlaw&quot;, but &quot;oI2&quot; is of type ChildEnemy.
 Again, like i said this is no a real conversion, it just fills the fields that are
 compatible, both have.</p>
 <p>Now let's try converting &quot;oI2&quot; to type Spider()</p>
 <pre><code class="nohighlight hljs nim">oI2 = <span class="hljs-type">Spider</span>(oI2)
-<span class="hljs-keyword">echo</span> oI2[], <span class="hljs-string">&quot; &quot;</span>, oI2.<span class="hljs-keyword">type</span></code></pre><pre class="nb-output">(x: 0.0, y: 0.0) ChildEnemy</pre>
+<span class="hljs-keyword">echo</span> oI2[], <span class="hljs-string">&quot; &quot;</span>, oI2.<span class="hljs-keyword">type</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(x: 0.0, y: 0.0) ChildEnemy</pre></code></pre>
+
 <p>Make sure you are using compiler setting of --gc:orc in the config.nims file,
 otherwise with the currently default refc garbage collector soon to be replaced with gc:orc,
 you will get an object conversion error.</p>
@@ -640,7 +655,8 @@ because child to child conversion is not possible.
 Only child to parent and parent to child conversion is possible.</p>
 <p>Now lastly let's try the child to parent conversion</p>
 <pre><code class="nohighlight hljs nim">oI2 = <span class="hljs-type">ChildEnemy</span>(oI2) <span class="hljs-comment">#Only child to parent and back is actually possible</span>
-<span class="hljs-keyword">echo</span> oI2[], <span class="hljs-string">&quot; &quot;</span>, oI2.<span class="hljs-keyword">type</span></code></pre><pre class="nb-output">(x: 0.0, y: 0.0) ChildEnemy</pre>
+<span class="hljs-keyword">echo</span> oI2[], <span class="hljs-string">&quot; &quot;</span>, oI2.<span class="hljs-keyword">type</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(x: 0.0, y: 0.0) ChildEnemy</pre></code></pre>
+
 <p>As i said earlier in this section, since we made &quot;oI2&quot; as ChildEnemy first,
 and given it it's empty value of Outlaw(), it remained of type ChildEnemy.
 No real/actual conversion for inheritance is possible.
@@ -764,6 +780,20 @@ nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class
 nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
 nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
 &lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
 
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>

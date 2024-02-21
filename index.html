@@ -279,6 +279,20 @@ nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = 
 nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
 &lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
 
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
+
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>
   nbToc: <span class="hljs-type">NbBlock</span>

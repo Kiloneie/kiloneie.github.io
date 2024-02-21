@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>..\..\..\Nim for Beginners\#29 HashSets, more on hash Tables and Hashing\Video Data\hashSetsMoreOnHashTablesAndHashing.nim</title>
+  <title>f:\Nim\Nim YouTube Projects\Nim for Beginners\#29 HashSets, more on hash Tables and Hashing\Video Data\hashSetsMoreOnHashTablesAndHashing.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,9 +43,9 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..\..\..\Current Projects\List comprehensions sugar collect\#3 Overloading in Depth">🏡</a></span>
-  <span><code>..\..\..\Nim for Beginners\#29 HashSets, more on hash Tables and Hashing\Video Data\hashSetsMoreOnHashTablesAndHashing.nim</code></span>
-  <span></span>
+  <span><a href="C:\Users\Kiloneie\OneDrive\Documents\GitHub\kiloneie">🏡</a></span>
+  <span><code>f:\Nim\Nim YouTube Projects\Nim for Beginners\#29 HashSets, more on hash Tables and Hashing\Video Data\hashSetsMoreOnHashTablesAndHashing.nim</code></span>
+  <span><a href="https://github.com/Kiloneie/kiloneie.github.io"><svg aria-hidden="true" width="1.2em" height="1.2em" style="vertical-align: middle; fill: #fff" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a></span>
 </div>
 <hr>
 </header><main>
@@ -60,11 +60,11 @@ pre > code {
 <li><a href="#hashset-use-cases">hashSet use cases</a></li>
 <li><a href="#quick-re-explanation-of-hashing">Quick re-explanation of hashing</a></li>
 </ol>
-      <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+      <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
       body {} <!-- This is a comment, this needs to be here body {} -->
 
-      #myBtn {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -79,31 +79,100 @@ pre > code {
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #myBtn:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       </style>
       <body>
 
-      <button onclick = "topFunction()" id = "myBtn" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTop" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTopMobile" title = "Go to top">Top</button>
 
       <script>
-      // Get the button
-      let mybutton = document.getElementById("myBtn");
+        // Get the button
+        let myButton = document.getElementById("toTop");
+        let myButtonMobile = document.getElementById("toTopMobile");
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        var hasTouchScreen = false;
 
-      function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-          mybutton.style.display = "block";
-        } else {mybutton.style.display = "none";}
-      }
+        //var contentBody = document.getElementsByTagName("body"); //gives a query object
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+        //myButton.style.color = "red"; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop > 20 || document.documentElement.scrollTop > 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if ("maxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints > 0;
+          } 
+        else if ("msMaxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints > 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+
+            if (mQ && mQ.media === "(pointer:coarse)") 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+              currentButton.style.display = "block";
+            } else {currentButton.style.display = "none";}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       </script>
     
 <h2>INTRO - GREETING</h2>
@@ -131,14 +200,16 @@ The <code>tables</code> module uses variants of an efficient hashTable(dictionar
   <span class="hljs-comment">#&quot;Germany&quot;: &quot;Berlin&quot; -&gt; string, string</span>
 <span class="hljs-keyword">var</span> countryCapitals = {<span class="hljs-string">&quot;Germany&quot;</span>: <span class="hljs-string">&quot;Berlin&quot;</span>, <span class="hljs-string">&quot;Slovenia&quot;</span>: <span class="hljs-string">&quot;Ljubljana&quot;</span>}.toOrderedTable
 
-<span class="hljs-keyword">echo</span> countryCapitals</code></pre><pre class="nb-output">{&quot;Germany&quot;: &quot;Berlin&quot;, &quot;Slovenia&quot;: &quot;Ljubljana&quot;}</pre>
+<span class="hljs-keyword">echo</span> countryCapitals</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;Germany&quot;: &quot;Berlin&quot;, &quot;Slovenia&quot;: &quot;Ljubljana&quot;}</pre></code></pre>
+
 <p>And here is an example of a nested table:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> countryCapitalsWithPostCode = {<span class="hljs-string">&quot;Germany&quot;</span>: {<span class="hljs-string">&quot;Berlin&quot;</span>: <span class="hljs-number">10000</span>}.toOrderedTable, 
                                   <span class="hljs-string">&quot;Slovenia&quot;</span>: {<span class="hljs-string">&quot;Ljubljana&quot;</span>: <span class="hljs-number">1000</span>}.toOrderedTable}.toOrderedTable
 
 <span class="hljs-keyword">echo</span> countryCapitalsWithPostCode
-<span class="hljs-keyword">echo</span> countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>].typeof</code></pre><pre class="nb-output">{&quot;Germany&quot;: {&quot;Berlin&quot;: 10000}, &quot;Slovenia&quot;: {&quot;Ljubljana&quot;: 1000}}
-{&quot;Berlin&quot;: 10000} OrderedTable[system.string, system.int]</pre>
+<span class="hljs-keyword">echo</span> countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, countryCapitalsWithPostCode[<span class="hljs-string">&quot;Germany&quot;</span>].typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;Germany&quot;: {&quot;Berlin&quot;: 10000}, &quot;Slovenia&quot;: {&quot;Ljubljana&quot;: 1000}}
+{&quot;Berlin&quot;: 10000} OrderedTable[system.string, system.int]</pre></code></pre>
+
 <p>Don't forget to style/indent such Tables by commas like above.
 It's a good practice to separate long lines of code by commas,
 since it makes it much cleaner and easier to read.</p>
@@ -153,7 +224,8 @@ since it makes it much cleaner and easier to read.</p>
 
 <span class="hljs-keyword">var</span> koboldTable = {oldKobold: <span class="hljs-string">&quot;fighter&quot;</span>, geomancerKobold: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
 
-<span class="hljs-keyword">echo</span> koboldTable</code></pre><pre class="nb-output">{(name: &quot;Goldtooth&quot;, age: 31): &quot;fighter&quot;, (name: &quot;Rocktooth&quot;, age: 20): &quot;mage&quot;}</pre>
+<span class="hljs-keyword">echo</span> koboldTable</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(name: &quot;Goldtooth&quot;, age: 31): &quot;fighter&quot;, (name: &quot;Rocktooth&quot;, age: 20): &quot;mage&quot;}</pre></code></pre>
+
 <p>Now, if we were to try to output each of the keys of the Table <code>oldKobold</code> and <code>geomancerKobold</code> with a for loop,
 it wouldn't work, since the implicitly called <code>items</code> iterator,
 does not exist for objects inside a Table.</p>
@@ -168,31 +240,35 @@ This messy way, as well as a lot of details on what Hashing is, etc, later.</p>
 <p>Let's solve this problem with the clean and easy solution,
 of using the <code>keys</code> iterator specifically made for <code>Tables</code>.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.keys:
-  <span class="hljs-keyword">echo</span> kobold</code></pre><pre class="nb-output">(name: &quot;Goldtooth&quot;, age: 31)
-(name: &quot;Rocktooth&quot;, age: 20)</pre>
+  <span class="hljs-keyword">echo</span> kobold</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(name: &quot;Goldtooth&quot;, age: 31)
+(name: &quot;Rocktooth&quot;, age: 20)</pre></code></pre>
+
 <p>Now, this code only outputs the actual <code>keys</code> of our table.
 In order to get the <code>values</code> associated with those <code>keys</code>,
 we must insert those <code>keys</code> back into our table with the index access <code>[]</code>.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.keys:
-  <span class="hljs-keyword">echo</span> kobold, <span class="hljs-string">&quot; -&gt; &quot;</span>, koboldTable[kobold]</code></pre><pre class="nb-output">(name: &quot;Goldtooth&quot;, age: 31) -&gt; fighter
-(name: &quot;Rocktooth&quot;, age: 20) -&gt; mage</pre>
+  <span class="hljs-keyword">echo</span> kobold, <span class="hljs-string">&quot; -&gt; &quot;</span>, koboldTable[kobold]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(name: &quot;Goldtooth&quot;, age: 31) -&gt; fighter
+(name: &quot;Rocktooth&quot;, age: 20) -&gt; mage</pre></code></pre>
+
 <p>There is also the <code>values</code> iterator amongst others for Tables.
 This iterator will go trough all of the <code>values</code> of a Table,
 just like how the <code>keys</code> iterator went trough all of the <code>keys</code>.</p>
 <p>With this iterator, we then don't have to insert the key back into our Table to get the value,
 when iterating over the entire Table like this:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> kobold <span class="hljs-keyword">in</span> koboldTable.values:
-  <span class="hljs-keyword">echo</span> kobold</code></pre><pre class="nb-output">fighter
-mage</pre>
+  <span class="hljs-keyword">echo</span> kobold</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">fighter
+mage</pre></code></pre>
+
 <p>I believe i have never shown that you can also use multiple variables for capturing data in a for loop,
 so let's do that with the <code>pairs</code> iterator:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> koboldTable.pairs:
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;key: &quot;</span>, key, <span class="hljs-string">&quot; -&gt; value: &quot;</span>, value</code></pre><pre class="nb-output">key: (name: &quot;Goldtooth&quot;, age: 31) -&gt; value: fighter
-key: (name: &quot;Rocktooth&quot;, age: 20) -&gt; value: mage</pre>
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;key: &quot;</span>, key, <span class="hljs-string">&quot; -&gt; value: &quot;</span>, value</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">key: (name: &quot;Goldtooth&quot;, age: 31) -&gt; value: fighter
+key: (name: &quot;Rocktooth&quot;, age: 20) -&gt; value: mage</pre></code></pre>
+
 <p>The <code>pairs</code> iterator can also be used for when you want to capture the index,
 when iterating over the elements of a container, like so:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> pos, ele <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello World!&quot;</span>.pairs:
-  <span class="hljs-keyword">echo</span> pos, <span class="hljs-string">&quot; &quot;</span>, ele</code></pre><pre class="nb-output">0 H
+  <span class="hljs-keyword">echo</span> pos, <span class="hljs-string">&quot; &quot;</span>, ele</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">0 H
 1 e
 2 l
 3 l
@@ -203,7 +279,8 @@ when iterating over the elements of a container, like so:</p>
 8 r
 9 l
 10 d
-11 !</pre>
+11 !</pre></code></pre>
+
 <p><a name = "what-is-hashing-?"></a></p>
 <h1>What is hashing ?</h1>
 <hr />
@@ -281,19 +358,21 @@ Remember, the <code>items</code> iterator is the one called by default implicitl
 when not specifying the iterator.</p>
 <p>Here is a quick reminder example:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello&quot;</span>: <span class="hljs-comment">#Nim's VS Code Extension will tell you the iterator used here</span>
-  <span class="hljs-keyword">echo</span> c</code></pre><pre class="nb-output">H
+  <span class="hljs-keyword">echo</span> c</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">H
 e
 l
 l
-o</pre>
+o</pre></code></pre>
+
 <img src="images/vsCodeNimExtensionHelper.png" alt="VS Code Nim Extension Help/Details">
 <p>The above is the same as the following:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;Hello&quot;</span>.items:
-  <span class="hljs-keyword">echo</span> c</code></pre><pre class="nb-output">H
+  <span class="hljs-keyword">echo</span> c</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">H
 e
 l
 l
-o</pre>
+o</pre></code></pre>
+
 <p><strong>Example 1</strong> boilerplate code without using the implicitly called by default <code>items</code> iterator:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/hashes
 
@@ -314,13 +393,15 @@ o</pre>
     <span class="hljs-comment"># Mix the atom with the partial hash.</span>
     h = h !&amp; xAtom
   <span class="hljs-comment"># Finish the hash.</span>
-  <span class="hljs-literal">result</span> = !$h</code></pre>
+  <span class="hljs-literal">result</span> = !$h</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Sample code using the above <strong>example 1</strong> boilerplate code which will output each field hashed separately:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> customObject = <span class="hljs-type">CustomObject</span>(foo: <span class="hljs-number">10</span>, bar: <span class="hljs-string">&quot;Hello&quot;</span>)
 
 <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> customObject.hashedFields: <span class="hljs-comment">#Must use our &quot;hashedFields&quot; iterator -&gt; otherwise error</span>
-  <span class="hljs-keyword">echo</span> field</code></pre><pre class="nb-output">-6375197177782184730
-316307400</pre>
+  <span class="hljs-keyword">echo</span> field</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-6375197177782184730
+316307400</pre></code></pre>
+
 <p>If your custom types contain fields for which there already is a <code>hash</code> proc,
 you can simply hash together the hash values of the individual fields,
 no need for the overload of the <code>items</code> iterator:</p>
@@ -335,11 +416,13 @@ no need for the overload of the <code>items</code> iterator:</p>
   <span class="hljs-keyword">var</span> h: <span class="hljs-type">Hash</span> = <span class="hljs-number">0</span>
   h = h !&amp; hash(x.foo)
   h = h !&amp; hash(x.bar) <span class="hljs-comment"># &quot;!&amp;&quot; Mixes a hash value &quot;h&quot; with &quot;val&quot; to produce a new hash value(only for custom types)</span>
-  <span class="hljs-literal">result</span> = !$h <span class="hljs-comment"># &quot;!$&quot; Finishes the computation of the hash value(only for custom types)</span></code></pre>
+  <span class="hljs-literal">result</span> = !$h <span class="hljs-comment"># &quot;!$&quot; Finishes the computation of the hash value(only for custom types)</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>Sample code using the <strong>example 2</strong> boilerplate code(no iterator) which will output the entire object hashed:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> customObject2 = <span class="hljs-type">CustomObject2</span>(foo: <span class="hljs-number">20</span>, bar: <span class="hljs-string">&quot;World!&quot;</span>)
 
-<span class="hljs-keyword">echo</span> customObject2.hash <span class="hljs-comment">#No loop here, since it's not defined</span></code></pre><pre class="nb-output">-7400502187742009486</pre>
+<span class="hljs-keyword">echo</span> customObject2.hash <span class="hljs-comment">#No loop here, since it's not defined</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-7400502187742009486</pre></code></pre>
+
 <p>As you have seen from the outputs of the 2x examples of boilerplate code,
 the very random looking data is the hashed value.</p>
 <p><a name = "hashing-ref-objects"></a></p>
@@ -359,7 +442,8 @@ for the <code>key</code> of a Table:</p>
 <span class="hljs-keyword">type</span>
   <span class="hljs-type">RefKobold</span> = <span class="hljs-keyword">ref</span> <span class="hljs-keyword">object</span>
     name: <span class="hljs-built_in">string</span>
-    age: <span class="hljs-built_in">int</span></code></pre>
+    age: <span class="hljs-built_in">int</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <p>The following code will error, <code>initTable[keyType, valueType]()</code> does not work with <strong>ref objects</strong>.
 It crashes immediately on any attempt of setting a <strong>ref object</strong>'s <strong>fields</strong>(not the case for normal objects),
 with the error message of <strong>SIGSEGV: Illegal storage access. (Attempt to read from nil?)</strong>:</p>
@@ -377,7 +461,8 @@ but with direct initialization <code>{}.toOrderedTable</code>:</p>
 
   refKoboldTable = {refOldKobold: <span class="hljs-string">&quot;fighter&quot;</span>, refGeomancerKobold: <span class="hljs-string">&quot;mage&quot;</span>}.toOrderedTable
 
-refOldKobold.name = <span class="hljs-string">&quot;NewGoldTooth&quot;</span></code></pre>
+refOldKobold.name = <span class="hljs-string">&quot;NewGoldTooth&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
 <img src="images/CompilerError.png" alt="Ref Object Compiler Error">
 <img src="images/CompilerErrorCropped.png" alt="Ref Object Compiler Error Cropped">
 <p>As you can see, we get an error.
@@ -391,14 +476,17 @@ and will likely be used by default in future version of Nim.</p>
 <p>Now that the above code works, let's quickly see if the <code>keys</code>, <code>values</code> and <code>pairs</code> iterators,
 work with the <code>ref</code> version of our Kobold object:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> refKoboldTable.keys: <span class="hljs-comment">#Yes</span>
-  <span class="hljs-keyword">echo</span> key[]</code></pre><pre class="nb-output">(name: &quot;NewGoldTooth&quot;, age: 31)
-(name: &quot;Rocktooth&quot;, age: 20)</pre>
+  <span class="hljs-keyword">echo</span> key[]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(name: &quot;NewGoldTooth&quot;, age: 31)
+(name: &quot;Rocktooth&quot;, age: 20)</pre></code></pre>
+
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> refKoboldTable.values: <span class="hljs-comment">#Yes</span>
-  <span class="hljs-keyword">echo</span> v</code></pre><pre class="nb-output">fighter
-mage</pre>
+  <span class="hljs-keyword">echo</span> v</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">fighter
+mage</pre></code></pre>
+
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable.pairs: <span class="hljs-comment">#Yes</span>
-  <span class="hljs-keyword">echo</span> key[], <span class="hljs-string">&quot; &quot;</span>, value</code></pre><pre class="nb-output">(name: &quot;NewGoldTooth&quot;, age: 31) fighter
-(name: &quot;Rocktooth&quot;, age: 20) mage</pre>
+  <span class="hljs-keyword">echo</span> key[], <span class="hljs-string">&quot; &quot;</span>, value</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(name: &quot;NewGoldTooth&quot;, age: 31) fighter
+(name: &quot;Rocktooth&quot;, age: 20) mage</pre></code></pre>
+
 <p>Slight change from earlier, <code>ref</code> objects and other <code>ref</code> containers,
 require dereferencing via <code>[]</code>.</p>
 <p>Even though it appears that we don't need any boilerplate code to make it work,
@@ -446,12 +534,13 @@ as arguments of the custom <code>hashedFields</code> iterator and the <code>hash
 <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable1:
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
   <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> key.hashedFields:
-    <span class="hljs-keyword">echo</span> field</code></pre><pre class="nb-output">
+    <span class="hljs-keyword">echo</span> field</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">
 2596742758
 -9181144820678043562
 
 1032607287
--2697042507132587840</pre>
+-2697042507132587840</pre></code></pre>
+
 <p>The following snippet of the code above is changed from <code>example 1</code>'s from earlier to this,
 because the earlier version only looped trough the <code>object</code>'s fields inside a variable, not a <code>Table</code> like here:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable1:
@@ -483,11 +572,12 @@ because the earlier version only looped trough the <code>object</code>'s fields 
 <span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> refKoboldTable2.pairs:
   <span class="hljs-keyword">echo</span> key, <span class="hljs-string">&quot; &quot;</span>, value
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Or just reinserting the key: &quot;</span>, key, <span class="hljs-string">&quot; to get the value -&gt; &quot;</span>, refKoboldTable2[key]
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span></code></pre><pre class="nb-output">8548044415117994811 fighter
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">8548044415117994811 fighter
 Or just reinserting the key: 8548044415117994811 to get the value -&gt; fighter
 
 -4179016716304925836 mage
-Or just reinserting the key: -4179016716304925836 to get the value -&gt; mage</pre>
+Or just reinserting the key: -4179016716304925836 to get the value -&gt; mage</pre></code></pre>
+
 <p><a name = "all-variants-of-tables-and-some-use-cases"></a></p>
 <h1>All variants of Tables and some use cases</h1>
 <hr />
@@ -514,9 +604,10 @@ and then reinsert the hashed key from the output back into itself:</p>
 <span class="hljs-keyword">echo</span> tData
 
 <span class="hljs-keyword">echo</span> tData[<span class="hljs-number">8641844181895329213</span>]
-<span class="hljs-keyword">echo</span> tData[<span class="hljs-number">2</span>]</code></pre><pre class="nb-output">{8641844181895329213: &quot;one&quot;, 2: &quot;two&quot;}
+<span class="hljs-keyword">echo</span> tData[<span class="hljs-number">2</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{8641844181895329213: &quot;one&quot;, 2: &quot;two&quot;}
 one
-two</pre>
+two</pre></code></pre>
+
 <p>Here we go, it worked perfectly.</p>
 <p>Now lastly, i will show you a very useful proc for Tables called <code>mgetOrPut</code>.
 <code>mgetOrPut</code> retrieves the value of a specified key,
@@ -528,11 +619,12 @@ and then returns back the value of that key in a modifiable state( <code>proc mo
 <span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
 <span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
 <span class="hljs-keyword">echo</span> stringIntTable.mgetOrPut(<span class="hljs-string">&quot;c&quot;</span>, <span class="hljs-number">10</span>), <span class="hljs-string">&quot; &quot;</span>, stringIntTable
-<span class="hljs-keyword">echo</span> stringIntTable</code></pre><pre class="nb-output">{&quot;a&quot;: 1, &quot;b&quot;: 4}
+<span class="hljs-keyword">echo</span> stringIntTable</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;a&quot;: 1, &quot;b&quot;: 4}
 1 {&quot;a&quot;: 1, &quot;b&quot;: 4}
 4 {&quot;a&quot;: 1, &quot;b&quot;: 4}
 10 {&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;c&quot;: 10}
-{&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;c&quot;: 10}</pre>
+{&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;c&quot;: 10}</pre></code></pre>
+
 <p>Now that modifiable state of the value, can easily be accidentally used to create a copy of the value,
 instead of modifying it. This is the case when trying to use this <code>mgetOrPut() proc</code> with sequences and strings,
 which are value types by design, meaning that they cannot be copied into a different variable,
@@ -548,11 +640,13 @@ and then use that variable to modify the value of a given key from the Table.
 copiedTable.add <span class="hljs-number">20</span> 
 
 <span class="hljs-keyword">echo</span> declaredTable
-<span class="hljs-keyword">echo</span> copiedTable</code></pre><pre class="nb-output">{10: @[10]}
-@[10, 20]</pre>
+<span class="hljs-keyword">echo</span> copiedTable</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{10: @[10]}
+@[10, 20]</pre></code></pre>
+
 <p>Since the value returned by <code>mgetOrPut</code> proc is modifiable, you can do the following:</p>
 <pre><code class="nohighlight hljs nim">declaredTable.mgetOrPut(<span class="hljs-number">10</span>, @[<span class="hljs-number">10</span>]).add <span class="hljs-number">50</span>
-<span class="hljs-keyword">echo</span> declaredTable</code></pre><pre class="nb-output">{10: @[10, 50]}</pre>
+<span class="hljs-keyword">echo</span> declaredTable</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{10: @[10, 50]}</pre></code></pre>
+
 <p><a name = "hashsets"></a></p>
 <h1>hashSets</h1>
 <hr />
@@ -565,11 +659,13 @@ We are going to need the <code>sets</code> module for all hashSets.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/sets
 <span class="hljs-keyword">var</span> emptyHashSet = initHashSet[<span class="hljs-built_in">string</span>]()
 
-<span class="hljs-keyword">echo</span> emptyHashSet</code></pre><pre class="nb-output">{}</pre>
+<span class="hljs-keyword">echo</span> emptyHashSet</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{}</pre></code></pre>
+
 <p>Now the initialization version:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> hashedString = [<span class="hljs-string">&quot;Hello, World!&quot;</span>].toHashSet
 
-<span class="hljs-keyword">echo</span> hashedString</code></pre><pre class="nb-output">{&quot;Hello, World!&quot;}</pre>
+<span class="hljs-keyword">echo</span> hashedString</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;Hello, World!&quot;}</pre></code></pre>
+
 <p>Now remember that the order of the elements is unordered, not the value of an element.</p>
 <p>Now let's have a look on how hashSets and hashTables look like in procs:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> paramHashSet(data: <span class="hljs-type">HashSet</span>): <span class="hljs-type">HashSet</span> = <span class="hljs-comment"># data: initHashSet[string]() does NOT work</span>
@@ -583,9 +679,10 @@ We are going to need the <code>sets</code> module for all hashSets.</p>
 
 <span class="hljs-keyword">echo</span> paramHashSet([<span class="hljs-number">3.14</span>].toHashSet)
 <span class="hljs-keyword">echo</span> paramHashTable({<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>}.toTable)
-initParamHashTable()</code></pre><pre class="nb-output">{3.14}
+initParamHashTable()</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{3.14}
 {1: &quot;one&quot;}
-{2: &quot;two&quot;, 1: &quot;one&quot;}</pre>
+{2: &quot;two&quot;, 1: &quot;one&quot;}</pre></code></pre>
+
 <p>There is an additional operation you can do with hashSets that you cannot do with normal Sets, which is <code>symmetricDifference(s1, s2)</code>.
 <code>-+-</code> is the alias for that proc. This proc gives you only the elements that are not present in both sets at the same time.</p>
 <p>E.g. <code>if setA['a', 'b'] -+- setB['b', 'c'] = ['a', 'c']</code> because <code>'a'</code> is only in one of them, and the same goes for <code>'c'</code>.
@@ -596,10 +693,11 @@ initParamHashTable()</code></pre><pre class="nb-output">{3.14}
 <span class="hljs-keyword">echo</span> setSD1
 <span class="hljs-keyword">echo</span> setSD2
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-<span class="hljs-keyword">echo</span> setSD1 -+- setSD2</code></pre><pre class="nb-output">{(&quot;key1&quot;, 10), (&quot;key2&quot;, 20)}
+<span class="hljs-keyword">echo</span> setSD1 -+- setSD2</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(&quot;key1&quot;, 10), (&quot;key2&quot;, 20)}
 {(&quot;key3&quot;, 30), (&quot;key2&quot;, 20)}
 
-{(&quot;key3&quot;, 30), (&quot;key1&quot;, 10)}</pre>
+{(&quot;key3&quot;, 30), (&quot;key1&quot;, 10)}</pre></code></pre>
+
 <p>There is also <code>disjoint(s1, s2: bool)</code> returns true if the sets s1 and s2 have no items in common,</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> setD1 = [<span class="hljs-number">9223372036854775807</span>, -<span class="hljs-number">9223372036854775807</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#9,223,372,036,854,775,807 or -/negative of that value is the max value of int64</span>
 <span class="hljs-keyword">let</span> setD2 = [<span class="hljs-number">2147483648</span>, -<span class="hljs-number">2147483648</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].toHashSet <span class="hljs-comment">#2,147,483,647 or -/negative of that value, is the max value of int32, had to add +1 and -1 at the end  to make them int64, otherwise disjoint won't work</span>
@@ -607,10 +705,11 @@ initParamHashTable()</code></pre><pre class="nb-output">{3.14}
 <span class="hljs-keyword">echo</span> setD1
 <span class="hljs-keyword">echo</span> setD2
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-<span class="hljs-keyword">echo</span> disjoint(setD1, setD2)</code></pre><pre class="nb-output">{2, 9223372036854775807, -9223372036854775807, 1}
+<span class="hljs-keyword">echo</span> disjoint(setD1, setD2)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{2, 9223372036854775807, -9223372036854775807, 1}
 {2147483648, 2, -2147483648, 1}
 
-false</pre>
+false</pre></code></pre>
+
 <p><code>missingOrExcl(s, key)</code> Excludes a key and tells you if the key was already missing from <code>s</code>. (no proc for missingOrIncl)</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setMOE = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
 
@@ -624,10 +723,11 @@ false</pre>
   <span class="hljs-keyword">echo</span> <span class="hljs-number">1</span>, <span class="hljs-string">&quot; true&quot;</span>
 <span class="hljs-keyword">else</span>: <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;false&quot;</span>
 
-<span class="hljs-keyword">echo</span> setMOE</code></pre><pre class="nb-output">{1, 2, 3, 4, 5}
+<span class="hljs-keyword">echo</span> setMOE</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{1, 2, 3, 4, 5}
 false
 1 true
-{2, 3, 4, 5}</pre>
+{2, 3, 4, 5}</pre></code></pre>
+
 <p><code>containsOrIncl(s, key)</code> Includes a key in the set <code>s</code> and tells if key was already in <code>s</code>.
 Inverse of missingOrExcl(s, key)</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setCOI = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].toOrderedSet <span class="hljs-comment">#So we can see the content of the set easier</span>
@@ -643,9 +743,10 @@ Inverse of missingOrExcl(s, key)</p>
   <span class="hljs-keyword">if</span> setCOI.containsOrIncl(<span class="hljs-number">6</span>):
     <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 was already in setCOI&quot;</span>
   <span class="hljs-keyword">else</span>:
-    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span></code></pre><pre class="nb-output">{1, 2, 3, 4, 5}
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;6 is not is setCOI, adding&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{1, 2, 3, 4, 5}
 6 is not is setCOI, adding
-6 was already in setCOI</pre>
+6 was already in setCOI</pre></code></pre>
+
 <p><code>map(data, op)</code> Returns a new set after applying <code>op</code> -&gt; <code>proc(anonymous proc)</code> on each of the elements of <code>data</code> set.
 Here is a simple example from the Sets module that demonstrates the <code>map</code> proc very well:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it with &quot;b&quot;</span>
@@ -653,8 +754,9 @@ Here is a simple example from the Sets module that demonstrates the <code>map</c
   b = a.map(<span class="hljs-keyword">proc</span> (x: <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> = $x)
 
 <span class="hljs-keyword">echo</span> a
-<span class="hljs-keyword">echo</span> b</code></pre><pre class="nb-output">{3, 2, 1}
-{&quot;1&quot;, &quot;2&quot;, &quot;3&quot;}</pre>
+<span class="hljs-keyword">echo</span> b</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{3, 2, 1}
+{&quot;1&quot;, &quot;2&quot;, &quot;3&quot;}</pre></code></pre>
+
 <p>And here is my example at this proc:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> setM = [<span class="hljs-string">&quot;lowercase&quot;</span>, <span class="hljs-string">&quot;UPPERCASE&quot;</span>, <span class="hljs-string">&quot;l&quot;</span>, <span class="hljs-string">&quot;U&quot;</span>].toHashSet <span class="hljs-comment">#using &quot;let&quot; since we wont be changing it</span>
 
@@ -669,8 +771,9 @@ Here is a simple example from the Sets module that demonstrates the <code>map</c
       <span class="hljs-literal">result</span> = elem)
   
 <span class="hljs-keyword">echo</span> setNewL
-<span class="hljs-keyword">echo</span> setNewU</code></pre><pre class="nb-output">{&quot;&quot;, &quot;l&quot;, &quot;lowercase&quot;}
-{&quot;U&quot;, &quot;&quot;, &quot;UPPERCASE&quot;}</pre>
+<span class="hljs-keyword">echo</span> setNewU</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;&quot;, &quot;l&quot;, &quot;lowercase&quot;}
+{&quot;U&quot;, &quot;&quot;, &quot;UPPERCASE&quot;}</pre></code></pre>
+
 <p>The default return value of a proc returning string is <code>&quot;&quot;</code> empty string,
 that is why there are 2x <code>&quot;&quot;</code> empty string elements in the output.</p>
 <p><code>clear(s)</code> Clears the hashSet back to an empty state, without shrinking any of the existing storage.</p>
@@ -684,11 +787,12 @@ copiedSet.clear
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
 
 <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;someSizedSet: &quot;</span>, someSizedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span>
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;copiedSet: &quot;</span>, copiedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span></code></pre><pre class="nb-output">someSizedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;copiedSet: &quot;</span>, copiedSet, <span class="hljs-string">&quot; of size: &quot;</span>, someSizedSet.sizeof, <span class="hljs-string">&quot; bytes&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">someSizedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
 copiedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
 
 someSizedSet: {&quot;1&quot;, &quot;3&quot;, &quot;5&quot;, &quot;2&quot;, &quot;4&quot;} of size: 24 bytes
-copiedSet: {} of size: 24 bytes</pre>
+copiedSet: {} of size: 24 bytes</pre></code></pre>
+
 <p>As you can see, the size remained at 24 bytes.</p>
 <p><code>pop(s)</code> Removes and returns an element from the set <code>s</code>.
 You cannot specify which element to pop.</p>
@@ -702,10 +806,11 @@ You cannot specify which element to pop.</p>
 <span class="hljs-keyword">if</span> myHashSet.len != <span class="hljs-number">0</span>:
   <span class="hljs-keyword">echo</span> myHashSet.pop
 <span class="hljs-keyword">else</span>:
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;myHashSet is empty&quot;</span></code></pre><pre class="nb-output">a
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;myHashSet is empty&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">a
 b
 c
-myHashSet is empty</pre>
+myHashSet is empty</pre></code></pre>
+
 <p><strong>There is a use case for the <code>pop</code></strong> proc. For example if you have a pool of jobs to be done in no particular order.
 Let's say that on weekends you clean your room, do your laundry, change the sheets, etc. That job only requires to be done once.
 So you would use a doTheJob()/processJob() proc that would <code>pop</code> a job from your pool of jobs and execute it.
@@ -718,14 +823,16 @@ Here is an example:</p>
 
 <span class="hljs-keyword">while</span> jobs.len != <span class="hljs-number">0</span>:
   <span class="hljs-keyword">let</span> job = jobs.pop
-  job.executeJob</code></pre><pre class="nb-output">sheets finished
+  job.executeJob</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">sheets finished
 cleaning finished
-laundry finished</pre>
+laundry finished</pre></code></pre>
+
 <p>And lastly <code>[]</code> - Which returns the element that is actually stored in <code>s</code> which has the same value as <code>key</code>,
 or raises the <code>KeyError</code> exception. This is useful when one overloaded the <code>hash</code> proc,
 and the <code>==</code> operator, but still needs reference semantics for sharing.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> setWithAKey = [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;tree&quot;</span>].toHashSet
-<span class="hljs-keyword">echo</span> setWithAKey[<span class="hljs-string">&quot;one&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, setWithAKey[<span class="hljs-string">&quot;one&quot;</span>].<span class="hljs-keyword">type</span></code></pre><pre class="nb-output">one string</pre>
+<span class="hljs-keyword">echo</span> setWithAKey[<span class="hljs-string">&quot;one&quot;</span>], <span class="hljs-string">&quot; &quot;</span>, setWithAKey[<span class="hljs-string">&quot;one&quot;</span>].<span class="hljs-keyword">type</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">one string</pre></code></pre>
+
 <p><a name = "hashset-use-cases"></a></p>
 <h1>hashSet use cases</h1>
 <hr />
@@ -752,8 +859,9 @@ since the second argument of <code>seps</code> is not an argument we can give, s
 <span class="hljs-keyword">var</span> myString = <span class="hljs-string">&quot;Hello , World !?&quot;</span> 
 <span class="hljs-keyword">echo</span> myString
 
-<span class="hljs-keyword">echo</span> myString.split</code></pre><pre class="nb-output">Hello , World !?
-Hello, World </pre>
+<span class="hljs-keyword">echo</span> myString.split</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Hello , World !?
+Hello, World </pre></code></pre>
+
 <p><strong>Modified version:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils
 
@@ -782,8 +890,9 @@ Hello, World </pre>
     <span class="hljs-literal">result</span> = splitString
         
 <span class="hljs-keyword">echo</span> myString.split(<span class="hljs-literal">true</span>)
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I have a var, a const, and a let me in pony&quot;</span>.split(<span class="hljs-literal">false</span>) <span class="hljs-comment">#43 length</span></code></pre><pre class="nb-output">Hello, World 
-I have a  a  and a me in pony</pre>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;I have a var, a const, and a let me in pony&quot;</span>.split(<span class="hljs-literal">false</span>) <span class="hljs-comment">#43 length</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Hello, World 
+I have a  a  and a me in pony</pre></code></pre>
+
 <p><a name = "quick-re-explanation-of-hashing"></a></p>
 <h1>Quick re-explanation of hashing</h1>
 <hr />
@@ -882,6 +991,20 @@ nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = 
 nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
 &lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
 
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
+
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>
   nbToc: <span class="hljs-type">NbBlock</span>
@@ -906,13 +1029,15 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
   nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
+<span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
+  <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
   nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
-      &lt;meta name = &quot;viewport&quot; content = &quot;width=device-width, initial-scale = 1&quot;&gt;
+      &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
       &lt;style&gt;
       body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
 
-      #myBtn {
+      #toTop {
         display: none;
         position: fixed;
         bottom: 20px;
@@ -927,31 +1052,100 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
         padding: 15px;
         border-radius: 4px;
       }
+      #toTop:hover {background-color: #555;}
 
-      #myBtn:hover {background-color: #555;}
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
       &lt;/style&gt;
       &lt;body&gt;
 
-      &lt;button onclick = &quot;topFunction()&quot; id = &quot;myBtn&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTop&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTopMobile&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
 
       &lt;script&gt;
-      // Get the button
-      let mybutton = document.getElementById(&quot;myBtn&quot;);
+        // Get the button
+        let myButton = document.getElementById(&quot;toTop&quot;);
+        let myButtonMobile = document.getElementById(&quot;toTopMobile&quot;);
+        var currentButton = myButton
 
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = function() {scrollFunction()};
+        var hasTouchScreen = false;
 
-      function scrollFunction() {
-        if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
-          mybutton.style.display = &quot;block&quot;;
-        } else {mybutton.style.display = &quot;none&quot;;}
-      }
+        //var contentBody = document.getElementsByTagName(&quot;body&quot;); //gives a query object
 
-      // When the user clicks on the button, scroll to the top of the document
-      function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
+        //myButton.style.color = &quot;red&quot;; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if (&quot;maxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints &gt; 0;
+          } 
+        else if (&quot;msMaxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints &gt; 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia &amp;&amp; matchMedia(&quot;(pointer:coarse)&quot;);
+
+            if (mQ &amp;&amp; mQ.media === &quot;(pointer:coarse)&quot;) 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
+              currentButton.style.display = &quot;block&quot;;
+            } else {currentButton.style.display = &quot;none&quot;;}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
       &lt;/script&gt;
     &quot;&quot;&quot;</span>
 
