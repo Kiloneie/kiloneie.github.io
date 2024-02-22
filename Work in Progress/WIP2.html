@@ -493,13 +493,12 @@ while Python has an official module specifically for this purpose.</p>
 
 <span class="hljs-keyword">template</span> benchmark(benchmarkName: <span class="hljs-built_in">string</span>, timesToRun: <span class="hljs-built_in">int</span>, code: <span class="hljs-built_in">untyped</span>) =
   <span class="hljs-keyword">block</span>:
-    <span class="hljs-keyword">let</span> t0 = epochTime()
+    <span class="hljs-keyword">let</span> t0 = cpuTime()
 
     <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.timesToRun:
       code
 
-    <span class="hljs-keyword">let</span> elapsed = epochTime() - t0
-    <span class="hljs-keyword">let</span> elapsedStr = elapsed.formatFloat(format = ffDecimal, precision = <span class="hljs-number">12</span>)
+    <span class="hljs-keyword">let</span> elapsed = cpuTime() - t0
     <span class="hljs-keyword">let</span> elapsedProcessed = elapsed / timesToRun
     <span class="hljs-keyword">let</span> elapsedProcessedStr = elapsedProcessed.formatFloat(format = ffDecimal, precision = <span class="hljs-number">12</span>)
     <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;CPU Time [&quot;</span>, benchmarkName, <span class="hljs-string">&quot;] x &quot;</span>, timesToRun, <span class="hljs-string">&quot; = &quot;</span>, elapsedProcessedStr, <span class="hljs-string">&quot;s&quot;</span>
@@ -526,9 +525,9 @@ benchmark <span class="hljs-string">&quot;collect&quot;</span>, <span class="hlj
   <span class="hljs-keyword">var</span> list = collect:
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.num:
       i</code></pre>
-<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">CPU Time [add    ] x 10000 = 0.000133100080s
-CPU Time [index  ] x 10000 = 0.000139900160s
-CPU Time [collect] x 10000 = 0.000133999753s</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">CPU Time [add    ] x 10000 = 0.000166400000s
+CPU Time [index  ] x 10000 = 0.000138800000s
+CPU Time [collect] x 10000 = 0.000165400000s</code></pre>
 <p><a name = "python's-3-variants"></a></p>
 <h2>  4.2. Python's 3 variants</h2>
 <hr />
@@ -599,8 +598,13 @@ as a form of offline tutorial.</p>
 <h2>Links to this video's subject:</h2>
 <hr />
 <ul>
-<li><a href="https://vladar4.github.io/sdl2_nim/" title="Example link to an example video's subject">E.G.1. SDL2_nim documentation</a></li>
-<li><a href="https://wiki.libsdl.org/APIByCategory" title="Example link to an example video's subject">E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)</a></li>
+<li><a href="https://nim-lang.org/docs/sugar.html#collect.m%2Cuntyped" title="sugar.collect">Sugar module's collect macro</a></li>
+<li><a href="https://www.w3schools.com/python/python_lists_comprehension.asp" title="Python's List Comprehensions">Python's List Comprehensions</a></li>
+<li><a href="https://www.w3schools.com/python/ref_func_map.asp" title="Python's map() function">Python's map() function</a></li>
+<li><a href="https://www.w3schools.com/python/ref_func_filter.asp" title="Python's filter() function">Python's filter() function</a></li>
+<li><a href="https://docs.python.org/3/library/timeit.html" title="Python's benchmarking timeit module's timeit() function">Python's benchmarking timeit module's timeit() function</a></li>
+<li><a href="https://nim-lang.org/docs/strutils.html#formatFloat%2Cfloat%2CFloatFormatMode%2Crange%5B%5D%2Cchar" title="Nim's formatFloat func">Nim's formatFloat func</a></li>
+<li><a href="https://nim-lang.org/docs/times.html#cpuTime" title="Nim's cpuTime from the Times module">Nim's cpuTime from the Times module</a></li>
 </ul>
 </main>
 <footer>
@@ -1218,13 +1222,12 @@ nbCodeSkip: <span class="hljs-comment">#Skip - No benching when writting the scr
 
   <span class="hljs-keyword">template</span> benchmark(benchmarkName: <span class="hljs-built_in">string</span>, timesToRun: <span class="hljs-built_in">int</span>, code: <span class="hljs-built_in">untyped</span>) =
     <span class="hljs-keyword">block</span>:
-      <span class="hljs-keyword">let</span> t0 = epochTime()
+      <span class="hljs-keyword">let</span> t0 = cpuTime()
 
       <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.timesToRun:
         code
 
-      <span class="hljs-keyword">let</span> elapsed = epochTime() - t0
-      <span class="hljs-keyword">let</span> elapsedStr = elapsed.formatFloat(format = ffDecimal, precision = <span class="hljs-number">12</span>)
+      <span class="hljs-keyword">let</span> elapsed = cpuTime() - t0
       <span class="hljs-keyword">let</span> elapsedProcessed = elapsed / timesToRun
       <span class="hljs-keyword">let</span> elapsedProcessedStr = elapsedProcessed.formatFloat(format = ffDecimal, precision = <span class="hljs-number">12</span>)
       <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;CPU Time [&quot;</span>, benchmarkName, <span class="hljs-string">&quot;] x &quot;</span>, timesToRun, <span class="hljs-string">&quot; = &quot;</span>, elapsedProcessedStr, <span class="hljs-string">&quot;s&quot;</span>
@@ -1253,9 +1256,9 @@ nbCodeSkip: <span class="hljs-comment">#Skip - No benching when writting the scr
         i
 <span class="hljs-comment">#Using template for Python because i don't wanna wait for the benches when writting the script!</span>
 nbPythonShowOnlyOutput: <span class="hljs-string">&quot;&quot;&quot; 
-CPU Time [add    ] x 10000 = 0.000133100080s
-CPU Time [index  ] x 10000 = 0.000139900160s
-CPU Time [collect] x 10000 = 0.000133999753s
+CPU Time [add    ] x 10000 = 0.000166400000s
+CPU Time [index  ] x 10000 = 0.000138800000s
+CPU Time [collect] x 10000 = 0.000165400000s
 &quot;&quot;&quot;</span>
 
 nbSubSection <span class="hljs-string">&quot;Python's 3 variants&quot;</span>
@@ -1328,8 +1331,13 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;Links to this video's subject:&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-- [E.G.1. SDL2_nim documentation](https://vladar4.github.io/sdl2_nim/ &quot;Example link to an example video's subject&quot;)
-- [E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)](https://wiki.libsdl.org/APIByCategory &quot;Example link to an example video's subject&quot;)
+- [Sugar module's collect macro](https://nim-lang.org/docs/sugar.html#collect.m%2Cuntyped &quot;sugar.collect&quot;)
+- [Python's List Comprehensions](https://www.w3schools.com/python/python_lists_comprehension.asp &quot;Python's List Comprehensions&quot;)
+- [Python's map() function](https://www.w3schools.com/python/ref_func_map.asp &quot;Python's map() function&quot;)
+- [Python's filter() function](https://www.w3schools.com/python/ref_func_filter.asp &quot;Python's filter() function&quot;)
+- [Python's benchmarking timeit module's timeit() function](https://docs.python.org/3/library/timeit.html &quot;Python's benchmarking timeit module's timeit() function&quot;)
+- [Nim's formatFloat func](https://nim-lang.org/docs/strutils.html#formatFloat%2Cfloat%2CFloatFormatMode%2Crange%5B%5D%2Cchar &quot;Nim's formatFloat func&quot;)
+- [Nim's cpuTime from the Times module](https://nim-lang.org/docs/times.html#cpuTime &quot;Nim's cpuTime from the Times module&quot;)
 &quot;&quot;&quot;</span>
 
 nbSave()</code></pre>
