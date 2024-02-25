@@ -71,7 +71,7 @@ template nbUoSubSection(name: string) =
 #Updating the same file is shown instantly once deployed via Github Page on PC. 
   #Mobile takes either a random amount of time, or NOT at all!
 template addButtonBackToTop() =
-  nbRawHtml: """
+  nbRawHtml: hlHtml"""
       <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
       body {} <!-- This is a comment, this needs to be here body {} -->
@@ -192,8 +192,10 @@ template addButtonBackToTop() =
 addToc() 
 addButtonBackToTop()
 
-#Do NOT forget to have the .html file OPEN at all times, otherwise 
-  #live preview will NOT work! ANY live preview!
+#Use Live Preview Extension and set the Auto Refresh Preview set to "On changes to Saved Files"
+  #And Server Keep Alive After Embedded Preview Close set to 0, 
+  #so that we no longer need the preview embedded window, we now have it in the browser!
+    #Live SERVER Extension no longer works, even with the .html file kept open
 
 ###############
 #START OF FILE#

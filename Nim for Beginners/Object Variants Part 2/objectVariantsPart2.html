@@ -43,7 +43,7 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..\..\..\Current Projects\List comprehensions sugar collect\#4 Sugar collect List Comprehensions">🏡</a></span>
+  <span><a href="..\..\..\Current Projects\List comprehensions sugar collect\#3 Overloading in Depth">🏡</a></span>
   <span><code>..\..\..\Nim for Beginners\#27 Object Variants\Video Data\objectVariantsPart2.nim</code></span>
   <span></span>
 </div>
@@ -287,24 +287,7 @@ it into our sequence in order to satisfy/meet the requirements of dynamic dispat
 <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> enemiesI:
   <span class="hljs-keyword">echo</span> e.attackI
 
-<span class="hljs-comment">#Now let's run this. Okay it works, end of this section(nimib restriction)</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">backstabI
-biteI
-biteI
-biteI
-biteI
-backstabI
-biteI
-backstabI
-backstabI
-backstabI
-backstabI
-biteI
-biteI
-biteI
-backstabI
-backstabI
-biteI
-biteI
+<span class="hljs-comment">#Now let's run this. Okay it works, end of this section(nimib restriction)</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">biteI
 biteI
 backstabI
 biteI
@@ -317,27 +300,11 @@ backstabI
 biteI
 biteI
 backstabI
-biteI
-backstabI
-biteI
-biteI
-biteI
-biteI
-biteI
 backstabI
 backstabI
 biteI
-backstabI
 biteI
 backstabI
-biteI
-backstabI
-biteI
-biteI
-biteI
-biteI
-biteI
-biteI
 biteI
 biteI
 biteI
@@ -348,18 +315,61 @@ backstabI
 biteI
 backstabI
 biteI
-biteI
-biteI
-biteI
-backstabI
-biteI
-biteI
 backstabI
 biteI
 biteI
 biteI
 biteI
 backstabI
+biteI
+backstabI
+biteI
+backstabI
+backstabI
+biteI
+backstabI
+biteI
+backstabI
+biteI
+backstabI
+biteI
+biteI
+biteI
+biteI
+biteI
+backstabI
+backstabI
+biteI
+biteI
+backstabI
+backstabI
+backstabI
+backstabI
+biteI
+backstabI
+biteI
+backstabI
+backstabI
+biteI
+biteI
+backstabI
+biteI
+biteI
+biteI
+backstabI
+biteI
+backstabI
+backstabI
+biteI
+biteI
+backstabI
+backstabI
+biteI
+backstabI
+biteI
+biteI
+biteI
+biteI
 backstabI
 backstabI
 biteI
@@ -368,17 +378,7 @@ backstabI
 backstabI
 backstabI
 backstabI
-backstabI
-backstabI
 biteI
-biteI
-biteI
-backstabI
-backstabI
-biteI
-backstabI
-backstabI
-backstabI
 biteI
 backstabI
 backstabI
@@ -386,7 +386,7 @@ biteI
 biteI
 backstabI
 biteI
-biteI
+backstabI
 ...</pre></code></pre>
 
 <p><a name = "object-variants"></a></p>
@@ -473,13 +473,11 @@ because it will crash our program, you can't mix the base object with it's varia
 <span class="hljs-comment">#[ enemiesV.add overlordV ]#</span> <span class="hljs-comment">#This will crash, overlord.attackV ...</span>
 
 <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> enemiesV:
-  <span class="hljs-keyword">echo</span> e.attackV</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">biteV
-biteV
-biteV
+  <span class="hljs-keyword">echo</span> e.attackV</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">backstabV
+backstabV
 backstabV
 biteV
 backstabV
-biteV
 backstabV
 backstabV
 backstabV
@@ -491,26 +489,12 @@ backstabV
 biteV
 backstabV
 biteV
-backstabV
-biteV
-biteV
-backstabV
-backstabV
 biteV
 backstabV
 biteV
 backstabV
 biteV
-biteV
 backstabV
-biteV
-biteV
-backstabV
-backstabV
-backstabV
-biteV
-backstabV
-biteV
 biteV
 backstabV
 backstabV
@@ -518,43 +502,50 @@ backstabV
 backstabV
 biteV
 biteV
-backstabV
-backstabV
-biteV
-backstabV
-backstabV
-backstabV
-backstabV
-biteV
-backstabV
-backstabV
-backstabV
-biteV
-backstabV
 biteV
 biteV
-biteV
+backstabV
 biteV
 backstabV
 backstabV
 biteV
 biteV
 backstabV
+biteV
+biteV
+biteV
 backstabV
-backstabV
+biteV
+biteV
+biteV
+biteV
 biteV
 backstabV
 biteV
 biteV
 backstabV
 backstabV
+backstabV
+backstabV
+backstabV
+backstabV
+biteV
+biteV
+biteV
+biteV
 biteV
 backstabV
 backstabV
 biteV
 backstabV
+backstabV
+backstabV
 biteV
+backstabV
 biteV
+backstabV
+biteV
+backstabV
 backstabV
 backstabV
 backstabV
@@ -568,10 +559,19 @@ backstabV
 backstabV
 backstabV
 biteV
+backstabV
+backstabV
+backstabV
+backstabV
 biteV
 biteV
+backstabV
+backstabV
+biteV
+backstabV
 biteV
 biteV
+backstabV
 backstabV</pre></code></pre>
 
 <p><a name = "child-a-to-child-b-conversion"></a></p>
@@ -835,7 +835,7 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
 <span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
   <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
-  nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+  nbRawHtml: <span class="hljs-string">hlHtml&quot;&quot;&quot;
       &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
       &lt;style&gt;
       body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
@@ -956,8 +956,10 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
 addToc() 
 addButtonBackToTop()
 
-<span class="hljs-comment">#Do NOT forget to have the .html file OPEN at all times, otherwise </span>
-  <span class="hljs-comment">#live preview will NOT work! ANY live preview!</span>
+<span class="hljs-comment">#Use Live Preview Extension and set the Auto Refresh Preview set to &quot;On changes to Saved Files&quot;</span>
+  <span class="hljs-comment">#And Server Keep Alive After Embedded Preview Close set to 0, </span>
+  <span class="hljs-comment">#so that we no longer need the preview embedded window, we now have it in the browser!</span>
+    <span class="hljs-comment">#Live SERVER Extension no longer works, even with the .html file kept open</span>
 
 <span class="hljs-comment">###############</span>
 <span class="hljs-comment">#START OF FILE#</span>

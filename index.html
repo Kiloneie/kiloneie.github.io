@@ -326,7 +326,7 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
 <span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
   <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
-  nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+  nbRawHtml: <span class="hljs-string">hlHtml&quot;&quot;&quot;
       &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
       &lt;style&gt;
       body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
@@ -447,8 +447,10 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
 addToc() 
 addButtonBackToTop()
 
-<span class="hljs-comment">#Do NOT forget to have the .html file OPEN at all times, otherwise </span>
-  <span class="hljs-comment">#live preview will NOT work! ANY live preview!</span>
+<span class="hljs-comment">#Use Live Preview Extension and set the Auto Refresh Preview set to &quot;On changes to Saved Files&quot;</span>
+  <span class="hljs-comment">#And Server Keep Alive After Embedded Preview Close set to 0, </span>
+  <span class="hljs-comment">#so that we no longer need the preview embedded window, we now have it in the browser!</span>
+    <span class="hljs-comment">#Live SERVER Extension no longer works, even with the .html file kept open</span>
 
 <span class="hljs-comment">###############</span>
 <span class="hljs-comment">#START OF FILE#</span>
