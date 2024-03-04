@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>FAQ Restructuring\FAQrestructure.nim</title>
+  <title>..\#4 Sugar collect List Comprehensions\Video Data\sugarCollectListComprehensions.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,46 +43,41 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..">🏡</a></span>
-  <span><code>FAQ Restructuring\FAQrestructure.nim</code></span>
+  <span><a href="..\..\#3 Overloading in Depth">🏡</a></span>
+  <span><code>..\#4 Sugar collect List Comprehensions\Video Data\sugarCollectListComprehensions.nim</code></span>
   <span></span>
 </div>
 <hr>
 </header><main>
 <h2>Table of Contents:</h2>
 <ul>
-<li>1. <a href="#multiple-type-arguments-and-returns">Multiple Type Arguments and Returns</a>
+<li>1. <a href="#list-comprehensions">List Comprehensions</a>
 <ul>
-<li>1.1. <a href="#`type-or-|-type`-approach-problem"><code>type or | type</code> approach problem</a></li>
-<li>1.2. <a href="#using-`static`-for-compile-time-multi-return">Using <code>static</code> for compile-time multi return</a></li>
+<li>1.1. <a href="#nim---comprehending-a-list-with-a-for-loop">Nim - Comprehending a list with a for loop</a></li>
+<li>1.2. <a href="#python's-list-comprehension-structure">Python's List Comprehension structure</a></li>
+<li>1.3. <a href="#python---comprehending-a-list-with-a-for-loop">Python - Comprehending a list with a for loop</a></li>
+<li>1.4. <a href="#nim---using-sugar.collect">Nim - Using sugar.collect</a></li>
+<li>1.5. <a href="#python---list-comprehension">Python - List Comprehension</a></li>
 </ul>
 </li>
-<li>2. <a href="#finding-and-sorting-data">Finding and Sorting data</a>
+<li>2. <a href="#python's-list-comprehensions-vs-nim's-`collect`">Python's list comprehensions vs Nim's <code>collect</code></a>
 <ul>
-<li>2.1. <a href="#finding-the-lowest-number-in-a-sequence">Finding the lowest number in a sequence</a></li>
-<li>2.2. <a href="#finding-the-lowest-number-in-a-sequence-using-`min/maxindex`">Finding the lowest number in a sequence using <code>min/maxIndex</code></a></li>
-<li>2.3. <a href="#sorting-a-sequence-of-integers">Sorting a sequence of integers</a></li>
-<li>2.4. <a href="#sorting-a-sequence-of-integers-using-`sort`">Sorting a sequence of integers using <code>sort</code></a></li>
+<li>2.1. <a href="#python's-list-comprehension-cons">Python's List Comprehension Cons</a></li>
 </ul>
 </li>
-<li>3. <a href="#generics">Generics</a>
+<li>3. <a href="#nim's-sugar-`collect`-pros">Nim's sugar <code>collect</code> Pros</a>
 <ul>
-<li>3.1. <a href="#generic-definitions">Generic Definitions</a></li>
-<li>3.2. <a href="#generic-object-initialization">Generic Object Initialization</a></li>
-<li>3.3. <a href="#generic-tuple-initialization">Generic Tuple Initialization</a></li>
+<li>3.1. <a href="#long-one-liners-are-bad">Long one liners are bad</a></li>
+<li>3.2. <a href="#sugar-`collect`-also-works-on-sets-and-tables">Sugar <code>collect</code> also works on Sets and Tables</a></li>
+<li>3.3. <a href="#`collect`-with-sets"><code>collect</code> with Sets</a></li>
+<li>3.4. <a href="#`collect`-with-hashsets"><code>collect</code> with hashSets</a></li>
+<li>3.5. <a href="#`collect`-with-tables"><code>collect</code> with Tables</a></li>
 </ul>
 </li>
-<li>4. <a href="#more-overloading">More Overloading</a>
+<li>4. <a href="#performance-benchmarks">Performance Benchmarks</a>
 <ul>
-<li>4.1. <a href="#using-`find`-with-a-sequence-of-numbers">Using <code>find</code> with a sequence of numbers</a></li>
-<li>4.2. <a href="#using-`find`-with-a-sequence-of-objects">Using <code>find</code> with a sequence of objects</a></li>
-<li>4.3. <a href="#overloading-`find`-proc">Overloading <code>find</code> proc</a></li>
-<li>4.4. <a href="#`[]`-overload-for-ease-of-life"><code>[]</code> overload for ease of life</a></li>
-</ul>
-</li>
-<li>5. <a href="#tuple-unpacking">Tuple Unpacking</a>
-<ul>
-<li>5.1. <a href="#tuple-unpacking-use-case">Tuple Unpacking Use Case</a></li>
+<li>4.1. <a href="#nim's-3-variants">Nim's 3 variants</a></li>
+<li>4.2. <a href="#python's-3-variants">Python's 3 variants</a></li>
 </ul>
 </li>
 </ul>
@@ -203,477 +198,368 @@ pre > code {
     
 <h2>INTRO - GREETING</h2>
 <ul>
-<li>TITLE: Finding, Sorting data, Multiple Type Returns, Overloading, Generics and Tuple Unpacking</li>
-<li>EXTRA CONTENT: Making a fake Table(hashSets, overloading and generics)</li>
+<li><strong>Title</strong>: List Comprehensions with sugar.collect and comparison against Python's List Comprehensions</li>
+<li><strong>Alt Title</strong>: List Comprehensions with sugar.collect vs Python's List Comprehensions</li>
 </ul>
 <h2>INTRO - FOREWORDS</h2>
-<p><b>(What is the purpose of this video ?)</b></p>
+<p><strong>(What is the purpose of this video ?)</strong></p>
 <ul>
-<li>In this video i will show you how to find and sort data using loops,
-as well as with <code>find</code> and <code>sort</code> procs.
-Also Generics, more Overloading with and without Generics and Tuple Unpacking.</li>
+<li>List comprehensions with sugar.collect and comparison against Python's List Comprehensions:
+<ul>
+<li>In this video we will go over sugar.collect, it's pros and cons,
+and compare it against Python's list comprehensions with some benchmarks.</li>
 </ul>
-<p>There is also a lot of cut content as an Extra,
-which shows a lot more Generics and Overloading.</p>
+</li>
+</ul>
 <p>The code for this video and it's script/documentation styled with nimib,
-as well as the cut content as an Extra, is in the links in the description as a form of written tutorial.</p>
+is in the link in the description as a form of written tutorial.</p>
+<p><a name = "list-comprehensions"></a></p>
+<h1>1. List Comprehensions</h1>
+<hr />
+<p>sugar.<code>collect</code> is a macro, a macro used for list comprehensions.
+A list comprehension is basically making a list from an existing list based on some variable parameters.
+This can be done with either a for loop or sugar.collect, list comprehensions in Python.</p>
+<p><a name = "nim---comprehending-a-list-with-a-for-loop"></a></p>
+<h2>  1.1. Nim - Comprehending a list with a for loop</h2>
+<hr />
+<p>In the following example, we make a new list/sequence based on the <code>fruit</code> sequence,
+by iterating over it with a <code>for</code> loop using the <code>pairs</code> iterator,
+and returning only the elements of the list starting with the letter &quot;P&quot;.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> fruit = @[<span class="hljs-string">&quot;Apple&quot;</span>, <span class="hljs-string">&quot;Orange&quot;</span>, <span class="hljs-string">&quot;Banana&quot;</span>, <span class="hljs-string">&quot;Peach&quot;</span>, <span class="hljs-string">&quot;Pear&quot;</span>, <span class="hljs-string">&quot;Pineapple&quot;</span>]
+
+<span class="hljs-keyword">var</span> pFruit: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
+
+<span class="hljs-keyword">for</span> i, f <span class="hljs-keyword">in</span> fruit.pairs:
+  <span class="hljs-keyword">if</span> $f[<span class="hljs-number">0</span>] == <span class="hljs-string">&quot;P&quot;</span>:
+    pFruit.add f
+
+<span class="hljs-keyword">echo</span> pFruit</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[&quot;Peach&quot;, &quot;Pear&quot;, &quot;Pineapple&quot;]</pre></code></pre>
+
+<p><a name = "python's-list-comprehension-structure"></a></p>
+<h2>  1.2. Python's List Comprehension structure</h2>
+<hr />
+<p>Before we go on for the Python's version of the above example,
+here is the structure of a Python's <strong>list comprehension</strong>,
+with explanation.</p>
+<pre><code class="python hljs">  list = [returned for element in container if condition]</code></pre>
 <ul>
-<li><a href="https://kiloneie.github.io/Extra%20Content/extraMakingFakeTable.html" title="Extra Content">Extra Content</a></li>
+<li><strong>returned</strong> - the element/value that will be returned/put in a new list.</li>
+<li><strong>element</strong> - element of &quot;a&quot; container.</li>
+<li><strong>container</strong> - dict, list, set, tuple(in Nim, it's a data structure).</li>
+<li><strong>condition</strong> - optional -&gt; to perform operations for the &quot;returned&quot;.</li>
 </ul>
-<p><a name = "multiple-type-arguments-and-returns"></a></p>
-<h1>1. Multiple Type Arguments and Returns</h1>
+<p><a name = "python---comprehending-a-list-with-a-for-loop"></a></p>
+<h2>  1.3. Python - Comprehending a list with a for loop</h2>
 <hr />
-<p>One can use the vertical bar/line <code>|</code> or better, the <code>or</code> operator,
-to specify that a proc can take OR return, multiple types of data.</p>
-<p><strong>Example of multiple types for an argument:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> stringOrInt(data: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">int</span>) =
-  <span class="hljs-keyword">echo</span> data
+<pre><code class="python hljs">  fruit = ["Apple", "Orange", "Banana", "Peach", "Pear", "Pineapple"]
+  pfruit = []
 
-<span class="hljs-keyword">proc</span> stringOrIntOr(data: <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span>) =
-  <span class="hljs-keyword">echo</span> data
+  for f in fruit:
+    if "P" in f:
+      pfruit.append(f)
 
-<span class="hljs-keyword">var</span> str = <span class="hljs-string">&quot;Hello&quot;</span>
-<span class="hljs-keyword">var</span> num = <span class="hljs-number">101</span>
-
-str.stringOrInt
-num.stringOrInt
-
-str.stringOrIntOr
-num.stringOrIntOr</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Hello
-101
-Hello
-101</pre></code></pre>
-
-<p><strong>Example of multiple types for return:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> multipleReturn(data: <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span> = <span class="hljs-comment">#This is now a `generic`! Multi return = generic</span>
-  <span class="hljs-literal">result</span> = data
-
-<span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-number">101</span>)
-<span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-string">&quot;Hello&quot;</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">101
-Hello</pre></code></pre>
-
-<p><a name = "`type-or-|-type`-approach-problem"></a></p>
-<h2>  1.1. <code>type or | type</code> approach problem</h2>
+  print(pfruit)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  ['Peach', 'Pear', 'Pineapple']</code></pre>
+<p><a name = "nim---using-sugar.collect"></a></p>
+<h2>  1.4. Nim - Using sugar.collect</h2>
 <hr />
-<p>If we were to change the body of the above proc,
-to say <code>data + data</code>, we would get an error when the argument would be a <code>string</code>,
-as you cannot join strings with the <code>+</code> operator(not unless you overload it,
-but that is pointless, because <code>&amp;</code> exists for this exact purpose).</p>
-<p>Variable types must be known at compile-time, therefore you cannot use the vertical bar/line <code>|</code>,
-or the <code>or</code> operator, to have a variable of multiple types.</p>
-<p><strong>The following does NOT compile:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> stringOrInt: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">int</span></code></pre>
-<p>I have seen this approach be used here and there, and i do not agree with it,
-because of the above problem. You can solve by using some logic to check for the type beforehand.
-But then, the code would be doing extra work, wasting performance.</p>
-<p><strong>SOLUTION 1:</strong> It would be much better to simply <code>overload</code> the same <code>proc</code>,
-so that you have 2x procs or more, one for each of the types, to achieve the same functionality,
-with none of the problems.</p>
-<p><strong>SOLUTION 2:</strong> Generics</p>
-<p><a name = "using-`static`-for-compile-time-multi-return"></a></p>
-<h2>  1.2. Using <code>static</code> for compile-time multi return</h2>
+<p>The exact same code as the one with the <code>for</code> loop,
+except now it uses the <code>sugar</code> module's <code>collect</code> macro.</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> pFruit2 = collect(newSeq):
+  <span class="hljs-keyword">for</span> i, f <span class="hljs-keyword">in</span> fruit.pairs:
+    <span class="hljs-keyword">if</span> $f[<span class="hljs-number">0</span>] == <span class="hljs-string">&quot;P&quot;</span>:
+      f
+
+<span class="hljs-keyword">echo</span> pFruit
+<span class="hljs-keyword">echo</span> pFruit2</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[&quot;Peach&quot;, &quot;Pear&quot;, &quot;Pineapple&quot;]
+@[&quot;Peach&quot;, &quot;Pear&quot;, &quot;Pineapple&quot;]</pre></code></pre>
+
+<p><a name = "python---list-comprehension"></a></p>
+<h2>  1.5. Python - List Comprehension</h2>
 <hr />
-<p>One can also solve the above problem of the code appearing to be fine,
-but then failing at compilation, or worse, sometime at runtime,
-by using <code>static</code> dataType for the argument.</p>
-<p><code>static</code> enforces that the value will be known at compile-time,
-therefore we do NOT need to check the types beforehand.</p>
-<p><strong><code>static</code> type example:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> test(x: <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">int</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">string</span> = <span class="hljs-comment">#Multi return = generic</span>
-  <span class="hljs-keyword">when</span> x:
-    <span class="hljs-string">&quot;Hello&quot;</span>
-  <span class="hljs-keyword">else</span>:
-    <span class="hljs-number">101</span>
+<pre><code class="python hljs">  fruit2 = ["Apple", "Orange", "Banana", "Peach", "Pear", "Pineapple"]
 
-<span class="hljs-keyword">echo</span> test <span class="hljs-literal">true</span>
-<span class="hljs-keyword">echo</span> test <span class="hljs-literal">false</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Hello
-101</pre></code></pre>
+  pfruit2 = [f for f in fruit2 if "P" in f]
 
-<p>The following <code>runtime</code> version does NOT compile:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> testR(x: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">int</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">string</span> = <span class="hljs-comment">#Multi return = generic</span>
-  <span class="hljs-keyword">when</span> x:
-    <span class="hljs-string">&quot;Hello&quot;</span>
-  <span class="hljs-keyword">else</span>:
-    <span class="hljs-number">101</span>
-
-<span class="hljs-keyword">echo</span> testR <span class="hljs-literal">true</span>
-<span class="hljs-keyword">echo</span> testR <span class="hljs-literal">false</span></code></pre>
-  <h6>If you need this to work at `runtime`, you should use the `union` module by `alaviss`:
-  - https://github.com/alaviss/union/
-<p>But i can't tell if it still works as nimble cannot find it. I don't want to waste time.</h6></p>
-<p><a name = "finding-and-sorting-data"></a></p>
-<h1>2. Finding and Sorting data</h1>
+  print(pfruit)
+  print(pfruit2)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  ['Peach', 'Pear', 'Pineapple']
+  ['Peach', 'Pear', 'Pineapple']</code></pre>
+<p><a name = "python's-list-comprehensions-vs-nim's-`collect`"></a></p>
+<h1>2. Python's list comprehensions vs Nim's <code>collect</code></h1>
 <hr />
-<p><a name = "finding-the-lowest-number-in-a-sequence"></a></p>
-<h2>  2.1. Finding the lowest number in a sequence</h2>
+<p>Python's List comprehensions are a more compact way to create new lists,
+in situations where map() and filter(), and or nested loops would be used.
+They are great for simple tasks.</p>
+<div style = "font-size: 10px">
+map(function, container, container,...) runs a function on given containers,
+and returns only the elements that passed<br>
+filter(function, container, container,...) runs a function on given containers, 
+and transforms them, returninmg the transformed result</div>
+<p>Here are a few examples:</p>
+<pre><code class="python hljs">  print([i for i in range(10)])</code></pre>
+<pre><code class="python hljs">  toTen = []
+  for i in range(10):
+    toTen.append(i)
+
+  print(toTen)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+<pre><code class="python hljs">  print([i for i in range(20) if i%2 == 0])</code></pre>
+<pre><code class="python hljs">  evenToTwenty = []
+  for i in range(20):
+    if i%2 == 0:
+      evenToTwenty.append(i)
+
+  print(evenToTwenty)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]</code></pre>
+<pre><code class="python hljs">  nums = [1, 2, 3, 4]
+  fruit = ["Apples", "Peaches", "Pears", "Bananas"]
+  print([(i, f) for i in nums for f in fruit])</code></pre>
+<pre><code class="python hljs">  fourTimesFour = []
+  for i in nums:
+    for f in fruit:
+      fourTimesFour.append((i, f)) #Double (()) - because tuple as argument - python demands () for funcs
+
+  print(fourTimesFour)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [(1, 'Apples'), (1, 'Peaches'), (1, 'Pears'), (1, 'Bananas'),
+  (2, 'Apples'), (2, 'Peaches'), (2, 'Pears'), (2, 'Bananas'),
+  (3, 'Apples'), (3, 'Peaches'), (3, 'Pears'), (3, 'Bananas'),
+  (4, 'Apples'), (4, 'Peaches'), (4, 'Pears'), (4, 'Bananas')]</code></pre>
+<pre><code class="python hljs">  print([(i, f) for i in nums for f in fruit if f[0] == "P"])</code></pre>
+<pre><code class="python hljs">  fruitP = []
+  for i in nums:
+    for f in fruit:
+      if f[0] == "P":
+        fruitP.append((i, f))
+
+  print(fruitP)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [(1, 'Peaches'), (1, 'Pears'),
+  (2, 'Peaches'), (2, 'Pears'),
+  (3, 'Peaches'), (3, 'Pears'),
+  (4, 'Peaches'), (4, 'Pears')]</code></pre>
+<pre><code class="python hljs">  print([(i, f) for i in nums for f in fruit if f[0] == "P" if i%2 == 1])</code></pre>
+<pre><code class="python hljs">  fruitPodd = []
+  for i in nums:
+    for f in fruit:
+      if f[0] == "P" and i%2 == 1:
+        fruitPodd.append((i, f))
+
+  print(fruitPodd)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [(1, 'Peaches'), (1, 'Pears'), (3, 'Peaches'), (3, 'Pears')]</code></pre>
+<pre><code class="python hljs">  print([i for i in zip(nums, fruit) if i[0] %2== 0])</code></pre>
+<pre><code class="python hljs">  fruitEvenZip = []
+
+  for i in zip(nums, fruit):
+    if i[0] %2 == 0:
+      fruitEvenZip.append(i)
+
+  print(fruitEvenZip)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [(2, 'Peaches'), (4, 'Bananas')]</code></pre>
+<p><a name = "python's-list-comprehension-cons"></a></p>
+<h2>  2.1. Python's List Comprehension Cons</h2>
 <hr />
-<p>My version of how to find the lowest integer value in a sequence:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> listOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
+<p>Python's List Comprehension are useful for small and simple lists, but become extremely hard to understand the more complex they become,
+unlike just using a for loop, which is yes more verbose, but also easier to understand and read,
+especially if you haven't viewed the code with with a list comprehension for a while.</p>
+<p>Here is a <strong>good</strong> example of a <strong>bad</strong> one liner:</p>
+<pre><code class="python hljs">  listLLL = [[[1,2,3],[4,5,6],[7,8,9]]]
+  flatten_keep_evens = [item for listLL in listLLL for listL in listLL for item in listL if item % 2 == 0]
 
-<span class="hljs-keyword">var</span> smallestNumber: <span class="hljs-built_in">int</span> = <span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span> <span class="hljs-comment">#So that it starts as the biggest</span>
+  print(flatten_keep_evens)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [2, 4, 6, 8]</code></pre>
+<p>The above <strong>good</strong> example of a <strong>bad</strong> one liner,
+can be greatly improved by indentation(like a for loop) like this:</p>
+<pre><code class="python hljs">  doubleNestedLLL = [[[1,2,3], [4,5,6], [7,8,9]]]
+  flatenedEvens = [
+      element
+      for nestedLL in doubleNestedLLL
+      for elementsL in nestedLL
+      for element in elementsL
+      if not element % 2
+  ]
 
-<span class="hljs-keyword">for</span> number <span class="hljs-keyword">in</span> listOfNumbers:
-  <span class="hljs-keyword">if</span> number &lt; smallestNumber:
-    smallestNumber = number
-
-<span class="hljs-keyword">echo</span> smallestNumber</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-100</pre></code></pre>
-
-<p><a name = "finding-the-lowest-number-in-a-sequence-using-`min/maxindex`"></a></p>
-<h2>  2.2. Finding the lowest number in a sequence using <code>min/maxIndex</code></h2>
+  print(flatenedEvens)</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  [2, 4, 6, 8]</code></pre>
+<p><a name = "nim's-sugar-`collect`-pros"></a></p>
+<h1>3. Nim's sugar <code>collect</code> Pros</h1>
 <hr />
-<p><code>sequtils</code>(sequence utilities) module's <code>min/maxIndex</code> proc:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/sequtils
-
-<span class="hljs-keyword">var</span> numbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-numbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-<span class="hljs-keyword">echo</span> numbers[numbers.minIndex]
-<span class="hljs-keyword">echo</span> numbers[numbers.maxIndex]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-100
-100</pre></code></pre>
-
-<p>As you can see it's much simpler, but it is always valuable to learn how to do it yourself,
-especially if you plan to make a similar proc.</p>
-<p><a name = "sorting-a-sequence-of-integers"></a></p>
-<h2>  2.3. Sorting a sequence of integers</h2>
+<p><a name = "long-one-liners-are-bad"></a></p>
+<h2>  3.1. Long one liners are bad</h2>
 <hr />
-<p>My example of sorting a sequence of integers by their value descending(10, 9, 8...):</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/sets, std/sequtils
-
-<span class="hljs-keyword">var</span> listOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Original listOfNumbers:&quot;</span>
-<span class="hljs-keyword">echo</span> listOfNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-
-<span class="hljs-keyword">var</span> checkedNumbers: <span class="hljs-type">HashSet</span>[<span class="hljs-built_in">int</span>] <span class="hljs-comment">#Max normal Set int size is int16</span>
-<span class="hljs-keyword">var</span> countedNumbers: <span class="hljs-built_in">seq</span>[(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>])] <span class="hljs-comment">#a Seq of (locations of number) - number of elements of locations = numb of of occurances</span>
-
-<span class="hljs-comment">#Finding all occurances of a number and their locations</span>
-<span class="hljs-keyword">for</span> index, number <span class="hljs-keyword">in</span> listOfNumbers.pairs:
-  <span class="hljs-keyword">var</span> tempSeq: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-  <span class="hljs-keyword">var</span> tempNum: <span class="hljs-built_in">int</span>
-  <span class="hljs-keyword">if</span> number <span class="hljs-keyword">notin</span> checkedNumbers:
-    <span class="hljs-keyword">for</span> index2, number2 <span class="hljs-keyword">in</span> listOfNumbers.pairs: <span class="hljs-comment">#Double same loop, so that each number can check all the other numbers    </span>
-      <span class="hljs-keyword">if</span> index != index2: <span class="hljs-comment">#Don't check the same position against the same position</span>
-        <span class="hljs-comment">#Don't check an already checked number</span>
-          <span class="hljs-keyword">if</span> number == number2:
-            tempNum = number  
-            checkedNumbers.incl number     
-            tempSeq.add index <span class="hljs-comment">#First location</span>
-            tempSeq.add index2 <span class="hljs-comment">#Second location</span>
-    <span class="hljs-comment">#For single occurance numbers</span>
-    tempNum = number
-    tempSeq.add index
-
-    <span class="hljs-comment">#Multi occurance numbers</span>
-    tempSeq = tempSeq.deduplicate
-    countedNumbers.add (tempNum, tempSeq)
-
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;countedNumbers:&quot;</span>
-<span class="hljs-keyword">echo</span> countedNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-
-<span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-<span class="hljs-keyword">var</span> smallestNumber: (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]) = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[])
-<span class="hljs-keyword">var</span> sNlocation: <span class="hljs-built_in">int</span>
-<span class="hljs-keyword">while</span> countedNumbers.len &gt; <span class="hljs-number">0</span>:
-  smallestNumber = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[]) <span class="hljs-comment">#Reset - so that smallestNumber is always larger then the one in the list</span>
-  <span class="hljs-comment">#Here we will remove once we break out with the smallestNumber</span>
-  <span class="hljs-keyword">for</span> index, tup <span class="hljs-keyword">in</span> countedNumbers.pairs:
-    <span class="hljs-keyword">if</span> tup[<span class="hljs-number">0</span>] &lt; smallestNumber[<span class="hljs-number">0</span>]: <span class="hljs-comment">#tup[0] -&gt; number</span>
-      smallestNumber = tup
-      sNlocation = index
-  countedNumbers.delete sNlocation
-  <span class="hljs-comment">#Now we add number * locations to tempListOfNumbers</span>
-  <span class="hljs-keyword">for</span> location <span class="hljs-keyword">in</span> smallestNumber[<span class="hljs-number">1</span>]:
-    sortedListOfNumbers.add smallestNumber[<span class="hljs-number">0</span>]
-
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Original listOfNumbers:
-@[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]
-
-countedNumbers:
-@[(1, @[0]), (2, @[1]), (50, @[2]), (20, @[3]), (100, @[4, 10]), (0, @[5, 9, 11]), (-5, @[6]), (68, @[7]), (-100, @[8])]
-
-sortedListOfNumbers
-@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
-
-<p>As you can see, for just sorting numbers in a sequence, it takes a lot of code to do so.</p>
-<p><a name = "sorting-a-sequence-of-integers-using-`sort`"></a></p>
-<h2>  2.4. Sorting a sequence of integers using <code>sort</code></h2>
+<p>Nim does not do list comprehensions as one liners like Python does,
+they work very much the same as a for loop, but reduce a bit of typing,
+by not having to declare/initialize a sequence before hand, but at the moment of usage.
+Then we also don't need to call <code>.add + elementWeWant</code>, but just the <code>elementWeWant</code>.</p>
+<p><a name = "sugar-`collect`-also-works-on-sets-and-tables"></a></p>
+<h2>  3.2. Sugar <code>collect</code> also works on Sets and Tables</h2>
 <hr />
-<p><strong><code>sort</code> is Nim's default sorting algorithm - func(there is also a <code>proc</code> verison)</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/algorithm
-
-<span class="hljs-keyword">var</span> listOfNumbers2: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-listOfNumbers2 = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Original listOfNumbers2:&quot;</span>
-<span class="hljs-keyword">echo</span> listOfNumbers2; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-
-<span class="hljs-keyword">var</span> sortedListOfNumbers2 = listOfNumbers2
-sortedListOfNumbers2.sort() <span class="hljs-comment">#Default is lowest to highest - Ascending</span>
-
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers2&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers2</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Original listOfNumbers2:
-@[1, 2, 50, 20, 100, 0, -5, 68, -100, 0, 100, 0]
-
-sortedListOfNumbers2
-@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
-
-<p>As you can see, it saves you a LOT of time(it took me quite a bit to write my own above).</p>
-<p><strong>Descending <code>sort</code> example:</strong></p>
-<pre><code class="nohighlight hljs nim">sortedListOfNumbers2.sort(order = <span class="hljs-type">SortOrder</span>.<span class="hljs-type">Descending</span>)
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers2 in Descending order:&quot;</span>
-<span class="hljs-keyword">echo</span> sortedListOfNumbers2</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">sortedListOfNumbers2 in Descending order:
-@[100, 100, 68, 50, 20, 2, 1, 0, 0, 0, -5, -100]</pre></code></pre>
-
-<p><code>sort</code> proc modifies the existing variable, and uses the <code>system.cmp</code> for comparisons by default.
-There is also the <code>sorted</code> proc, which returns a new copy instead of modifying the existing container.</p>
-<p><strong><code>sorted</code> proc example:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> listOfNumbers2.sorted() <span class="hljs-comment">#You can't use `sort` with an echo like this</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[-100, -5, 0, 0, 0, 1, 2, 20, 50, 68, 100, 100]</pre></code></pre>
-
-<p>You can also specify which comparison/<code>cmp</code> proc to use, like this:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> listOfNumbers2.sorted(system.cmp[<span class="hljs-built_in">int</span>])</code></pre>
-<p>You can replace that <code>cmp</code>(compare) proc, with one of the following from the Nim's Standard Library's docs search results:</p>
-<img src = "images/cmpSearchResults.png" alt = "`cmp` search results">
-<p><a name = "generics"></a></p>
-<h1>3. Generics</h1>
+<p>Nim's sugar's collect also works on hashSets and Tables, unlike Python.
+Nim's collect macro does not have the drawbacks of Python's list comprehensions,
+while being much more powerful, because <code>collect</code> also works on other types.
+These types being, Sets, HashSets and Tables.</p>
+<p><a name = "`collect`-with-sets"></a></p>
+<h2>  3.3. <code>collect</code> with Sets</h2>
 <hr />
-<p>Generics in Nim, are used to parametrize procs, iterators or types with type parameters.
-`[]` are used along with capital letters inside of them, separated by commas,
-after a type's name, proc or iterator to tell the compiler that this will be a <code>generic</code>:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
-  <span class="hljs-type">GenericObject</span>[<span class="hljs-type">T</span>] = <span class="hljs-keyword">object</span>
-    ndata: <span class="hljs-built_in">string</span>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> normalSet = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>}
 
-<span class="hljs-keyword">proc</span> genericProc[<span class="hljs-type">T</span>]() =
-  <span class="hljs-keyword">discard</span>
+<span class="hljs-keyword">var</span> evenNumbers = collect:
+  <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> normalSet:
+    <span class="hljs-keyword">if</span> num <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+      num
 
-<span class="hljs-keyword">iterator</span> genericIterator[<span class="hljs-type">T</span>]() =
-  <span class="hljs-keyword">discard</span></code></pre>
-<p>The above examples are incomplete, they will not work just yet.
-Again, using `[]` with a capital letter inside will just &quot;mark&quot; the <code>type, proc, iterator</code> as a generic.
-Now we require to use that <code>T</code>(can be any capital letter) in the arguments of the <code>proc</code>, <code>iterator</code>,
-and on the fields of a <code>type</code> like so:</p>
-<p><a name = "generic-definitions"></a></p>
-<h2>  3.1. Generic Definitions</h2>
+<span class="hljs-keyword">echo</span> evenNumbers</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[2, 4, 6]</pre></code></pre>
+
+<p><a name = "`collect`-with-hashsets"></a></p>
+<h2>  3.4. <code>collect</code> with hashSets</h2>
 <hr />
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
-  <span class="hljs-type">GenericObject</span>[<span class="hljs-type">T</span>] = <span class="hljs-keyword">object</span>
-    data: <span class="hljs-type">T</span>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/sets
 
-<span class="hljs-keyword">type</span>
-  <span class="hljs-type">GenericTuple</span>[<span class="hljs-type">A</span>, <span class="hljs-type">B</span>] = <span class="hljs-keyword">tuple</span>
-    name: <span class="hljs-type">A</span>
-    age: <span class="hljs-type">B</span>
+<span class="hljs-keyword">let</span> keyValueSet = [(<span class="hljs-string">&quot;Key 1&quot;</span>, <span class="hljs-number">1</span>), (<span class="hljs-string">&quot;Key 2&quot;</span>, <span class="hljs-number">2</span>), (<span class="hljs-string">&quot;Key 3&quot;</span>, <span class="hljs-number">3</span>), (<span class="hljs-string">&quot;Key 4&quot;</span>, <span class="hljs-number">4</span>), (<span class="hljs-string">&quot;Key 5&quot;</span>, <span class="hljs-number">5</span>)].toOrderedSet</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
 
-<span class="hljs-keyword">proc</span> genericProc[<span class="hljs-type">T</span>](anyType: <span class="hljs-type">T</span>) =
-  <span class="hljs-keyword">discard</span>
+<p><strong>Normal version:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> oddKeys: <span class="hljs-type">HashSet</span>[(<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>)]
 
-<span class="hljs-keyword">iterator</span> genericIterator[<span class="hljs-type">T</span>](anyType: <span class="hljs-type">T</span>): <span class="hljs-type">T</span> =
-  <span class="hljs-keyword">discard</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+<span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> keyValueSet:
+  <span class="hljs-keyword">if</span> tup[<span class="hljs-number">1</span>] <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:
+    oddKeys.incl tup
 
-<p><strong>And also for generic containers proc definition example</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> genericContainerProc[<span class="hljs-type">T</span>](anyTypeContainer: <span class="hljs-built_in">seq</span>[<span class="hljs-type">T</span>]) =
-  <span class="hljs-keyword">discard</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+<span class="hljs-keyword">echo</span> oddKeys</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{(&quot;Key 1&quot;, 1), (&quot;Key 3&quot;, 3), (&quot;Key 5&quot;, 5)}</pre></code></pre>
 
-<p>Now let's see how to use this <code>generic object</code></p>
-<p><a name = "generic-object-initialization"></a></p>
-<h2>  3.2. Generic Object Initialization</h2>
+<p><strong><code>collect</code> version:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> oddKeysCollect = collect:
+  <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> keyValueSet:
+    <span class="hljs-keyword">if</span> tup[<span class="hljs-number">1</span>] <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:
+      tup
+
+<span class="hljs-keyword">echo</span> oddKeysCollect</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[(&quot;Key 1&quot;, 1), (&quot;Key 3&quot;, 3), (&quot;Key 5&quot;, 5)]</pre></code></pre>
+
+<p><a name = "`collect`-with-tables"></a></p>
+<h2>  3.5. <code>collect</code> with Tables</h2>
 <hr />
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
-<span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/tables
 
-<span class="hljs-keyword">echo</span> genericObject, <span class="hljs-string">&quot; of type &quot;</span>, genericObject.typeof
-<span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(data: &quot;A String&quot;) of type GenericObject[system.string]
-(data: 101) of type GenericObject[system.int]</pre></code></pre>
+<span class="hljs-keyword">let</span> characterClassEquipment = {<span class="hljs-string">&quot;Paladin&quot;</span>: @[<span class="hljs-string">&quot;Maul&quot;</span>, <span class="hljs-string">&quot;Breastplate&quot;</span>], 
+                              <span class="hljs-string">&quot;Wizard&quot;</span>: @[<span class="hljs-string">&quot;Staff&quot;</span>, <span class="hljs-string">&quot;Robe&quot;</span>], <span class="hljs-string">&quot;Druid&quot;</span>: @[<span class="hljs-string">&quot;Staff&quot;</span>],
+                              <span class="hljs-string">&quot;Fighter&quot;</span>: @[<span class="hljs-string">&quot;Sword&quot;</span>, <span class="hljs-string">&quot;Shield&quot;</span>, <span class="hljs-string">&quot;Plate Armour&quot;</span>]}.toOrderedTable</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
 
-<p><a name = "generic-tuple-initialization"></a></p>
-<h2>  3.3. Generic Tuple Initialization</h2>
+<p><strong>Normal version:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> staffWielders = initOrderedTable[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]]() <span class="hljs-comment">#Do NOT forget `()` at the end</span>
+
+<span class="hljs-keyword">for</span> class, items <span class="hljs-keyword">in</span> characterClassEquipment:
+  <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items:
+    <span class="hljs-keyword">if</span> item == <span class="hljs-string">&quot;Staff&quot;</span>:
+      staffWielders[class] = items <span class="hljs-comment">#`table.add key, value` is now deprecated(marked for future removal)</span>
+
+<span class="hljs-keyword">echo</span> staffWielders</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;Wizard&quot;: @[&quot;Staff&quot;, &quot;Robe&quot;], &quot;Druid&quot;: @[&quot;Staff&quot;]}</pre></code></pre>
+
+<p><strong><code>collect</code> version:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> staffWieldersCollect = collect:
+  <span class="hljs-keyword">for</span> class, items <span class="hljs-keyword">in</span> characterClassEquipment:
+    <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items:
+      <span class="hljs-keyword">if</span> item == <span class="hljs-string">&quot;Staff&quot;</span>:
+        {class: items} <span class="hljs-comment">#Kind of bizzare way of returning</span>
+
+<span class="hljs-keyword">echo</span> staffWieldersCollect</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;Wizard&quot;: @[&quot;Staff&quot;, &quot;Robe&quot;], &quot;Druid&quot;: @[&quot;Staff&quot;]}</pre></code></pre>
+
+<p><a name = "performance-benchmarks"></a></p>
+<h1>4. Performance Benchmarks</h1>
 <hr />
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
-<span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)
-
-<span class="hljs-keyword">echo</span> genericTuple, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple.typeof
-<span class="hljs-keyword">echo</span> genericTuple2, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple2.typeof</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">(name: &quot;Bob&quot;, age: 20) of type GenericTuple[system.string, system.int]
-(name: @[0.5, 1.1, 3.25], age: true) of type GenericTuple[seq[float], system.bool]</pre></code></pre>
-
-<p>Calling generic procs and iterators is exactly the same as non generic versions,
-unlike structures like <code>objects</code> and <code>tuples</code>(shown above).</p>
-<p><a name = "more-overloading"></a></p>
-<h1>4. More Overloading</h1>
+<p>Now i will show you performance benchmarks of 3 variants of making a new list,
+in both Python and Nim. This is NOT a benchmark of the languages.
+This is only meant to see the difference of the 3 variants.</p>
+<p>My relevant computer specs used for this benchmark:</p>
+<ul>
+<li><strong>CPU</strong>: Ryzen 2700x</li>
+<li><strong>RAM</strong>: G.Skill Ripjaws V 16GB (2x8GB) DDR4 F4-3200C16D-16GVKB</li>
+</ul>
+<p>The 3 variants are as follow:</p>
+<ul>
+<li><strong>add</strong> and <strong>append</strong></li>
+<li><strong>index</strong> - <strong>[]</strong></li>
+<li><strong>collect</strong> and <strong>list comprehension</strong></li>
+</ul>
+<p>All 3 variants of the 2 versions of Nim and Python,
+create a new list by filling a pre-initialized to size 10000 sequence/array,
+with arbitrary data, that is then benchmarked 10000 times,
+in order to account for slight variations that occur.
+The resulting time elapsed is then divided back by 10000,
+to get the mostly correct/aproximate time elapsed for our variations.</p>
+<p>This is eased for Nim by the usage of a custom template,
+while Python has an official module specifically for this purpose.</p>
+<p><a name = "nim's-3-variants"></a></p>
+<h2>  4.1. Nim's 3 variants</h2>
 <hr />
-<p><strong>NOTE:</strong> <code>hashSets, more on hash Tables and Hashing</code> had the start of <code>more</code> overloading,
-since the Nim for Beginners #22 Procedure Overloading(4 min long).</p>
-<p>To demonstrate and teach you more about overloading, we are going to overload the <code>find</code> proc.</p>
-<p>The <code>find</code> proc from the <code>strutils</code> module(string utilities)(also in some other modules),
-is very useful for finding substrings(a part of a string) in a string.</p>
-<p>In fact, we have already used it in both the Sets and the hashSets videos,
-in order to <code>find</code> and remove specified separators from a string.</p>
-<p>This time though, we are going to use the <code>system.find</code> version,
-which does not deal with <code>strings</code> but with an element of some type.</p>
-<p><a name = "using-`find`-with-a-sequence-of-numbers"></a></p>
-<h2>  4.1. Using <code>find</code> with a sequence of numbers</h2>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/times, std/os, std/strutils, std/sequtils, std/sugar
+
+<span class="hljs-keyword">template</span> benchmark(benchmarkName: <span class="hljs-built_in">string</span>, timesToRun: <span class="hljs-built_in">int</span>, code: <span class="hljs-built_in">untyped</span>) =
+  <span class="hljs-keyword">block</span>:
+    <span class="hljs-keyword">let</span> t0 = cpuTime()
+
+    <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.timesToRun:
+      code
+
+    <span class="hljs-keyword">let</span> elapsed = cpuTime() - t0
+    <span class="hljs-keyword">let</span> elapsedProcessed = elapsed / timesToRun
+    <span class="hljs-keyword">let</span> elapsedProcessedStr = elapsedProcessed.formatFloat(format = ffDecimal, precision = <span class="hljs-number">12</span>)
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;CPU Time [&quot;</span>, benchmarkName, <span class="hljs-string">&quot;] x &quot;</span>, timesToRun, <span class="hljs-string">&quot; = &quot;</span>, elapsedProcessedStr, <span class="hljs-string">&quot;s&quot;</span>
+
+benchmark <span class="hljs-string">&quot;add    &quot;</span>, <span class="hljs-number">10000</span>:
+  <span class="hljs-keyword">let</span> num = <span class="hljs-number">10000</span>
+  <span class="hljs-keyword">var</span> list: <span class="hljs-built_in">seq</span>[num.typeof]
+
+  <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.num:
+    list.add j
+
+benchmark <span class="hljs-string">&quot;index  &quot;</span>, <span class="hljs-number">10000</span>:
+  <span class="hljs-keyword">let</span> num = <span class="hljs-number">10000</span>
+
+  <span class="hljs-comment">#Initializing a seq of 10000 ups the time by about 3x</span>
+  <span class="hljs-keyword">var</span> list = newSeqWith(num, <span class="hljs-number">0</span>) <span class="hljs-comment">#size, default value</span>
+
+  <span class="hljs-keyword">for</span> index, ele <span class="hljs-keyword">in</span> list.pairs:
+    list[index] = index
+
+benchmark <span class="hljs-string">&quot;collect&quot;</span>, <span class="hljs-number">10000</span>:
+  <span class="hljs-keyword">let</span> num = <span class="hljs-number">10000</span>
+
+  <span class="hljs-keyword">var</span> list = collect:
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.num:
+      i</code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">CPU Time [add    ] x 10000 = 0.000166400000s
+CPU Time [index  ] x 10000 = 0.000138800000s
+CPU Time [collect] x 10000 = 0.000165400000s</code></pre>
+<p><a name = "python's-3-variants"></a></p>
+<h2>  4.2. Python's 3 variants</h2>
 <hr />
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span> mySequence = @[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">10</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">50</span>]
+<pre><code class="python hljs">  from timeit import timeit
 
-<span class="hljs-keyword">echo</span> mySequence.find(-<span class="hljs-number">10</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">3</pre></code></pre>
+  def fAppend():
+      num = 10000
+      li = []
+      for i in range(num):
+          li.append(i)
 
-<p>Like with all <code>find</code> proc versions, you give it what you want it to find, and it returns the <code>index</code> of where it is.</p>
-<p><strong>If you were to reinsert the index back, you would get -10 in this case:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> location = mySequence.find(-<span class="hljs-number">10</span>)
-<span class="hljs-keyword">echo</span> mySequence[location]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">-10</pre></code></pre>
+  def fIndex():
+      num = 10000
+      li = [0] * num
+      for i in range(num):
+          li[i] = i
 
-<p><a name = "using-`find`-with-a-sequence-of-objects"></a></p>
-<h2>  4.2. Using <code>find</code> with a sequence of objects</h2>
-<hr />
-<p><strong>Now let's find an object based on one of it's fields in a sequence:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">type</span>
-  <span class="hljs-type">SomeObject</span> = <span class="hljs-keyword">object</span>
-    name: <span class="hljs-built_in">string</span>
-    age: <span class="hljs-built_in">int</span>
+  def fLComprehension():
+      num = 10000
+      li = [i for i in range(num)]
 
-<span class="hljs-keyword">var</span> seqOfSomeObject: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>]
-seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Wombat&quot;</span>, age: <span class="hljs-number">3</span>)
-seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Womp rat&quot;</span>, age: <span class="hljs-number">5</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+  def main(x):
+      print(timeit(stmt = fAppend, number = x) / x)
+      print(timeit(stmt = fIndex, number = x) / x)
+      print(timeit(stmt = fLComprehension, number = x) / x)
 
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> wompRat = seqOfSomeObject.find(<span class="hljs-string">&quot;Womp rat&quot;</span>)
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;index of Womp rat: &quot;</span>, wompRat, <span class="hljs-string">&quot; reinsertion: &quot;</span>, seqOfSomeObject[wompRat]</code></pre>
-<img src = "images/findProcError.png" alt = "`find` proc error">
-<p><a name = "overloading-`find`-proc"></a></p>
-<h2>  4.3. Overloading <code>find</code> proc</h2>
-<hr />
-<p>As you can see, <code>find</code> proc does not have a version/overload for our <code>SomeObject</code>,
-and therefore does not compile.</p>
-<p><strong>So in order to make it work, we need to overload the <code>find</code> proc for our custom object:</strong>
-First off, here is how the <code>system.find</code> proc is defined(a generic):</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> find*[<span class="hljs-type">T</span>, <span class="hljs-type">S</span>](a: <span class="hljs-type">T</span>, item: <span class="hljs-type">S</span>): <span class="hljs-built_in">int</span> {.inline.}=
-  <span class="hljs-comment">## Returns the first index of `item` in `a` or -1 if not found. This requires</span>
-  <span class="hljs-comment">## appropriate `items` and `==` operations to work.</span>
-  <span class="hljs-literal">result</span> = <span class="hljs-number">0</span>
-  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> items(a):
-    <span class="hljs-keyword">if</span> i == item: <span class="hljs-keyword">return</span>
-    inc(<span class="hljs-literal">result</span>)
-  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre>
-<p>Our overload, in order to <code>find</code> by the fields of our <code>SomeObject</code>:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-comment">#Can also be: proc find[T, S](a: T, item: S): int {.inline.} = #Specify for a single type, better</span>
-<span class="hljs-keyword">proc</span> find[<span class="hljs-type">S</span>](a: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>], item: <span class="hljs-type">S</span>): <span class="hljs-built_in">int</span> {.inline.} =
-  <span class="hljs-literal">result</span> = <span class="hljs-number">0</span>
-  <span class="hljs-keyword">for</span> index, element <span class="hljs-keyword">in</span> a.pairs:
-    <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> element.fields: <span class="hljs-comment">#Second unwrap to get the fields of `name: string` and `age: int`</span>
-      <span class="hljs-keyword">if</span> f.typeof <span class="hljs-keyword">is</span> item.typeof:
-        <span class="hljs-keyword">if</span> $f == $item: <span class="hljs-keyword">return</span> index <span class="hljs-comment">#To string($) -&gt; f(int) == item(string) -&gt; ERROR</span>
-      <span class="hljs-comment">#inc(result) #No longer needed as we are using the `pairs` iterator</span>
-  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
-
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> wompRat = seqOfSomeObject.find(<span class="hljs-string">&quot;Womp rat&quot;</span>)
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Found name Womp rat at index: &quot;</span>, wompRat
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[wompRat]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Found name Womp rat at index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
-
-<p>And now for the <code>age</code> field:</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> ageOfWompRat = seqOfSomeObject.find(<span class="hljs-number">5</span>)
-
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Found age 5 at index: &quot;</span>, ageOfWompRat
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[ageOfWompRat]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">Found age 5 at index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
-
-<p><a name = "`[]`-overload-for-ease-of-life"></a></p>
-<h2>  4.4. <code>[]</code> overload for ease of life</h2>
-<hr />
-<p>`[]` overload will allow us to replace:
-<code>seqOfSomeObject.find(&quot;Womp rat&quot;)</code> to <code>seqOfSomeObject[&quot;Womp rat&quot;]</code> to get the index.</p>
-<p>The overload is mostly the same as the <code>find</code> overload.
-<strong>Except that the <code>item</code> argument is now a <code>string</code> instead of a generic.</strong></p>
-<p>This is because, if the overloaded `[]` was given an <code>integer</code>,
-it would still try to return us the element at the index of that <code>integer</code>.
-And in this instance <code>5</code> is not in the index of the 2 fields(0, 1),
-resulting in an error.</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils</code></pre>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> `[]`(a: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>], item: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">int</span> {.inline.} =
-  <span class="hljs-literal">result</span> = <span class="hljs-number">0</span>
-  <span class="hljs-keyword">for</span> index, element <span class="hljs-keyword">in</span> a.pairs:
-    <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> element.fields: <span class="hljs-comment">#Second unwrap to get the fields of `name: string` and `age: int`</span>
-      <span class="hljs-keyword">if</span> parseInt($f) <span class="hljs-keyword">is</span> <span class="hljs-built_in">int</span>:  <span class="hljs-comment">#`Line 1` Try to parse - to see if we get an `int`</span>
-        <span class="hljs-keyword">if</span> $f == $item: <span class="hljs-keyword">return</span> index <span class="hljs-comment">#To string($) -&gt; f(int) == item(string) -&gt; ERROR</span>
-      <span class="hljs-keyword">elif</span> $f == $item: <span class="hljs-keyword">return</span> index 
-      <span class="hljs-comment">#inc(result) #No longer needed as we are using the `pairs` iterator</span>
-  <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
-
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> name = seqOfSomeObject[<span class="hljs-string">&quot;Womp rat&quot;</span>]
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;name's index: &quot;</span>, name
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[name]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">name's index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
-
-<p>The following will NOT compile, and crash if the <code>item</code> argument is a generic.</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> age = seqOfSomeObject[<span class="hljs-number">5</span>] <span class="hljs-comment">#Index out of bounds - no crash yet</span>
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;age's index: &quot;</span>, age
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[age] <span class="hljs-comment">#Crash here</span></code></pre>
-<p>What we can do is make that number <code>5</code> into a string <code>$5</code>.
-And with that change the <code>[]</code>'s overload's marked <code>Line #1</code> checking of <code>if f.typeof is item.typeof:</code>,
-to <code>if parseInt($f) is int:</code>, in order to see if the parsed string is an actual integer,
-and then the same process as before continues.</p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> age = seqOfSomeObject[$<span class="hljs-number">5</span>]
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;age's index: &quot;</span>, age
-<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[age]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">age's index: 1
-Reinsertion result: (name: &quot;Womp rat&quot;, age: 5)</pre></code></pre>
-
-<p><a name = "tuple-unpacking"></a></p>
-<h1>5. Tuple Unpacking</h1>
-<hr />
-<p>In the past video of <code>Nim for Beginners #14 Tuples</code>, i have shown you Tuples.
-(There is a lot of dealing with <code>tuples</code> in the Extra cut content)</p>
-<p>Now it's time to explain and demonstrate <code>tuple unpacking</code>. Tuple unpacking is quite simple.</p>
-<p>You can use them to give values(assignment) to multiple variables(<code>var</code>), constants(<code>const</code>) or immutable variable(<code>let</code>),
-at once.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> (v1, c1, l1) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-
-<span class="hljs-keyword">echo</span> v1
-<span class="hljs-keyword">echo</span> c1
-<span class="hljs-keyword">echo</span> l1</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">var
-const
-let</pre></code></pre>
-
-<p><strong>You may also ommit assignment of any of them:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> (v2, _, l2) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-
-<span class="hljs-keyword">let</span> (_, _, _) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
-
-<p><strong>All of this is treated as syntatic sugar for basically the following code(Example 1):</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span>
-  temporaryTuple = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-  v3 = temporaryTuple[<span class="hljs-number">0</span>]
-  c3 = temporaryTuple[<span class="hljs-number">1</span>]
-  l3 = temporaryTuple[<span class="hljs-number">2</span>]</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
-
-<p>I don't think i have ever shown this before, but yes, you can access any field of a <code>tuple</code>,
-without knowing the name of the field, especially useful for <code>anonymous</code> tuples like here(fields without names).
-I do recommend though, that you do use the <code>names</code> of the fields over the <code>index</code> when the <code>names</code> are present.</p>
-<p>When tuple unpacking with tuples with numbers(literals) into <code>var</code> and <code>let</code> variables,
-they get assigned their values without a <code>temporaryTuple</code>.</p>
-<p>Since you can nest any container withing another container(array, seq, set, table, etc),
-as well as data structure in a data structure(object, tuple),
-you can also use nested tuples for tuple unpacking.</p>
-<p><a name = "tuple-unpacking-use-case"></a></p>
-<h2>  5.1. Tuple Unpacking Use Case</h2>
-<hr />
-<p>In Nim you can have multiple return types for a <code>proc</code>,
-by using <code>object variants</code> and <code>union types</code>(int|string).</p>
-<p>This can also be achieved by using <code>tuples</code>. But <code>tuples</code>,
-don't just allow for multiple types to be returned,
-they allow for multiple returns, which can then be easily <code>unpacked</code>,
-into variables and containers.</p>
-<p><strong>Here is an example of a multiple return:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">proc</span> returnsNestedTuple(): (<span class="hljs-built_in">int</span>, (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>), <span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>) = (<span class="hljs-number">4</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">7</span>), <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
-
-<span class="hljs-keyword">let</span> (x, (_, y), _, z) = returnsNestedTuple()
-
-<span class="hljs-keyword">echo</span> x, <span class="hljs-string">&quot; &quot;</span>, y, <span class="hljs-string">&quot; &quot;</span>, z</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">4 7 3</pre></code></pre>
-
-<p>Another very useful part of <code>tuple unpacking</code> is that, you don't need to return anything.
-1, 2, all or none.</p>
+  main(10000) </code></pre>
+<pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;">  CPU Time [append       ] x 10000 = 0.00065512317
+  CPU Time [index        ] x 10000 = 0.0003905595900000001
+  CPU Time [comprehension] x 10000 = 0.0002650251300000001</code></pre>
+<h6>(You may run the above benchmarks yourself to double check the data. 
+But the results will vary by your CPU and RAM speeds.)</h6>
 <h1>Outro - Afterwords</h1>
 <hr />
 <p>Okay, that's it for this video, thanks for watching like, share and subscribe,
@@ -702,25 +588,23 @@ as a form of offline tutorial.</p>
 <ul>
 <li>Version used: E.G. 2.0.2</li>
 <li>Compiler settings used: none, ORC is now the default memory management option</li>
-<li>Timestamps:
-<ul>
-<li>00:15 Start of video example</li>
-</ul>
-</li>
 </ul>
 <h2>My and General Links</h2>
 <hr />
 <ul>
-<li><a href="https://kiloneie.github.io/Extra%20Content/extraMakingFakeTable.html" title="Extra Content">Extra Content</a></li>
 <li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
 <li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
 </ul>
-<h2>Links to this video's subject</h2>
+<h2>Links to this video's subject:</h2>
 <hr />
 <ul>
-<li><a href="https://nim-lang.org/docs/sequtils.html#minIndex%2CopenArray%5BT%5D" title="min/maxIndex procs">min/maxIndex procs</a></li>
-<li><a href="https://nim-lang.org/docs/algorithm.html#sort%2CopenArray%5BT%5D%2Cproc%28T%2CT%29" title="for `sort` func and `sorted` proc">for <code>sort</code> func and <code>sorted</code> proc</a></li>
-<li><a href="https://nim-lang.org/docs/strutils.html#parseInt%2Cstring" title="parseInt">parseInt</a></li>
+<li><a href="https://nim-lang.org/docs/sugar.html#collect.m%2Cuntyped" title="sugar.collect">Sugar module's collect macro</a></li>
+<li><a href="https://www.w3schools.com/python/python_lists_comprehension.asp" title="Python's List Comprehensions">Python's List Comprehensions</a></li>
+<li><a href="https://www.w3schools.com/python/ref_func_map.asp" title="Python's map() function">Python's map() function</a></li>
+<li><a href="https://www.w3schools.com/python/ref_func_filter.asp" title="Python's filter() function">Python's filter() function</a></li>
+<li><a href="https://docs.python.org/3/library/timeit.html" title="Python's benchmarking timeit module's timeit() function">Python's benchmarking timeit module's timeit() function</a></li>
+<li><a href="https://nim-lang.org/docs/strutils.html#formatFloat%2Cfloat%2CFloatFormatMode%2Crange%5B%5D%2Cchar" title="Nim's formatFloat func">Nim's formatFloat func</a></li>
+<li><a href="https://nim-lang.org/docs/times.html#cpuTime" title="Nim's cpuTime from the Times module">Nim's cpuTime from the Times module</a></li>
 </ul>
 </main>
 <footer>
@@ -784,6 +668,21 @@ nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="
 &quot;&quot;&quot;</span> 
 nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
 
+<span class="hljs-comment">#Templates for showing Python code snippets and output</span>
+<span class="hljs-keyword">template</span> nbPythonShowOnlyCode(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbPythonShowOnlyCode&quot;</span>, body):
+    nb.blk.output = body
+
+nb.partials[<span class="hljs-string">&quot;nbPythonShowOnlyCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;&lt;pre&gt;&lt;code class=&quot;python hljs&quot;&gt;{{&amp;output}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+nb.renderPlans[<span class="hljs-string">&quot;nbPythonShowOnlyCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>]
+
+<span class="hljs-keyword">template</span> nbPythonShowOnlyOutput(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbPythonShowOnlyOutput&quot;</span>, body):
+    nb.blk.output = body
+
+nb.partials[<span class="hljs-string">&quot;nbPythonShowOnlyOutput&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&amp;output}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+nb.renderPlans[<span class="hljs-string">&quot;nbPythonShowOnlyOutput&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>]
+
 <span class="hljs-comment"># how to add a ToC</span>
 <span class="hljs-keyword">var</span>
   nbToc: <span class="hljs-type">NbBlock</span>
@@ -819,7 +718,7 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
 <span class="hljs-keyword">template</span> nbUoSubSection(name: <span class="hljs-built_in">string</span>) =
   nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
 
-<span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC(not always). </span>
+<span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
   <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
 <span class="hljs-keyword">template</span> addButtonBackToTop() =
   nbRawHtml: <span class="hljs-string">hlHtml&quot;&quot;&quot;
@@ -954,554 +853,451 @@ addButtonBackToTop()
 
 <span class="hljs-comment">#Adding hlMd or hlMdf enables nimiboost's markdown highlight mode</span>
 nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
-## INTRO - GREETING 
-- TITLE: Finding, Sorting data, Multiple Type Returns, Overloading, Generics and Tuple Unpacking
-- EXTRA CONTENT: Making a fake Table(hashSets, overloading and generics)
+## INTRO - GREETING
+- **Title**: List Comprehensions with sugar.collect and comparison against Python's List Comprehensions
+- **Alt Title**: List Comprehensions with sugar.collect vs Python's List Comprehensions
 
 ## INTRO - FOREWORDS
-&lt;b&gt;(What is the purpose of this video ?)&lt;/b&gt;
-- In this video i will show you how to find and sort data using loops, 
-  as well as with `find` and `sort` procs.
-  Also Generics, more Overloading with and without Generics and Tuple Unpacking.
-
-There is also a lot of cut content as an Extra,
-which shows a lot more Generics and Overloading.
+**(What is the purpose of this video ?)**
+- List comprehensions with sugar.collect and comparison against Python's List Comprehensions:
+  - In this video we will go over sugar.collect, it's pros and cons,
+    and compare it against Python's list comprehensions with some benchmarks.
    
 The code for this video and it's script/documentation styled with nimib,
-as well as the cut content as an Extra, is in the links in the description as a form of written tutorial.
-
-- [Extra Content](https://kiloneie.github.io/Extra%20Content/extraMakingFakeTable.html &quot;Extra Content&quot;)
+is in the link in the description as a form of written tutorial.
 &quot;&quot;&quot;</span>
 
-nbSection <span class="hljs-string">&quot;Multiple Type Arguments and Returns&quot;</span>
-nbText <span class="hljs-string">&quot;&quot;&quot;
-  One can use the vertical bar/line `|` or better, the `or` operator, 
-  to specify that a proc can take OR return, multiple types of data.
-
-  **Example of multiple types for an argument:**
+nbSection <span class="hljs-string">&quot;List Comprehensions&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  sugar.`collect` is a macro, a macro used for list comprehensions. 
+  A list comprehension is basically making a list from an existing list based on some variable parameters.
+  This can be done with either a for loop or sugar.collect, list comprehensions in Python.
 &quot;&quot;&quot;</span>
-nbCodeInBlock:
-  <span class="hljs-keyword">proc</span> stringOrInt(data: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">int</span>) =
-    <span class="hljs-keyword">echo</span> data
 
-  <span class="hljs-keyword">proc</span> stringOrIntOr(data: <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span>) =
-    <span class="hljs-keyword">echo</span> data
+nbSubSection <span class="hljs-string">&quot;Nim - Comprehending a list with a for loop&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  In the following example, we make a new list/sequence based on the `fruit` sequence,
+  by iterating over it with a `for` loop using the `pairs` iterator,
+  and returning only the elements of the list starting with the letter &quot;P&quot;.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> fruit = @[<span class="hljs-string">&quot;Apple&quot;</span>, <span class="hljs-string">&quot;Orange&quot;</span>, <span class="hljs-string">&quot;Banana&quot;</span>, <span class="hljs-string">&quot;Peach&quot;</span>, <span class="hljs-string">&quot;Pear&quot;</span>, <span class="hljs-string">&quot;Pineapple&quot;</span>]
 
-  <span class="hljs-keyword">var</span> str = <span class="hljs-string">&quot;Hello&quot;</span>
-  <span class="hljs-keyword">var</span> num = <span class="hljs-number">101</span>
+  <span class="hljs-keyword">var</span> pFruit: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]
 
-  str.stringOrInt
-  num.stringOrInt
+  <span class="hljs-keyword">for</span> i, f <span class="hljs-keyword">in</span> fruit.pairs:
+    <span class="hljs-keyword">if</span> $f[<span class="hljs-number">0</span>] == <span class="hljs-string">&quot;P&quot;</span>:
+      pFruit.add f
 
-  str.stringOrIntOr
-  num.stringOrIntOr
+  <span class="hljs-keyword">echo</span> pFruit
+
+<span class="hljs-comment">#The following section is only shown(we are NOT teaching Python)</span>
+nbSubSection  <span class="hljs-string">&quot;Python's List Comprehension structure&quot;</span> 
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Before we go on for the Python's version of the above example,
+  here is the structure of a Python's **list comprehension**,
+  with explanation.
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  list = [returned for element in container if condition]
+&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">hlmd&quot;&quot;&quot;
+- **returned** - the element/value that will be returned/put in a new list.
+- **element** - element of &quot;a&quot; container.
+- **container** - dict, list, set, tuple(in Nim, it's a data structure).
+- **condition** - optional -&gt; to perform operations for the &quot;returned&quot;.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Python - Comprehending a list with a for loop&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  fruit = [&quot;Apple&quot;, &quot;Orange&quot;, &quot;Banana&quot;, &quot;Peach&quot;, &quot;Pear&quot;, &quot;Pineapple&quot;]
+  pfruit = []
+
+  for f in fruit:
+    if &quot;P&quot; in f:
+      pfruit.append(f)
+
+  print(pfruit)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  ['Peach', 'Pear', 'Pineapple']
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Nim - Using sugar.collect&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The exact same code as the one with the `for` loop,
+  except now it uses the `sugar` module's `collect` macro.
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> pFruit2 = collect(newSeq):
+    <span class="hljs-keyword">for</span> i, f <span class="hljs-keyword">in</span> fruit.pairs:
+      <span class="hljs-keyword">if</span> $f[<span class="hljs-number">0</span>] == <span class="hljs-string">&quot;P&quot;</span>:
+        f
+
+  <span class="hljs-keyword">echo</span> pFruit
+  <span class="hljs-keyword">echo</span> pFruit2
+
+nbSubSection <span class="hljs-string">&quot;Python - List Comprehension&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  fruit2 = [&quot;Apple&quot;, &quot;Orange&quot;, &quot;Banana&quot;, &quot;Peach&quot;, &quot;Pear&quot;, &quot;Pineapple&quot;]
+
+  pfruit2 = [f for f in fruit2 if &quot;P&quot; in f]
+
+  print(pfruit)
+  print(pfruit2)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  ['Peach', 'Pear', 'Pineapple']
+  ['Peach', 'Pear', 'Pineapple']
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Python's list comprehensions vs Nim's `collect`&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+Python's List comprehensions are a more compact way to create new lists, 
+in situations where map() and filter(), and or nested loops would be used. 
+They are great for simple tasks.
+
+&lt;div style = &quot;font-size: 10px&quot;&gt;
+map(function, container, container,...) runs a function on given containers,
+and returns only the elements that passed&lt;br&gt;
+filter(function, container, container,...) runs a function on given containers, 
+and transforms them, returninmg the transformed result&lt;/div&gt;
+
+Here are a few examples:
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  print([i for i in range(10)])
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlpy&quot;&quot;&quot;
+  toTen = []
+  for i in range(10):
+    toTen.append(i)
+
+  print(toTen)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+&quot;&quot;&quot;</span>
+
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  print([i for i in range(20) if i%2 == 0])
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  evenToTwenty = []
+  for i in range(20):
+    if i%2 == 0:
+      evenToTwenty.append(i)
+
+  print(evenToTwenty)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+&quot;&quot;&quot;</span>
+
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  nums = [1, 2, 3, 4]
+  fruit = [&quot;Apples&quot;, &quot;Peaches&quot;, &quot;Pears&quot;, &quot;Bananas&quot;]
+  print([(i, f) for i in nums for f in fruit])
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlpy&quot;&quot;&quot;
+  fourTimesFour = []
+  for i in nums:
+    for f in fruit:
+      fourTimesFour.append((i, f)) #Double (()) - because tuple as argument - python demands () for funcs
+
+  print(fourTimesFour)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [(1, 'Apples'), (1, 'Peaches'), (1, 'Pears'), (1, 'Bananas'),
+  (2, 'Apples'), (2, 'Peaches'), (2, 'Pears'), (2, 'Bananas'),
+  (3, 'Apples'), (3, 'Peaches'), (3, 'Pears'), (3, 'Bananas'),
+  (4, 'Apples'), (4, 'Peaches'), (4, 'Pears'), (4, 'Bananas')]
+&quot;&quot;&quot;</span>
+
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  print([(i, f) for i in nums for f in fruit if f[0] == &quot;P&quot;])
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  fruitP = []
+  for i in nums:
+    for f in fruit:
+      if f[0] == &quot;P&quot;:
+        fruitP.append((i, f))
+
+  print(fruitP)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [(1, 'Peaches'), (1, 'Pears'),
+  (2, 'Peaches'), (2, 'Pears'),
+  (3, 'Peaches'), (3, 'Pears'),
+  (4, 'Peaches'), (4, 'Pears')]
+&quot;&quot;&quot;</span>
+
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  print([(i, f) for i in nums for f in fruit if f[0] == &quot;P&quot; if i%2 == 1])
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlpy&quot;&quot;&quot;
+  fruitPodd = []
+  for i in nums:
+    for f in fruit:
+      if f[0] == &quot;P&quot; and i%2 == 1:
+        fruitPodd.append((i, f))
+
+  print(fruitPodd)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [(1, 'Peaches'), (1, 'Pears'), (3, 'Peaches'), (3, 'Pears')]
+&quot;&quot;&quot;</span>
+
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  print([i for i in zip(nums, fruit) if i[0] %2== 0])
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlpy&quot;&quot;&quot;
+  fruitEvenZip = []
+
+  for i in zip(nums, fruit):
+    if i[0] %2 == 0:
+      fruitEvenZip.append(i)
+
+  print(fruitEvenZip)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [(2, 'Peaches'), (4, 'Bananas')]
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Python's List Comprehension Cons&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Python's List Comprehension are useful for small and simple lists, but become extremely hard to understand the more complex they become,
+  unlike just using a for loop, which is yes more verbose, but also easier to understand and read,
+  especially if you haven't viewed the code with with a list comprehension for a while.
+
+  Here is a **good** example of a **bad** one liner:
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  listLLL = [[[1,2,3],[4,5,6],[7,8,9]]]
+  flatten_keep_evens = [item for listLL in listLLL for listL in listLL for item in listL if item % 2 == 0]
+
+  print(flatten_keep_evens)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [2, 4, 6, 8]
+&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+The above **good** example of a **bad** one liner, 
+can be greatly improved by indentation(like a for loop) like this:
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  doubleNestedLLL = [[[1,2,3], [4,5,6], [7,8,9]]]
+  flatenedEvens = [
+      element
+      for nestedLL in doubleNestedLLL
+      for elementsL in nestedLL
+      for element in elementsL
+      if not element % 2
+  ]
+
+  print(flatenedEvens)
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  [2, 4, 6, 8]
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Nim's sugar `collect` Pros&quot;</span>
+nbSubSection <span class="hljs-string">&quot;Long one liners are bad&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+Nim does not do list comprehensions as one liners like Python does,
+they work very much the same as a for loop, but reduce a bit of typing,
+by not having to declare/initialize a sequence before hand, but at the moment of usage.
+Then we also don't need to call `.add + elementWeWant`, but just the `elementWeWant`. 
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Sugar `collect` also works on Sets and Tables&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+Nim's sugar's collect also works on hashSets and Tables, unlike Python.
+Nim's collect macro does not have the drawbacks of Python's list comprehensions,
+while being much more powerful, because `collect` also works on other types.
+These types being, Sets, HashSets and Tables.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;`collect` with Sets&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> normalSet = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>}
+
+  <span class="hljs-keyword">var</span> evenNumbers = collect:
+    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> normalSet:
+      <span class="hljs-keyword">if</span> num <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+        num
+
+  <span class="hljs-keyword">echo</span> evenNumbers
+
+nbSubSection <span class="hljs-string">&quot;`collect` with hashSets&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/sets
+
+  <span class="hljs-keyword">let</span> keyValueSet = [(<span class="hljs-string">&quot;Key 1&quot;</span>, <span class="hljs-number">1</span>), (<span class="hljs-string">&quot;Key 2&quot;</span>, <span class="hljs-number">2</span>), (<span class="hljs-string">&quot;Key 3&quot;</span>, <span class="hljs-number">3</span>), (<span class="hljs-string">&quot;Key 4&quot;</span>, <span class="hljs-number">4</span>), (<span class="hljs-string">&quot;Key 5&quot;</span>, <span class="hljs-number">5</span>)].toOrderedSet
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **Normal version:**
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> oddKeys: <span class="hljs-type">HashSet</span>[(<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>)]
+
+  <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> keyValueSet:
+    <span class="hljs-keyword">if</span> tup[<span class="hljs-number">1</span>] <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:
+      oddKeys.incl tup
+
+  <span class="hljs-keyword">echo</span> oddKeys
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **`collect` version:**
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> oddKeysCollect = collect:
+    <span class="hljs-keyword">for</span> tup <span class="hljs-keyword">in</span> keyValueSet:
+      <span class="hljs-keyword">if</span> tup[<span class="hljs-number">1</span>] <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:
+        tup
+
+  <span class="hljs-keyword">echo</span> oddKeysCollect
+
+nbSubSection <span class="hljs-string">&quot;`collect` with Tables&quot;</span>
+nbCode:
+  <span class="hljs-keyword">import</span> std/tables
+
+  <span class="hljs-keyword">let</span> characterClassEquipment = {<span class="hljs-string">&quot;Paladin&quot;</span>: @[<span class="hljs-string">&quot;Maul&quot;</span>, <span class="hljs-string">&quot;Breastplate&quot;</span>], 
+                                <span class="hljs-string">&quot;Wizard&quot;</span>: @[<span class="hljs-string">&quot;Staff&quot;</span>, <span class="hljs-string">&quot;Robe&quot;</span>], <span class="hljs-string">&quot;Druid&quot;</span>: @[<span class="hljs-string">&quot;Staff&quot;</span>],
+                                <span class="hljs-string">&quot;Fighter&quot;</span>: @[<span class="hljs-string">&quot;Sword&quot;</span>, <span class="hljs-string">&quot;Shield&quot;</span>, <span class="hljs-string">&quot;Plate Armour&quot;</span>]}.toOrderedTable
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **Normal version:**
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> staffWielders = initOrderedTable[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>]]() <span class="hljs-comment">#Do NOT forget `()` at the end</span>
+
+  <span class="hljs-keyword">for</span> class, items <span class="hljs-keyword">in</span> characterClassEquipment:
+    <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items:
+      <span class="hljs-keyword">if</span> item == <span class="hljs-string">&quot;Staff&quot;</span>:
+        staffWielders[class] = items <span class="hljs-comment">#`table.add key, value` is now deprecated(marked for future removal)</span>
+
+  <span class="hljs-keyword">echo</span> staffWielders
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **`collect` version:**
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">var</span> staffWieldersCollect = collect:
+    <span class="hljs-keyword">for</span> class, items <span class="hljs-keyword">in</span> characterClassEquipment:
+      <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items:
+        <span class="hljs-keyword">if</span> item == <span class="hljs-string">&quot;Staff&quot;</span>:
+          {class: items} <span class="hljs-comment">#Kind of bizzare way of returning</span>
   
+  <span class="hljs-keyword">echo</span> staffWieldersCollect
+
+nbSection <span class="hljs-string">&quot;Performance Benchmarks&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **Example of multiple types for return:**
+  Now i will show you performance benchmarks of 3 variants of making a new list,
+  in both Python and Nim. This is NOT a benchmark of the languages.
+  This is only meant to see the difference of the 3 variants.
+
+  My relevant computer specs used for this benchmark:
+  - **CPU**: Ryzen 2700x
+  - **RAM**: G.Skill Ripjaws V 16GB (2x8GB) DDR4 F4-3200C16D-16GVKB
+
+  The 3 variants are as follow:
+  - **add** and **append**
+  - **index** - **[]**
+  - **collect** and **list comprehension**
+
+  All 3 variants of the 2 versions of Nim and Python,
+  create a new list by filling a pre-initialized to size 10000 sequence/array,
+  with arbitrary data, that is then benchmarked 10000 times,
+  in order to account for slight variations that occur.
+  The resulting time elapsed is then divided back by 10000,
+  to get the mostly correct/aproximate time elapsed for our variations.
+
+  This is eased for Nim by the usage of a custom template,
+  while Python has an official module specifically for this purpose.
 &quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">proc</span> multipleReturn(data: <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span>): <span class="hljs-built_in">string</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">int</span> = <span class="hljs-comment">#This is now a `generic`! Multi return = generic</span>
-    <span class="hljs-literal">result</span> = data
 
-  <span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-number">101</span>)
-  <span class="hljs-keyword">echo</span> multipleReturn(<span class="hljs-string">&quot;Hello&quot;</span>)
+nbSubSection <span class="hljs-string">&quot;Nim's 3 variants&quot;</span>
+nbCodeSkip: <span class="hljs-comment">#Skip - No benching when writting the script!</span>
+  <span class="hljs-keyword">import</span> std/times, std/os, std/strutils, std/sequtils, std/sugar
 
-nbSubSection <span class="hljs-string">&quot;`type or | type` approach problem&quot;</span>
+  <span class="hljs-keyword">template</span> benchmark(benchmarkName: <span class="hljs-built_in">string</span>, timesToRun: <span class="hljs-built_in">int</span>, code: <span class="hljs-built_in">untyped</span>) =
+    <span class="hljs-keyword">block</span>:
+      <span class="hljs-keyword">let</span> t0 = cpuTime()
+
+      <span class="hljs-keyword">for</span> run <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.timesToRun:
+        code
+
+      <span class="hljs-keyword">let</span> elapsed = cpuTime() - t0
+      <span class="hljs-keyword">let</span> elapsedProcessed = elapsed / timesToRun
+      <span class="hljs-keyword">let</span> elapsedProcessedStr = elapsedProcessed.formatFloat(format = ffDecimal, precision = <span class="hljs-number">12</span>)
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;CPU Time [&quot;</span>, benchmarkName, <span class="hljs-string">&quot;] x &quot;</span>, timesToRun, <span class="hljs-string">&quot; = &quot;</span>, elapsedProcessedStr, <span class="hljs-string">&quot;s&quot;</span>
+
+  benchmark <span class="hljs-string">&quot;add    &quot;</span>, <span class="hljs-number">10000</span>:
+    <span class="hljs-keyword">let</span> num = <span class="hljs-number">10000</span>
+    <span class="hljs-keyword">var</span> list: <span class="hljs-built_in">seq</span>[num.typeof]
+
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.num:
+      list.add j
+
+  benchmark <span class="hljs-string">&quot;index  &quot;</span>, <span class="hljs-number">10000</span>:
+    <span class="hljs-keyword">let</span> num = <span class="hljs-number">10000</span>
+
+    <span class="hljs-comment">#Initializing a seq of 10000 ups the time by about 3x</span>
+    <span class="hljs-keyword">var</span> list = newSeqWith(num, <span class="hljs-number">0</span>) <span class="hljs-comment">#size, default value</span>
+
+    <span class="hljs-keyword">for</span> index, ele <span class="hljs-keyword">in</span> list.pairs:
+      list[index] = index
+
+  benchmark <span class="hljs-string">&quot;collect&quot;</span>, <span class="hljs-number">10000</span>:
+    <span class="hljs-keyword">let</span> num = <span class="hljs-number">10000</span>
+
+    <span class="hljs-keyword">var</span> list = collect:
+      <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0.</span>.num:
+        i
+<span class="hljs-comment">#Using template for Python because i don't wanna wait for the benches when writting the script!</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">&quot;&quot;&quot; 
+CPU Time [add    ] x 10000 = 0.000166400000s
+CPU Time [index  ] x 10000 = 0.000138800000s
+CPU Time [collect] x 10000 = 0.000165400000s
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Python's 3 variants&quot;</span>
+nbPythonShowOnlyCode: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  from timeit import timeit
+
+  def fAppend():
+      num = 10000
+      li = []
+      for i in range(num):
+          li.append(i)
+
+  def fIndex():
+      num = 10000
+      li = [0] * num
+      for i in range(num):
+          li[i] = i
+
+  def fLComprehension():
+      num = 10000
+      li = [i for i in range(num)]
+
+  def main(x):
+      print(timeit(stmt = fAppend, number = x) / x)
+      print(timeit(stmt = fIndex, number = x) / x)
+      print(timeit(stmt = fLComprehension, number = x) / x)
+
+  main(10000) 
+&quot;&quot;&quot;</span>
+nbPythonShowOnlyOutput: <span class="hljs-string">hlPy&quot;&quot;&quot;
+  CPU Time [append       ] x 10000 = 0.00065512317
+  CPU Time [index        ] x 10000 = 0.0003905595900000001
+  CPU Time [comprehension] x 10000 = 0.0002650251300000001
+&quot;&quot;&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  If we were to change the body of the above proc,
-  to say `data + data`, we would get an error when the argument would be a `string`,
-  as you cannot join strings with the `+` operator(not unless you overload it, 
-  but that is pointless, because `&amp;` exists for this exact purpose).
-
-  Variable types must be known at compile-time, therefore you cannot use the vertical bar/line `|`,
-  or the `or` operator, to have a variable of multiple types.
-
-  **The following does NOT compile:**
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">var</span> stringOrInt: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">int</span>
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  I have seen this approach be used here and there, and i do not agree with it,
-  because of the above problem. You can solve by using some logic to check for the type beforehand.
-  But then, the code would be doing extra work, wasting performance.
-
-  **SOLUTION 1:** It would be much better to simply `overload` the same `proc`,
-  so that you have 2x procs or more, one for each of the types, to achieve the same functionality,
-  with none of the problems.
-
-  **SOLUTION 2:** Generics
-&quot;&quot;&quot;</span>
-
-nbSubSection: <span class="hljs-string">&quot;Using `static` for compile-time multi return&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  One can also solve the above problem of the code appearing to be fine,
-  but then failing at compilation, or worse, sometime at runtime,
-  by using `static` dataType for the argument.
-
-  `static` enforces that the value will be known at compile-time,
-  therefore we do NOT need to check the types beforehand.
-
-  **`static` type example:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">proc</span> test(x: <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">int</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">string</span> = <span class="hljs-comment">#Multi return = generic</span>
-    <span class="hljs-keyword">when</span> x:
-      <span class="hljs-string">&quot;Hello&quot;</span>
-    <span class="hljs-keyword">else</span>:
-      <span class="hljs-number">101</span>
-
-  <span class="hljs-keyword">echo</span> test <span class="hljs-literal">true</span>
-  <span class="hljs-keyword">echo</span> test <span class="hljs-literal">false</span>
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  The following `runtime` version does NOT compile:
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">proc</span> testR(x: <span class="hljs-built_in">bool</span>): <span class="hljs-built_in">int</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">string</span> = <span class="hljs-comment">#Multi return = generic</span>
-    <span class="hljs-keyword">when</span> x:
-      <span class="hljs-string">&quot;Hello&quot;</span>
-    <span class="hljs-keyword">else</span>:
-      <span class="hljs-number">101</span>
-
-  <span class="hljs-keyword">echo</span> testR <span class="hljs-literal">true</span>
-  <span class="hljs-keyword">echo</span> testR <span class="hljs-literal">false</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  &lt;h6&gt;If you need this to work at `runtime`, you should use the `union` module by `alaviss`:
-  - https://github.com/alaviss/union/
-
-  But i can't tell if it still works as nimble cannot find it. I don't want to waste time.&lt;/h6&gt;
-&quot;&quot;&quot;</span>
-
-nbSection <span class="hljs-string">&quot;Finding and Sorting data&quot;</span>
-nbSubSection <span class="hljs-string">&quot;Finding the lowest number in a sequence&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  My version of how to find the lowest integer value in a sequence:
-&quot;&quot;&quot;</span>
-nbCodeInBlock:
-  <span class="hljs-keyword">var</span> listOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-  listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-  <span class="hljs-keyword">var</span> smallestNumber: <span class="hljs-built_in">int</span> = <span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span> <span class="hljs-comment">#So that it starts as the biggest</span>
-
-  <span class="hljs-keyword">for</span> number <span class="hljs-keyword">in</span> listOfNumbers:
-    <span class="hljs-keyword">if</span> number &lt; smallestNumber:
-      smallestNumber = number
-
-  <span class="hljs-keyword">echo</span> smallestNumber
-
-nbSubSection <span class="hljs-string">&quot;Finding the lowest number in a sequence using `min/maxIndex`&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  `sequtils`(sequence utilities) module's `min/maxIndex` proc:
-&quot;&quot;&quot;</span>  
-nbCode:
-  <span class="hljs-keyword">import</span> std/sequtils
-
-  <span class="hljs-keyword">var</span> numbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-  numbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-  <span class="hljs-keyword">echo</span> numbers[numbers.minIndex]
-  <span class="hljs-keyword">echo</span> numbers[numbers.maxIndex]
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As you can see it's much simpler, but it is always valuable to learn how to do it yourself,
-  especially if you plan to make a similar proc.
-&quot;&quot;&quot;</span>
-
-nbSubSection <span class="hljs-string">&quot;Sorting a sequence of integers&quot;</span>
-nbText <span class="hljs-string">&quot;&quot;&quot;
-  My example of sorting a sequence of integers by their value descending(10, 9, 8...): 
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">import</span> std/sets, std/sequtils
-
-  <span class="hljs-keyword">var</span> listOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-  listOfNumbers = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Original listOfNumbers:&quot;</span>
-  <span class="hljs-keyword">echo</span> listOfNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-
-  <span class="hljs-keyword">var</span> checkedNumbers: <span class="hljs-type">HashSet</span>[<span class="hljs-built_in">int</span>] <span class="hljs-comment">#Max normal Set int size is int16</span>
-  <span class="hljs-keyword">var</span> countedNumbers: <span class="hljs-built_in">seq</span>[(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>])] <span class="hljs-comment">#a Seq of (locations of number) - number of elements of locations = numb of of occurances</span>
-
-  <span class="hljs-comment">#Finding all occurances of a number and their locations</span>
-  <span class="hljs-keyword">for</span> index, number <span class="hljs-keyword">in</span> listOfNumbers.pairs:
-    <span class="hljs-keyword">var</span> tempSeq: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-    <span class="hljs-keyword">var</span> tempNum: <span class="hljs-built_in">int</span>
-    <span class="hljs-keyword">if</span> number <span class="hljs-keyword">notin</span> checkedNumbers:
-      <span class="hljs-keyword">for</span> index2, number2 <span class="hljs-keyword">in</span> listOfNumbers.pairs: <span class="hljs-comment">#Double same loop, so that each number can check all the other numbers    </span>
-        <span class="hljs-keyword">if</span> index != index2: <span class="hljs-comment">#Don't check the same position against the same position</span>
-          <span class="hljs-comment">#Don't check an already checked number</span>
-            <span class="hljs-keyword">if</span> number == number2:
-              tempNum = number  
-              checkedNumbers.incl number     
-              tempSeq.add index <span class="hljs-comment">#First location</span>
-              tempSeq.add index2 <span class="hljs-comment">#Second location</span>
-      <span class="hljs-comment">#For single occurance numbers</span>
-      tempNum = number
-      tempSeq.add index
-
-      <span class="hljs-comment">#Multi occurance numbers</span>
-      tempSeq = tempSeq.deduplicate
-      countedNumbers.add (tempNum, tempSeq)
-
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;countedNumbers:&quot;</span>
-  <span class="hljs-keyword">echo</span> countedNumbers; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-
-  <span class="hljs-keyword">var</span> sortedListOfNumbers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-  <span class="hljs-keyword">var</span> smallestNumber: (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]) = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[])
-  <span class="hljs-keyword">var</span> sNlocation: <span class="hljs-built_in">int</span>
-  <span class="hljs-keyword">while</span> countedNumbers.len &gt; <span class="hljs-number">0</span>:
-    smallestNumber = (<span class="hljs-built_in">int</span>.<span class="hljs-keyword">high</span>, @[]) <span class="hljs-comment">#Reset - so that smallestNumber is always larger then the one in the list</span>
-    <span class="hljs-comment">#Here we will remove once we break out with the smallestNumber</span>
-    <span class="hljs-keyword">for</span> index, tup <span class="hljs-keyword">in</span> countedNumbers.pairs:
-      <span class="hljs-keyword">if</span> tup[<span class="hljs-number">0</span>] &lt; smallestNumber[<span class="hljs-number">0</span>]: <span class="hljs-comment">#tup[0] -&gt; number</span>
-        smallestNumber = tup
-        sNlocation = index
-    countedNumbers.delete sNlocation
-    <span class="hljs-comment">#Now we add number * locations to tempListOfNumbers</span>
-    <span class="hljs-keyword">for</span> location <span class="hljs-keyword">in</span> smallestNumber[<span class="hljs-number">1</span>]:
-      sortedListOfNumbers.add smallestNumber[<span class="hljs-number">0</span>]
-
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers&quot;</span>
-  <span class="hljs-keyword">echo</span> sortedListOfNumbers
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As you can see, for just sorting numbers in a sequence, it takes a lot of code to do so.
-&quot;&quot;&quot;</span>
-nbSubSection <span class="hljs-string">&quot;Sorting a sequence of integers using `sort`&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **`sort` is Nim's default sorting algorithm - func(there is also a `proc` verison)**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">import</span> std/algorithm
-
-  <span class="hljs-keyword">var</span> listOfNumbers2: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
-  listOfNumbers2 = @[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">50</span>, <span class="hljs-number">20</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">68</span>, -<span class="hljs-number">100</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">0</span>]
-
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Original listOfNumbers2:&quot;</span>
-  <span class="hljs-keyword">echo</span> listOfNumbers2; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&quot;</span>
-
-  <span class="hljs-keyword">var</span> sortedListOfNumbers2 = listOfNumbers2
-  sortedListOfNumbers2.sort() <span class="hljs-comment">#Default is lowest to highest - Ascending</span>
-
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers2&quot;</span>
-  <span class="hljs-keyword">echo</span> sortedListOfNumbers2
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As you can see, it saves you a LOT of time(it took me quite a bit to write my own above).
-
-  **Descending `sort` example:**
-&quot;&quot;&quot;</span>
-nbCode:
-  sortedListOfNumbers2.sort(order = <span class="hljs-type">SortOrder</span>.<span class="hljs-type">Descending</span>)
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;sortedListOfNumbers2 in Descending order:&quot;</span>
-  <span class="hljs-keyword">echo</span> sortedListOfNumbers2
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  `sort` proc modifies the existing variable, and uses the `system.cmp` for comparisons by default.
-  There is also the `sorted` proc, which returns a new copy instead of modifying the existing container.
-
-  **`sorted` proc example:**
-&quot;&quot;&quot;</span>
-nbCode: 
-  <span class="hljs-keyword">echo</span> listOfNumbers2.sorted() <span class="hljs-comment">#You can't use `sort` with an echo like this</span>
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  You can also specify which comparison/`cmp` proc to use, like this:
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">echo</span> listOfNumbers2.sorted(system.cmp[<span class="hljs-built_in">int</span>])
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  You can replace that `cmp`(compare) proc, with one of the following from the Nim's Standard Library's docs search results:
-&quot;&quot;&quot;</span>
-nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;&lt;img src = &quot;images/cmpSearchResults.png&quot; alt = &quot;`cmp` search results&quot;&gt;&quot;&quot;&quot;</span>
-
-nbSection <span class="hljs-string">&quot;Generics&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Generics in Nim, are used to parametrize procs, iterators or types with type parameters.
-  \`[]\` are used along with capital letters inside of them, separated by commas,
-  after a type's name, proc or iterator to tell the compiler that this will be a `generic`:
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">type</span>
-    <span class="hljs-type">GenericObject</span>[<span class="hljs-type">T</span>] = <span class="hljs-keyword">object</span>
-      ndata: <span class="hljs-built_in">string</span>
-
-  <span class="hljs-keyword">proc</span> genericProc[<span class="hljs-type">T</span>]() =
-    <span class="hljs-keyword">discard</span>
-  
-  <span class="hljs-keyword">iterator</span> genericIterator[<span class="hljs-type">T</span>]() =
-    <span class="hljs-keyword">discard</span>
-nbText <span class="hljs-string">&quot;&quot;&quot;
-  The above examples are incomplete, they will not work just yet.
-  Again, using \`[]\` with a capital letter inside will just &quot;mark&quot; the `type, proc, iterator` as a generic.
-  Now we require to use that `T`(can be any capital letter) in the arguments of the `proc`, `iterator`,
-  and on the fields of a `type` like so:
-&quot;&quot;&quot;</span>
-nbSubSection <span class="hljs-string">&quot;Generic Definitions&quot;</span>
-nbCode:
-  <span class="hljs-keyword">type</span>
-    <span class="hljs-type">GenericObject</span>[<span class="hljs-type">T</span>] = <span class="hljs-keyword">object</span>
-      data: <span class="hljs-type">T</span>
-
-  <span class="hljs-keyword">type</span>
-    <span class="hljs-type">GenericTuple</span>[<span class="hljs-type">A</span>, <span class="hljs-type">B</span>] = <span class="hljs-keyword">tuple</span>
-      name: <span class="hljs-type">A</span>
-      age: <span class="hljs-type">B</span>
-
-  <span class="hljs-keyword">proc</span> genericProc[<span class="hljs-type">T</span>](anyType: <span class="hljs-type">T</span>) =
-    <span class="hljs-keyword">discard</span>
-  
-  <span class="hljs-keyword">iterator</span> genericIterator[<span class="hljs-type">T</span>](anyType: <span class="hljs-type">T</span>): <span class="hljs-type">T</span> =
-    <span class="hljs-keyword">discard</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **And also for generic containers proc definition example**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">proc</span> genericContainerProc[<span class="hljs-type">T</span>](anyTypeContainer: <span class="hljs-built_in">seq</span>[<span class="hljs-type">T</span>]) =
-    <span class="hljs-keyword">discard</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Now let's see how to use this `generic object`
-&quot;&quot;&quot;</span>
-nbSubSection <span class="hljs-string">&quot;Generic Object Initialization&quot;</span>
-nbCode:
-  <span class="hljs-keyword">var</span> genericObject = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">string</span>](data: <span class="hljs-string">&quot;A String&quot;</span>)
-  <span class="hljs-keyword">var</span> genericObject2 = <span class="hljs-type">GenericObject</span>[<span class="hljs-built_in">int</span>](data: <span class="hljs-number">101</span>)
-
-  <span class="hljs-keyword">echo</span> genericObject, <span class="hljs-string">&quot; of type &quot;</span>, genericObject.typeof
-  <span class="hljs-keyword">echo</span> genericObject2, <span class="hljs-string">&quot; of type &quot;</span>, genericObject2.typeof
-
-nbSubSection <span class="hljs-string">&quot;Generic Tuple Initialization&quot;</span>
-nbCode:
-  <span class="hljs-keyword">var</span> genericTuple: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>] = (<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">20</span>)
-  <span class="hljs-keyword">var</span> genericTuple2: <span class="hljs-type">GenericTuple</span>[<span class="hljs-built_in">seq</span>[<span class="hljs-built_in">float</span>], <span class="hljs-built_in">bool</span>] = (@[<span class="hljs-number">0.5</span>, <span class="hljs-number">1.1</span>, <span class="hljs-number">3.25</span>], <span class="hljs-literal">true</span>)
-
-  <span class="hljs-keyword">echo</span> genericTuple, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple.typeof
-  <span class="hljs-keyword">echo</span> genericTuple2, <span class="hljs-string">&quot; of type &quot;</span>, genericTuple2.typeof
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Calling generic procs and iterators is exactly the same as non generic versions,
-  unlike structures like `objects` and `tuples`(shown above).
-&quot;&quot;&quot;</span>
-
-nbSection <span class="hljs-string">&quot;More Overloading&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **NOTE:** `hashSets, more on hash Tables and Hashing` had the start of `more` overloading,
-  since the Nim for Beginners #22 Procedure Overloading(4 min long).
-
-  To demonstrate and teach you more about overloading, we are going to overload the `find` proc.
-
-  The `find` proc from the `strutils` module(string utilities)(also in some other modules),
-  is very useful for finding substrings(a part of a string) in a string.
-
-  In fact, we have already used it in both the Sets and the hashSets videos,
-  in order to `find` and remove specified separators from a string.
-
-  This time though, we are going to use the `system.find` version,
-  which does not deal with `strings` but with an element of some type. 
-&quot;&quot;&quot;</span>
-
-nbSubSection <span class="hljs-string">&quot;Using `find` with a sequence of numbers&quot;</span>
-nbCode:
-  <span class="hljs-keyword">var</span> mySequence = @[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">10</span>, -<span class="hljs-number">10</span>, <span class="hljs-number">50</span>]
-
-  <span class="hljs-keyword">echo</span> mySequence.find(-<span class="hljs-number">10</span>)
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Like with all `find` proc versions, you give it what you want it to find, and it returns the `index` of where it is.
-
-  **If you were to reinsert the index back, you would get -10 in this case:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">let</span> location = mySequence.find(-<span class="hljs-number">10</span>)
-  <span class="hljs-keyword">echo</span> mySequence[location]
-
-nbSubSection <span class="hljs-string">&quot;Using `find` with a sequence of objects&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **Now let's find an object based on one of it's fields in a sequence:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">type</span>
-    <span class="hljs-type">SomeObject</span> = <span class="hljs-keyword">object</span>
-      name: <span class="hljs-built_in">string</span>
-      age: <span class="hljs-built_in">int</span>
-  
-  <span class="hljs-keyword">var</span> seqOfSomeObject: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>]
-  seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Wombat&quot;</span>, age: <span class="hljs-number">3</span>)
-  seqOfSomeObject.add <span class="hljs-type">SomeObject</span>(name: <span class="hljs-string">&quot;Womp rat&quot;</span>, age: <span class="hljs-number">5</span>)
-  
-nbCodeSkip:
-  <span class="hljs-keyword">let</span> wompRat = seqOfSomeObject.find(<span class="hljs-string">&quot;Womp rat&quot;</span>)
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;index of Womp rat: &quot;</span>, wompRat, <span class="hljs-string">&quot; reinsertion: &quot;</span>, seqOfSomeObject[wompRat]
-
-nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;&lt;img src = &quot;images/findProcError.png&quot; alt = &quot;`find` proc error&quot;&gt;&quot;&quot;&quot;</span>
-
-nbSubSection <span class="hljs-string">&quot;Overloading `find` proc&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As you can see, `find` proc does not have a version/overload for our `SomeObject`,
-  and therefore does not compile.
-
-  **So in order to make it work, we need to overload the `find` proc for our custom object:**
-  First off, here is how the `system.find` proc is defined(a generic):
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">proc</span> find*[<span class="hljs-type">T</span>, <span class="hljs-type">S</span>](a: <span class="hljs-type">T</span>, item: <span class="hljs-type">S</span>): <span class="hljs-built_in">int</span> {.inline.}=
-    <span class="hljs-comment">## Returns the first index of `item` in `a` or -1 if not found. This requires</span>
-    <span class="hljs-comment">## appropriate `items` and `==` operations to work.</span>
-    <span class="hljs-literal">result</span> = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> items(a):
-      <span class="hljs-keyword">if</span> i == item: <span class="hljs-keyword">return</span>
-      inc(<span class="hljs-literal">result</span>)
-    <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span>
-
-nbText <span class="hljs-string">&quot;&quot;&quot;
-  Our overload, in order to `find` by the fields of our `SomeObject`:
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-comment">#Can also be: proc find[T, S](a: T, item: S): int {.inline.} = #Specify for a single type, better</span>
-  <span class="hljs-keyword">proc</span> find[<span class="hljs-type">S</span>](a: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>], item: <span class="hljs-type">S</span>): <span class="hljs-built_in">int</span> {.inline.} =
-    <span class="hljs-literal">result</span> = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">for</span> index, element <span class="hljs-keyword">in</span> a.pairs:
-      <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> element.fields: <span class="hljs-comment">#Second unwrap to get the fields of `name: string` and `age: int`</span>
-        <span class="hljs-keyword">if</span> f.typeof <span class="hljs-keyword">is</span> item.typeof:
-          <span class="hljs-keyword">if</span> $f == $item: <span class="hljs-keyword">return</span> index <span class="hljs-comment">#To string($) -&gt; f(int) == item(string) -&gt; ERROR</span>
-        <span class="hljs-comment">#inc(result) #No longer needed as we are using the `pairs` iterator</span>
-    <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span>
-
-nbCode:
-  <span class="hljs-keyword">let</span> wompRat = seqOfSomeObject.find(<span class="hljs-string">&quot;Womp rat&quot;</span>)
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Found name Womp rat at index: &quot;</span>, wompRat
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[wompRat]
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  And now for the `age` field:
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">let</span> ageOfWompRat = seqOfSomeObject.find(<span class="hljs-number">5</span>)
-
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Found age 5 at index: &quot;</span>, ageOfWompRat
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[ageOfWompRat]
-
-nbSubSection <span class="hljs-string">&quot;`[]` overload for ease of life&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  \`[]\` overload will allow us to replace: 
-  `seqOfSomeObject.find(&quot;Womp rat&quot;)` to `seqOfSomeObject[&quot;Womp rat&quot;]` to get the index.
-
-  The overload is mostly the same as the `find` overload.
-  **Except that the `item` argument is now a `string` instead of a generic.**
-
-  This is because, if the overloaded \`[]\` was given an `integer`,
-  it would still try to return us the element at the index of that `integer`.
-  And in this instance `5` is not in the index of the 2 fields(0, 1),
-  resulting in an error.
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">import</span> std/strutils
-
-nbCode:
-  <span class="hljs-keyword">proc</span> `[]`(a: <span class="hljs-built_in">seq</span>[<span class="hljs-type">SomeObject</span>], item: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">int</span> {.inline.} =
-    <span class="hljs-literal">result</span> = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">for</span> index, element <span class="hljs-keyword">in</span> a.pairs:
-      <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> element.fields: <span class="hljs-comment">#Second unwrap to get the fields of `name: string` and `age: int`</span>
-        <span class="hljs-keyword">if</span> parseInt($f) <span class="hljs-keyword">is</span> <span class="hljs-built_in">int</span>:  <span class="hljs-comment">#`Line 1` Try to parse - to see if we get an `int`</span>
-          <span class="hljs-keyword">if</span> $f == $item: <span class="hljs-keyword">return</span> index <span class="hljs-comment">#To string($) -&gt; f(int) == item(string) -&gt; ERROR</span>
-        <span class="hljs-keyword">elif</span> $f == $item: <span class="hljs-keyword">return</span> index 
-        <span class="hljs-comment">#inc(result) #No longer needed as we are using the `pairs` iterator</span>
-    <span class="hljs-literal">result</span> = -<span class="hljs-number">1</span>
-
-nbCode:
-  <span class="hljs-keyword">let</span> name = seqOfSomeObject[<span class="hljs-string">&quot;Womp rat&quot;</span>]
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;name's index: &quot;</span>, name
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[name]
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  The following will NOT compile, and crash if the `item` argument is a generic.
-&quot;&quot;&quot;</span>
-nbCodeSkip:
-  <span class="hljs-keyword">let</span> age = seqOfSomeObject[<span class="hljs-number">5</span>] <span class="hljs-comment">#Index out of bounds - no crash yet</span>
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;age's index: &quot;</span>, age
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[age] <span class="hljs-comment">#Crash here</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  What we can do is make that number `5` into a string `$5`.
-  And with that change the `[]`'s overload's marked `Line #1` checking of `if f.typeof is item.typeof:`,
-  to `if parseInt($f) is int:`, in order to see if the parsed string is an actual integer,
-  and then the same process as before continues.
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">let</span> age = seqOfSomeObject[$<span class="hljs-number">5</span>]
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;age's index: &quot;</span>, age
-  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Reinsertion result: &quot;</span>, seqOfSomeObject[age]
-
-
-nbSection <span class="hljs-string">&quot;Tuple Unpacking&quot;</span>
-nbText <span class="hljs-string">&quot;&quot;&quot;
-  In the past video of `Nim for Beginners #14 Tuples`, i have shown you Tuples.
-  (There is a lot of dealing with `tuples` in the Extra cut content)
-
-  Now it's time to explain and demonstrate `tuple unpacking`. Tuple unpacking is quite simple.
-
-  You can use them to give values(assignment) to multiple variables(`var`), constants(`const`) or immutable variable(`let`),
-  at once.
-
-  **Example 1:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">let</span> (v1, c1, l1) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-
-  <span class="hljs-keyword">echo</span> v1
-  <span class="hljs-keyword">echo</span> c1
-  <span class="hljs-keyword">echo</span> l1
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **You may also ommit assignment of any of them:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">let</span> (v2, _, l2) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-
-  <span class="hljs-keyword">let</span> (_, _, _) = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **All of this is treated as syntatic sugar for basically the following code(Example 1):**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">let</span>
-    temporaryTuple = (<span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-string">&quot;const&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>)
-    v3 = temporaryTuple[<span class="hljs-number">0</span>]
-    c3 = temporaryTuple[<span class="hljs-number">1</span>]
-    l3 = temporaryTuple[<span class="hljs-number">2</span>]
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  I don't think i have ever shown this before, but yes, you can access any field of a `tuple`,
-  without knowing the name of the field, especially useful for `anonymous` tuples like here(fields without names).
-  I do recommend though, that you do use the `names` of the fields over the `index` when the `names` are present.
-
-  When tuple unpacking with tuples with numbers(literals) into `var` and `let` variables,
-  they get assigned their values without a `temporaryTuple`.
-
-  Since you can nest any container withing another container(array, seq, set, table, etc), 
-  as well as data structure in a data structure(object, tuple),
-  you can also use nested tuples for tuple unpacking.
-&quot;&quot;&quot;</span>
-
-nbSubSection <span class="hljs-string">&quot;Tuple Unpacking Use Case&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  In Nim you can have multiple return types for a `proc`,
-  by using `object variants` and `union types`(int|string).
-
-  This can also be achieved by using `tuples`. But `tuples`,
-  don't just allow for multiple types to be returned,
-  they allow for multiple returns, which can then be easily `unpacked`, 
-  into variables and containers.
-  
-  **Here is an example of a multiple return:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">proc</span> returnsNestedTuple(): (<span class="hljs-built_in">int</span>, (<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>), <span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>) = (<span class="hljs-number">4</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">7</span>), <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
-
-  <span class="hljs-keyword">let</span> (x, (_, y), _, z) = returnsNestedTuple()
-
-  <span class="hljs-keyword">echo</span> x, <span class="hljs-string">&quot; &quot;</span>, y, <span class="hljs-string">&quot; &quot;</span>, z
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Another very useful part of `tuple unpacking` is that, you don't need to return anything.
-  1, 2, all or none.
+&lt;h6&gt;(You may run the above benchmarks yourself to double check the data. 
+But the results will vary by your CPU and RAM speeds.)&lt;/h6&gt;
 &quot;&quot;&quot;</span>
 
 nbUoSection <span class="hljs-string">&quot;Outro - Afterwords&quot;</span>
@@ -1529,20 +1325,21 @@ nbUoSubSection <span class="hljs-string">&quot;Compiler Information&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
 - Version used: E.G. 2.0.2
 - Compiler settings used: none, ORC is now the default memory management option
-- Timestamps:
-  - 00:15 Start of video example
 &quot;&quot;&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;My and General Links&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-- [Extra Content](https://kiloneie.github.io/Extra%20Content/extraMakingFakeTable.html &quot;Extra Content&quot;)
 - [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
 - [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
 &quot;&quot;&quot;</span>
-nbUoSubSection <span class="hljs-string">&quot;Links to this video's subject&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Links to this video's subject:&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-- [min/maxIndex procs](https://nim-lang.org/docs/sequtils.html#minIndex%2CopenArray%5BT%5D &quot;min/maxIndex procs&quot;)
-- [for `sort` func and `sorted` proc](https://nim-lang.org/docs/algorithm.html#sort%2CopenArray%5BT%5D%2Cproc%28T%2CT%29 &quot;for `sort` func and `sorted` proc&quot;)
-- [parseInt](https://nim-lang.org/docs/strutils.html#parseInt%2Cstring &quot;parseInt&quot;)
+- [Sugar module's collect macro](https://nim-lang.org/docs/sugar.html#collect.m%2Cuntyped &quot;sugar.collect&quot;)
+- [Python's List Comprehensions](https://www.w3schools.com/python/python_lists_comprehension.asp &quot;Python's List Comprehensions&quot;)
+- [Python's map() function](https://www.w3schools.com/python/ref_func_map.asp &quot;Python's map() function&quot;)
+- [Python's filter() function](https://www.w3schools.com/python/ref_func_filter.asp &quot;Python's filter() function&quot;)
+- [Python's benchmarking timeit module's timeit() function](https://docs.python.org/3/library/timeit.html &quot;Python's benchmarking timeit module's timeit() function&quot;)
+- [Nim's formatFloat func](https://nim-lang.org/docs/strutils.html#formatFloat%2Cfloat%2CFloatFormatMode%2Crange%5B%5D%2Cchar &quot;Nim's formatFloat func&quot;)
+- [Nim's cpuTime from the Times module](https://nim-lang.org/docs/times.html#cpuTime &quot;Nim's cpuTime from the Times module&quot;)
 &quot;&quot;&quot;</span>
 
 nbSave()</code></pre>
