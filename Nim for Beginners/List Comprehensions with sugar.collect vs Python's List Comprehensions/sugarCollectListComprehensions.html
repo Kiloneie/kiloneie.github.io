@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>..\#4 Sugar collect List Comprehensions\Video Data\sugarCollectListComprehensions.nim</title>
+  <title>Video Data\sugarCollectListComprehensions.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,8 +43,8 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..\..\#3 Overloading in Depth">🏡</a></span>
-  <span><code>..\#4 Sugar collect List Comprehensions\Video Data\sugarCollectListComprehensions.nim</code></span>
+  <span><a href="..">🏡</a></span>
+  <span><code>Video Data\sugarCollectListComprehensions.nim</code></span>
   <span></span>
 </div>
 <hr>
@@ -78,6 +78,7 @@ pre > code {
 <ul>
 <li>4.1. <a href="#nim's-3-variants">Nim's 3 variants</a></li>
 <li>4.2. <a href="#python's-3-variants">Python's 3 variants</a></li>
+<li>4.3. <a href="#why-doesn't-nim-have-proper-list-comprehensions-?">Why doesn't Nim have proper list comprehensions ?</a></li>
 </ul>
 </li>
 </ul>
@@ -560,15 +561,22 @@ CPU Time [collect] x 10000 = 0.000165400000s</code></pre>
   CPU Time [comprehension] x 10000 = 0.0002650251300000001</code></pre>
 <h6>(You may run the above benchmarks yourself to double check the data. 
 But the results will vary by your CPU and RAM speeds.)</h6>
+<p><a name = "why-doesn't-nim-have-proper-list-comprehensions-?"></a></p>
+<h2>  4.3. Why doesn't Nim have proper list comprehensions ?</h2>
+<hr />
+<p>Nim doesn't have list comprehensions as part of the language,
+because what can be done as a <strong>macro</strong>, should be done as a <strong>macro</strong>.</p>
+<p>This is a part of Nim's philosophy of keeping the language as small as possible,
+while implementing what is not required or needed as a <strong>macro</strong> in a usually separate module.</p>
 <h1>Outro - Afterwords</h1>
 <hr />
 <p>Okay, that's it for this video, thanks for watching like, share and subscribe,
 aswell as click the bell icon if you liked it and want more,
-you can also follow me on twitter of the same name, and support me on Patreon.
+you can also support me on Patreon if you so wish.
 If you had any problems with any part of the video,
 let me know in the comment section,
 the code of this video, script and documentation, are in the link in the description,
-as a form of offline tutorial.</p>
+as a form of written tutorial.</p>
 <h1>Thanks to my past and current Patrons</h1>
 <hr />
 <h2>Past Patrons</h2>
@@ -587,7 +595,7 @@ as a form of offline tutorial.</p>
 <hr />
 <ul>
 <li>Version used: E.G. 2.0.2</li>
-<li>Compiler settings used: none, ORC is now the default memory management option</li>
+<li>Compiler settings used: none, ORC is now the default memory management option(mm:orc)</li>
 </ul>
 <h2>My and General Links</h2>
 <hr />
@@ -1300,15 +1308,24 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 But the results will vary by your CPU and RAM speeds.)&lt;/h6&gt;
 &quot;&quot;&quot;</span>
 
+nbSubSection <span class="hljs-string">&quot;Why doesn't Nim have proper list comprehensions ?&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Nim doesn't have list comprehensions as part of the language,
+  because what can be done as a **macro**, should be done as a **macro**.
+
+  This is a part of Nim's philosophy of keeping the language as small as possible,
+  while implementing what is not required or needed as a **macro** in a usually separate module.
+&quot;&quot;&quot;</span>
+
 nbUoSection <span class="hljs-string">&quot;Outro - Afterwords&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Okay, that's it for this video, thanks for watching like, share and subscribe, 
     aswell as click the bell icon if you liked it and want more, 
-    you can also follow me on twitter of the same name, and support me on Patreon. 
+    you can also support me on Patreon if you so wish. 
     If you had any problems with any part of the video, 
     let me know in the comment section, 
     the code of this video, script and documentation, are in the link in the description,
-    as a form of offline tutorial.
+    as a form of written tutorial.
 &quot;&quot;&quot;</span>
 nbUoSection <span class="hljs-string">&quot;Thanks to my past and current Patrons&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;Past Patrons&quot;</span>
@@ -1324,7 +1341,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 nbUoSubSection <span class="hljs-string">&quot;Compiler Information&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
 - Version used: E.G. 2.0.2
-- Compiler settings used: none, ORC is now the default memory management option
+- Compiler settings used: none, ORC is now the default memory management option(mm:orc)
 &quot;&quot;&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;My and General Links&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
