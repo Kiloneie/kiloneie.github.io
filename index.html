@@ -195,27 +195,36 @@ organized by their respective video series.
 <p><a name = "nim-for-beginners"></a></p>
 <h1>Nim for Beginners</h1>
 <hr />
-<p><br>- <a href = "Nim for Beginners/6 List Comprehensions with sugar.collect vs Python's List Comprehensions/sugarCollectListComprehensions.html">6 List Comprehensions with sugar.collect vs Python's List Comprehensions/sugarCollectListComprehensions.html</a><br>- <a href = "Nim for Beginners/5 FindingSortingData, MultipleTypeReturns, Overloading and Tuple Unpacking/FSdataMultiTypeReturnsOverloadingGenericsTunpacking.html">5 FindingSortingData, MultipleTypeReturns, Overloading and Tuple Unpacking/FSdataMultiTypeReturnsOverloadingGenericsTunpacking.html</a><br>- <a href = "Nim for Beginners/4 hashSets, more on hashTables and Hashing/hashSetsMoreOnHashTablesAndHashing.html">4 hashSets, more on hashTables and Hashing/hashSetsMoreOnHashTablesAndHashing.html</a><br>- <a href = "Nim for Beginners/3 Sets/sets.html">3 Sets/sets.html</a><br>- <a href = "Nim for Beginners/2 Object Variants Part 2/objectVariantsPart2.html">2 Object Variants Part 2/objectVariantsPart2.html</a><br>- <a href = "Nim for Beginners/1 Object Variants Part 1/objectVariantsPart1.html">1 Object Variants Part 1/objectVariantsPart1.html</a><br></p>
+<ul>
+<li><a href = "Nim for Beginners/6 List Comprehensions with sugar.collect vs Python's List Comprehensions/sugarCollectListComprehensions.html">sugar Collect List Comprehensions</a></li>
+<li><a href = "Nim for Beginners/5 FindingSortingData, MultipleTypeReturns, Overloading and Tuple Unpacking/FSdataMultiTypeReturnsOverloadingGenericsTunpacking.html">FS data Multi Type Returns Overloading Generics Tunpacking</a></li>
+<li><a href = "Nim for Beginners/4 hashSets, more on hashTables and Hashing/hashSetsMoreOnHashTablesAndHashing.html">hash Sets More On Hash Tables And Hashing</a></li>
+<li><a href = "Nim for Beginners/3 Sets/sets.html">sets</a></li>
+<li><a href = "Nim for Beginners/2 Object Variants Part 2/objectVariantsPart2.html">object Variants Part 2</a></li>
+<li><a href = "Nim for Beginners/1 Object Variants Part 1/objectVariantsPart1.html">object Variants Part 1</a></li>
+</ul>
 <p><a name = "exploring-nim's-standard-library"></a></p>
 <h1>Exploring Nim's Standard Library</h1>
 <hr />
-<p><br>No offline tutorials exist for this video series yet(coming soon)</p>
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><a name = "nim-sdl2-game-development-for-beginners"></a></p>
 <h1>Nim SDL2 Game Development for Beginners</h1>
 <hr />
-<p><br>No offline tutorials exist for this video series yet(coming soon)</p>
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><a name = "metaprogramming-in-nim"></a></p>
 <h1>Metaprogramming in Nim</h1>
 <hr />
-<p><br>No offline tutorials exist for this video series yet(coming soon)</p>
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><a name = "work-in-progress"></a></p>
 <h1>Work in Progress</h1>
 <hr />
-<p><br>No offline tutorials exist for this video series yet(coming soon)</p>
+<p>No offline tutorials exist for this video series yet(coming soon)</p>
 <p><a name = "extra-content"></a></p>
 <h1>Extra Content</h1>
 <hr />
-<p><br>- <a href = "Extra Content/extraMakingFakeTable.html">extraMakingFakeTable.html</a><br></p>
+<ul>
+<li><a href = "Extra Content/extraMakingFakeTable.html">extra Making Fake Table</a></li>
+</ul>
 <h1>My and General Links</h1>
 <hr />
 <ul>
@@ -276,7 +285,7 @@ nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <sp
 <span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
 <span class="hljs-keyword">import</span> nimib / [capture]
 
-<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) =
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) {.used.} =
   newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
     captureStdout(nb.blk.output):
       body
@@ -302,7 +311,7 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
   nbToc.output.add <span class="hljs-string">&quot;1. &lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
-<span class="hljs-keyword">template</span> nbSubSection(name:<span class="hljs-built_in">string</span>) =
+<span class="hljs-keyword">template</span> nbSubSection(name:<span class="hljs-built_in">string</span>) {.used.} =
   index.subsection.inc
 
   <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
@@ -311,10 +320,10 @@ nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span cl
   nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
   <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
 
-<span class="hljs-keyword">template</span> nbUoSection(name: <span class="hljs-built_in">string</span>) =
+<span class="hljs-keyword">template</span> nbUoSection(name: <span class="hljs-built_in">string</span>) {.used.} =
   nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
 
-<span class="hljs-keyword">template</span> nbUoSubSection(name: <span class="hljs-built_in">string</span>) =
+<span class="hljs-keyword">template</span> nbUoSubSection(name: <span class="hljs-built_in">string</span>) {.used.} =
   nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
 
 <span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
@@ -453,6 +462,7 @@ addButtonBackToTop()
 <span class="hljs-comment">#Proc to find all nimib styled offline tutorials of their respective video series(called per section)</span>
 <span class="hljs-keyword">proc</span> findAndOutputTutorials(videoSeries: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
   <span class="hljs-keyword">var</span> link: <span class="hljs-built_in">string</span>
+  <span class="hljs-keyword">var</span> linkSplit: <span class="hljs-keyword">tuple</span>[dir, name, ext: <span class="hljs-built_in">string</span>]
   <span class="hljs-keyword">var</span> links: <span class="hljs-built_in">string</span>
   <span class="hljs-keyword">var</span> removeUntil: <span class="hljs-built_in">int</span>
 
@@ -467,9 +477,46 @@ addButtonBackToTop()
       link = file.replace(<span class="hljs-string">r&quot;\&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>)
       removeUntil = file.find(videoSeries)
       link.delete(<span class="hljs-number">0</span> .. removeUntil-<span class="hljs-number">1</span>) <span class="hljs-comment">#remove everything before videoSeries -&gt; use .find to find videoSeries index location, then delete everything from there to index 0 - start</span>
-      <span class="hljs-keyword">var</span> linkName = link
-      linkName.delete(<span class="hljs-number">0</span> .. videoSeries.len)
-      links.add <span class="hljs-string">&quot;- &lt;a href = &quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">fmt&quot;{link}&quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">&quot;&gt;&quot;</span> &amp; linkName &amp; <span class="hljs-string">&quot;&lt;/a&gt;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> <span class="hljs-comment">#&amp;&quot;* [{link}]({link})\n&quot;    &amp;&quot;* `&lt;{link}&gt;`_ \n&quot;</span>
+      
+      linkSplit = link.splitFile
+
+      <span class="hljs-comment">#Improving link name</span>
+      <span class="hljs-keyword">var</span> improvedName: <span class="hljs-built_in">string</span>
+
+      <span class="hljs-keyword">type</span>
+        <span class="hljs-type">CharacterIndex</span> = <span class="hljs-keyword">tuple</span>
+          character: <span class="hljs-built_in">char</span>
+          index: <span class="hljs-built_in">int</span>
+
+      <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>
+      <span class="hljs-keyword">let</span> length = linkSplit.name.len
+
+      <span class="hljs-keyword">while</span> index &lt; length:
+        <span class="hljs-keyword">var</span> current: <span class="hljs-type">CharacterIndex</span> = (linkSplit.name[index], index)
+        <span class="hljs-keyword">var</span> next: <span class="hljs-type">CharacterIndex</span> = <span class="hljs-keyword">if</span> index+<span class="hljs-number">1</span> &lt; linkSplit.name.len: (linkSplit.name[index+<span class="hljs-number">1</span>], index+<span class="hljs-number">1</span>) <span class="hljs-keyword">else</span>: (<span class="hljs-string">'@'</span>, -<span class="hljs-number">1</span>)
+
+        <span class="hljs-keyword">if</span> current.character.isUpperAscii <span class="hljs-keyword">and</span> next.character.isUpperAscii:
+          improvedName.add current.character
+          improvedName.add next.character
+          improvedName.add <span class="hljs-string">' '</span>
+          index += <span class="hljs-number">2</span>
+        <span class="hljs-keyword">elif</span> current.character.isDigit <span class="hljs-keyword">and</span> next.character.isDigit:
+          <span class="hljs-keyword">if</span> current.character != <span class="hljs-string">'@'</span> <span class="hljs-keyword">or</span> next.character != <span class="hljs-string">'@'</span>:
+            improvedName.add <span class="hljs-string">' '</span>
+            improvedName.add current.character
+            improvedName.add next.character
+            index += <span class="hljs-number">2</span>
+        <span class="hljs-keyword">elif</span> current.character.isUpperAscii <span class="hljs-keyword">or</span> current.character.isDigit:
+          improvedName.add <span class="hljs-string">' '</span>
+          improvedName.add current.character
+          index += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+          improvedName.add current.character
+          index += <span class="hljs-number">1</span>
+
+      linkSplit.name = improvedName
+
+      links.add <span class="hljs-string">&quot;  - &lt;a href = &quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">fmt&quot;{link}&quot;</span> &amp; <span class="hljs-string">'&quot;'</span> &amp; <span class="hljs-string">&quot;&gt;&quot;</span> &amp; linkSplit.name &amp; <span class="hljs-string">&quot;&lt;/a&gt;&quot;</span> &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span> <span class="hljs-comment">#&amp;&quot;* [{link}]({link})\n&quot;    &amp;&quot;* `&lt;{link}&gt;`_ \n&quot;</span>
       <span class="hljs-comment">#Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...</span>
   <span class="hljs-literal">result</span> = links
 
@@ -489,27 +536,27 @@ nbText: <span class="hljs-string">hlMdF&quot;&quot;&quot;
 
 nbSection <span class="hljs-string">&quot;Nim for Beginners&quot;</span>
 <span class="hljs-keyword">let</span> nimForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim for Beginners&quot;</span>)
-nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> &amp; nimForBeginners
+nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; nimForBeginners
 
 nbSection <span class="hljs-string">&quot;Exploring Nim's Standard Library&quot;</span>
 <span class="hljs-keyword">let</span> exploringNimsStandardLibrary = findAndOutputTutorials(<span class="hljs-string">&quot;Exploring Nim's Standard Library&quot;</span>)
-nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> &amp; exploringNimsStandardLibrary
+nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; exploringNimsStandardLibrary
 
 nbSection <span class="hljs-string">&quot;Nim SDL2 Game Development for Beginners&quot;</span>
 <span class="hljs-keyword">let</span> nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials(<span class="hljs-string">&quot;Nim SDL2 Game Development for Beginners&quot;</span>)
-nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> &amp; nimSDL2GameDevelopmentForBeginners
+nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; nimSDL2GameDevelopmentForBeginners
 
 nbSection <span class="hljs-string">&quot;Metaprogramming in Nim&quot;</span>
 <span class="hljs-keyword">let</span> metaprogrammingInNim = findAndOutputTutorials(<span class="hljs-string">&quot;Metaprogramming in Nim&quot;</span>)
-nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> &amp; metaprogrammingInNim
+nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; metaprogrammingInNim
 
 nbSection <span class="hljs-string">&quot;Work in Progress&quot;</span>
 <span class="hljs-keyword">let</span> workInProgress = findAndOutputTutorials(<span class="hljs-string">&quot;Work in Progress&quot;</span>)
-nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> &amp; workInProgress
+nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; workInProgress
 
 nbSection <span class="hljs-string">&quot;Extra Content&quot;</span>
 <span class="hljs-keyword">let</span> extraContent = findAndOutputTutorials(<span class="hljs-string">&quot;Extra Content&quot;</span>)
-nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; <span class="hljs-string">&quot;&lt;br&gt;&quot;</span> &amp; extraContent
+nbText: <span class="hljs-string">hlMdF&quot;&quot;</span> &amp; extraContent
 
 nbUoSection <span class="hljs-string">&quot;My and General Links&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;

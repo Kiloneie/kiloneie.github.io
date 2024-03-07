@@ -41,7 +41,7 @@ nb.partials["nbTextWithSource"] = """{{&outputToHtml}}
 #Overriding nimib's nbCode -> with a version that has horizontal scroll for overflowing output
 import nimib / [capture]
 
-template nbCode(body: untyped) =
+template nbCode(body: untyped) {.used.} =
   newNbCodeBlock("nbCode", body): #Writes to stdout `lineNumb typeOfNBblock: a bit of first line
     captureStdout(nb.blk.output):
       body
@@ -67,7 +67,7 @@ template nbSection(name:string) =
   nbToc.output.add "1. <a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
-template nbSubSection(name:string) =
+template nbSubSection(name:string) {.used.} =
   index.subsection.inc
 
   let anchorName = name.toLower.replace(" ", "-")
@@ -76,10 +76,10 @@ template nbSubSection(name:string) =
   nbToc.output.add "  - " & $index.section & r"\." & $index.subsection & r"\. " & "<a href=\"#" & anchorName & "\">" & name & "</a>\n"
   #If you get an error from the above line, addToc must be ran before any nbSection 
 
-template nbUoSection(name: string) =
+template nbUoSection(name: string) {.used.} =
   nbText "\n# " & name & "\n\n---"
 
-template nbUoSubSection(name: string) =
+template nbUoSubSection(name: string) {.used.} =
   nbText "\n## " & name & "\n\n---"
 
 #Updating the same file is shown instantly once deployed via Github Page on PC. 
@@ -218,6 +218,7 @@ addButtonBackToTop()
 #Proc to find all nimib styled offline tutorials of their respective video series(called per section)
 proc findAndOutputTutorials(videoSeries: string): string =
   var link: string
+  var linkSplit: tuple[dir, name, ext: string]
   var links: string
   var removeUntil: int
 
@@ -232,9 +233,46 @@ proc findAndOutputTutorials(videoSeries: string): string =
       link = file.replace(r"\", "/")
       removeUntil = file.find(videoSeries)
       link.delete(0 .. removeUntil-1) #remove everything before videoSeries -> use .find to find videoSeries index location, then delete everything from there to index 0 - start
-      var linkName = link
-      linkName.delete(0 .. videoSeries.len)
-      links.add "- <a href = " & '"' & fmt"{link}" & '"' & ">" & linkName & "</a>" & "<br>" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
+      
+      linkSplit = link.splitFile
+
+      #Improving link name
+      var improvedName: string
+
+      type
+        CharacterIndex = tuple
+          character: char
+          index: int
+
+      var index = 0
+      let length = linkSplit.name.len
+
+      while index < length:
+        var current: CharacterIndex = (linkSplit.name[index], index)
+        var next: CharacterIndex = if index+1 < linkSplit.name.len: (linkSplit.name[index+1], index+1) else: ('@', -1)
+
+        if current.character.isUpperAscii and next.character.isUpperAscii:
+          improvedName.add current.character
+          improvedName.add next.character
+          improvedName.add ' '
+          index += 2
+        elif current.character.isDigit and next.character.isDigit:
+          if current.character != '@' or next.character != '@':
+            improvedName.add ' '
+            improvedName.add current.character
+            improvedName.add next.character
+            index += 2
+        elif current.character.isUpperAscii or current.character.isDigit:
+          improvedName.add ' '
+          improvedName.add current.character
+          index += 1
+        else:
+          improvedName.add current.character
+          index += 1
+
+      linkSplit.name = improvedName
+
+      links.add "  - <a href = " & '"' & fmt"{link}" & '"' & ">" & linkSplit.name & "</a>" & "\n" #&"* [{link}]({link})\n"    &"* `<{link}>`_ \n"
       #Not sure why the first link is on lvl 1, and the next ones are at lvl 2 of bullet points/indentation...
   result = links
 
@@ -254,27 +292,27 @@ nbText: hlMdF"""
 
 nbSection "Nim for Beginners"
 let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
-nbText: hlMdF"" & "<br>" & nimForBeginners
+nbText: hlMdF"" & nimForBeginners
 
 nbSection "Exploring Nim's Standard Library"
 let exploringNimsStandardLibrary = findAndOutputTutorials("Exploring Nim's Standard Library")
-nbText: hlMdF"" & "<br>" & exploringNimsStandardLibrary
+nbText: hlMdF"" & exploringNimsStandardLibrary
 
 nbSection "Nim SDL2 Game Development for Beginners"
 let nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials("Nim SDL2 Game Development for Beginners")
-nbText: hlMdF"" & "<br>" & nimSDL2GameDevelopmentForBeginners
+nbText: hlMdF"" & nimSDL2GameDevelopmentForBeginners
 
 nbSection "Metaprogramming in Nim"
 let metaprogrammingInNim = findAndOutputTutorials("Metaprogramming in Nim")
-nbText: hlMdF"" & "<br>" & metaprogrammingInNim
+nbText: hlMdF"" & metaprogrammingInNim
 
 nbSection "Work in Progress"
 let workInProgress = findAndOutputTutorials("Work in Progress")
-nbText: hlMdF"" & "<br>" & workInProgress
+nbText: hlMdF"" & workInProgress
 
 nbSection "Extra Content"
 let extraContent = findAndOutputTutorials("Extra Content")
-nbText: hlMdF"" & "<br>" & extraContent
+nbText: hlMdF"" & extraContent
 
 nbUoSection "My and General Links"
 nbText: """
