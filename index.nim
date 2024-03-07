@@ -249,32 +249,32 @@ nbText: hlMdF"""
   organized by their respective video series.
   (using nbSections for the video series organization)
   
-  (Nimib tutorials are listed newest to oldest(top to bottom))
+  (Nimib tutorials are listed oldest to newest(top to bottom))
 """
 
 nbSection "Nim for Beginners"
 let nimForBeginners = findAndOutputTutorials("Nim for Beginners")
-nbText: hlMdF"" & nimForBeginners
+nbText: hlMdF"" & "<br>" & nimForBeginners
 
 nbSection "Exploring Nim's Standard Library"
 let exploringNimsStandardLibrary = findAndOutputTutorials("Exploring Nim's Standard Library")
-nbText: hlMdF"" & exploringNimsStandardLibrary
+nbText: hlMdF"" & "<br>" & exploringNimsStandardLibrary
 
 nbSection "Nim SDL2 Game Development for Beginners"
 let nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials("Nim SDL2 Game Development for Beginners")
-nbText: hlMdF"" & nimSDL2GameDevelopmentForBeginners
+nbText: hlMdF"" & "<br>" & nimSDL2GameDevelopmentForBeginners
 
 nbSection "Metaprogramming in Nim"
 let metaprogrammingInNim = findAndOutputTutorials("Metaprogramming in Nim")
-nbText: hlMdF"" & metaprogrammingInNim
+nbText: hlMdF"" & "<br>" & metaprogrammingInNim
 
 nbSection "Work in Progress"
 let workInProgress = findAndOutputTutorials("Work in Progress")
-nbText: hlMdF"" & workInProgress
+nbText: hlMdF"" & "<br>" & workInProgress
 
 nbSection "Extra Content"
 let extraContent = findAndOutputTutorials("Extra Content")
-nbText: hlMdF"" & extraContent
+nbText: hlMdF"" & "<br>" & extraContent
 
 nbUoSection "My and General Links"
 nbText: """
