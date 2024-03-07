@@ -249,7 +249,7 @@ nbText: hlMdF"""
   organized by their respective video series.
   (using nbSections for the video series organization)
   
-  (Nimib tutorials are listed oldest to newest(top to bottom))
+  (Nimib tutorials are listed newest to oldest, with the latest at the top)
 """
 
 nbSection "Nim for Beginners"
