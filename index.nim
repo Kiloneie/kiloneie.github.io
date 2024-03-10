@@ -248,24 +248,41 @@ proc findAndOutputTutorials(videoSeries: string): string =
       let length = linkSplit.name.len
 
       while index < length:
+        var previous: CharacterIndex = if index-1 > linkSplit.name.len: (linkSplit.name[index-1], index-1) else: ('@', -1)
         var current: CharacterIndex = (linkSplit.name[index], index)
         var next: CharacterIndex = if index+1 < linkSplit.name.len: (linkSplit.name[index+1], index+1) else: ('@', -1)
 
         if current.character.isUpperAscii and next.character.isUpperAscii:
           improvedName.add current.character
           improvedName.add next.character
-          improvedName.add ' '
           index += 2
+          
+          current = (linkSplit.name[index], index)
+          if current.character.isUpperAscii:
+            improvedName.add current.character
+            improvedName.add ' '
+            index += 1
+          else:
+            improvedName.add ' '
         elif current.character.isDigit and next.character.isDigit:
           if current.character != '@' or next.character != '@':
             improvedName.add ' '
             improvedName.add current.character
             improvedName.add next.character
             index += 2
+
+            current = (linkSplit.name[index], index)
+            if current.character.isDigit:
+              improvedName.add current.character
+              improvedName.add ' '
+              index += 1
+            else:
+              improvedName.add ' '
         elif current.character.isUpperAscii or current.character.isDigit:
-          improvedName.add ' '
-          improvedName.add current.character
-          index += 1
+          if not previous.character.isUpperAscii or not previous.character.isDigit:
+            improvedName.add ' '
+            improvedName.add current.character
+            index += 1
         else:
           improvedName.add current.character
           index += 1

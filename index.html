@@ -219,7 +219,7 @@ organized by their respective video series.
 <h1>Work in Progress</h1>
 <hr />
 <ul>
-<li><a href = "Work in Progress/currentWIP.html">currentWI  P</a></li>
+<li><a href = "Work in Progress/currentWIP.html">currentWIP </a></li>
 </ul>
 <p><a name = "extra-content"></a></p>
 <h1>Extra Content</h1>
@@ -494,24 +494,41 @@ addButtonBackToTop()
       <span class="hljs-keyword">let</span> length = linkSplit.name.len
 
       <span class="hljs-keyword">while</span> index &lt; length:
+        <span class="hljs-keyword">var</span> previous: <span class="hljs-type">CharacterIndex</span> = <span class="hljs-keyword">if</span> index-<span class="hljs-number">1</span> &gt; linkSplit.name.len: (linkSplit.name[index-<span class="hljs-number">1</span>], index-<span class="hljs-number">1</span>) <span class="hljs-keyword">else</span>: (<span class="hljs-string">'@'</span>, -<span class="hljs-number">1</span>)
         <span class="hljs-keyword">var</span> current: <span class="hljs-type">CharacterIndex</span> = (linkSplit.name[index], index)
         <span class="hljs-keyword">var</span> next: <span class="hljs-type">CharacterIndex</span> = <span class="hljs-keyword">if</span> index+<span class="hljs-number">1</span> &lt; linkSplit.name.len: (linkSplit.name[index+<span class="hljs-number">1</span>], index+<span class="hljs-number">1</span>) <span class="hljs-keyword">else</span>: (<span class="hljs-string">'@'</span>, -<span class="hljs-number">1</span>)
 
         <span class="hljs-keyword">if</span> current.character.isUpperAscii <span class="hljs-keyword">and</span> next.character.isUpperAscii:
           improvedName.add current.character
           improvedName.add next.character
-          improvedName.add <span class="hljs-string">' '</span>
           index += <span class="hljs-number">2</span>
+          
+          current = (linkSplit.name[index], index)
+          <span class="hljs-keyword">if</span> current.character.isUpperAscii:
+            improvedName.add current.character
+            improvedName.add <span class="hljs-string">' '</span>
+            index += <span class="hljs-number">1</span>
+          <span class="hljs-keyword">else</span>:
+            improvedName.add <span class="hljs-string">' '</span>
         <span class="hljs-keyword">elif</span> current.character.isDigit <span class="hljs-keyword">and</span> next.character.isDigit:
           <span class="hljs-keyword">if</span> current.character != <span class="hljs-string">'@'</span> <span class="hljs-keyword">or</span> next.character != <span class="hljs-string">'@'</span>:
             improvedName.add <span class="hljs-string">' '</span>
             improvedName.add current.character
             improvedName.add next.character
             index += <span class="hljs-number">2</span>
+
+            current = (linkSplit.name[index], index)
+            <span class="hljs-keyword">if</span> current.character.isDigit:
+              improvedName.add current.character
+              improvedName.add <span class="hljs-string">' '</span>
+              index += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+              improvedName.add <span class="hljs-string">' '</span>
         <span class="hljs-keyword">elif</span> current.character.isUpperAscii <span class="hljs-keyword">or</span> current.character.isDigit:
-          improvedName.add <span class="hljs-string">' '</span>
-          improvedName.add current.character
-          index += <span class="hljs-number">1</span>
+          <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> previous.character.isUpperAscii <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> previous.character.isDigit:
+            improvedName.add <span class="hljs-string">' '</span>
+            improvedName.add current.character
+            index += <span class="hljs-number">1</span>
         <span class="hljs-keyword">else</span>:
           improvedName.add current.character
           index += <span class="hljs-number">1</span>
