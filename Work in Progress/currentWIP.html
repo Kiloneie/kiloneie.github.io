@@ -64,7 +64,7 @@ pre > code {
 <li>2.2. <a href="#`nnkvarsection`"><code>nnkVarSection</code></a></li>
 <li>2.3. <a href="#`.newtree`"><code>.newTree</code></a></li>
 <li>2.4. <a href="#`nnkemptynode`"><code>nnkEmptyNode</code></a></li>
-<li>2.5. <a href="#`nnkcall`"><code>nnkCall</code></a></li>
+<li>2.5. <a href="#`nnkemptynode`-explanation-and-`nnkcall`"><code>nnkEmptyNode</code> explanation and <code>nnkCall</code></a></li>
 <li>2.6. <a href="#nnkforstmt">nnkForStmt</a></li>
 <li>2.7. <a href="#`nnkprefix`"><code>nnkPrefix</code></a></li>
 <li>2.8. <a href="#`nnkifstmt`,`nnkelifbranch`-and-`nnkelse`-nodes"><code>nnkIfStmt</code>,<code>nnkElifBranch</code> and <code>nnkElse</code> nodes</a></li>
@@ -444,7 +444,7 @@ or a type section with <code>var</code>, like how you declare objects, enumerato
 <p><a name = "`.newtree`"></a></p>
 <h2>  2.3. <code>.newTree</code></h2>
 <hr />
-<p>Appending <code>.newTree</code> to a <code>nnkStmtList</code> or <code>nnkVarSection</code> is how one adds code to something, as in append it as a container.
+<p>Appending <code>.newTree</code> to a <code>nnkStmtList</code> or <code>nnkVarSection</code> is how one adds code to something, as in append it as a container of child nodes.
 For example, using <code>.newTree</code> with the <code>nnkVarSection</code>, you will then add the <code>nnkIdent</code> identifier,
 the name of the variable you are making, followed by the value if initializing or the type if declaring,
 or both if declaring with initialization(useful for Tuples).</p>
@@ -485,8 +485,8 @@ by infering the type from the value</p>
     )
   )
 )</code></pre>
-<p><a name = "`nnkcall`"></a></p>
-<h2>  2.5. <code>nnkCall</code></h2>
+<p><a name = "`nnkemptynode`-explanation-and-`nnkcall`"></a></p>
+<h2>  2.5. <code>nnkEmptyNode</code> explanation and <code>nnkCall</code></h2>
 <hr />
 <p>As you can see the <code>newEmptyNode</code> is present for all 3 ways of making a variable.
 Initialization, declaration and declaration with initialization.</p>
@@ -660,12 +660,12 @@ Assignment and for loops don't require an identifier node for <code>in</code> an
     )
   )
 )</code></pre>
-<p>Then after the <code>nnkInfix.newTree</code> ends, separater with a comma <code>,</code>,comes the body of the <code>if</code> statement.
+<p>Then after the <code>nnkInfix.newTree</code> ends, separater with a comma <code>,</code>, comes the body of the <code>if</code> statement.
 For the <code>echo</code> to actually do something, it has to be inside either a <code>nnkCommand</code> node's <code>newTree</code>,
 or inside a <code>nnkCall</code>'s <code>.newTree</code>. In this case it is a <code>nnkCommand</code> node,
 with 2x <code>newLit</code> nodes, 1x for each of the echo's arguments.</p>
 <p>You might have noticed that the <code>newLit</code> nodes are used for both numbers and strings.
-The <code>newLit</code> node will be used for every simple data type in Nim.
+The <code>newLit</code> node will be used for every simple data type in Nim, it holds just about any data type in a string representation.
 And since this is an <code>echo</code> call which stringifies it's arguments,
 there is no need for any more specific node kind, which might be required if you are trying to do something more specific.
 Just as a reminder <code>newIdentNode</code> is used for variable names, proc names, etc.</p>
@@ -759,8 +759,8 @@ which doesn't need to be inside a <code>static</code> block if you use it with o
 <hr />
 <p>If we use a Macro with an argument, that argument can be a body of valid Nim Code,
 which the Macro will receive as a NimNode, which can then be turned into <code>string</code> with the <code>repr</code> proc.
-which can then be parsed with the <code>parseStmt</code> for multiple lines of code, and <code>parseExpr</code> for a signular line of code.</p>
-<p><strong>Here is an example of taking a block of code into a Macro and then parsing it in order to execute the given code:</strong></p>
+Which can then be parsed with the <code>parseStmt</code> for multiple lines of code, and <code>parseExpr</code> for a signular line of code.</p>
+<p><strong>Here is an example of taking a block of code into a Macro, and then parsing it in order to execute the given code:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">macro</span> executeCode(code: <span class="hljs-built_in">untyped</span>) =
   <span class="hljs-literal">result</span> = code.repr.parseStmt
   <span class="hljs-keyword">echo</span> <span class="hljs-literal">result</span>.repr <span class="hljs-comment">#the same as running this before `.parseStmt`</span>
@@ -1255,8 +1255,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   which does not output the description of the code given,
   but macro code that you can directly insert into a macro.
 &quot;&quot;&quot;</span>
-<span class="hljs-comment">#DONE first we show for `echo &quot;Hello&quot; &amp; &quot; world!&quot;</span>
-  <span class="hljs-comment">#TODO and then sugar.collect, maybe</span>
+
 nbSubSection <span class="hljs-string">&quot;`stdout.writeLine`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Here is an example of using the `dumpAstGen` macro with `stdout.writeLine`:
@@ -1485,7 +1484,7 @@ nbCodeSkip:
 
 nbSubSection <span class="hljs-string">&quot;`.newTree`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Appending `.newTree` to a `nnkStmtList` or `nnkVarSection` is how one adds code to something, as in append it as a container.
+  Appending `.newTree` to a `nnkStmtList` or `nnkVarSection` is how one adds code to something, as in append it as a container of child nodes.
   For example, using `.newTree` with the `nnkVarSection`, you will then add the `nnkIdent` identifier, 
   the name of the variable you are making, followed by the value if initializing or the type if declaring,
   or both if declaring with initialization(useful for Tuples).
@@ -1534,7 +1533,7 @@ nbCodeSnippet: <span class="hljs-string">hlnim&quot;&quot;&quot;
 )
 &quot;&quot;&quot;</span>
 
-nbSubSection <span class="hljs-string">&quot;`nnkCall`&quot;</span>
+nbSubSection <span class="hljs-string">&quot;`nnkEmptyNode` explanation and `nnkCall`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   As you can see the `newEmptyNode` is present for all 3 ways of making a variable.
   Initialization, declaration and declaration with initialization.
@@ -1743,13 +1742,13 @@ nnkStmtList.newTree(
 &quot;&quot;&quot;</span>
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Then after the `nnkInfix.newTree` ends, separater with a comma `,`,comes the body of the `if` statement.
+  Then after the `nnkInfix.newTree` ends, separater with a comma `,`, comes the body of the `if` statement.
   For the `echo` to actually do something, it has to be inside either a `nnkCommand` node's `newTree`,
   or inside a `nnkCall`'s `.newTree`. In this case it is a `nnkCommand` node, 
   with 2x `newLit` nodes, 1x for each of the echo's arguments.
 
   You might have noticed that the `newLit` nodes are used for both numbers and strings.
-  The `newLit` node will be used for every simple data type in Nim.
+  The `newLit` node will be used for every simple data type in Nim, it holds just about any data type in a string representation.
   And since this is an `echo` call which stringifies it's arguments,
   there is no need for any more specific node kind, which might be required if you are trying to do something more specific.
   Just as a reminder `newIdentNode` is used for variable names, proc names, etc.
@@ -1875,9 +1874,9 @@ nbSubSection <span class="hljs-string">&quot;Parsing Nimcode&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   If we use a Macro with an argument, that argument can be a body of valid Nim Code,
   which the Macro will receive as a NimNode, which can then be turned into `string` with the `repr` proc.
-  which can then be parsed with the `parseStmt` for multiple lines of code, and `parseExpr` for a signular line of code.
+  Which can then be parsed with the `parseStmt` for multiple lines of code, and `parseExpr` for a signular line of code.
 
-  **Here is an example of taking a block of code into a Macro and then parsing it in order to execute the given code:**
+  **Here is an example of taking a block of code into a Macro, and then parsing it in order to execute the given code:**
 &quot;&quot;&quot;</span>
 nbCode:
   <span class="hljs-keyword">macro</span> executeCode(code: <span class="hljs-built_in">untyped</span>) =
