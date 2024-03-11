@@ -65,7 +65,7 @@ pre > code {
 <li>2.3. <a href="#`.newtree`"><code>.newTree</code></a></li>
 <li>2.4. <a href="#`nnkemptynode`"><code>nnkEmptyNode</code></a></li>
 <li>2.5. <a href="#`nnkemptynode`-explanation-and-`nnkcall`"><code>nnkEmptyNode</code> explanation and <code>nnkCall</code></a></li>
-<li>2.6. <a href="#nnkforstmt">nnkForStmt</a></li>
+<li>2.6. <a href="#`nnkforstmt`"><code>nnkForStmt</code></a></li>
 <li>2.7. <a href="#`nnkprefix`"><code>nnkPrefix</code></a></li>
 <li>2.8. <a href="#`nnkifstmt`,`nnkelifbranch`-and-`nnkelse`-nodes"><code>nnkIfStmt</code>,<code>nnkElifBranch</code> and <code>nnkElse</code> nodes</a></li>
 <li>2.9. <a href="#`nnknone`"><code>nnkNone</code></a></li>
@@ -498,8 +498,8 @@ And since <code>collect</code> uses whatever logic/a body you want to collect th
 that <code>nnkCall</code> doesn't end at the end of that line, but at the end of all the logic for <code>collect</code>,
 <strong>here is an image to illustrate:</strong></p>
 <img src = "Images\EndOfnnkCall.png" alt = "EndOfnnkCall">
-<p><a name = "nnkforstmt"></a></p>
-<h2>  2.6. nnkForStmt</h2>
+<p><a name = "`nnkforstmt`"></a></p>
+<h2>  2.6. <code>nnkForStmt</code></h2>
 <hr />
 <p>This one is simple, it's a for loop, that then gets <code>.newTree</code> appended to it,
 which then contains the structure/head of the for loop, e.g. <code>for element in container:</code>.</p>
@@ -1548,7 +1548,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\EndOfnnkCall.png&quot; alt = &quot;EndOfnnkCall&quot;&gt;&quot;&quot;&quot;</span>
 
-nbSubSection <span class="hljs-string">&quot;nnkForStmt&quot;</span>
+nbSubSection <span class="hljs-string">&quot;`nnkForStmt`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   This one is simple, it's a for loop, that then gets `.newTree` appended to it,
   which then contains the structure/head of the for loop, e.g. `for element in container:`.
