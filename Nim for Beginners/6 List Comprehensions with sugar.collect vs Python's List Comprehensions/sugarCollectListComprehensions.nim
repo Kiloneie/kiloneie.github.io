@@ -575,6 +575,18 @@ nbCode:
   
   echo staffWieldersCollect
 
+nbSubSection "sugar.collect as a one-liner"
+nbText: """
+  You can also write sugar.collect as a one-liner like this:
+"""
+nbCode:
+  let evenNumbs = collect(for i in [0, 1, 2, 3, 4]: (if i mod 2 == 0: i))
+  echo evenNumbs
+
+nbText: """
+  Credits to: "razorgamedev" for pointing that out to me on the reddit post.
+"""
+
 nbSection "Performance Benchmarks"
 nbText: """
   Now i will show you performance benchmarks of 3 variants of making a new list,

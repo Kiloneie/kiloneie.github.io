@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>Video Data\sugarCollectListComprehensions.nim</title>
+  <title>..\..\Nim for Beginners\#31 Nim for Beginners List comprehensions sugar collect\#4 Sugar collect List Comprehensions\Video Data\sugarCollectListComprehensions.nim</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -43,8 +43,8 @@ pre > code {
 <body>
 <header>
 <div class="nb-box">
-  <span><a href="..">🏡</a></span>
-  <span><code>Video Data\sugarCollectListComprehensions.nim</code></span>
+  <span><a href="..\..\..\..\Current Projects\Nim for Beginners Nimble and Package Management">🏡</a></span>
+  <span><code>..\..\Nim for Beginners\#31 Nim for Beginners List comprehensions sugar collect\#4 Sugar collect List Comprehensions\Video Data\sugarCollectListComprehensions.nim</code></span>
   <span></span>
 </div>
 <hr>
@@ -72,6 +72,7 @@ pre > code {
 <li>3.3. <a href="#`collect`-with-sets"><code>collect</code> with Sets</a></li>
 <li>3.4. <a href="#`collect`-with-hashsets"><code>collect</code> with hashSets</a></li>
 <li>3.5. <a href="#`collect`-with-tables"><code>collect</code> with Tables</a></li>
+<li>3.6. <a href="#sugar.collect-as-a-one-liner">sugar.collect as a one-liner</a></li>
 </ul>
 </li>
 <li>4. <a href="#performance-benchmarks">Performance Benchmarks</a>
@@ -462,6 +463,14 @@ These types being, Sets, HashSets and Tables.</p>
 
 <span class="hljs-keyword">echo</span> staffWieldersCollect</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">{&quot;Wizard&quot;: @[&quot;Staff&quot;, &quot;Robe&quot;], &quot;Druid&quot;: @[&quot;Staff&quot;]}</pre></code></pre>
 
+<p><a name = "sugar.collect-as-a-one-liner"></a></p>
+<h2>  3.6. sugar.collect as a one-liner</h2>
+<hr />
+<p>You can also write sugar.collect as a one-liner like this:</p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">let</span> evenNumbs = collect(<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]: (<span class="hljs-keyword">if</span> i <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> == <span class="hljs-number">0</span>: i))
+<span class="hljs-keyword">echo</span> evenNumbs</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[0, 2, 4]</pre></code></pre>
+
+<p>Credits to: &quot;razorgamedev&quot; for pointing that out to me on the reddit post.</p>
 <p><a name = "performance-benchmarks"></a></p>
 <h1>4. Performance Benchmarks</h1>
 <hr />
@@ -1199,6 +1208,18 @@ nbCode:
           {class: items} <span class="hljs-comment">#Kind of bizzare way of returning</span>
   
   <span class="hljs-keyword">echo</span> staffWieldersCollect
+
+nbSubSection <span class="hljs-string">&quot;sugar.collect as a one-liner&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  You can also write sugar.collect as a one-liner like this:
+&quot;&quot;&quot;</span>
+nbCode:
+  <span class="hljs-keyword">let</span> evenNumbs = collect(<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]: (<span class="hljs-keyword">if</span> i <span class="hljs-keyword">mod</span> <span class="hljs-number">2</span> == <span class="hljs-number">0</span>: i))
+  <span class="hljs-keyword">echo</span> evenNumbs
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Credits to: &quot;razorgamedev&quot; for pointing that out to me on the reddit post.
+&quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Performance Benchmarks&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
