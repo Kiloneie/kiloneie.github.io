@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>nimblePackageManagementAndGithub.nim</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="nimib 0.3.9" name="generator">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://cdn.jsdelivr.net/gh/pietroppeter/nimib@main/assets/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+  <style>
+.nb-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb-small {
+  font-size: 0.8rem;
+}
+button.nb-small {
+  float: right;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+section#source {
+  display:none
+}
+pre > code {
+  font-size: 1.2em;
+}
+.nb-output {
+  line-height: 1.15;
+}
+</style>
+  
+</head>
+<body>
+<header>
+<div class="nb-box">
+  <span><a href=".">🏡</a></span>
+  <span><code>nimblePackageManagementAndGithub.nim</code></span>
+  <span></span>
+</div>
+<hr>
+</header><main>
+<h2>Table of Contents:</h2>
+<ul>
+<li>1. <a href="#what-is-a-package-manager-?">What is a Package Manager ?</a>
+<ul>
+<li>1.1. <a href="#why-should-you-use-one-?">Why should you use one ?</a></li>
+<li>1.2. <a href="#nimble-package-manager">Nimble Package Manager</a></li>
+</ul>
+</li>
+<li>2. <a href="#nimble-basic-usage">Nimble Basic Usage</a>
+<ul>
+<li>2.1. <a href="#update/refresh">update/refresh</a></li>
+<li>2.2. <a href="#search">search</a></li>
+<li>2.3. <a href="#install">install</a></li>
+<li>2.4. <a href="#uninstall">uninstall</a></li>
+<li>2.5. <a href="#-h-or---help-for-help/manual">-h or --help for help/manual</a></li>
+<li>2.6. <a href="#usage-with-github">Usage with github</a></li>
+</ul>
+</li>
+<li>3. <a href="#creating-packages-using-nimble">Creating Packages using Nimble</a>
+<ul>
+<li>3.1. <a href="#`.nimble`-file-structure"><code>.nimble</code> file structure</a></li>
+<li>3.2. <a href="#checking,-installing-and-uninstalling-your-own-packages">Checking, Installing and Uninstalling your own Packages</a></li>
+<li>3.3. <a href="#nimble-init">nimble init</a></li>
+<li>3.4. <a href="#directory-layout-for-library/module-type-packages">Directory layout for library/module type packages</a></li>
+</ul>
+</li>
+<li>4. <a href="#compiling-with-nimble-vs-nim">Compiling with Nimble vs Nim</a></li>
+<li>5. <a href="#dependencies">Dependencies</a>
+<ul>
+<li>5.1. <a href="#bleeding-edge-dependencies">Bleeding edge dependencies</a></li>
+<li>5.2. <a href="#unit-testing-with-nimble">Unit Testing with Nimble</a></li>
+</ul>
+</li>
+<li>6. <a href="#publishing">Publishing</a>
+<ul>
+<li>6.1. <a href="#creating-a-github-account">Creating a Github account</a></li>
+<li>6.2. <a href="#creating-a-github-repository">Creating a Github repository</a></li>
+<li>6.3. <a href="#adding-your-package-to-your-repository">Adding your package to your repository</a></li>
+</ul>
+</li>
+<li>7. <a href="#some-more-useful-commands">Some more useful commands</a></li>
+<li>8. <a href="#cons-of-nimble">Cons of Nimble</a>
+<ul>
+<li>8.1. <a href="#atlas-package-cloner">Atlas Package Cloner</a></li>
+</ul>
+</li>
+</ul>
+      <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+      <style>
+      body {} <!-- This is a comment, this needs to be here body {} -->
+
+      #toTop {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTop:hover {background-color: #555;}
+
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
+      </style>
+      <body>
+
+      <button onclick = "topFunction()" id = "toTop" title = "Go to top">Top</button>
+      <button onclick = "topFunction()" id = "toTopMobile" title = "Go to top">Top</button>
+
+      <script>
+        // Get the button
+        let myButton = document.getElementById("toTop");
+        let myButtonMobile = document.getElementById("toTopMobile");
+        var currentButton = myButton
+
+        var hasTouchScreen = false;
+
+        //var contentBody = document.getElementsByTagName("body"); //gives a query object
+
+        //myButton.style.color = "red"; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop > 20 || document.documentElement.scrollTop > 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if ("maxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints > 0;
+          } 
+        else if ("msMaxTouchPoints" in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints > 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+
+            if (mQ && mQ.media === "(pointer:coarse)") 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+              currentButton.style.display = "block";
+            } else {currentButton.style.display = "none";}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+      </script>
+    
+<h2>INTRO - GREETING</h2>
+<ul>
+<li><strong>Title</strong>: Nimble, Package Management, Github and Atlas Package Cloner</li>
+<li><strong>Alt Title</strong>: Nimble, Package Management and Github</li>
+<li><strong>Prerequired knowledge:</strong> At least a few Nim for Beginners videos</li>
+</ul>
+<h2>INTRO - FOREWORDS</h2>
+<p><strong>(What is the purpose of this video ?)</strong></p>
+<ul>
+<li>Nimble, Package Management, Github and Atlas Package Cloner:
+<ul>
+<li>In this video we will go over Package Managers.
+Creating a package using Nimble the default Package Manager for Nim.</li>
+</ul>
+Creating your own repository on Github, uploading your package to Github,
+and Atlas the Package Cloner as an alternative to the Nimble Package Manager.</li>
+</ul>
+<p>The code for this video and it's script/documentation styled with nimib,
+is in the link in the description as a form of written tutorial.</p>
+<p><a name = "what-is-a-package-manager-?"></a></p>
+<h1>1. What is a Package Manager ?</h1>
+<hr />
+<p>A package manager is a program with a repository of libraries/modules and programs,
+with functionality to easily search, download and install,
+a package with all the required dependency packages containing libraries/modules.
+A package manager can also help with development of your own libraries/modules and programs,
+and their distribution/sharing.</p>
+<p><a name = "why-should-you-use-one-?"></a></p>
+<h2>  1.1. Why should you use one ?</h2>
+<hr />
+<p>Unless you wish to manually search, download and install,
+and repeat that process for every dependancy that package may have,
+and repeat that process yet again when wanting to update,
+you should use a Package Manager</p>
+<pre><div style = "font-size: 10px">
+Linux distributions use package managers for all their program and library needs, with auto update functionality
+
+Windows does not have that, well it does, but package managers for Windows,
+barely scratch the surface of the crazy vastness of programs and libraries that Windows has.
+Therefore, if many of the programs, libraries you use are not in a package manager, you are better off without one
+</div></pre>
+<p><a name = "nimble-package-manager"></a></p>
+<h2>  1.2. Nimble Package Manager</h2>
+<hr />
+<p>We have already used a bit of <code>nimble</code> the default package manager bundled with all the recent Nim versions,
+in the first &quot;Nim SDL 2 Game Development for Beginners&quot; video.
+Now we will refresh that knowledge and expand upon it.</p>
+<p>Nimble's repository is at &quot;https://github.com/nim-lang/packages&quot; with an overview at &quot;https://nimble.directory/&quot;.
+If a package is in that repository, you can simply install it with <code>nimble install desiredPackage</code>.
+There are also packages that are NOT in nimble's repository, but instead on <code>github</code>.
+Those require the installation of the <code>git</code> program from this link: <a href="https://git-scm.com/downloads" title="Git">Git</a>.
+There is also the <code>github desktop</code> a graphical version of the <code>git</code> program,
+if that is your preference <a href="https://desktop.github.com/" title="Github Desktop">Github Desktop</a>.</p>
+<pre><div style = "font-size: 10px">
+Nimble also supports `Mercurial` repositories
+https://nimpkgs.dayl.in/ another `nimble` repo
+https://nimble.eu.org/ another `nimble` repo
+</div></pre>
+<p><a name = "nimble-basic-usage"></a></p>
+<h1>2. Nimble Basic Usage</h1>
+<hr />
+<p>The following are nimble commands that are required for basic usage of nimble:</p>
+<ul>
+<li>nimble update/refresh - to update the packages list</li>
+<li>nimble search - to find the desired module/program</li>
+<li>nimble install - to install the desired module/program and it's dependencies</li>
+<li>nimble uninstall</li>
+<li>nimble -h - for the full list of nimble commands
+<ul>
+<li>you can also just type <code>nimble</code> and get the same</li>
+</ul>
+</li>
+</ul>
+<p><a name = "update/refresh"></a></p>
+<h2>  2.1. update/refresh</h2>
+<hr />
+<img src = "images\nimbleUpdate.png">
+<img src = "images\nimbleRefresh.png">
+<h6>I am using the `nu` shell that works on all platforms</h6>
+<p><a name = "search"></a></p>
+<h2>  2.2. search</h2>
+<hr />
+<p><code>nimble search</code> does not work with github urls</p>
+<img src = "images\nimbleSearch.png">
+<p><a name = "install"></a></p>
+<h2>  2.3. install</h2>
+<hr />
+<img src = "images\nimbleInstall.png">
+<p>The install command can be used in the following ways:</p>
+<ul>
+<li>nimble install - to install your own local package when inside of it's folder(top most level)
+<ul>
+<li>Due note that any dependencies it may have, will be installed globally</li>
+</ul>
+</li>
+<li>nimble install packageName
+<ul>
+<li><code>nimble install owlkettle</code></li>
+</ul>
+</li>
+<li>nimble install URLtoArepo
+<ul>
+<li><code>nimble install &quot;https://github.com/nim-lang/atlas&quot;</code></li>
+</ul>
+</li>
+<li>nimble install packageName@version
+<ul>
+<li><code>nimble install owlkettle@2.2.0</code></li>
+<li><code>nimble install owlkettle@&gt;=2.2.0</code></li>
+<li><code>nimble install &quot;owlkettle@&gt;=2.2.0&quot;</code></li>
+<li>`nimble install owlkettle@#head - latest devel(development) version</li>
+</ul>
+</li>
+<li>nimble install [package1, package2] - for multi package install
+<ul>
+<li><code>nimble install [c2nim, owlkettle]</code></li>
+</ul>
+</li>
+</ul>
+<p><a name = "uninstall"></a></p>
+<h2>  2.4. uninstall</h2>
+<hr />
+<img src = "images\nimbleUninstall.png">
+<ul>
+<li>nimble uninstall packageName</li>
+<li>nimble uninstall [pkg1, pkg2]
+<ul>
+<li><code>nimble uninstall [c2nim, owlkettle]</code></li>
+</ul>
+</li>
+</ul>
+<p><a name = "-h-or---help-for-help/manual"></a></p>
+<h2>  2.5. -h or --help for help/manual</h2>
+<hr />
+<img src = "images\nimbleHelp.png">
+<p>This goes on for a bit</p>
+<p><a name = "usage-with-github"></a></p>
+<h2>  2.6. Usage with github</h2>
+<hr />
+<img src = "images\nimbleInstallGithub.png">
+<img src = "images\nimbleUninstallGithub.png">
+<p><a name = "creating-packages-using-nimble"></a></p>
+<h1>3. Creating Packages using Nimble</h1>
+<hr />
+<p><a name = "`.nimble`-file-structure"></a></p>
+<h2>  3.1. <code>.nimble</code> file structure</h2>
+<hr />
+<p>All nimble packages end with <code>.nimble</code> file extension, and they all have a certain file structure,
+of package information and dependencies.</p>
+<p><strong>The following example showcases the <code>.nimble</code> file structure:</strong></p>
+<img src = "images\nimbleFileStructure.png">
+<p><a name = "checking,-installing-and-uninstalling-your-own-packages"></a></p>
+<h2>  3.2. Checking, Installing and Uninstalling your own Packages</h2>
+<hr />
+<p>Once you are inside the top level of your Package's folder(current working directory),
+e.g. opening the first folder called MyPackage with VS Code,
+or navigating to there with a command line/terminal,
+you can then install your package by simply calling <code>nimble install</code>,
+and to uninstall you can then use the name you chose for your package,
+which will be the top most folder the package is in(current working directory), so in my case &quot;MyPackage&quot;.</p>
+<p>But before all that, there is a <code>nible check</code> command, that verifies the validity of your nimble package</p>
+<p><strong>Check</strong></p>
+<img src = "images\nimbleCheck.png">
+<p><strong>Install</strong></p>
+<img src = "images\nimbleInstallYourPackage.png">
+<p><strong>Uninstall</strong></p>
+<img src = "images\nimbleUninstallYourPackage.png">
+<p><a name = "nimble-init"></a></p>
+<h2>  3.3. nimble init</h2>
+<hr />
+<p>By typing <code>nimble init</code> when inside the top most level of your package(current working directory),
+via VS Code or an external terminal, it will start a setup process to create a new package,
+a new <code>.nimble</code> file, via prompts that will be asked of you,
+like shown in the image below:</p>
+<img src = "images\nimbleInit.png">
+<p>The above will create the following folders and files:</p>
+<img src = "images\nimbleInitOutput1.png">
+<img src = "images\nimbleInitOutput2.png">
+<p><a name = "directory-layout-for-library/module-type-packages"></a></p>
+<h2>  3.4. Directory layout for library/module type packages</h2>
+<hr />
+<p>There is a directory layout that library/module type <code>nimble</code> packages must follow.</p>
+<p>if you wish to be able to import them in the following way <code>import mypackage/math/addition</code>(letter case does NOT matter here).
+The directory structure must have a second folder named exactly the same as the package's
+folder's name. In this example &quot;MyPackage&quot; is the name of the package and the folder,
+which then has another folder of the same name to contain YOUR OWN modules for that package.</p>
+<img src = "images\nimbleDirectoryLayout.png">
+<p><strong>NOTE:</strong> Nimble packages <code>.nimble</code>, like with <code>config.nims</code> configuration files,
+use a subset of Nim's features in order to configure the package with code logic.</p>
+<p>Make sure to use the export symbol <code>*</code> for the procs, data types, etc,
+you want to be able to use directly from your main program.</p>
+<img src = "images\exportSymbol.png">
+<p>And now the desired import layout with the exported <code>sum</code> proc used</p>
+<img src = "images\importLayout.png">
+<p><code>when isMainModule</code> will only run when this &quot;myPackage.nim&quot; is being compiled DIRECTLY,
+and not from nimble or other nim files.</p>
+<p><a name = "compiling-with-nimble-vs-nim"></a></p>
+<h1>4. Compiling with Nimble vs Nim</h1>
+<hr />
+<p>You can also use <code>nimble</code> itself to compile Nim files,
+but it will not import any modules whose packages were not directly specified as a dependancy.
+Only the Nim's Standard Library is the exception here.</p>
+<p>This can very useful to be ran before publishing your package for the first time,
+or updating it on Github, since it erroring,
+will mean that if you were to publish or update your package without specifying dependencies,
+the user of your package will receive a broken package.</p>
+<p><a name = "dependencies"></a></p>
+<h1>5. Dependencies</h1>
+<hr />
+<p>In order to add dependencies for your package so that it will run correctly for others,
+or yourself on a different computer, you need to add them to the setting variable of,
+<code>requires</code>, by appending additional dependencies as string(like an argument),
+after the initial dependency of the version of Nim, like this:</p>
+<img src = "images\nimbleDependencies.png">
+<p><a name = "bleeding-edge-dependencies"></a></p>
+<h2>  5.1. Bleeding edge dependencies</h2>
+<hr />
+<p>If you wish to use the current/latest development version(made with nimble develop) of a package,
+in order to be on the bleeding edge, or help with the development of a package,
+you can do this by adding <code>#head</code> after the name of the dependency in string,
+like this:</p>
+<img src = "images\nimbleBleedingEdge.png">
+<p><a name = "unit-testing-with-nimble"></a></p>
+<h2>  5.2. Unit Testing with Nimble</h2>
+<hr />
+<p>I have not yet shown you the <code>unittest</code> module made specifically for testing code,
+which is used by the Nim's developers and a lot of other Nim users, to have people contribute code,
+and then if it passes trough the tests, is then considered mostly safe and ready to be integrated.
+This is just one of the bigger use cases for the <code>unittest</code> module.</p>
+<p>Nimble can run these tests for you via <code>nimble taskName</code>,
+<strong>but first you must add the following code to your <code>.nimble</code> file of your package:</strong></p>
+<pre><code class="nohighlight hljs nim">task test, <span class="hljs-string">&quot;Running myPackage's test&quot;</span>:
+  exec <span class="hljs-string">&quot;nim c -r tests/myTest.nim&quot;</span></code></pre>
+<img src = "images\nimbleTask.png">
+<p>Once the <code>task</code> is set, we create the <code>tests</code> folder and in it <code>myTest.nim</code>,
+with the following <code>unittest</code> code for a simple example:</p>
+<img src = "images\nimbleTaskCode.png">
+<p>Now, every <code>unittest</code> test, starts with the <code>suite</code> template that starts a block of our tests,
+with a given name. Then inside it's block, we use the <code>test</code> template for our named tests,
+and inside of these tests, we use the <code>check</code> macro for the logic.
+If the condition inside the <code>check</code> macro is true, then the test passes with <code>[OK]</code>,
+otherwise it fails with a <code>[FAILED]</code>, and before it the error message.</p>
+<p><strong>Here is how the output looks like when the tests pass using the &quot;nimble myTask&quot;, in our case <code>nimble test</code>:</strong></p>
+<img src = "images\nimbleTestOK.png">
+<p><strong>And here is how it looks like if one of the tests fails<code>(check(2 == 2) was changed to check(1 == 2))</code>:</strong></p>
+<img src = "images\nimbleTestFAIL.png">
+<p><a name = "publishing"></a></p>
+<h1>6. Publishing</h1>
+<hr />
+<p>In order to publish your own packages so that others may find them and use them,
+you will need to use a code sharing repository like Github.
+Github is by far the most popular code sharing repository out there today.
+There are of course some others, but since Github is so popular and Nim uses it for it's compiler etc,
+we will use it as well.</p>
+<p><a name = "creating-a-github-account"></a></p>
+<h2>  6.1. Creating a Github account</h2>
+<hr />
+<p>First things first, we will need to make Github account if you don't already.
+So head on to the <a href="https://github.com/">Github's website</a>.</p>
+<p><strong>And follow the instructions to create your account(enter an email into that field):</strong></p>
+<img src = "images\githubWebsite.png">
+<img src = "images\githubWebsite2.png">
+<p><a name = "creating-a-github-repository"></a></p>
+<h2>  6.2. Creating a Github repository</h2>
+<hr />
+<p>Once you are done creating your Github account(or you skipped that part),
+we will create a new Github repository for your package in the steps shown below:</p>
+<img src = "images\githubCreatingArepository.png">
+<img src = "images\githubCreatingArepository2.png">
+<img src = "images\githubCreatingArepository3.png">
+<img src = "images\githubCreatingArepository4.png">
+<p><a name = "adding-your-package-to-your-repository"></a></p>
+<h2>  6.3. Adding your package to your repository</h2>
+<hr />
+<p>To add your package to your repository, you can do so using either <code>Git</code> commands,
+or the <code>Github Desktop</code> graphical program.</p>
+<p>We will use <code>Github Desktop</code> as it is much easier to use, and in my personal opinion,
+much easier to navigate.</p>
+<p><strong>So first off let's download and install it <a href="https://desktop.github.com/">Github Desktop</a>:</strong> <br>
+(It should also work on Linux, but i have not tested it)</p>
+<img src = "images\githubDesktop.png">
+<p>Clicking the <code>Download for Windows (64bit)</code>, will immediately start the download for you.
+Go ahead and install it. Once done, it should either launch on it's own, or you should do it manually.</p>
+<p><strong>Once open, you should see a similar window to the one below(i already have repositories added,
+so it might be a bit different):</strong></p>
+<img src = "images\githubDesktop2.png">
+<p>You can also create a brand new repository using <code>Github Desktop</code> instead of using the <code>Github Website</code>,
+like this:</p>
+<img src = "images\githubDesktop3.png">
+<img src = "images\githubDesktop4.png">
+<p>Now, since we have already made a repo using the <code>Github's Website</code>,
+in order to connect the repository on Github with our <code>myPackage</code> folder and it's files,
+<strong>we have to <code>clone</code> the repository we have made on Github like this:</strong></p>
+<img src = "images\githubDesktop5.png">
+<img src = "images\githubDesktop6.png">
+<p>We are now inside our <code>myPackage</code> repository like seen in <code>Github Desktop</code> in the top left corner.</p>
+<img src = "images\githubDesktop7.png">
+<p>Now we have to add our folder of where we first made our <code>myPackage</code>,
+into the repository's folder, which can easily be accessed by clicking the <strong>following button:</strong></p>
+<img src = "images\githubDesktop8.png">
+<p>By copy pasting our <code>myPackage</code> folder into the repository's folder, like this:</p>
+  <h6>(you should not see the `git` folder over there, i am seeing it because i enabled seeing HIDDEN files)</h6>
+<img src = "images\githubDesktop9.png">
+<p>Will cause <code>Github Desktop</code> to immediately detect the changes like this:</p>
+<img src = "images\githubDesktop10.png">
+<p>Now what we have to do is, commit these changes to the <code>main</code> and only current branch of our repository,
+by first giving a <code>summary</code>/title with a description, which once commited and pushed to origin,
+will be stored on Github as information for you and others if you made your repository public.
+This information can be quite helpful, and Github will store all changes to the repository WITH these descriptions,
+which you can then easily view once pushed to Github, more on that later.</p>
+<p><strong>So let's give our changes some simple information and click the blue button of <code>Commit to main</code>:</strong></p>
+<img src = "images\githubDesktop11.png">
+<p>Now the changes are commited, but we still need to upload them to Github,
+by clicking the <code>Publish branch</code>(if you already have a branch on your repository, the button will instead read,
+<code>Push to origin</code>).</p>
+<p>If the changes were pushed to origin/uploaded successfully, you should see the initial Github Desktop window,
+<strong>like this:</strong></p>
+<img src = "images\githubDesktop12.png">
+<p>And with that, you should see the following on your <code>Github repository</code>:</p>
+<img src = "images\githubDesktop13.png">
+<p><a name = "some-more-useful-commands"></a></p>
+<h1>7. Some more useful commands</h1>
+<hr />
+
+<p><a name = "cons-of-nimble"></a></p>
+<h1>8. Cons of Nimble</h1>
+<hr />
+<p><a name = "atlas-package-cloner"></a></p>
+<h2>  8.1. Atlas Package Cloner</h2>
+<hr />
+<h1>Outro - Afterwords</h1>
+<hr />
+<p>Okay, that's it for this video, thanks for watching like, share and subscribe,
+aswell as click the bell icon if you liked it and want more,
+you can also support me on Patreon.
+If you had any problems with any part of the video,
+let me know in the comment section,
+the code of this video, script and documentation, are in the link in the description,
+as a form of written tutorial.</p>
+<h1>Thanks to my past and current Patrons</h1>
+<hr />
+<h2>Past Patrons</h2>
+<hr />
+<ul>
+<li>Goose_Egg: From April 4th 2021 to May 10th 2022</li>
+<li>Davide Galilei(1x month)</li>
+</ul>
+<h2>Current Patrons</h2>
+<hr />
+<ul>
+<li>jaap groot (from October 2023)</li>
+<li>Dimitri Lesnoff (from October 2023)</li>
+</ul>
+<h2>Compiler Information</h2>
+<hr />
+<ul>
+<li>Version used: E.G. 2.0.2</li>
+<li>Compiler settings used: none, ORC is now the default memory management option(mm:orc)</li>
+</ul>
+<h2>My and General Links</h2>
+<hr />
+<ul>
+<li><a href="https://www.patreon.com/Kiloneie?fan_landing=true" title="Patreon">Patreon</a></li>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" title="Visual Studio Code Shortcuts">Visual Studio Code Shortcuts</a></li>
+</ul>
+<h2>Links to this video's subject:</h2>
+<hr />
+<ul>
+<li><a href="https://git-scm.com/downloads" title="Git">Git</a></li>
+<li><a href="https://tom.preston-werner.com/2009/05/19/the-git-parable.html" title="Git explanation">Git explanation</a></li>
+<li><a href="https://desktop.github.com/" title="Github Desktop">Github Desktop</a></li>
+<li><a href="https://semver.org/" title="Semver">If you want to use Semantic Versioning, read this</a></li>
+<li><a href="https://livebook.manning.com/book/nim-in-action/chapter-5/" title="Nim in Action Chapter 5. Package management(paid book)">Nim in Action Chapter 5. Package management(paid book)</a></li>
+<li><a href="https://github.com/nim-lang/nimble" title="Nimble package manager">Nimble package manager - with more detailed information on commands i have not covered</a></li>
+<li><a href="https://github.com/nim-lang/atlas" title="Atlas package cloner">Atlas package cloner</a></li>
+</ul>
+</main>
+<footer>
+<div class="nb-box">
+  <span><span class="nb-small">made with <a href="https://pietroppeter.github.io/nimib/">nimib 🐳</a></span></span>
+  <span></span>
+  <span><button class="nb-small" id="show" onclick="toggleSourceDisplay()">Show Source</button></span>
+</div>
+</footer>
+<section id="source">
+<pre><code class="nohighlight nim hljs"><span class="hljs-comment">#Do NOT use {} inside nbText: hlMdF&quot;&quot;&quot; &quot;&quot;&quot; fields, sometimes it will error, not always</span>
+<span class="hljs-comment">#When using - to make a line a list item, you cannot have ANY one of the lines be an empty line</span>
+<span class="hljs-comment">#Use spaces by a factor of 2x for indentation in levels</span>
+<span class="hljs-comment"># *text* italic</span>
+<span class="hljs-comment"># **text** for bold instead of &lt;b&gt;&lt;/b&gt;</span>
+<span class="hljs-comment"># ***text*** italic bold</span>
+<span class="hljs-comment">#Link 1 - &lt;a href = &quot;link&quot;&gt;&lt;/a&gt;</span>
+<span class="hljs-comment">#Link 2 - [name](link)</span>
+<span class="hljs-comment">#Link 3 `name &lt;link&gt;`_ -&gt; without a name works too</span>
+<span class="hljs-comment">#nbCodeSkip -&gt; skips the output/echo calls from the file, everything else remains the same</span>
+<span class="hljs-comment">#nbCodeInBlock -&gt; opens up a new scope like the &quot;block&quot; statement, useful for when you don't want to use different variable names etc</span>
+<span class="hljs-comment">#https://pietroppeter.github.io/nimib/allblocks.html</span>
+<span class="hljs-comment">#nbShow is super useful!</span>
+<span class="hljs-comment">#&lt;code&gt;&lt;/code&gt; makes text with a background</span>
+
+<span class="hljs-comment">#https://nim-lang.org/docs/manual.html#lexical-analysis-raw-string-literals raw strings r&quot;&quot;</span>
+
+<span class="hljs-keyword">import</span> nimib, std/strutils, std/strformat <span class="hljs-comment">#You can use nimib's custom styling or HTML &amp; CSS</span>
+
+nbInit()
+nb.darkMode()
+<span class="hljs-comment">#nbShow() #This will auto open this file in the browser, but it does not check if it is already open</span>
+  <span class="hljs-comment">#so it keeps bloody opening one after another, i just want a way to update changes quickly</span>
+
+<span class="hljs-comment"># customize source highlighting:</span>
+nb.context[<span class="hljs-string">&quot;highlight&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css&quot;&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># a custom text block that shows markdown source</span>
+<span class="hljs-keyword">template</span> nbTextWithSource*(body: <span class="hljs-built_in">untyped</span>) =
+  newNbBlock(<span class="hljs-string">&quot;nbTextWithSource&quot;</span>, <span class="hljs-literal">false</span>, nb, nb.blk, body):
+    nb.blk.output = body
+  nb.blk.context[<span class="hljs-string">&quot;code&quot;</span>] = body
+
+nb.renderPlans[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = @[<span class="hljs-string">&quot;mdOutputToHtml&quot;</span>]
+nb.partials[<span class="hljs-string">&quot;nbTextWithSource&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;{{&amp;outputToHtml}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot;&gt;{{code}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#Overriding nimib's nbCode -&gt; with a version that has horizontal scroll for overflowing output</span>
+<span class="hljs-keyword">import</span> nimib / [capture]
+
+<span class="hljs-keyword">template</span> nbCode(body: <span class="hljs-built_in">untyped</span>) {.used.} =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCode&quot;</span>, body): <span class="hljs-comment">#Writes to stdout `lineNumb typeOfNBblock: a bit of first line</span>
+    captureStdout(nb.blk.output):
+      body
+
+nb.partials[<span class="hljs-string">&quot;nbCode&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;
+{{&gt;nbCodeSource}}
+&lt;pre&gt;&lt;code class=\&quot;language-markdown\&quot; style = &quot;color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;&quot;&gt;{{&gt;nbCodeOutput}}&lt;/code&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span> 
+nb.renderPlans[<span class="hljs-string">&quot;nbCode&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>] <span class="hljs-comment"># default partial automatically escapes output (code is escaped when highlighting)</span>
+
+<span class="hljs-comment"># how to add a ToC</span>
+<span class="hljs-keyword">var</span>
+  nbToc: <span class="hljs-type">NbBlock</span>
+
+<span class="hljs-keyword">template</span> addToc =
+  newNbBlock(<span class="hljs-string">&quot;nbText&quot;</span>, <span class="hljs-literal">false</span>, nb, nbToc, <span class="hljs-string">&quot;&quot;</span>):
+    nbToc.output = <span class="hljs-string">&quot;## Table of Contents:</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+
+<span class="hljs-keyword">var</span> index = (section: <span class="hljs-number">0</span>, subsection: <span class="hljs-number">0</span>)
+
+<span class="hljs-keyword">template</span> nbSection(name: <span class="hljs-built_in">string</span>) {.used.} =
+  index.section.inc
+  index.subsection = <span class="hljs-number">0</span> <span class="hljs-comment">#Reset on a new nbSection</span>
+
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name = </span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; $index.section &amp; <span class="hljs-string">&quot;. &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+  <span class="hljs-comment"># see below, but any number works for a numbered list</span>
+  nbToc.output.add <span class="hljs-string">&quot;- &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span> <span class="hljs-comment">#&amp;#92; is HTML code for &quot;\&quot;, you can also &quot;\\&quot; or r&quot;\&quot;</span>
+  <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-keyword">template</span> nbSubSection(name: <span class="hljs-built_in">string</span>) {.used.} =
+  index.subsection.inc
+
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name = </span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; <span class="hljs-string">&quot;&amp;nbsp;&amp;nbsp;&quot;</span> &amp; $index.section &amp; <span class="hljs-string">&quot;.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">&quot;. &quot;</span>  &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span> <span class="hljs-comment">#&amp;nbsp; is inline HTML for a single white space(nothing in markdown)</span>
+  <span class="hljs-comment"># see below, but any number works for a numbered list</span>
+  nbToc.output.add <span class="hljs-string">&quot;  - &quot;</span> &amp; $index.section &amp; <span class="hljs-string">r&quot;\.&quot;</span> &amp; $index.subsection &amp; <span class="hljs-string">r&quot;\. &quot;</span> &amp; <span class="hljs-string">&quot;&lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+  <span class="hljs-comment">#If you get an error from the above line, addToc must be ran before any nbSection </span>
+
+<span class="hljs-keyword">template</span> nbUoSection(name: <span class="hljs-built_in">string</span>) {.used.} =
+  nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string"># &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+
+<span class="hljs-keyword">template</span> nbUoSubSection(name: <span class="hljs-built_in">string</span>) {.used.} =
+  nbText <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-string">## &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+
+<span class="hljs-keyword">template</span> nbCodeSnippet(body: <span class="hljs-built_in">untyped</span>) =
+  newNbCodeBlock(<span class="hljs-string">&quot;nbCodeSnippet&quot;</span>, body):
+    nb.blk.output = body
+
+nb.partials[<span class="hljs-string">&quot;nbCodeSnippet&quot;</span>] = <span class="hljs-string">&quot;&quot;&quot;&lt;pre&gt;&lt;code class=&quot;hlNim&quot;&gt;{{&amp;output}}&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
+nb.renderPlans[<span class="hljs-string">&quot;nbCodeSnippet&quot;</span>] = @[<span class="hljs-string">&quot;highlightCode&quot;</span>]
+
+<span class="hljs-comment">#Updating the same file is shown instantly once deployed via Github Page on PC. </span>
+  <span class="hljs-comment">#Mobile takes either a random amount of time, or NOT at all!</span>
+<span class="hljs-keyword">template</span> addButtonBackToTop() =
+  nbRawHtml: <span class="hljs-string">hlHtml&quot;&quot;&quot;
+      &lt;meta name = &quot;viewport&quot; content = &quot;width = device-width, initial-scale = 1&quot;&gt;
+      &lt;style&gt;
+      body {} &lt;!-- This is a comment, this needs to be here body {} --&gt;
+
+      #toTop {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTop:hover {background-color: #555;}
+
+      #toTopMobile {
+        display: none;
+        position: fixed;
+        bottom: -5px;
+        right: -5px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #1A222D;
+        opacity: .2;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      #toTopMobile:hover {background-color: #555;}
+      
+      &lt;/style&gt;
+      &lt;body&gt;
+
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTop&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+      &lt;button onclick = &quot;topFunction()&quot; id = &quot;toTopMobile&quot; title = &quot;Go to top&quot;&gt;Top&lt;/button&gt;
+
+      &lt;script&gt;
+        // Get the button
+        let myButton = document.getElementById(&quot;toTop&quot;);
+        let myButtonMobile = document.getElementById(&quot;toTopMobile&quot;);
+        var currentButton = myButton
+
+        var hasTouchScreen = false;
+
+        //var contentBody = document.getElementsByTagName(&quot;body&quot;); //gives a query object
+
+        //myButton.style.color = &quot;red&quot;; //This works
+        //myButton.textContent = contentBody; //This also works .innerHTML, .innerText
+        //document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20
+        //Above could be used to position the button relativly ?
+
+        // Detecting if the device is a mobile device
+        if (&quot;maxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.maxTouchPoints &gt; 0;
+          } 
+        else if (&quot;msMaxTouchPoints&quot; in navigator) 
+          {
+            hasTouchScreen = navigator.msMaxTouchPoints &gt; 0;
+          } 
+        else 
+          {
+            var mQ = window.matchMedia &amp;&amp; matchMedia(&quot;(pointer:coarse)&quot;);
+
+            if (mQ &amp;&amp; mQ.media === &quot;(pointer:coarse)&quot;) 
+              {
+                hasTouchScreen = !!mQ.matches;
+              } 
+            else if ('orientation' in window) 
+              {
+                hasTouchScreen = true; // deprecated, but good fallback
+              } 
+            else 
+              {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                    );
+              }
+          }
+
+        if (hasTouchScreen)
+            currentButton = myButtonMobile
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() 
+          {
+            scrollFunction()
+          };
+
+        function scrollFunction() 
+          {
+            if (document.body.scrollTop &gt; 20 || document.documentElement.scrollTop &gt; 20) {
+              currentButton.style.display = &quot;block&quot;;
+            } else {currentButton.style.display = &quot;none&quot;;}
+          }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+      &lt;/script&gt;
+    &quot;&quot;&quot;</span>
+
+<span class="hljs-comment">#TABLE OF CONTENTS - MUST BE RUN BEFORE ANY nbSection !!!</span>
+addToc() 
+addButtonBackToTop()
+
+<span class="hljs-comment">#Use Live Preview Extension and set the Auto Refresh Preview set to &quot;On changes to Saved Files&quot;</span>
+  <span class="hljs-comment">#And Server Keep Alive After Embedded Preview Close set to 0, </span>
+  <span class="hljs-comment">#so that we no longer need the preview embedded window, we now have it in the browser!</span>
+    <span class="hljs-comment">#Live SERVER Extension no longer works, even with the .html file kept open</span>
+
+<span class="hljs-comment">###############</span>
+<span class="hljs-comment">#START OF FILE#</span>
+<span class="hljs-comment">###############</span>
+
+<span class="hljs-comment">#Adding hlMd enables nimiboost's markdown highlight mode. hlMdf adds the fmt&quot;{var}&quot; functionality</span>
+nbText: <span class="hljs-string">hlmdf&quot;&quot;&quot;
+## INTRO - GREETING
+- **Title**: Nimble, Package Management, Github and Atlas Package Cloner
+- **Alt Title**: Nimble, Package Management and Github
+- **Prerequired knowledge:** At least a few Nim for Beginners videos
+
+## INTRO - FOREWORDS
+**(What is the purpose of this video ?)**
+- Nimble, Package Management, Github and Atlas Package Cloner:
+  - In this video we will go over Package Managers.
+  Creating a package using Nimble the default Package Manager for Nim.
+  Creating your own repository on Github, uploading your package to Github,
+  and Atlas the Package Cloner as an alternative to the Nimble Package Manager.
+   
+The code for this video and it's script/documentation styled with nimib,
+is in the link in the description as a form of written tutorial.
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;What is a Package Manager ?&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  A package manager is a program with a repository of libraries/modules and programs,
+  with functionality to easily search, download and install, 
+  a package with all the required dependency packages containing libraries/modules.
+  A package manager can also help with development of your own libraries/modules and programs,
+  and their distribution/sharing.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Why should you use one ?&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Unless you wish to manually search, download and install, 
+  and repeat that process for every dependancy that package may have,
+  and repeat that process yet again when wanting to update,
+  you should use a Package Manager
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+&lt;pre&gt;&lt;div style = &quot;font-size: 10px&quot;&gt;
+Linux distributions use package managers for all their program and library needs, with auto update functionality
+
+Windows does not have that, well it does, but package managers for Windows,
+barely scratch the surface of the crazy vastness of programs and libraries that Windows has.
+Therefore, if many of the programs, libraries you use are not in a package manager, you are better off without one
+&lt;/div&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Nimble Package Manager&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  We have already used a bit of `nimble` the default package manager bundled with all the recent Nim versions,
+  in the first &quot;Nim SDL 2 Game Development for Beginners&quot; video.
+  Now we will refresh that knowledge and expand upon it.
+
+  Nimble's repository is at &quot;https://github.com/nim-lang/packages&quot; with an overview at &quot;https://nimble.directory/&quot;.
+  If a package is in that repository, you can simply install it with `nimble install desiredPackage`.
+  There are also packages that are NOT in nimble's repository, but instead on `github`.
+  Those require the installation of the `git` program from this link: [Git](https://git-scm.com/downloads &quot;Git&quot;).
+  There is also the `github desktop` a graphical version of the `git` program,
+  if that is your preference [Github Desktop](https://desktop.github.com/ &quot;Github Desktop&quot;).
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">&quot;&quot;&quot;
+&lt;pre&gt;&lt;div style = &quot;font-size: 10px&quot;&gt;
+Nimble also supports `Mercurial` repositories
+https://nimpkgs.dayl.in/ another `nimble` repo
+https://nimble.eu.org/ another `nimble` repo
+&lt;/div&gt;&lt;/pre&gt;
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Nimble Basic Usage&quot;</span>
+nbText <span class="hljs-string">&quot;&quot;&quot;
+  The following are nimble commands that are required for basic usage of nimble:
+  - nimble update/refresh - to update the packages list
+  - nimble search - to find the desired module/program
+  - nimble install - to install the desired module/program and it's dependencies
+  - nimble uninstall
+  - nimble -h - for the full list of nimble commands
+    - you can also just type `nimble` and get the same
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;update/refresh&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleUpdate.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleRefresh.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;&lt;h6&gt;I am using the `nu` shell that works on all platforms&lt;/h6&gt;&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;search&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  `nimble search` does not work with github urls
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleSearch.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;install&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleInstall.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+The install command can be used in the following ways:
+- nimble install - to install your own local package when inside of it's folder(top most level)
+  - Due note that any dependencies it may have, will be installed globally
+- nimble install packageName
+  - `nimble install owlkettle`
+- nimble install URLtoArepo
+  - `nimble install &quot;https://github.com/nim-lang/atlas&quot;`
+- nimble install packageName@version
+  - `nimble install owlkettle@2.2.0` 
+  - `nimble install owlkettle@&gt;=2.2.0`
+  - `nimble install &quot;owlkettle@&gt;=2.2.0&quot;`
+  - `nimble install owlkettle@#head - latest devel(development) version
+- nimble install [package1, package2] - for multi package install
+  - `nimble install [c2nim, owlkettle]`
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;uninstall&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleUninstall.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- nimble uninstall packageName
+- nimble uninstall [pkg1, pkg2]
+  - `nimble uninstall [c2nim, owlkettle]`
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;-h or --help for help/manual&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleHelp.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;This goes on for a bit&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Usage with github&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleInstallGithub.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleUninstallGithub.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Creating Packages using Nimble&quot;</span>
+nbSubSection <span class="hljs-string">&quot;`.nimble` file structure&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  All nimble packages end with `.nimble` file extension, and they all have a certain file structure,
+  of package information and dependencies. 
+
+  **The following example showcases the `.nimble` file structure:**
+&quot;&quot;&quot;</span>  
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleFileStructure.png&quot;&gt;&quot;&quot;&quot;</span>  
+
+nbSubSection <span class="hljs-string">&quot;Checking, Installing and Uninstalling your own Packages&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Once you are inside the top level of your Package's folder(current working directory), 
+  e.g. opening the first folder called MyPackage with VS Code,
+  or navigating to there with a command line/terminal, 
+  you can then install your package by simply calling `nimble install`,
+  and to uninstall you can then use the name you chose for your package,
+  which will be the top most folder the package is in(current working directory), so in my case &quot;MyPackage&quot;.
+
+  But before all that, there is a `nible check` command, that verifies the validity of your nimble package
+&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;**Check**&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleCheck.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;**Install**&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleInstallYourPackage.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;**Uninstall**&quot;&quot;&quot;</span>  
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleUninstallYourPackage.png&quot;&gt;&quot;&quot;&quot;</span>  
+
+nbSubSection <span class="hljs-string">&quot;nimble init&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  By typing `nimble init` when inside the top most level of your package(current working directory), 
+  via VS Code or an external terminal, it will start a setup process to create a new package, 
+  a new `.nimble` file, via prompts that will be asked of you,
+  like shown in the image below:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleInit.png&quot;&gt;&quot;&quot;&quot;</span>  
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The above will create the following folders and files:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleInitOutput1.png&quot;&gt;&quot;&quot;&quot;</span>  
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleInitOutput2.png&quot;&gt;&quot;&quot;&quot;</span>  
+
+nbSubSection <span class="hljs-string">&quot;Directory layout for library/module type packages&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  There is a directory layout that library/module type `nimble` packages must follow.
+
+  if you wish to be able to import them in the following way `import mypackage/math/addition`(letter case does NOT matter here).
+  The directory structure must have a second folder named exactly the same as the package's
+  folder's name. In this example &quot;MyPackage&quot; is the name of the package and the folder,
+  which then has another folder of the same name to contain YOUR OWN modules for that package.
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleDirectoryLayout.png&quot;&gt;&quot;&quot;&quot;</span> 
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **NOTE:** Nimble packages `.nimble`, like with `config.nims` configuration files,
+  use a subset of Nim's features in order to configure the package with code logic.
+
+  Make sure to use the export symbol `*` for the procs, data types, etc, 
+  you want to be able to use directly from your main program.
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\exportSymbol.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  And now the desired import layout with the exported `sum` proc used
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\importLayout.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+`when isMainModule` will only run when this &quot;myPackage.nim&quot; is being compiled DIRECTLY,
+and not from nimble or other nim files.
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Compiling with Nimble vs Nim&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  You can also use `nimble` itself to compile Nim files,
+  but it will not import any modules whose packages were not directly specified as a dependancy.
+  Only the Nim's Standard Library is the exception here.
+
+  This can very useful to be ran before publishing your package for the first time,
+  or updating it on Github, since it erroring, 
+  will mean that if you were to publish or update your package without specifying dependencies,
+  the user of your package will receive a broken package.
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Dependencies&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  In order to add dependencies for your package so that it will run correctly for others,
+  or yourself on a different computer, you need to add them to the setting variable of,
+  `requires`, by appending additional dependencies as string(like an argument), 
+  after the initial dependency of the version of Nim, like this:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleDependencies.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Bleeding edge dependencies&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  If you wish to use the current/latest development version(made with nimble develop) of a package,
+  in order to be on the bleeding edge, or help with the development of a package,
+  you can do this by adding `#head` after the name of the dependency in string,
+  like this:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleBleedingEdge.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Unit Testing with Nimble&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  I have not yet shown you the `unittest` module made specifically for testing code,
+  which is used by the Nim's developers and a lot of other Nim users, to have people contribute code,
+  and then if it passes trough the tests, is then considered mostly safe and ready to be integrated.
+  This is just one of the bigger use cases for the `unittest` module.
+
+  Nimble can run these tests for you via `nimble taskName`,
+  **but first you must add the following code to your `.nimble` file of your package:**
+&quot;&quot;&quot;</span>
+nbCodeSkip:
+  task test, <span class="hljs-string">&quot;Running myPackage's test&quot;</span>:
+    exec <span class="hljs-string">&quot;nim c -r tests/myTest.nim&quot;</span>
+
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleTask.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Once the `task` is set, we create the `tests` folder and in it `myTest.nim`, 
+  with the following `unittest` code for a simple example:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleTaskCode.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now, every `unittest` test, starts with the `suite` template that starts a block of our tests,
+  with a given name. Then inside it's block, we use the `test` template for our named tests,
+  and inside of these tests, we use the `check` macro for the logic. 
+  If the condition inside the `check` macro is true, then the test passes with `[OK]`,
+  otherwise it fails with a `[FAILED]`, and before it the error message.
+
+  **Here is how the output looks like when the tests pass using the &quot;nimble myTask&quot;, in our case `nimble test`:**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleTestOK.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **And here is how it looks like if one of the tests fails`(check(2 == 2) was changed to check(1 == 2))`:**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleTestFAIL.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Publishing&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  In order to publish your own packages so that others may find them and use them,
+  you will need to use a code sharing repository like Github.
+  Github is by far the most popular code sharing repository out there today.
+  There are of course some others, but since Github is so popular and Nim uses it for it's compiler etc,
+  we will use it as well.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Creating a Github account&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  First things first, we will need to make Github account if you don't already.
+  So head on to the [Github's website](https://github.com/).
+
+  **And follow the instructions to create your account(enter an email into that field):**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubWebsite.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubWebsite2.png&quot;&gt;&quot;&quot;&quot;</span> 
+
+nbSubSection <span class="hljs-string">&quot;Creating a Github repository&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Once you are done creating your Github account(or you skipped that part),
+  we will create a new Github repository for your package in the steps shown below:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubCreatingArepository.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubCreatingArepository2.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubCreatingArepository3.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubCreatingArepository4.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Adding your package to your repository&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  To add your package to your repository, you can do so using either `Git` commands,
+  or the `Github Desktop` graphical program.
+
+  We will use `Github Desktop` as it is much easier to use, and in my personal opinion,
+  much easier to navigate.
+
+  **So first off let's download and install it [Github Desktop](https://desktop.github.com/):** &lt;br&gt;
+  (It should also work on Linux, but i have not tested it)
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Clicking the `Download for Windows (64bit)`, will immediately start the download for you.
+  Go ahead and install it. Once done, it should either launch on it's own, or you should do it manually.
+
+  **Once open, you should see a similar window to the one below(i already have repositories added, 
+  so it might be a bit different):**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop2.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+ You can also create a brand new repository using `Github Desktop` instead of using the `Github Website`,
+ like this:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop3.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop4.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now, since we have already made a repo using the `Github's Website`,
+  in order to connect the repository on Github with our `myPackage` folder and it's files,
+  **we have to `clone` the repository we have made on Github like this:**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop5.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop6.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  We are now inside our `myPackage` repository like seen in `Github Desktop` in the top left corner.
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop7.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now we have to add our folder of where we first made our `myPackage`,
+  into the repository's folder, which can easily be accessed by clicking the **following button:**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop8.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  By copy pasting our `myPackage` folder into the repository's folder, like this:
+  &lt;h6&gt;(you should not see the `git` folder over there, i am seeing it because i enabled seeing HIDDEN files)&lt;/h6&gt;
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop9.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Will cause `Github Desktop` to immediately detect the changes like this:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop10.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now what we have to do is, commit these changes to the `main` and only current branch of our repository,
+  by first giving a `summary`/title with a description, which once commited and pushed to origin,
+  will be stored on Github as information for you and others if you made your repository public.
+  This information can be quite helpful, and Github will store all changes to the repository WITH these descriptions,
+  which you can then easily view once pushed to Github, more on that later.
+
+  **So let's give our changes some simple information and click the blue button of `Commit to main`:**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop11.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now the changes are commited, but we still need to upload them to Github,
+  by clicking the `Publish branch`(if you already have a branch on your repository, the button will instead read,
+  `Push to origin`).
+
+  If the changes were pushed to origin/uploaded successfully, you should see the initial Github Desktop window,
+  **like this:** 
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop12.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  And with that, you should see the following on your `Github repository`:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop13.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Some more useful commands&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Cons of Nimble&quot;</span>
+<span class="hljs-comment">#Often lies about it's dependencies, demands a specific folder structure</span>
+nbSubSection <span class="hljs-string">&quot;Atlas Package Cloner&quot;</span>
+<span class="hljs-comment">#Not yet production ready, might replace nimble in the future, doesn't have the problems nimble has,</span>
+  <span class="hljs-comment">#with lying about dependencies -&gt; e.g. requires x,y,z, but then it also requires a, b...</span>
+
+
+nbUoSection <span class="hljs-string">&quot;Outro - Afterwords&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Okay, that's it for this video, thanks for watching like, share and subscribe, 
+    aswell as click the bell icon if you liked it and want more, 
+    you can also support me on Patreon. 
+    If you had any problems with any part of the video, 
+    let me know in the comment section, 
+    the code of this video, script and documentation, are in the link in the description,
+    as a form of written tutorial.
+&quot;&quot;&quot;</span>
+nbUoSection <span class="hljs-string">&quot;Thanks to my past and current Patrons&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Past Patrons&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- Goose_Egg: From April 4th 2021 to May 10th 2022
+- Davide Galilei(1x month)
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Current Patrons&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- jaap groot (from October 2023)
+- Dimitri Lesnoff (from October 2023)
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Compiler Information&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- Version used: E.G. 2.0.2
+- Compiler settings used: none, ORC is now the default memory management option(mm:orc)
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;My and General Links&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- [Patreon](https://www.patreon.com/Kiloneie?fan_landing=true &quot;Patreon&quot;)
+- [Visual Studio Code Shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf &quot;Visual Studio Code Shortcuts&quot;)
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Links to this video's subject:&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+- [Git](https://git-scm.com/downloads &quot;Git&quot;)
+- [Git explanation](https://tom.preston-werner.com/2009/05/19/the-git-parable.html &quot;Git explanation&quot;)
+- [Github Desktop](https://desktop.github.com/ &quot;Github Desktop&quot;)
+- [If you want to use Semantic Versioning, read this](https://semver.org/ &quot;Semver&quot;)
+- [Nim in Action Chapter 5. Package management(paid book)](https://livebook.manning.com/book/nim-in-action/chapter-5/ &quot;Nim in Action Chapter 5. Package management(paid book)&quot;)
+- [Nimble package manager - with more detailed information on commands i have not covered](https://github.com/nim-lang/nimble &quot;Nimble package manager&quot;)
+- [Atlas package cloner](https://github.com/nim-lang/atlas &quot;Atlas package cloner&quot;)
+&quot;&quot;&quot;</span>
+
+nbSave()</code></pre>
+</section><script>
+function toggleSourceDisplay() {
+  var btn = document.getElementById("show")
+  var source = document.getElementById("source");
+  if (btn.innerHTML=="Show Source") {
+    btn.innerHTML = "Hide Source";
+    source.style.display = "block";
+  } else {
+    btn.innerHTML = "Show Source";
+    source.style.display = "none";
+  }
+}
+</script></body>
+</html>
