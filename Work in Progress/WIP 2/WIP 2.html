@@ -82,17 +82,25 @@ pre > code {
 <li>5.2. <a href="#unit-testing-with-nimble">Unit Testing with Nimble</a></li>
 </ul>
 </li>
-<li>6. <a href="#publishing">Publishing</a>
+<li>6. <a href="#sharing-your-package-with-github">Sharing your package with Github</a>
 <ul>
 <li>6.1. <a href="#creating-a-github-account">Creating a Github account</a></li>
 <li>6.2. <a href="#creating-a-github-repository">Creating a Github repository</a></li>
 <li>6.3. <a href="#adding-your-package-to-your-repository">Adding your package to your repository</a></li>
+<li>6.4. <a href="#git-lens">Git Lens</a></li>
 </ul>
 </li>
-<li>7. <a href="#some-more-useful-commands">Some more useful commands</a></li>
-<li>8. <a href="#cons-of-nimble">Cons of Nimble</a>
+<li>7. <a href="#publishing-your-package-to-nimble's-repository">Publishing your package to Nimble's repository</a>
 <ul>
-<li>8.1. <a href="#atlas-package-cloner">Atlas Package Cloner</a></li>
+<li>7.1. <a href="#publishing-by-opening-a-pull-request">Publishing by opening a Pull Request</a></li>
+<li>7.2. <a href="#publishing-using-`nimble-publish`">Publishing using <code>nimble publish</code></a></li>
+<li>7.3. <a href="#adding-a-new-version-of-your-package">Adding a new version of your package</a></li>
+</ul>
+</li>
+<li>8. <a href="#some-more-useful-commands">Some more useful commands</a></li>
+<li>9. <a href="#cons-of-nimble">Cons of Nimble</a>
+<ul>
+<li>9.1. <a href="#atlas-package-cloner">Atlas Package Cloner</a></li>
 </ul>
 </li>
 </ul>
@@ -457,10 +465,10 @@ otherwise it fails with a <code>[FAILED]</code>, and before it the error message
 <img src = "images\nimbleTestOK.png">
 <p><strong>And here is how it looks like if one of the tests fails<code>(check(2 == 2) was changed to check(1 == 2))</code>:</strong></p>
 <img src = "images\nimbleTestFAIL.png">
-<p><a name = "publishing"></a></p>
-<h1>6. Publishing</h1>
+<p><a name = "sharing-your-package-with-github"></a></p>
+<h1>6. Sharing your package with Github</h1>
 <hr />
-<p>In order to publish your own packages so that others may find them and use them,
+<p>In order for you to share your own packages so that others may find them and use them,
 you will need to use a code sharing repository like Github.
 Github is by far the most popular code sharing repository out there today.
 There are of course some others, but since Github is so popular and Nim uses it for it's compiler etc,
@@ -531,15 +539,51 @@ by clicking the <code>Publish branch</code>(if you already have a branch on your
 <img src = "images\githubDesktop12.png">
 <p>And with that, you should see the following on your <code>Github repository</code>:</p>
 <img src = "images\githubDesktop13.png">
+<p><a name = "git-lens"></a></p>
+<h2>  6.4. Git Lens</h2>
+<hr />
+<p>I HIGHLY recommend installing the <code>Git Lens</code> Visual Studio Code Extension,
+which adds a TON of functionality to make your life much easier when working on your own Github repositories.</p>
+<p>#TODO SHOW EXAMPLES of SOME useful stuff it does, like showing when some line of code was changed etc...</p>
+<p><a name = "publishing-your-package-to-nimble's-repository"></a></p>
+<h1>7. Publishing your package to Nimble's repository</h1>
+<hr />
+<p><a name = "publishing-by-opening-a-pull-request"></a></p>
+<h2>  7.1. Publishing by opening a Pull Request</h2>
+<hr />
+<p>In order for you package to be found by other Nim users using Nimble,
+you will have to <code>publish</code> your package to Nimble's repository,
+by either manually going to <a href="https://github.com/nim-lang/packages">github.com/nim-lang/packages</a>,
+and opening a <code>pull request</code> in the top left:</p>
+<img src = "images\githubPullRequest.png">
+<p>Read about pull requests if you don't know about them yet here <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">Pull Requests</a></p>
+<p><a name = "publishing-using-`nimble-publish`"></a></p>
+<h2>  7.2. Publishing using <code>nimble publish</code></h2>
+<hr />
+<p>There is also option 2 of using <code>nimble publish</code> from inside your local copy of your package's repository.
+If you go with the <code>nimble publish</code> you will then get instructions to follow.</p>
+<img src = "images\nimblePublish.png">
+<img src = "images\nimblePublish2.png">
+<p><strong>Follow the instructions to completion.</strong></p>
+<p>Once you have finished those instructions, it will make things much easier in the future.</p>
+<p>You will then have to wait for someone to verify your package and change things if necessary.
+Once your package is in the repository, you will no longer need to <code>publish</code> it ever again.</p>
+<p>Instead all you will have to do, is make a new version, tag it, and commit it to Github.
+The following link contains a very useful guideline for versioning,
+that you should read when making a package that you intend to continue developing for a long time:
+<a href="https://semver.org/">Semver/Semantic Versioning</a>.</p>
+<p><a name = "adding-a-new-version-of-your-package"></a></p>
+<h2>  7.3. Adding a new version of your package</h2>
+<hr />
 <p><a name = "some-more-useful-commands"></a></p>
-<h1>7. Some more useful commands</h1>
+<h1>8. Some more useful commands</h1>
 <hr />
 
 <p><a name = "cons-of-nimble"></a></p>
-<h1>8. Cons of Nimble</h1>
+<h1>9. Cons of Nimble</h1>
 <hr />
 <p><a name = "atlas-package-cloner"></a></p>
-<h2>  8.1. Atlas Package Cloner</h2>
+<h2>  9.1. Atlas Package Cloner</h2>
 <hr />
 <h1>Outro - Afterwords</h1>
 <hr />
@@ -1084,9 +1128,9 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimbleTestFAIL.png&quot;&gt;&quot;&quot;&quot;</span>
 
-nbSection <span class="hljs-string">&quot;Publishing&quot;</span>
+nbSection <span class="hljs-string">&quot;Sharing your package with Github&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  In order to publish your own packages so that others may find them and use them,
+  In order for you to share your own packages so that others may find them and use them,
   you will need to use a code sharing repository like Github.
   Github is by far the most popular code sharing repository out there today.
   There are of course some others, but since Github is so popular and Nim uses it for it's compiler etc,
@@ -1195,6 +1239,52 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   And with that, you should see the following on your `Github repository`:
 &quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop13.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Git Lens&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  I HIGHLY recommend installing the `Git Lens` Visual Studio Code Extension,
+  which adds a TON of functionality to make your life much easier when working on your own Github repositories.
+  
+  #TODO SHOW EXAMPLES of SOME useful stuff it does, like showing when some line of code was changed etc...
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Publishing your package to Nimble's repository&quot;</span>
+nbSubSection <span class="hljs-string">&quot;Publishing by opening a Pull Request&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  In order for you package to be found by other Nim users using Nimble,
+  you will have to `publish` your package to Nimble's repository,
+  by either manually going to [github.com/nim-lang/packages](https://github.com/nim-lang/packages),
+  and opening a `pull request` in the top left:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubPullRequest.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Read about pull requests if you don't know about them yet here [Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Publishing using `nimble publish`&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;    
+  There is also option 2 of using `nimble publish` from inside your local copy of your package's repository.
+  If you go with the `nimble publish` you will then get instructions to follow.
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimblePublish.png&quot;&gt;&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\nimblePublish2.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  **Follow the instructions to completion.**
+
+  Once you have finished those instructions, it will make things much easier in the future.
+
+  You will then have to wait for someone to verify your package and change things if necessary.
+  Once your package is in the repository, you will no longer need to `publish` it ever again.
+
+  Instead all you will have to do, is make a new version, tag it, and commit it to Github.
+  The following link contains a very useful guideline for versioning,
+  that you should read when making a package that you intend to continue developing for a long time:
+  [Semver/Semantic Versioning](https://semver.org/).
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Adding a new version of your package&quot;</span>
+<span class="hljs-comment">#TODO</span>
 
 nbSection <span class="hljs-string">&quot;Some more useful commands&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
