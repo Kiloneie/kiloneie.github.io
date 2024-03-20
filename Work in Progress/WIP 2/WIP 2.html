@@ -98,9 +98,9 @@ pre > code {
 </ul>
 </li>
 <li>8. <a href="#some-more-useful-commands">Some more useful commands</a></li>
-<li>9. <a href="#cons-of-nimble">Cons of Nimble</a>
+<li>9. <a href="#cons-of-nimble-to-include-or-not-?">Cons of Nimble TO INCLUDE OR NOT ?</a>
 <ul>
-<li>9.1. <a href="#atlas-package-cloner">Atlas Package Cloner</a></li>
+<li>9.1. <a href="#atlas-package-cloner-to-include-or-not-?">Atlas Package Cloner TO INCLUDE OR NOT ?</a></li>
 </ul>
 </li>
 </ul>
@@ -539,12 +539,19 @@ by clicking the <code>Publish branch</code>(if you already have a branch on your
 <img src = "images\githubDesktop12.png">
 <p>And with that, you should see the following on your <code>Github repository</code>:</p>
 <img src = "images\githubDesktop13.png">
+<p>There is one last thing i want to show you about Github Desktop,
+the <code>History</code> tab.</p>
+<img src = "images\githubDesktop14.png">
+<p>By clicking it, you should see something similar to the following:</p>
+<img src = "images\githubDesktop15.png">
+<p>Here is where you can view ALL of your commit history for your package's Github repository.</p>
 <p><a name = "git-lens"></a></p>
 <h2>  6.4. Git Lens</h2>
 <hr />
 <p>I HIGHLY recommend installing the <code>Git Lens</code> Visual Studio Code Extension,
-which adds a TON of functionality to make your life much easier when working on your own Github repositories.</p>
-<p>#TODO SHOW EXAMPLES of SOME useful stuff it does, like showing when some line of code was changed etc...</p>
+which adds a TON of functionality to make your life much easier when working on your own Github repositories,
+and repositories made by others.</p>
+<p>Watch the following video for a nice intro of it's features: <a href="https://www.youtube.com/watch?v=UQPb73Zz9qk">Git Lens Intro/Showcase</a></p>
 <p><a name = "publishing-your-package-to-nimble's-repository"></a></p>
 <h1>7. Publishing your package to Nimble's repository</h1>
 <hr />
@@ -575,15 +582,30 @@ that you should read when making a package that you intend to continue developin
 <p><a name = "adding-a-new-version-of-your-package"></a></p>
 <h2>  7.3. Adding a new version of your package</h2>
 <hr />
+<p>When creating a new version of your package,
+you will have to do a few steps so that <code>nimble</code> will be able to find it.</p>
+<p>The first thing you will have to do is <strong>increment the <code>version</code> of your <code>.nimble</code> file:</strong></p>
+<img src = "images\packageNewVersion.png">
+<p>Once that is done, you will have to <code>commit</code> this change to your Github repository via <code>commit changes</code>,
+like i have shown you earlier via <code>Github Desktop</code>,
+WITHOUT <code>push to origin</code> to upload them, as they are not yet ready to be uploaded.</p>
+<p>Then step 2 is to tag this version once it was succesfully commited, NOT uploaded via <code>push to origin</code>.
+This is done with either Git commands like shown in the following link: <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">Git Tagging</a>,
+or with Github Desktop like shown in the following link: <a href="https://docs.github.com/en/desktop/managing-commits/managing-tags-in-github-desktop">Github Desktop Tagging</a>.</p>
+<p>Once that is done, you upload these changes via <code>push to origin</code> button in Github Desktop.
+(with Git it would be something like: git push origin master --tags).</p>
+<p>Once the changes are visible on Github(it takes a minute),
+Nimble should be able to find your new version of your package.</p>
 <p><a name = "some-more-useful-commands"></a></p>
 <h1>8. Some more useful commands</h1>
 <hr />
 
-<p><a name = "cons-of-nimble"></a></p>
-<h1>9. Cons of Nimble</h1>
+<p><a name = "cons-of-nimble-to-include-or-not-?"></a></p>
+<h1>9. Cons of Nimble TO INCLUDE OR NOT ?</h1>
 <hr />
-<p><a name = "atlas-package-cloner"></a></p>
-<h2>  9.1. Atlas Package Cloner</h2>
+<p>This and the next section is probably the subject of a future video.</p>
+<p><a name = "atlas-package-cloner-to-include-or-not-?"></a></p>
+<h2>  9.1. Atlas Package Cloner TO INCLUDE OR NOT ?</h2>
 <hr />
 <h1>Outro - Afterwords</h1>
 <hr />
@@ -611,7 +633,7 @@ as a form of written tutorial.</p>
 <h2>Compiler Information</h2>
 <hr />
 <ul>
-<li>Version used: E.G. 2.0.2</li>
+<li>Version used: 2.0.2</li>
 <li>Compiler settings used: none, ORC is now the default memory management option(mm:orc)</li>
 </ul>
 <h2>My and General Links</h2>
@@ -626,6 +648,7 @@ as a form of written tutorial.</p>
 <li><a href="https://git-scm.com/downloads" title="Git">Git</a></li>
 <li><a href="https://tom.preston-werner.com/2009/05/19/the-git-parable.html" title="Git explanation">Git explanation</a></li>
 <li><a href="https://desktop.github.com/" title="Github Desktop">Github Desktop</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">Git Lens Intro/Showcase</a></li>
 <li><a href="https://semver.org/" title="Semver">If you want to use Semantic Versioning, read this</a></li>
 <li><a href="https://livebook.manning.com/book/nim-in-action/chapter-5/" title="Nim in Action Chapter 5. Package management(paid book)">Nim in Action Chapter 5. Package management(paid book)</a></li>
 <li><a href="https://github.com/nim-lang/nimble" title="Nimble package manager">Nimble package manager - with more detailed information on commands i have not covered</a></li>
@@ -1240,12 +1263,27 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop13.png&quot;&gt;&quot;&quot;&quot;</span>
 
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  There is one last thing i want to show you about Github Desktop,
+  the `History` tab.
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop14.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  By clicking it, you should see something similar to the following:
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\githubDesktop15.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Here is where you can view ALL of your commit history for your package's Github repository.
+&quot;&quot;&quot;</span>
+
 nbSubSection <span class="hljs-string">&quot;Git Lens&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   I HIGHLY recommend installing the `Git Lens` Visual Studio Code Extension,
-  which adds a TON of functionality to make your life much easier when working on your own Github repositories.
-  
-  #TODO SHOW EXAMPLES of SOME useful stuff it does, like showing when some line of code was changed etc...
+  which adds a TON of functionality to make your life much easier when working on your own Github repositories,
+  and repositories made by others.
+
+  Watch the following video for a nice intro of it's features: [Git Lens Intro/Showcase](https://www.youtube.com/watch?v=UQPb73Zz9qk)
 &quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Publishing your package to Nimble's repository&quot;</span>
@@ -1284,15 +1322,41 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 
 nbSubSection <span class="hljs-string">&quot;Adding a new version of your package&quot;</span>
-<span class="hljs-comment">#TODO</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  When creating a new version of your package, 
+  you will have to do a few steps so that `nimble` will be able to find it.
+
+  The first thing you will have to do is **increment the `version` of your `.nimble` file:**
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\packageNewVersion.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Once that is done, you will have to `commit` this change to your Github repository via `commit changes`,
+  like i have shown you earlier via `Github Desktop`,
+  WITHOUT `push to origin` to upload them, as they are not yet ready to be uploaded.
+  
+  Then step 2 is to tag this version once it was succesfully commited, NOT uploaded via `push to origin`.
+  This is done with either Git commands like shown in the following link: [Git Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging),
+  or with Github Desktop like shown in the following link: [Github Desktop Tagging](https://docs.github.com/en/desktop/managing-commits/managing-tags-in-github-desktop).
+
+  Once that is done, you upload these changes via `push to origin` button in Github Desktop.
+  (with Git it would be something like: git push origin master --tags).
+
+  Once the changes are visible on Github(it takes a minute), 
+  Nimble should be able to find your new version of your package.
+&quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Some more useful commands&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 
-nbSection <span class="hljs-string">&quot;Cons of Nimble&quot;</span>
+nbSection <span class="hljs-string">&quot;Cons of Nimble TO INCLUDE OR NOT ?&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  This and the next section is probably the subject of a future video.
+
+&quot;&quot;&quot;</span>
 <span class="hljs-comment">#Often lies about it's dependencies, demands a specific folder structure</span>
-nbSubSection <span class="hljs-string">&quot;Atlas Package Cloner&quot;</span>
+nbSubSection <span class="hljs-string">&quot;Atlas Package Cloner TO INCLUDE OR NOT ?&quot;</span>
 <span class="hljs-comment">#Not yet production ready, might replace nimble in the future, doesn't have the problems nimble has,</span>
   <span class="hljs-comment">#with lying about dependencies -&gt; e.g. requires x,y,z, but then it also requires a, b...</span>
 
@@ -1320,7 +1384,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;Compiler Information&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-- Version used: E.G. 2.0.2
+- Version used: 2.0.2
 - Compiler settings used: none, ORC is now the default memory management option(mm:orc)
 &quot;&quot;&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;My and General Links&quot;</span>
@@ -1333,6 +1397,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 - [Git](https://git-scm.com/downloads &quot;Git&quot;)
 - [Git explanation](https://tom.preston-werner.com/2009/05/19/the-git-parable.html &quot;Git explanation&quot;)
 - [Github Desktop](https://desktop.github.com/ &quot;Github Desktop&quot;)
+- [Git Lens Intro/Showcase](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 - [If you want to use Semantic Versioning, read this](https://semver.org/ &quot;Semver&quot;)
 - [Nim in Action Chapter 5. Package management(paid book)](https://livebook.manning.com/book/nim-in-action/chapter-5/ &quot;Nim in Action Chapter 5. Package management(paid book)&quot;)
 - [Nimble package manager - with more detailed information on commands i have not covered](https://github.com/nim-lang/nimble &quot;Nimble package manager&quot;)
