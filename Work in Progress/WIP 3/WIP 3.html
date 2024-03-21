@@ -459,7 +459,7 @@ a()</code></pre><pre><code class=\"language-markdown\" style = "color:white;back
 <h1>3. Code Usage Profiling</h1>
 <hr />
 <p>This method will measure in % the amount of processing was spent of the total on a given call.
-To do this, we will have to <code>import std/nimprof</code> Nim's profiler,
+To do this, we will have to <code>import std/nimprof</code> Nim's embedded profiler,
 and enable it and stack tracing with <strong>the following flags inside a <code>config.nims</code> file:</strong></p>
 <pre><code class="nohighlight hljs nim">--profiler:on 
 --stackTrace:on</code></pre>
@@ -490,11 +490,36 @@ and enable it and stack tracing with <strong>the following flags inside a <code>
 <p>The above code's results will be inside <code>profile_results.txt</code> file.
 <strong>Here are the results after completion:</strong></p>
 <img src = "images\codeUsageProfilingResults.png">
+<img src = "images\codeUsageProfilingResultsLeftSide.png">
+<p>The profiling results are split into 2x parts. The left side contains all the stack traces,
+with the percental values on the far left representing the percentage of the TOTAL usage of that stack frame,
+relative to the program. So the first stack frame took 41% of the program's total usage</p>
+<img src = "images\codeUsageProfilingResultsRightSide.png">
+<p>Now the right side shows the percental usage/time spent on each of the <code>proc calls</code> relative to that stack frame.
+So the first stack frame spent 86% on the <code>analyse proc</code>.
+<code>Profiling</code> with it's near 100% value, is just the profiler, you may completely ignore it.</p>
+<p>Then the second stack frame also took the same amount of processing on the <code>analyse proc</code>,
+but it also called the <code>numbers proc</code> 28% of the time.</p>
+<p>With all that said, this should of demonstrated how you can use Nim's embedded profiler to find bottle necks in your programs.</p>
 <p><a name = "time-elapsed-profiling/benchmarking"></a></p>
 <h1>4. Time Elapsed Profiling/Benchmarking</h1>
 <hr />
 <p>I have already shown this in the <code>List Comprehensions with sugar.collect vs Python's List Comprehensions</code> tutorial.
-But for completioning reasons, let's cover this here as well.</p>
+But i have a bit more to say, and it has to included in this tutorial.</p>
+<p>Since Nim doesn't have a module specifically for this, this is custom made.
+Time elapsed/based benchmarking is used in basically every programming language out there.
+But they are often misused, used for comparisons between programming languages.
+Because the implementations may vary significantly. E.g. Python is a dynamic programming language,
+and with that it is slow. But since it's so popular, it's implementations are VERY optimized using <code>Cython</code>,
+that's what the source code of Python is called, since it's written in <code>C</code>.
+And with that, the benchmark then becomes a benchmark of implementations instead of languages.</p>
+<p>The use case for this compared to an actual external dedicated profiler is,
+that this is much easier and simpler to both setup and use. An actual external profiler will have many more features for finding bottle necks.
+Features that will find neglected code that a time based/elapsed profiler cannot.
+But again a time based/elapsed profiler is very simple, while a dedicated/general profiler can be quite tricky to learn,
+and may often be total overkill.</p>
+<p>With that said, unless you know there are lots of bottle necks you have to optimize once the bulk of your program is done,
+use the simplest tool for the job.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/times, std/os, std/strutils, std/sequtils, std/sugar
 
 <span class="hljs-keyword">template</span> benchmark(benchmarkName: <span class="hljs-built_in">string</span>, timesToRun: <span class="hljs-built_in">int</span>, code: <span class="hljs-built_in">untyped</span>) =
@@ -1196,7 +1221,7 @@ nbCode:
 nbSection <span class="hljs-string">&quot;Code Usage Profiling&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   This method will measure in % the amount of processing was spent of the total on a given call.
-  To do this, we will have to `import std/nimprof` Nim's profiler,
+  To do this, we will have to `import std/nimprof` Nim's embedded profiler,
   and enable it and stack tracing with **the following flags inside a `config.nims` file:**
 &quot;&quot;&quot;</span>
 nbCodeSkip:
@@ -1236,12 +1261,46 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   **Here are the results after completion:**
 &quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\codeUsageProfilingResults.png&quot;&gt;&quot;&quot;&quot;</span>
-<span class="hljs-comment">#TODO explain this</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\codeUsageProfilingResultsLeftSide.png&quot;&gt;&quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The profiling results are split into 2x parts. The left side contains all the stack traces,
+  with the percental values on the far left representing the percentage of the TOTAL usage of that stack frame,
+  relative to the program. So the first stack frame took 41% of the program's total usage
+&quot;&quot;&quot;</span>
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\codeUsageProfilingResultsRightSide.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now the right side shows the percental usage/time spent on each of the `proc calls` relative to that stack frame.
+  So the first stack frame spent 86% on the `analyse proc`. 
+  `Profiling` with it's near 100% value, is just the profiler, you may completely ignore it.
+
+  Then the second stack frame also took the same amount of processing on the `analyse proc`,
+  but it also called the `numbers proc` 28% of the time.
+
+  With all that said, this should of demonstrated how you can use Nim's embedded profiler to find bottle necks in your programs.
+&quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Time Elapsed Profiling/Benchmarking&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   I have already shown this in the `List Comprehensions with sugar.collect vs Python's List Comprehensions` tutorial.
-  But for completioning reasons, let's cover this here as well.
+  But i have a bit more to say, and it has to included in this tutorial.
+
+  Since Nim doesn't have a module specifically for this, this is custom made.
+  Time elapsed/based benchmarking is used in basically every programming language out there.
+  But they are often misused, used for comparisons between programming languages.
+  Because the implementations may vary significantly. E.g. Python is a dynamic programming language,
+  and with that it is slow. But since it's so popular, it's implementations are VERY optimized using `Cython`,
+  that's what the source code of Python is called, since it's written in `C`.
+  And with that, the benchmark then becomes a benchmark of implementations instead of languages.
+
+  The use case for this compared to an actual external dedicated profiler is,
+  that this is much easier and simpler to both setup and use. An actual external profiler will have many more features for finding bottle necks.
+  Features that will find neglected code that a time based/elapsed profiler cannot.
+  But again a time based/elapsed profiler is very simple, while a dedicated/general profiler can be quite tricky to learn,
+  and may often be total overkill.
+
+  With that said, unless you know there are lots of bottle necks you have to optimize once the bulk of your program is done,
+  use the simplest tool for the job.
 &quot;&quot;&quot;</span>
 nbCodeSkip:
   <span class="hljs-keyword">import</span> std/times, std/os, std/strutils, std/sequtils, std/sugar
