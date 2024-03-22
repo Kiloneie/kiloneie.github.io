@@ -68,13 +68,14 @@ pre > code {
 <li>2.4. <a href="#`check`-and-`setup`-templates"><code>check</code> and <code>setup</code> templates</a></li>
 <li>2.5. <a href="#`expect`-template"><code>expect</code> template</a></li>
 <li>2.6. <a href="#`checkpoint`-proc"><code>checkpoint</code> proc</a></li>
+<li>2.7. <a href="#`teardown`-proc"><code>teardown</code> proc</a></li>
 </ul>
 </li>
 <li>3. <a href="#testament-automatic-unit-tester">Testament automatic unit tester</a></li>
 <li>4. <a href="#stack-tracing">Stack tracing</a></li>
 <li>5. <a href="#code-usage-profiling">Code Usage Profiling</a></li>
-<li>6. <a href="#time-elapsed-profiling/benchmarking">Time Elapsed Profiling/Benchmarking</a></li>
-<li>7. <a href="#debugging-modules-by-nim's-community-members">Debugging modules by Nim's community members</a></li>
+<li>6. <a href="#using-nimprof-as-a-memory-profiler">Using nimprof as a memory profiler</a></li>
+<li>7. <a href="#time-elapsed-profiling/benchmarking">Time Elapsed Profiling/Benchmarking</a></li>
 </ul>
       <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
@@ -405,7 +406,8 @@ This is meant for code that is crucial for your program, that if it fails, there
 there is the <code>check</code> template.</p>
 <p>You can also use the <code>setup</code> section for a <code>suite</code>, to for example declare variables you want to use in testing,
 those variables will be available to ALL of your tests. You can also create variables inside tests,
-but those will be local/available only to that test.</p>
+but those will be local/available only to that test.
+It is also ran before EVERY test, on top of the fact that is will run once after the start of the <code>suite</code>.</p>
 <p><strong>Here is an example of <code>check</code> and <code>setup</code> templates:</strong></p>
 <pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;My tests&quot;</span>:
   setup:
@@ -450,9 +452,9 @@ otherwise if the exception/error is NOT of the type specified, or if there isn't
 
 <pre class = "" style = "overflow-x: auto;">
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Failed expect and check
-    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(582, 16): Check failed: 1 == 2
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(583, 16): Check failed: 1 == 2
   </span><span style = "color: rgba(255, 0, 0, 1)">[FAILED]</span> Failed check
-    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(585, 13): Expect Failed, no exception was thrown.
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(586, 13): Expect Failed, no exception was thrown.
   <span style = "color: rgba(255, 0, 0, 1)">[FAILED]</span> Failed expect</pre>
 <p><a name = "`checkpoint`-proc"></a></p>
 <h2>  2.6. <code>checkpoint</code> proc</h2>
@@ -470,7 +472,7 @@ or a <code>check</code> template. It will NOT display [FAILURE], but instead, ju
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Checkpoints
     Checkpoint Start
     Checkpoint 2
-    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(598, 32): Check failed: (101, \"Hello World!\") == (1, \"Hello\")
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(599, 32): Check failed: (101, \"Hello World!\") == (1, \"Hello\")
 </span></pre>
 <p>If we then make the <code>check</code> succeed, none of the checkpoints will be shown.</p>
 <pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;Checkpoints&quot;</span>:
@@ -483,6 +485,43 @@ or a <code>check</code> template. It will NOT display [FAILURE], but instead, ju
 <pre class = "" style = "overflow-x: auto;">
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Checkpoints
 </span></pre>
+<p><a name = "`teardown`-proc"></a></p>
+<h2>  2.7. <code>teardown</code> proc</h2>
+<hr />
+<p>Just like how the <code>setup</code> proc is ran BEFORE every test, the <code>teardown</code> proc is ran AFTER every test,
+but not after the end of the <code>suite</code>. In other words <code>setup</code> is ran before <code>1 + numberOfTests</code>,
+while <code>teardown</code> is ran after <code>numberOfTests</code>.</p>
+<p><strong>Here is an example:</strong></p>
+<pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;Setup and teardown example&quot;</span>:
+  setup:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Ran BEFORE every test AND at the beginning of the `suite`&quot;</span>
+  teardown:
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Ran AFTER every test&quot;</span>
+  test <span class="hljs-string">&quot;Simple arithmetic check&quot;</span>:
+    check(<span class="hljs-number">1</span> == <span class="hljs-number">1</span>)
+  test <span class="hljs-string">&quot;Just another test&quot;</span>:
+    check(<span class="hljs-string">&quot;a&quot;</span> == <span class="hljs-string">&quot;a&quot;</span>)
+  test <span class="hljs-string">&quot;Yet another test&quot;</span>:
+    check(<span class="hljs-number">1</span> == <span class="hljs-number">2</span>) <span class="hljs-comment">#_FAILED</span>
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Code put inside a suite, but OUTSIDE all of the tests, is also ran only once&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
+<pre class = "" style = "overflow-x: auto;">
+<span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Setup and teardown example
+Ran BEFORE every test AND at the beginning of the `suite`
+Ran AFTER every test
+  </span><span style = "color: rgba(0, 255, 0, 1)">[OK]</span> Simple arithmetic check
+Ran BEFORE every test AND at the beginning of the `suite`
+Ran AFTER every test
+  <span style = "color: rgba(0, 255, 0, 1)">[OK]</span> Just another test
+Ran BEFORE every test AND at the beginning of the `suite`
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(635, 14): Check failed: 1 == 2
+Ran AFTER every test
+  <span style = "color: rgba(255, 0, 0, 1)">[FAILED]</span> Yet another test
+Code put inside a suite, but OUTSIDE all of the tests, is also ran only once</pre>
+<p>The output is a bit confusing, because all of the echoes are happening before the <code>[OK]</code> outputs.
+But that is just because the <code>[OK]</code> flag is outputted AFTER the entire test is finished, including the <code>setup</code> and <code>teardown</code>.</p>
+<p>This is demonstrated very well with the one <code>[FAILED]</code> at the bottom.
+First the <code>setup</code>'s echo triggers, then the error, then the <code>teardown</code> and finally the <code>[FAILED]</code> flag.</p>
 <p><a name = "testament-automatic-unit-tester"></a></p>
 <h1>3. Testament automatic unit tester</h1>
 <hr />
@@ -499,9 +538,12 @@ But to use it, you will have to use the terminal, like with <code>nimble</code>.
 And inside it you will put your tests, which will be nim files <code>.nim</code>.
 (You can change where this module looks for tests)
 Make sure that ALL of your tests start with the letter <code>t</code>, so <code>test.nim</code>, <code>tmyTest.nim</code>, etc.</p>
-<p>#TODO once we actually get this working, the wording will most probably change
-#TODO why is this not working !?, And why when given full path it seems to work, but just show nothing...
-#the tutorial has it working... wtf !?</p>
+<p>#TODO check the forum post, we might be having a directory structure problem,
+#even though we followed ringabout's tutorial... his structure might be wrong
+#or something...
+#the post does NOT address the freaking assert 42 == 42 FAILING !!!
+#TODO once we actually get this working, the wording will most probably change
+#TODO Very brief showcase of running a simple single example only, this is long enough as is</p>
 <p><a name = "stack-tracing"></a></p>
 <h1>4. Stack tracing</h1>
 <hr />
@@ -619,8 +661,27 @@ but it also called the <code>numbers proc</code> 28% of the time.</p>
 These are the following <code>disableProfiling</code>, <code>enableProfiling</code> and <code>setSamplingFrequency</code>.
 You can use the enable and disableProfiling procs to mark only the desired parts of your code to profile.</p>
 <p>With all that said, this should of demonstrated how you can use Nim's embedded profiler to find bottle necks in your programs.</p>
+<p><a name = "using-nimprof-as-a-memory-profiler"></a></p>
+<h1>6. Using nimprof as a memory profiler</h1>
+<hr />
+<p>Nim's embedded profiler can also be used to profile your program's memory.
+It will tell you which stack traces use/allocate the most memory, and thus find memory bottle necks, or potentially memory leaks.</p>
+<p>To do this, all you have to do is <code>import nimprof</code>, set the following flags in your <code>config.nims</code> configuration file:</p>
+<pre><code class="nohighlight hljs nim">--profiler:off 
+--stackTrace:on 
+--d:memProfiler</code></pre>
+<p>And then run your program.
+(Yes, <code>--profiler:off</code>, Seems bizzare but that's how this works...)</p>
+<p>Sadly Nim's embedded profiler is kind of picky and will not give you ANY results if the sample size is too small.
+Which is why the <code>Code Usage Profiling</code> example had to be run multiple times at least(1000 just to be safe).
+And so for memory profiling, that example is terrible, as it does barely any allocations at all.</p>
+<p><strong>So, here is an allocation heavy example for the memory profiler:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/nimprof 
+<span class="hljs-keyword">import</span> std/strutils</code></pre>
+<p>You can also set the following following flag <code>--d:ignoreAllocationSize</code>(define the symbol),
+so that the only the number of memory allocations get profiled, not the size.</p>
 <p><a name = "time-elapsed-profiling/benchmarking"></a></p>
-<h1>6. Time Elapsed Profiling/Benchmarking</h1>
+<h1>7. Time Elapsed Profiling/Benchmarking</h1>
 <hr />
 <p>I have already shown this in the <code>List Comprehensions with sugar.collect vs Python's List Comprehensions</code> tutorial.
 But i have a bit more to say, and it has to included in this tutorial.</p>
@@ -679,9 +740,6 @@ CPU Time [add    ] x 10000 = 0.000142300000s
 CPU Time [index  ] x 10000 = 0.000157300000s
 CPU Time [collect] x 10000 = 0.000142400000s
 </pre>
-<p><a name = "debugging-modules-by-nim's-community-members"></a></p>
-<h1>7. Debugging modules by Nim's community members</h1>
-<hr />
 <h1>Outro - Afterwords</h1>
 <hr />
 <p>Okay, that's it for this video, thanks for watching like, share and subscribe,
@@ -720,8 +778,22 @@ as a form of written tutorial.</p>
 <h2>Links to this video's subject:</h2>
 <hr />
 <ul>
-<li><a href="https://vladar4.github.io/sdl2_nim/" title="Example link to an example video's subject">E.G.1. SDL2_nim documentation</a></li>
-<li><a href="https://wiki.libsdl.org/APIByCategory" title="Example link to an example video's subject">E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)</a></li>
+<li><a href="https://nim-lang.org/docs/sugar.html#dump.m%2Cuntyped">dump macro</a></li>
+<li><a href="https://nim-lang.org/docs/sugar.html#dumpToString.m%2Cuntyped">dumpToString macro</a></li>
+<li><a href="https://nim-lang.org/docs/unittest.html">unittest module for advanced testing of your code</a></li>
+<li><a href="https://github.com/status-im/nim-unittest2">unittest 2 potential candidate to replace unittest</a></li>
+<li><a href="https://nim-lang.org/docs/nimprof.html">Nim's embedded profiler</a></li>
+<li><a href="https://nim-lang.org/docs/estp.html">Embedded Stack Trace Profiler (ESTP) User Guide</a></li>
+</ul>
+<h2>Stack Tracing procs, etc -&gt; (system module)</h2>
+<hr />
+<ul>
+<li><a href="https://nim-lang.org/docs/nimprof.html">StackTraceEntry object</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#getStackTrace">getStackTrace proc</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#getStackTraceEntries">getStackTraceEntries</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#nimGC_setStackBottom%2Cpointer">nimGC_setStackBottom</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#nimGC_setStackBottom%2Cpointer">stackTraceAvailable</a></li>
+<li><a href="https://nim-lang.org/docs/system.html#writeStackTrace">writeStackTrace</a></li>
 </ul>
 </main>
 <footer>
@@ -1273,7 +1345,8 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   
   You can also use the `setup` section for a `suite`, to for example declare variables you want to use in testing,
   those variables will be available to ALL of your tests. You can also create variables inside tests,
-  but those will be local/available only to that test.
+  but those will be local/available only to that test. 
+  It is also ran before EVERY test, on top of the fact that is will run once after the start of the `suite`.
 
   **Here is an example of `check` and `setup` templates:**
 &quot;&quot;&quot;</span>
@@ -1346,14 +1419,35 @@ nbCode:
     checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>) <span class="hljs-comment">#Gets ignored</span>
 nbColorizeOutputUT
 
-<span class="hljs-comment">#TODO some more unittest examples, more unique ones please</span>
-<span class="hljs-comment">#TODO there is a `testament` module which says that it is better than unittest and is used by the Nim's compiler</span>
-  <span class="hljs-comment">#and with those words, it seems that unittest might be deprecated in the future, OR simply replaced,</span>
-  <span class="hljs-comment">#while keeping `unittest` module for people that are used to unit testing from other languages</span>
-  <span class="hljs-comment">#i think we should should covering unittest at this point, and add a new section for `testament` and show it</span>
-    <span class="hljs-comment">#and it's strenghts and weaknesses vs unittest</span>
-    <span class="hljs-comment">#The first strength of `testament` is that, it's automatic... no need to setup tests, which TAKES TIME,</span>
-      <span class="hljs-comment">#and is inconvenient!</span>
+nbSubSection <span class="hljs-string">&quot;`teardown` proc&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Just like how the `setup` proc is ran BEFORE every test, the `teardown` proc is ran AFTER every test,
+  but not after the end of the `suite`. In other words `setup` is ran before `1 + numberOfTests`, 
+  while `teardown` is ran after `numberOfTests`.
+
+  **Here is an example:**
+&quot;&quot;&quot;</span>
+nbCode:
+  suite <span class="hljs-string">&quot;Setup and teardown example&quot;</span>:
+    setup:
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Ran BEFORE every test AND at the beginning of the `suite`&quot;</span>
+    teardown:
+      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Ran AFTER every test&quot;</span>
+    test <span class="hljs-string">&quot;Simple arithmetic check&quot;</span>:
+      check(<span class="hljs-number">1</span> == <span class="hljs-number">1</span>)
+    test <span class="hljs-string">&quot;Just another test&quot;</span>:
+      check(<span class="hljs-string">&quot;a&quot;</span> == <span class="hljs-string">&quot;a&quot;</span>)
+    test <span class="hljs-string">&quot;Yet another test&quot;</span>:
+      check(<span class="hljs-number">1</span> == <span class="hljs-number">2</span>) <span class="hljs-comment">#_FAILED</span>
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Code put inside a suite, but OUTSIDE all of the tests, is also ran only once&quot;</span>
+nbColorizeOutputUT
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  The output is a bit confusing, because all of the echoes are happening before the `[OK]` outputs.
+  But that is just because the `[OK]` flag is outputted AFTER the entire test is finished, including the `setup` and `teardown`.
+
+  This is demonstrated very well with the one `[FAILED]` at the bottom.
+  First the `setup`'s echo triggers, then the error, then the `teardown` and finally the `[FAILED]` flag.
+&quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Testament automatic unit tester&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
@@ -1373,9 +1467,12 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   (You can change where this module looks for tests)
   Make sure that ALL of your tests start with the letter `t`, so `test.nim`, `tmyTest.nim`, etc.
 
+  #TODO check the forum post, we might be having a directory structure problem,
+    #even though we followed ringabout's tutorial... his structure might be wrong
+    #or something...
+    #the post does NOT address the freaking assert 42 == 42 FAILING !!!
   #TODO once we actually get this working, the wording will most probably change
-  #TODO why is this not working !?, And why when given full path it seems to work, but just show nothing...
-    #the tutorial has it working... wtf !?
+  #TODO Very brief showcase of running a simple single example only, this is long enough as is
 &quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Stack tracing&quot;</span>
@@ -1395,7 +1492,6 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   when the compiler can't, and ESPECIALLY in release mode, which has a lot of the safety measures for debugging,
   turned off for reasons of speed. But this has to be done manually by basically setting checkpoints.
 &quot;&quot;&quot;</span>
-<span class="hljs-comment">#TODO no messages in nimib...</span>
 nbCode:
   <span class="hljs-comment">#Stack tracing</span>
   <span class="hljs-keyword">proc</span> checkpoint2() =
@@ -1528,6 +1624,40 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   With all that said, this should of demonstrated how you can use Nim's embedded profiler to find bottle necks in your programs.
 &quot;&quot;&quot;</span>
 
+nbSection <span class="hljs-string">&quot;Using nimprof as a memory profiler&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Nim's embedded profiler can also be used to profile your program's memory.
+  It will tell you which stack traces use/allocate the most memory, and thus find memory bottle necks, or potentially memory leaks.
+  
+  To do this, all you have to do is `import nimprof`, set the following flags in your `config.nims` configuration file:
+&quot;&quot;&quot;</span>
+nbCodeSkip:
+  --profiler:off 
+  --stackTrace:on 
+  --d:memProfiler
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  And then run your program.
+  (Yes, `--profiler:off`, Seems bizzare but that's how this works...)
+
+  Sadly Nim's embedded profiler is kind of picky and will not give you ANY results if the sample size is too small.
+  Which is why the `Code Usage Profiling` example had to be run multiple times at least(1000 just to be safe).
+  And so for memory profiling, that example is terrible, as it does barely any allocations at all.
+
+  **So, here is an allocation heavy example for the memory profiler:**
+&quot;&quot;&quot;</span>
+nbCodeSkip:
+  <span class="hljs-keyword">import</span> std/nimprof 
+  <span class="hljs-keyword">import</span> std/strutils
+
+<span class="hljs-comment">#TODO getting EMPTY `profile_results.txt` file............ how many memory allocations are we actually doing ? MUST ALLOCATE MEMORY in order to get any results !!!</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  You can also set the following following flag `--d:ignoreAllocationSize`(define the symbol), 
+  so that the only the number of memory allocations get profiled, not the size.
+&quot;&quot;&quot;</span>
+<span class="hljs-comment">#TODO show the same example's results with the above flag</span>
+
 nbSection <span class="hljs-string">&quot;Time Elapsed Profiling/Benchmarking&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   I have already shown this in the `List Comprehensions with sugar.collect vs Python's List Comprehensions` tutorial.
@@ -1596,8 +1726,6 @@ CPU Time [collect] x 10000 = 0.000142400000s
 &lt;/pre&gt;
 &quot;&quot;&quot;</span>
 
-nbSection <span class="hljs-string">&quot;Debugging modules by Nim's community members&quot;</span>
-
 nbUoSection <span class="hljs-string">&quot;Outro - Afterwords&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Okay, that's it for this video, thanks for watching like, share and subscribe, 
@@ -1631,8 +1759,21 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbUoSubSection <span class="hljs-string">&quot;Links to this video's subject:&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-- [E.G.1. SDL2_nim documentation](https://vladar4.github.io/sdl2_nim/ &quot;Example link to an example video's subject&quot;)
-- [E.G.2. SDL2 documentation(in case SDL2_nim documentation missed something)](https://wiki.libsdl.org/APIByCategory &quot;Example link to an example video's subject&quot;)
+- [dump macro](https://nim-lang.org/docs/sugar.html#dump.m%2Cuntyped)
+- [dumpToString macro](https://nim-lang.org/docs/sugar.html#dumpToString.m%2Cuntyped)
+- [unittest module for advanced testing of your code](https://nim-lang.org/docs/unittest.html)
+- [unittest 2 potential candidate to replace unittest](https://github.com/status-im/nim-unittest2)
+- [Nim's embedded profiler](https://nim-lang.org/docs/nimprof.html)
+- [Embedded Stack Trace Profiler (ESTP) User Guide](https://nim-lang.org/docs/estp.html)
+&quot;&quot;&quot;</span>
+nbUoSubSection <span class="hljs-string">&quot;Stack Tracing procs, etc -&gt; (system module)&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  - [StackTraceEntry object](https://nim-lang.org/docs/nimprof.html)
+  - [getStackTrace proc](https://nim-lang.org/docs/system.html#getStackTrace)
+  - [getStackTraceEntries](https://nim-lang.org/docs/system.html#getStackTraceEntries)
+  - [nimGC_setStackBottom](https://nim-lang.org/docs/system.html#nimGC_setStackBottom%2Cpointer)
+  - [stackTraceAvailable](https://nim-lang.org/docs/system.html#nimGC_setStackBottom%2Cpointer)
+  - [writeStackTrace](https://nim-lang.org/docs/system.html#writeStackTrace)
 &quot;&quot;&quot;</span>
 
 nbSave()</code></pre>
