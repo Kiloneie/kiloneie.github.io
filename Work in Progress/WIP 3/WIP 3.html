@@ -62,12 +62,19 @@ pre > code {
 </li>
 <li>2. <a href="#unit-testing">Unit testing</a>
 <ul>
-<li>2.1. <a href="#stack-tracing">Stack tracing</a></li>
+<li>2.1. <a href="#`suite`-template"><code>suite</code> template</a></li>
+<li>2.2. <a href="#`test`-template"><code>test</code> template</a></li>
+<li>2.3. <a href="#`require`-template"><code>require</code> template</a></li>
+<li>2.4. <a href="#`check`-and-`setup`-templates"><code>check</code> and <code>setup</code> templates</a></li>
+<li>2.5. <a href="#`expect`-template"><code>expect</code> template</a></li>
+<li>2.6. <a href="#`checkpoint`-proc"><code>checkpoint</code> proc</a></li>
 </ul>
 </li>
-<li>3. <a href="#code-usage-profiling">Code Usage Profiling</a></li>
-<li>4. <a href="#time-elapsed-profiling/benchmarking">Time Elapsed Profiling/Benchmarking</a></li>
-<li>5. <a href="#debugging-modules-by-nim's-community-members">Debugging modules by Nim's community members</a></li>
+<li>3. <a href="#testament-automatic-unit-tester">Testament automatic unit tester</a></li>
+<li>4. <a href="#stack-tracing">Stack tracing</a></li>
+<li>5. <a href="#code-usage-profiling">Code Usage Profiling</a></li>
+<li>6. <a href="#time-elapsed-profiling/benchmarking">Time Elapsed Profiling/Benchmarking</a></li>
+<li>7. <a href="#debugging-modules-by-nim's-community-members">Debugging modules by Nim's community members</a></li>
 </ul>
       <meta name = "viewport" content = "width = device-width, initial-scale = 1">
       <style>
@@ -347,9 +354,15 @@ myLet of type float of value 0.99
 <h1>2. Unit testing</h1>
 <hr />
 <p>A more advanced way of debugging your programs is called <code>unit testing</code> by the usage of the <code>unittest</code> module.
-Unit testing works somewhat like using <code>assert</code>, but it has more options like not quiting on a failed test.
-Unit testing is not meant to stay in your programs in release versions, but to iron out the bugs before it gets to that.
-To start a unit test, you need to call the <code>suite</code> template to start a block of unit testing code like this:</p>
+Unit testing is the method that the vast majority of other programming languages use,
+and so Nim also has it.</p>
+<p>Unit testing works somewhat like using <code>assert</code>, but it has more options like not quiting on a failed test,
+and displaying what exactly failed.
+Unit testing is not meant to stay in your programs in release versions, but to iron out the bugs before it gets to that.</p>
+<p><a name = "`suite`-template"></a></p>
+<h2>  2.1. <code>suite</code> template</h2>
+<hr />
+<p>To start a unit test, you need to call the <code>suite</code> template to start a block of unit testing code like this:</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/unittest
 
 suite <span class="hljs-string">&quot;My tests&quot;</span>:
@@ -358,10 +371,26 @@ suite <span class="hljs-string">&quot;My tests&quot;</span>:
 <pre class = "" style = "overflow-x: auto;">
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> My tests
 </span></pre>
-<p>Then we use the <code>test</code> template for our tests, which starts a block of code,
-and then using the <code>require</code> template of type bool, we specify what value we want it to be, true or false,
-and this condition needs to be true otherwise the test fails. This is meant for code that is crucial for your program,
-that if it fails, there is no point in running anymore tests.</p>
+<p>As you can see, you have to name your <code>suite</code>, which serves as basically a collection of tests you will perform.</p>
+<p><a name = "`test`-template"></a></p>
+<h2>  2.2. <code>test</code> template</h2>
+<hr />
+<p>To begin unittesting our code, we need to use the <code>test</code> template for our tests which we also have to name.
+The <code>test</code> template then starts a test of the following block of code. And will return [OK], or [FAILED],
+depending on the checked code inside of it.</p>
+<pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;My tests&quot;</span>:
+  test <span class="hljs-string">&quot;Must be true&quot;</span>:
+    <span class="hljs-keyword">discard</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
+<pre class = "" style = "overflow-x: auto;">
+<span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> My tests
+  </span><span style = "color: rgba(0, 255, 0, 1)">[OK]</span> Must be true</pre>
+<p><a name = "`require`-template"></a></p>
+<h2>  2.3. <code>require</code> template</h2>
+<hr />
+<p>One can use the <code>require</code> template of type bool, to which we have to specify what value we want it to be, true or false.
+Then this condition needs to be of that bool value otherwise the test fails.
+This is meant for code that is crucial for your program, that if it fails, there is no point in running anymore tests.</p>
 <pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;My tests&quot;</span>:
   test <span class="hljs-string">&quot;Must be true&quot;</span>:
     require(<span class="hljs-literal">true</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
@@ -369,10 +398,13 @@ that if it fails, there is no point in running anymore tests.</p>
 <pre class = "" style = "overflow-x: auto;">
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> My tests
   </span><span style = "color: rgba(0, 255, 0, 1)">[OK]</span> Must be true</pre>
-<p>Showing an image from VS Code to show that the tests are colorized(green for success, red for failure)</p>
-<p>Now to test values there is the <code>check</code> template.
-You can also use the <code>setup</code> section for a <code>suite</code>, to for example declare variables you want to use in testing,
-these variables will be available to ALL the tests. You can also create variables inside tests,
+<p><a name = "`check`-and-`setup`-templates"></a></p>
+<h2>  2.4. <code>check</code> and <code>setup</code> templates</h2>
+<hr />
+<p>Now to check values to be of the desired value you want for the functionality of your program,
+there is the <code>check</code> template.</p>
+<p>You can also use the <code>setup</code> section for a <code>suite</code>, to for example declare variables you want to use in testing,
+those variables will be available to ALL of your tests. You can also create variables inside tests,
 but those will be local/available only to that test.</p>
 <p><strong>Here is an example of <code>check</code> and <code>setup</code> templates:</strong></p>
 <pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;My tests&quot;</span>:
@@ -391,7 +423,10 @@ but those will be local/available only to that test.</p>
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> My tests
   </span><span style = "color: rgba(0, 255, 0, 1)">[OK]</span> Must be true
   <span style = "color: rgba(0, 255, 0, 1)">[OK]</span> Fruit starting with the letter \"k\" </pre>
-<p>There is also the <code>expect</code> template which tries to catch an exception(a type of error),
+<p><a name = "`expect`-template"></a></p>
+<h2>  2.5. <code>expect</code> template</h2>
+<hr />
+<p>The <code>expect</code> template which tries to catch an exception(a type of error),
 and if a specified exception is raised/caught, the test of <code>expect</code> will pass,
 otherwise if the exception/error is NOT of the type specified, or if there isn't one at all, it will fail.</p>
 <p><strong>Here is an example:</strong></p>
@@ -415,24 +450,60 @@ otherwise if the exception/error is NOT of the type specified, or if there isn't
 
 <pre class = "" style = "overflow-x: auto;">
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Failed expect and check
-    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(556, 16): Check failed: 1 == 2
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(582, 16): Check failed: 1 == 2
   </span><span style = "color: rgba(255, 0, 0, 1)">[FAILED]</span> Failed check
-    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(559, 13): Expect Failed, no exception was thrown.
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(585, 13): Expect Failed, no exception was thrown.
   <span style = "color: rgba(255, 0, 0, 1)">[FAILED]</span> Failed expect</pre>
-<p>There is also the <code>checkpoint</code> proc which will print out all of the checkpoints set,
-if a <code>test</code> or <code>check</code> fails:</p>
+<p><a name = "`checkpoint`-proc"></a></p>
+<h2>  2.6. <code>checkpoint</code> proc</h2>
+<hr />
+<p>The <code>checkpoint</code> proc will print out all of the checkpoints set before a [FAILURE] occurs inside either a <code>test</code>,
+or a <code>check</code> template. It will NOT display [FAILURE], but instead, just the unittest error message:</p>
 <pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;Checkpoints&quot;</span>:
   checkpoint(<span class="hljs-string">&quot;Checkpoint Start&quot;</span>)
+  checkpoint(<span class="hljs-string">&quot;Checkpoint 2&quot;</span>)
   check((<span class="hljs-number">101</span>, <span class="hljs-string">&quot;Hello World!&quot;</span>) == (<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Hello&quot;</span>))
-  checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+  checkpoint(<span class="hljs-string">&quot;Checkpoint 3&quot;</span>)   <span class="hljs-comment">#Gets ignored</span>
+  checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>) <span class="hljs-comment">#Gets ignored</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
 
 <pre class = "" style = "overflow-x: auto;">
 <span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Checkpoints
     Checkpoint Start
-    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(571, 32): Check failed: (101, \"Hello World!\") == (1, \"Hello\")
+    Checkpoint 2
+    f:\\Nim\\Nim YouTube Projects\\Current Projects\\Nim's Debugging Methods\\NimsDebuggingMethods.nim(598, 32): Check failed: (101, \"Hello World!\") == (1, \"Hello\")
 </span></pre>
+<p>If we then make the <code>check</code> succeed, none of the checkpoints will be shown.</p>
+<pre><code class="nohighlight hljs nim">suite <span class="hljs-string">&quot;Checkpoints&quot;</span>:
+  checkpoint(<span class="hljs-string">&quot;Checkpoint Start&quot;</span>)
+  checkpoint(<span class="hljs-string">&quot;Checkpoint 2&quot;</span>)
+  check((<span class="hljs-number">101</span>, <span class="hljs-string">&quot;Hello World!&quot;</span>) == (<span class="hljs-number">101</span>, <span class="hljs-string">&quot;Hello World!&quot;</span>))
+  checkpoint(<span class="hljs-string">&quot;Checkpoint 3&quot;</span>)   <span class="hljs-comment">#Gets ignored</span>
+  checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>) <span class="hljs-comment">#Gets ignored</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+
+<pre class = "" style = "overflow-x: auto;">
+<span style = "color: rgba(0, 132, 255, 1)">[Suite]</span><span style = "color:white";> Checkpoints
+</span></pre>
+<p><a name = "testament-automatic-unit-tester"></a></p>
+<h1>3. Testament automatic unit tester</h1>
+<hr />
+<p>Testament is the Nim's way of advanced automatic unittesting.
+It offers one befit over the unittest module, which is process isolation for your tests.
+Instead of one instance running all of your tests, this will instead be split.
+This can offer great benefits such as, if multiple parts of your program you want tested,
+write to the <code>stdout</code>, and make a big mess, testament will avoid this.
+Obviously this is just the simplest example, it is very beneficial.</p>
+<p>Testament is shipped along with Nim, and doesn't require any imports.
+But to use it, you will have to use the terminal, like with <code>nimble</code>.
+<code>testament run test1.nim</code> is the simplest example of using testament.</p>
+<p>But before that, you should make a <code>tests</code> folder next to your main program.
+And inside it you will put your tests, which will be nim files <code>.nim</code>.
+(You can change where this module looks for tests)
+Make sure that ALL of your tests start with the letter <code>t</code>, so <code>test.nim</code>, <code>tmyTest.nim</code>, etc.</p>
+<p>#TODO once we actually get this working, the wording will most probably change
+#TODO why is this not working !?, And why when given full path it seems to work, but just show nothing...
+#the tutorial has it working... wtf !?</p>
 <p><a name = "stack-tracing"></a></p>
-<h2>  2.1. Stack tracing</h2>
+<h1>4. Stack tracing</h1>
 <hr />
 <p>Stack tracing is getting a report of the current active frame being executed by the compiler.
 The stack meaning, all the code we write that isn't a <code>string, sequence</code>,
@@ -447,18 +518,62 @@ because you can get the information on where the code crashed,
 when the compiler can't, and ESPECIALLY in release mode, which has a lot of the safety measures for debugging,
 turned off for reasons of speed. But this has to be done manually by basically setting checkpoints.</p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-comment">#Stack tracing</span>
-<span class="hljs-keyword">proc</span> a1() =
+<span class="hljs-keyword">proc</span> checkpoint2() =
   writeStackTrace()
 
-<span class="hljs-keyword">proc</span> a() =
-  a1()
+<span class="hljs-keyword">proc</span> checkpoint() =
+  checkpoint2()
 
-a()</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
+checkpoint()</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
 
+<img src = "images\stackTracing.png">
+<p>So the the stack trace starts at the top, <code>stackTracing</code> is the name of the file it's being called from,
+and the start of the stack trace.
+Then we have <code>checkpoint</code> which calls <code>checkpoint2</code> in that stack frame.</p>
+<p><strong>Here is another example:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils
+
+<span class="hljs-keyword">var</span> lowercaseWords = @[<span class="hljs-string">&quot;program&quot;</span>, <span class="hljs-string">&quot;nim&quot;</span>, <span class="hljs-string">&quot;gimp&quot;</span>, <span class="hljs-string">&quot;computer&quot;</span>]
+
+<span class="hljs-keyword">proc</span> capitalizeAscii(s: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
+  <span class="hljs-literal">result</span> = strutils.capitalizeAscii(s)
+  writeStackTrace()
+
+<span class="hljs-keyword">for</span> lWord <span class="hljs-keyword">in</span> lowercaseWords.mitems: <span class="hljs-comment">#Modifiable</span>
+  <span class="hljs-keyword">if</span> lWord[<span class="hljs-number">0</span>].isLowerAscii:
+    lWord = lWord.capitalizeAscii <span class="hljs-comment">#Our capitalizeAscii</span>
+
+<span class="hljs-keyword">echo</span> lowercaseWords</code></pre>
+<img src = "images\stackTracing2.png">
+<p>As you can see, we get 4x tracebacks for the 4x lowercaseWords.
+This is very useful to determine how many times a loop happened, but more importantly if something weird happened there,
+and most importantly, when the crash/error happened. For example, the program could run several times just fine,
+but then some data wasn't correct for a proc and a crash happened.
+If this happened inside a loop going trough a VERY large collection of data, it would be like finding a needle in a haystack.</p>
+<p><strong>Here is an example of just that, an error inside a loop:</strong></p>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils
+
+                      <span class="hljs-comment"># 0    1     2      3     4       5     6     7      8       9     10     11   12</span>
+<span class="hljs-keyword">var</span> integersToParse = @[<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;25&quot;</span>, <span class="hljs-string">&quot;101&quot;</span>, <span class="hljs-string">&quot;68&quot;</span>, <span class="hljs-string">&quot;-100&quot;</span>, <span class="hljs-string">&quot;75&quot;</span>, <span class="hljs-string">&quot;33&quot;</span>, <span class="hljs-string">&quot;-17&quot;</span>, <span class="hljs-string">&quot;10.1&quot;</span>, <span class="hljs-string">&quot;99&quot;</span>, <span class="hljs-string">&quot;-44&quot;</span>, <span class="hljs-string">&quot;0&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>]
+<span class="hljs-keyword">var</span> parsedIntegers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
+
+<span class="hljs-keyword">proc</span> parseInt(s: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">int</span> =
+  <span class="hljs-literal">result</span> = strutils.parseInt(s) <span class="hljs-comment">#This one is a proc {.noSideEffect.}</span>
+  writeStackTrace()
+
+<span class="hljs-keyword">for</span> number <span class="hljs-keyword">in</span> integersToParse:
+  parsedIntegers.add number.parseInt <span class="hljs-comment">#Our parseInt</span>
+
+<span class="hljs-keyword">echo</span> parsedIntegers</code></pre>
+<img src = "images\stackTracing3.png">
+<p>Now, this example doesn't have a big enough of a collection of data that you couldn't find the problem quickly.
+But it should demonstrate that, if that collection of data was in the hundreds, thousands and more,
+it would take just way too much time.</p>
+<p>And with that, stack tracing found the problem easily. Index 8 of <code>&quot;10.1&quot;</code> is a float when parsed, not an int.</p>
 <p><a name = "code-usage-profiling"></a></p>
-<h1>3. Code Usage Profiling</h1>
+<h1>5. Code Usage Profiling</h1>
 <hr />
-<p>This method will measure in % the amount of processing was spent of the total on a given call.
+<p>This method will measure in % the amount of processing was spent of the total on a given call(stack trace).
 To do this, we will have to <code>import std/nimprof</code> Nim's embedded profiler,
 and enable it and stack tracing with <strong>the following flags inside a <code>config.nims</code> file:</strong></p>
 <pre><code class="nohighlight hljs nim">--profiler:on 
@@ -500,9 +615,12 @@ So the first stack frame spent 86% on the <code>analyse proc</code>.
 <code>Profiling</code> with it's near 100% value, is just the profiler, you may completely ignore it.</p>
 <p>Then the second stack frame also took the same amount of processing on the <code>analyse proc</code>,
 but it also called the <code>numbers proc</code> 28% of the time.</p>
+<p>There are just 3 procs inside the <code>nimprof</code> module.
+These are the following <code>disableProfiling</code>, <code>enableProfiling</code> and <code>setSamplingFrequency</code>.
+You can use the enable and disableProfiling procs to mark only the desired parts of your code to profile.</p>
 <p>With all that said, this should of demonstrated how you can use Nim's embedded profiler to find bottle necks in your programs.</p>
 <p><a name = "time-elapsed-profiling/benchmarking"></a></p>
-<h1>4. Time Elapsed Profiling/Benchmarking</h1>
+<h1>6. Time Elapsed Profiling/Benchmarking</h1>
 <hr />
 <p>I have already shown this in the <code>List Comprehensions with sugar.collect vs Python's List Comprehensions</code> tutorial.
 But i have a bit more to say, and it has to included in this tutorial.</p>
@@ -562,7 +680,7 @@ CPU Time [index  ] x 10000 = 0.000157300000s
 CPU Time [collect] x 10000 = 0.000142400000s
 </pre>
 <p><a name = "debugging-modules-by-nim's-community-members"></a></p>
-<h1>5. Debugging modules by Nim's community members</h1>
+<h1>7. Debugging modules by Nim's community members</h1>
 <hr />
 <h1>Outro - Afterwords</h1>
 <hr />
@@ -1101,8 +1219,16 @@ nbCode:
 nbSection <span class="hljs-string">&quot;Unit testing&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   A more advanced way of debugging your programs is called `unit testing` by the usage of the `unittest` module.
-  Unit testing works somewhat like using `assert`, but it has more options like not quiting on a failed test.
+  Unit testing is the method that the vast majority of other programming languages use,
+  and so Nim also has it.
+
+  Unit testing works somewhat like using `assert`, but it has more options like not quiting on a failed test,
+  and displaying what exactly failed.
   Unit testing is not meant to stay in your programs in release versions, but to iron out the bugs before it gets to that.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;`suite` template&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
   To start a unit test, you need to call the `suite` template to start a block of unit testing code like this:
 &quot;&quot;&quot;</span>
 nbCode:
@@ -1113,10 +1239,26 @@ nbCode:
 nbColorizeOutputUT <span class="hljs-comment">#TODO - our template makes an extra line... if we delete the first 2 indexes, we delete &lt;s ...</span>
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Then we use the `test` template for our tests, which starts a block of code,
-  and then using the `require` template of type bool, we specify what value we want it to be, true or false,
-  and this condition needs to be true otherwise the test fails. This is meant for code that is crucial for your program,
-  that if it fails, there is no point in running anymore tests.
+  As you can see, you have to name your `suite`, which serves as basically a collection of tests you will perform.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;`test` template&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  To begin unittesting our code, we need to use the `test` template for our tests which we also have to name.
+  The `test` template then starts a test of the following block of code. And will return [OK], or [FAILED],
+  depending on the checked code inside of it.
+&quot;&quot;&quot;</span>
+nbCode:
+  suite <span class="hljs-string">&quot;My tests&quot;</span>:
+    test <span class="hljs-string">&quot;Must be true&quot;</span>:
+      <span class="hljs-keyword">discard</span>
+nbColorizeOutputUT
+
+nbSubSection <span class="hljs-string">&quot;`require` template&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  One can use the `require` template of type bool, to which we have to specify what value we want it to be, true or false.
+  Then this condition needs to be of that bool value otherwise the test fails. 
+  This is meant for code that is crucial for your program, that if it fails, there is no point in running anymore tests.
 &quot;&quot;&quot;</span>
 nbCode:
   suite <span class="hljs-string">&quot;My tests&quot;</span>:
@@ -1124,12 +1266,13 @@ nbCode:
       require(<span class="hljs-literal">true</span>)
 nbColorizeOutputUT
 
+nbSubSection <span class="hljs-string">&quot;`check` and `setup` templates&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Showing an image from VS Code to show that the tests are colorized(green for success, red for failure)
-
-  Now to test values there is the `check` template.
+  Now to check values to be of the desired value you want for the functionality of your program, 
+  there is the `check` template.
+  
   You can also use the `setup` section for a `suite`, to for example declare variables you want to use in testing,
-  these variables will be available to ALL the tests. You can also create variables inside tests,
+  those variables will be available to ALL of your tests. You can also create variables inside tests,
   but those will be local/available only to that test.
 
   **Here is an example of `check` and `setup` templates:**
@@ -1148,8 +1291,9 @@ nbCode:
       check kFruit == <span class="hljs-string">&quot;kiwi&quot;</span>
 nbColorizeOutputUT
 
+nbSubSection <span class="hljs-string">&quot;`expect` template&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  There is also the `expect` template which tries to catch an exception(a type of error),
+  The `expect` template which tries to catch an exception(a type of error),
   and if a specified exception is raised/caught, the test of `expect` will pass, 
   otherwise if the exception/error is NOT of the type specified, or if there isn't one at all, it will fail.
   
@@ -1173,24 +1317,68 @@ nbCode:
     test <span class="hljs-string">&quot;Failed expect&quot;</span>: <span class="hljs-comment">#Because it expects IndexDefect(IOOB)</span>
       <span class="hljs-keyword">let</span> numbers = @[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]
       expect(<span class="hljs-type">IndexDefect</span>):
-        <span class="hljs-keyword">discard</span> numbers[<span class="hljs-number">0</span>]
-        
+        <span class="hljs-keyword">discard</span> numbers[<span class="hljs-number">0</span>] 
 nbColorizeOutputUT <span class="hljs-comment">#TODO weirdly almost all of it is green colorized without using the nbColorizeOutputUT</span>
 
+nbSubSection <span class="hljs-string">&quot;`checkpoint` proc&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  There is also the `checkpoint` proc which will print out all of the checkpoints set,
-  if a `test` or `check` fails:
+  The `checkpoint` proc will print out all of the checkpoints set before a [FAILURE] occurs inside either a `test`,
+  or a `check` template. It will NOT display [FAILURE], but instead, just the unittest error message:
 &quot;&quot;&quot;</span>
 nbCode:
   suite <span class="hljs-string">&quot;Checkpoints&quot;</span>:
     checkpoint(<span class="hljs-string">&quot;Checkpoint Start&quot;</span>)
+    checkpoint(<span class="hljs-string">&quot;Checkpoint 2&quot;</span>)
     check((<span class="hljs-number">101</span>, <span class="hljs-string">&quot;Hello World!&quot;</span>) == (<span class="hljs-number">1</span>, <span class="hljs-string">&quot;Hello&quot;</span>))
-    checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>)
+    checkpoint(<span class="hljs-string">&quot;Checkpoint 3&quot;</span>)   <span class="hljs-comment">#Gets ignored</span>
+    checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>) <span class="hljs-comment">#Gets ignored</span>
+nbColorizeOutputUT
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  If we then make the `check` succeed, none of the checkpoints will be shown.
+&quot;&quot;&quot;</span>
+nbCode:
+  suite <span class="hljs-string">&quot;Checkpoints&quot;</span>:
+    checkpoint(<span class="hljs-string">&quot;Checkpoint Start&quot;</span>)
+    checkpoint(<span class="hljs-string">&quot;Checkpoint 2&quot;</span>)
+    check((<span class="hljs-number">101</span>, <span class="hljs-string">&quot;Hello World!&quot;</span>) == (<span class="hljs-number">101</span>, <span class="hljs-string">&quot;Hello World!&quot;</span>))
+    checkpoint(<span class="hljs-string">&quot;Checkpoint 3&quot;</span>)   <span class="hljs-comment">#Gets ignored</span>
+    checkpoint(<span class="hljs-string">&quot;Checkpoint End&quot;</span>) <span class="hljs-comment">#Gets ignored</span>
 nbColorizeOutputUT
 
 <span class="hljs-comment">#TODO some more unittest examples, more unique ones please</span>
+<span class="hljs-comment">#TODO there is a `testament` module which says that it is better than unittest and is used by the Nim's compiler</span>
+  <span class="hljs-comment">#and with those words, it seems that unittest might be deprecated in the future, OR simply replaced,</span>
+  <span class="hljs-comment">#while keeping `unittest` module for people that are used to unit testing from other languages</span>
+  <span class="hljs-comment">#i think we should should covering unittest at this point, and add a new section for `testament` and show it</span>
+    <span class="hljs-comment">#and it's strenghts and weaknesses vs unittest</span>
+    <span class="hljs-comment">#The first strength of `testament` is that, it's automatic... no need to setup tests, which TAKES TIME,</span>
+      <span class="hljs-comment">#and is inconvenient!</span>
 
-nbSubSection <span class="hljs-string">&quot;Stack tracing&quot;</span>
+nbSection <span class="hljs-string">&quot;Testament automatic unit tester&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Testament is the Nim's way of advanced automatic unittesting.
+  It offers one befit over the unittest module, which is process isolation for your tests.
+  Instead of one instance running all of your tests, this will instead be split.
+  This can offer great benefits such as, if multiple parts of your program you want tested,
+  write to the `stdout`, and make a big mess, testament will avoid this.
+  Obviously this is just the simplest example, it is very beneficial.
+
+  Testament is shipped along with Nim, and doesn't require any imports.
+  But to use it, you will have to use the terminal, like with `nimble`.
+  `testament run test1.nim` is the simplest example of using testament.
+
+  But before that, you should make a `tests` folder next to your main program.
+  And inside it you will put your tests, which will be nim files `.nim`.
+  (You can change where this module looks for tests)
+  Make sure that ALL of your tests start with the letter `t`, so `test.nim`, `tmyTest.nim`, etc.
+
+  #TODO once we actually get this working, the wording will most probably change
+  #TODO why is this not working !?, And why when given full path it seems to work, but just show nothing...
+    #the tutorial has it working... wtf !?
+&quot;&quot;&quot;</span>
+
+nbSection <span class="hljs-string">&quot;Stack tracing&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   Stack tracing is getting a report of the current active frame being executed by the compiler.
   The stack meaning, all the code we write that isn't a `string, sequence`,
@@ -1210,17 +1398,73 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 <span class="hljs-comment">#TODO no messages in nimib...</span>
 nbCode:
   <span class="hljs-comment">#Stack tracing</span>
-  <span class="hljs-keyword">proc</span> a1() =
+  <span class="hljs-keyword">proc</span> checkpoint2() =
     writeStackTrace()
 
-  <span class="hljs-keyword">proc</span> a() =
-    a1()
+  <span class="hljs-keyword">proc</span> checkpoint() =
+    checkpoint2()
 
-  a()
+  checkpoint()
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\stackTracing.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  So the the stack trace starts at the top, `stackTracing` is the name of the file it's being called from, 
+  and the start of the stack trace.
+  Then we have `checkpoint` which calls `checkpoint2` in that stack frame.
+
+  **Here is another example:**
+&quot;&quot;&quot;</span>
+nbCodeSkip:
+  <span class="hljs-keyword">import</span> std/strutils
+
+  <span class="hljs-keyword">var</span> lowercaseWords = @[<span class="hljs-string">&quot;program&quot;</span>, <span class="hljs-string">&quot;nim&quot;</span>, <span class="hljs-string">&quot;gimp&quot;</span>, <span class="hljs-string">&quot;computer&quot;</span>]
+
+  <span class="hljs-keyword">proc</span> capitalizeAscii(s: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
+    <span class="hljs-literal">result</span> = strutils.capitalizeAscii(s)
+    writeStackTrace()
+
+  <span class="hljs-keyword">for</span> lWord <span class="hljs-keyword">in</span> lowercaseWords.mitems: <span class="hljs-comment">#Modifiable</span>
+    <span class="hljs-keyword">if</span> lWord[<span class="hljs-number">0</span>].isLowerAscii:
+      lWord = lWord.capitalizeAscii <span class="hljs-comment">#Our capitalizeAscii</span>
+
+  <span class="hljs-keyword">echo</span> lowercaseWords
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\stackTracing2.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  As you can see, we get 4x tracebacks for the 4x lowercaseWords.
+  This is very useful to determine how many times a loop happened, but more importantly if something weird happened there,
+  and most importantly, when the crash/error happened. For example, the program could run several times just fine,
+  but then some data wasn't correct for a proc and a crash happened. 
+  If this happened inside a loop going trough a VERY large collection of data, it would be like finding a needle in a haystack.
+
+  **Here is an example of just that, an error inside a loop:**
+&quot;&quot;&quot;</span>
+nbCodeSkip:
+  <span class="hljs-keyword">import</span> std/strutils
+
+                        <span class="hljs-comment"># 0    1     2      3     4       5     6     7      8       9     10     11   12</span>
+  <span class="hljs-keyword">var</span> integersToParse = @[<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;25&quot;</span>, <span class="hljs-string">&quot;101&quot;</span>, <span class="hljs-string">&quot;68&quot;</span>, <span class="hljs-string">&quot;-100&quot;</span>, <span class="hljs-string">&quot;75&quot;</span>, <span class="hljs-string">&quot;33&quot;</span>, <span class="hljs-string">&quot;-17&quot;</span>, <span class="hljs-string">&quot;10.1&quot;</span>, <span class="hljs-string">&quot;99&quot;</span>, <span class="hljs-string">&quot;-44&quot;</span>, <span class="hljs-string">&quot;0&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>]
+  <span class="hljs-keyword">var</span> parsedIntegers: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">int</span>]
+
+  <span class="hljs-keyword">proc</span> parseInt(s: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">int</span> =
+    <span class="hljs-literal">result</span> = strutils.parseInt(s) <span class="hljs-comment">#This one is a proc {.noSideEffect.}</span>
+    writeStackTrace()
+
+  <span class="hljs-keyword">for</span> number <span class="hljs-keyword">in</span> integersToParse:
+    parsedIntegers.add number.parseInt <span class="hljs-comment">#Our parseInt</span>
+
+  <span class="hljs-keyword">echo</span> parsedIntegers
+
+nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;images\stackTracing3.png&quot;&gt;&quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  Now, this example doesn't have a big enough of a collection of data that you couldn't find the problem quickly.
+  But it should demonstrate that, if that collection of data was in the hundreds, thousands and more,
+  it would take just way too much time.
+
+  And with that, stack tracing found the problem easily. Index 8 of `&quot;10.1&quot;` is a float when parsed, not an int.
+&quot;&quot;&quot;</span>
 
 nbSection <span class="hljs-string">&quot;Code Usage Profiling&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  This method will measure in % the amount of processing was spent of the total on a given call.
+  This method will measure in % the amount of processing was spent of the total on a given call(stack trace).
   To do this, we will have to `import std/nimprof` Nim's embedded profiler,
   and enable it and stack tracing with **the following flags inside a `config.nims` file:**
 &quot;&quot;&quot;</span>
@@ -1276,6 +1520,10 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 
   Then the second stack frame also took the same amount of processing on the `analyse proc`,
   but it also called the `numbers proc` 28% of the time.
+
+  There are just 3 procs inside the `nimprof` module.
+  These are the following `disableProfiling`, `enableProfiling` and `setSamplingFrequency`.
+  You can use the enable and disableProfiling procs to mark only the desired parts of your code to profile.
 
   With all that said, this should of demonstrated how you can use Nim's embedded profiler to find bottle necks in your programs.
 &quot;&quot;&quot;</span>
