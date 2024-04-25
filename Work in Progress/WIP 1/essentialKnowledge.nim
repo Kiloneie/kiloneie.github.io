@@ -411,7 +411,7 @@ nbCode:
 
 nbText: """
   It works! But it is very long, unreadable and complex.
-  But since it works, this will enable you to disect and play with any Nimcode.
+  But since it works, this will enable you to dissect and play with any Nimcode.
 
   **Here is my attempt to make it more readable in order to explain,
   all the different nodes and such seen in that outputted code:**
@@ -471,7 +471,7 @@ nbText: """
 nbSubSection "`nnkVarSection`"
 nbText: """
   nnkVarSection means either a variable with `var`, 
-  or a type section with `var`, like how you declare objects, enumerators, optionally tuples, etc like this:
+  or a code section with `var`, like how you declare objects, enumerators, optionally tuples, etc like this:
 """
 nbRawHtml: hlhtml"""<img src = "Images\1.png" alt = "Line 1">"""
 
@@ -491,9 +491,8 @@ nbRawHtml: hlhtml"""<img src = "Images\1.png" alt = "Line 1">"""
 
 nbSubSection "`nnkEmptyNode`"
 nbText: """
-  The `nnkEmptyNode` represents the explicitly declared type in a declaration.
-  But since this is NOT and declaration, but a initialization, the compiler takes care of that, 
-  by infering the type from the value
+  The `nnkEmptyNode` is used and present, whenever a value or a type is not explicitly declared and or initialized.
+  Just like when we write our code normally, the compiler can infer the type from the value.
 
   **Here is an example of all 3, which will show just that:**
 """
@@ -532,18 +531,22 @@ nbCodeSnippet: hlnim"""
 """
 
 nbSubSection "`nnkEmptyNode` explanation and `nnkCall`"
-nbText: """
-  As you can see the `newEmptyNode` is present for all 3 ways of making a variable.
-  Initialization, declaration and declaration with initialization.
-  
-  So here is my explanation: <br>
+nbText: """  
+  Here is my explanation of the above: <br>
   `variableName as declaredType of someValue`,
-  and so the `collect` example's of the `dumpAstGen`'s first line then reads as follows:
+  and so the `collect`'s example of the `dumpAstGen`'s first line then reads as follows:
   `pFruit2 as noTypeDeclared of collect -> nnkCall(calls a proc, func, iterator, macro, etc)`
-  And since `collect` uses whatever logic/a body you want to collect the elements for a container,
+  And since `collect` uses whatever logic/a body you want, to collect the elements for a container,
   that `nnkCall` doesn't end at the end of that line, but at the end of all the logic for `collect`,
   **here is an image to illustrate:**
 """
+nbCodeSkip:
+  dumpAstGen:
+    var pFruit2 = collect:
+      for p in @["banana", "peach", "apple", "pear"]:
+        if $p[0] == "p":
+          p
+    echo pFruit2
 nbRawHtml: hlhtml"""<img src = "Images\EndOfnnkCall.png" alt = "EndOfnnkCall">"""
 
 nbSubSection "`nnkForStmt`"
@@ -560,7 +563,7 @@ nbText: """
   Then we get to `nnkPrefix` with `.newTree` appended to it, will hold the following:
     `newIdentNode("@")` the symbol used to indicate that we mean a `sequence` and not an `array`,
     which is then followed by the `nnkBracket.newTree` which then holds all the elements we gave it,
-    of type `newLit` short for literal, meaning string data type.
+    of type `newLit` short for literal, which is a proc that generates a new NimNode of some Nim's data type like integer and string.
 """
 
 nbSubSection "`nnkIfStmt`,`nnkElifBranch` and `nnkElse` nodes"
@@ -647,17 +650,18 @@ nnkElse.newTree(
 )
 """
 
+#The below text is for the below code - even i got confused reading this after over a month...
 nbText: """
-  Like with all AST, all of the code from from the output of the `dumpAstGen` macro,
+  Like with all AST, all of the code from the output of the `dumpAstGen` macro,
   starts with a `nnkStmtList.newTree` for the entire block.
-  Then comes `nnkIfStmt.newTree` which in this example ends right before the starting statement list.
+  Then comes `nnkIfStmt.newTree` which ends right before the starting statement list does.
   Then comes the `nnkElifBranch.newTree` which will be present for every if, elif and else statements,
   it marks the branch/scope of that conditional statement.
   Same level connected conditionals share the same `nnkElifBranch`.
   So if you were to nest inside that if statement another if statement,
   another `nnkElifBranch` would be called/started there.
 
-  **Here is an example:**
+  **Here is an example of an `if` statement inside an `if` statement:**
 """
 nbCode:
   dumpAstGen:
@@ -705,6 +709,7 @@ nnkStmtList.newTree(
 """
 
 nbText: """
+  (Starting example) <br>
   Then inside the first `nnkElifBranch.newTree` comes `nnkInfix` for the comparsion of `1 == 1`.
   And like before all variable names and operators,
   the equals operator `==` requires an identifier node `newIdentNode`, followed by 2x `newLit`, literal nodes.
@@ -740,16 +745,16 @@ nnkStmtList.newTree(
 """
 
 nbText: """
-  Then after the `nnkInfix.newTree` ends, separater with a comma `,`, comes the body of the `if` statement.
+  Then after the `nnkInfix.newTree` ends, separated with a comma `,`, comes the body of the `if` statement.
   For the `echo` to actually do something, it has to be inside either a `nnkCommand` node's `newTree`,
   or inside a `nnkCall`'s `.newTree`. In this case it is a `nnkCommand` node, 
   with 2x `newLit` nodes, 1x for each of the echo's arguments.
 
   You might have noticed that the `newLit` nodes are used for both numbers and strings.
-  The `newLit` node will be used for every simple data type in Nim, it holds just about any data type in a string representation.
-  And since this is an `echo` call which stringifies it's arguments,
+  This is again, because it is a overloaded proc that returns a NimNode of some kind.
+  And also, since this is an `echo` call which stringifies it's arguments,
   there is no need for any more specific node kind, which might be required if you are trying to do something more specific.
-  Just as a reminder `newIdentNode` is used for variable names, proc names, etc.
+  Just as a reminder `newIdentNode` is used for variable names, proc names, etc. An identifier is the name of the group `var`, `let` and `const` belong to.
 
   And lastly, part 3 simply starts with `nnkElse.newTree` with another `nnkStmtList.newTree` for the body of the `else statement`,
   with an identifier node and it's argument `newIdentNode("echo"), newLit("1 is not 1")`.
@@ -775,7 +780,7 @@ nbText: """
 """
 nbSubSection "`stdout.write`"
 nbText: """
-  **Here is an example of constructing a `stdout.write "Hello!`:**
+  **Here is an example of constructing a `stdout.write "Hello!"`:**
 """
 nbCode:
   macro testMacro() =
@@ -822,7 +827,7 @@ nbCode:
 nbText: """
   This will output "The OS is Windows" in the output tab.
 
-  **And here if a version using the `when` compile-time version of the `if` statement i have shown long ago:**
+  **And here is a version using the `when` compile-time version of the `if` statement i have shown long ago:**
 """
 nbCode:
   when defined windows:
@@ -871,8 +876,10 @@ nbSection "More Metaprogramming Essentials"
 nbSubSection "Parsing Nimcode"
 nbText: """
   If we use a Macro with an argument, that argument can be a body of valid Nim Code,
-  which the Macro will receive as a NimNode, which can then be turned into `string` with the `repr` proc.
-  Which can then be parsed with the `parseStmt` for multiple lines of code, and `parseExpr` for a signular line of code.
+  which the Macro will receive as a NimNode, which can then be turned into `string` with the `repr` proc for debugging.
+  Which can then also be parsed with the `parseStmt` for multiple lines of code, and `parseExpr` for a singular line of code.
+  You should only do this if you already have some valid Nim code in the form of a string,
+  you should NOT use strings to generate new Nim code, domain specific languages etc.
 
   **Here is an example of taking a block of code into a Macro, and then parsing it in order to execute the given code:**
 """
@@ -891,77 +898,27 @@ nbText: """
 nbRawHtml: hlhtml"""<img src = "Images\executeCodeOutput.png" alt = "executeCodeOutput">"""
 
 nbText: """
-  As you can see the code is captured whole as a block,
-  but if we split it by lines using the `splitLines` proc from the `strutils` module,
-  and then execute the code line by line, a problem will occur.
+  As you can see the code is captured whole as a block.
 """
 
-nbText: """
-  The problem is that we are now trying to execute the head of the `if` statement, without it's body.
-  In order to fix this, we have to execute at least 1x non scope starting/conditional line of code.
+nbSubSection "Parsing Nimcode use case"
+nbText """
+  Whenever you want to extract some specific data from a string, e.g. a number and then use it like a number would be used, you first need to parse it like we have done in the past.
 
-  **Here is an example:**
+  **[In case it is NOT clear]**
+  <h6>A "parser" is NOT a "compiler". A parser translates/converts string into AST which is then passed to a compiler that then compiles to machine code, which can then be executed.
+  In Nim's case it compiles to the "c" programming language first, which then get compiled via a "c" compiler like the "gcc" that Nim uses by default.
+  I am saying this, for the reason of dissuading you from using parsing of `parseExpr` and `parseStmt` to generate Nim code.</h6>
+
+  A concrete example and use case of using "strings" to generate code, is the `Nim's Playground`, which i have used in the past to share the code of my videos.
+  So if you already have existing valid code, like the code one writes on the `Nim's Playground`, you will use a parsing proc like `parseExpr` for singular and `parseStmt` for multiple code statements.
+  For every other code generation like a domain specific language, some new behaviour you want to use, etc, you will use Nim Nodes like at the start of this tutorial,
+  because it has a known, well defined structure, which makes it easier to generate new code, with introspection(logic) and be less error prone.
+  It's hard to find an error in a string.
+
+  Now if you are in need of this use case, you can use the `strformat` module to get procs and the like, to greatly help you with that.
 """
-nbCode:
-  import std/strutils
-
-  macro executeLineByLine0(code: untyped) =
-    result = "".parseStmt #Setting the result variable to the correct type
-
-    var linesOfCode: seq[string] = code.repr.splitLines
-
-    for line in linesOfCode:
-      result.add line.parseStmt
-
-  #[ executeLineByLine0:
-    var b = 20
-    if b == 20:
-      echo "b is 20" ]#
-
-nbCodeSnippet: hlNim"""
-  executeLineByLine0:
-    if a == 10:
-      echo "a is 10"
-      echo "hello"
-"""
-nbRawHtml: hlhtml"""<img src = "Images\invalidIndentation.png" alt = "invalidIndentation">"""
-
-nbText: """
-  **Here is the fixed example:**
-"""
-nbCode:
-  from std/strutils import startsWith #This is how you only import a single thing from a module
-
-  macro executeLineByLine(code: untyped) =
-    result = "".parseStmt #Setting the result variable to the correct type
-
-    var linesOfCode: seq[string] = code.repr.splitLines
-
-    var index = 0
-    while index < linesOfCode.len:
-      if linesOfCode[index].startsWith("if"):
-        result.add (linesOfCode[index] & linesOfCode[index+1]).parseStmt
-        index += 2
-      else:
-        result.add linesOfCode[index].parseStmt
-        index += 1
-
-  executeLineByLine:
-    var b = 20
-    if b == 20:
-      echo "b is 20"
-
-nbText: """
-  First of, we require the `startsWith` proc from the `strutils` module, for each checking if the line starts with an `if` statement,
-  so that we can then parse more than just the head of the `if` statement to fix the problem of trying to parse just the condition of an `if` statement.
-  To only import the single proc that we require instead of the entire module, this is done like this `from moduleName import whatYouWant`.
-
-  Then instead of using a `for` loop like in the first broken example, we use a `while` loop instead,
-  so that we can jump the iteration by 2 instead of just 1. This is important, because if we add the `if` statement line,
-  and it's body and we only increment the index by 1, then the `else` statement will also `parseStmt` the body of the `if` statement,
-  resulting in `echo "b is 20"` twice. Using the `mpairs` iterator and then trying to modify the index, will result in an error,
-  you cannot modify a `for` loop during it's iteration, only it's `value pair`, the second identifier you use.
-"""
+#Why am i repeating what i just said in the subsection above ? Because too many people use "strings" to generate new Nim code, instead of using Nim Nodes specifically made for this!
 
 nbSubSection "`NimNode` and `NimNodeKind`"
 nbText: """
@@ -990,7 +947,7 @@ nbRawHtml: hlhtml"""<img src = "Images\defaultNimNodeKind.png" alt = "defaultNim
 
 nbSubSection "ExpectNimNode"
 nbText: """
-  When passing arguments to a Macro, one can check the `NimNodeKind` in order enforce a desired functionality,
+  When passing arguments to a Macro, one can check the `NimNodeKind` in order to enforce a desired functionality,
   with one of the following procs:
 
   - expectIdent(n: NimNode; name: string)
@@ -1054,19 +1011,19 @@ nbCode:
 
 nbSubSection "Using Error Messages"
 nbText: """
-  As with all code, errors and their error messages can be quite helpful.
-  They are used to prevent unwanted behaviour that could cause unforeseen consequences or behaviour.
+  When we make mistakes, we usually won't even know that we made one, and then assuming we get no error messages, unless we see the result being horribly wrong, or not what we wanted,
+  we will not know that we made such a mistake, which if caught too late, can cause all kinds of problems and time delays(the same applies to bad parenting...).
+  Now in Nim, like in most programming languages, especially the statically typed ones, we have the compiler to help us out, by providing us with errors and their error messages at compilation,
+  and even runtime.
 
   I have one relevant error to this tutorial to produce to help with debugging and preventing unwanted behaviour. 
-  Earlier in the tutorial we parsed some Nim Code and caused an error of "invalid indentation",
-  when we tried to parse just the head, the condition part of an `if` statement.
-  That error message is not exactly clear where the problem occured if you were to parse much longer code.
+  Earlier in the tutorial we parsed some simple Nim Code, now if we tried to parse a string of code of say an `if` statement, with just it's head/the logic and no body/the code it executes,
+  we will cause an `invalid indentation` error.
+  That error message will not exactly be clear where the problem occured if you were to parse a much longer code string.
   To help with this, if we invoked/caused an error when parsing line by line and scope by scope,
   the error location would be found much more easily.
 
-  **Here is the erroneous parsing example from above(before the solution), 
-  of trying to parse line by line, which causes an error trying to parse just the head of the `if` statement:**
-  <h6>Slightly renamed to avoid confusion and redefinition</h6>
+  **Here is the erroneous parsing example, of trying to parse line by line, which causes an error trying to parse just the head of the `if` statement:**
 """
 nbCodeSkip:
   macro executeLineByLineError(code: untyped) =
@@ -1090,7 +1047,13 @@ nbRawHtml: hlhtml"""<img src = "Images\CustomErrorVSCode.png" alt = "CustomError
 nbRawHtml: hlhtml"""<img src = "Images\CustomErrorVSCode2.png" alt = "CustomErrorVSCode2">"""
 nbRawHtml: hlhtml"""<img src = "Images\CustomErrorTerminal.png" alt = "CustomErrorTerminal">"""
 nbText: """
-  I am not exactly sure why the line the error is caused upon is 1106 instead of 1107. #TODO ask araq, and ask him on the lineinfo for the error if we set it right
+  I am not exactly sure why the line the error is called from is 1106 instead of 1107, but you should be able to figure out the problematic line of code from there fairly easily.
+"""
+
+nbSubSection "Nim's macro system uses the same AST as the compiler"
+nbText: """
+  By learning Macros, not only will you be able to make your own constructs, domain specific languages, syntatic sugar, etc, but you will be able to understand Nim's Compiler,
+  and with that access to the huge amount of code, you probably couldn't understand before, that you can now utilize to make your own preprocesor or even a compiler.
 """
 
 nbUoSection "Outro - Afterwords"

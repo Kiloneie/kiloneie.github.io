@@ -5,7 +5,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
   <meta content="text/html; charset=utf-8" http-equiv="content-type">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <meta content="nimib 0.3.9" name="generator">
+  <meta content="nimib 0.3.11" name="generator">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
@@ -37,6 +37,13 @@ pre > code {
 .nb-output {
   line-height: 1.15;
 }
+figure {
+  margin: 2rem 0;
+}
+figcaption {
+  text-align: center;
+}
+  
 </style>
   
 </head>
@@ -81,9 +88,11 @@ pre > code {
 <li>4. <a href="#more-metaprogramming-essentials">More Metaprogramming Essentials</a>
 <ul>
 <li>4.1. <a href="#parsing-nimcode">Parsing Nimcode</a></li>
-<li>4.2. <a href="#`nimnode`-and-`nimnodekind`"><code>NimNode</code> and <code>NimNodeKind</code></a></li>
-<li>4.3. <a href="#expectnimnode">ExpectNimNode</a></li>
-<li>4.4. <a href="#using-error-messages">Using Error Messages</a></li>
+<li>4.2. <a href="#parsing-nimcode-use-case">Parsing Nimcode use case</a></li>
+<li>4.3. <a href="#`nimnode`-and-`nimnodekind`"><code>NimNode</code> and <code>NimNodeKind</code></a></li>
+<li>4.4. <a href="#expectnimnode">ExpectNimNode</a></li>
+<li>4.5. <a href="#using-error-messages">Using Error Messages</a></li>
+<li>4.6. <a href="#nim's-macro-system-uses-the-same-ast-as-the-compiler">Nim's macro system uses the same AST as the compiler</a></li>
 </ul>
 </li>
 </ul>
@@ -369,7 +378,7 @@ dumpAstGen:
 sugarCollect</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">@[&quot;peach&quot;, &quot;pear&quot;]</pre></code></pre>
 
 <p>It works! But it is very long, unreadable and complex.
-But since it works, this will enable you to disect and play with any Nimcode.</p>
+But since it works, this will enable you to dissect and play with any Nimcode.</p>
 <p><strong>Here is my attempt to make it more readable in order to explain,
 all the different nodes and such seen in that outputted code:</strong></p>
   <h6>(best viewed in VS Code)</h6>
@@ -423,7 +432,7 @@ with the first one not requiring one.</p>
 <h2>  2.2. <code>nnkVarSection</code></h2>
 <hr />
 <p>nnkVarSection means either a variable with <code>var</code>,
-or a type section with <code>var</code>, like how you declare objects, enumerators, optionally tuples, etc like this:</p>
+or a code section with <code>var</code>, like how you declare objects, enumerators, optionally tuples, etc like this:</p>
 <img src = "Images\1.png" alt = "Line 1">
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">var</span>
   a = <span class="hljs-number">1</span>
@@ -439,9 +448,8 @@ or both if declaring with initialization(useful for Tuples).</p>
 <p><a name = "`nnkemptynode`"></a></p>
 <h2>  2.4. <code>nnkEmptyNode</code></h2>
 <hr />
-<p>The <code>nnkEmptyNode</code> represents the explicitly declared type in a declaration.
-But since this is NOT and declaration, but a initialization, the compiler takes care of that,
-by infering the type from the value</p>
+<p>The <code>nnkEmptyNode</code> is used and present, whenever a value or a type is not explicitly declared and or initialized.
+Just like when we write our code normally, the compiler can infer the type from the value.</p>
 <p><strong>Here is an example of all 3, which will show just that:</strong></p>
 <img src = "Images\1.png" alt = "Line 1">
 <pre><code class="nohighlight hljs nim">dumpAstGen:
@@ -475,15 +483,19 @@ by infering the type from the value</p>
 <p><a name = "`nnkemptynode`-explanation-and-`nnkcall`"></a></p>
 <h2>  2.5. <code>nnkEmptyNode</code> explanation and <code>nnkCall</code></h2>
 <hr />
-<p>As you can see the <code>newEmptyNode</code> is present for all 3 ways of making a variable.
-Initialization, declaration and declaration with initialization.</p>
-<p>So here is my explanation: <br>
+<p>Here is my explanation of the above: <br>
 <code>variableName as declaredType of someValue</code>,
-and so the <code>collect</code> example's of the <code>dumpAstGen</code>'s first line then reads as follows:
+and so the <code>collect</code>'s example of the <code>dumpAstGen</code>'s first line then reads as follows:
 <code>pFruit2 as noTypeDeclared of collect -&gt; nnkCall(calls a proc, func, iterator, macro, etc)</code>
-And since <code>collect</code> uses whatever logic/a body you want to collect the elements for a container,
+And since <code>collect</code> uses whatever logic/a body you want, to collect the elements for a container,
 that <code>nnkCall</code> doesn't end at the end of that line, but at the end of all the logic for <code>collect</code>,
 <strong>here is an image to illustrate:</strong></p>
+<pre><code class="nohighlight hljs nim">dumpAstGen:
+  <span class="hljs-keyword">var</span> pFruit2 = collect:
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> @[<span class="hljs-string">&quot;banana&quot;</span>, <span class="hljs-string">&quot;peach&quot;</span>, <span class="hljs-string">&quot;apple&quot;</span>, <span class="hljs-string">&quot;pear&quot;</span>]:
+      <span class="hljs-keyword">if</span> $p[<span class="hljs-number">0</span>] == <span class="hljs-string">&quot;p&quot;</span>:
+        p
+  <span class="hljs-keyword">echo</span> pFruit2</code></pre>
 <img src = "Images\EndOfnnkCall.png" alt = "EndOfnnkCall">
 <p><a name = "`nnkforstmt`"></a></p>
 <h2>  2.6. <code>nnkForStmt</code></h2>
@@ -498,7 +510,7 @@ which then contains the structure/head of the for loop, e.g. <code>for element i
 <p>Then we get to <code>nnkPrefix</code> with <code>.newTree</code> appended to it, will hold the following:
 <code>newIdentNode(&quot;@&quot;)</code> the symbol used to indicate that we mean a <code>sequence</code> and not an <code>array</code>,
 which is then followed by the <code>nnkBracket.newTree</code> which then holds all the elements we gave it,
-of type <code>newLit</code> short for literal, meaning string data type.</p>
+of type <code>newLit</code> short for literal, which is a proc that generates a new NimNode of some Nim's data type like integer and string.</p>
 <p><a name = "`nnkifstmt`,`nnkelifbranch`-and-`nnkelse`-nodes"></a></p>
 <h2>  2.8. <code>nnkIfStmt</code>,<code>nnkElifBranch</code> and <code>nnkElse</code> nodes</h2>
 <hr />
@@ -567,15 +579,15 @@ it's an <code>else</code> statement, so it's condition comes from the <code>if</
     )
   )
 )</code></pre>
-<p>Like with all AST, all of the code from from the output of the <code>dumpAstGen</code> macro,
+<p>Like with all AST, all of the code from the output of the <code>dumpAstGen</code> macro,
 starts with a <code>nnkStmtList.newTree</code> for the entire block.
-Then comes <code>nnkIfStmt.newTree</code> which in this example ends right before the starting statement list.
+Then comes <code>nnkIfStmt.newTree</code> which ends right before the starting statement list does.
 Then comes the <code>nnkElifBranch.newTree</code> which will be present for every if, elif and else statements,
 it marks the branch/scope of that conditional statement.
 Same level connected conditionals share the same <code>nnkElifBranch</code>.
 So if you were to nest inside that if statement another if statement,
 another <code>nnkElifBranch</code> would be called/started there.</p>
-<p><strong>Here is an example:</strong></p>
+<p><strong>Here is an example of an <code>if</code> statement inside an <code>if</code> statement:</strong></p>
 <pre><code class="nohighlight hljs nim">dumpAstGen:
   <span class="hljs-keyword">if</span> <span class="hljs-number">0.5</span> == <span class="hljs-number">0.5</span>:
     <span class="hljs-keyword">echo</span> <span class="hljs-number">0.5</span>
@@ -617,7 +629,8 @@ another <code>nnkElifBranch</code> would be called/started there.</p>
     )
   )
 )</code></pre>
-<p>Then inside the first <code>nnkElifBranch.newTree</code> comes <code>nnkInfix</code> for the comparsion of <code>1 == 1</code>.
+<p>(Starting example) <br>
+Then inside the first <code>nnkElifBranch.newTree</code> comes <code>nnkInfix</code> for the comparsion of <code>1 == 1</code>.
 And like before all variable names and operators,
 the equals operator <code>==</code> requires an identifier node <code>newIdentNode</code>, followed by 2x <code>newLit</code>, literal nodes.
 Assignment and for loops don't require an identifier node for <code>in</code> and <code>=</code>, this is probably some compiler magic.</p>
@@ -647,15 +660,15 @@ Assignment and for loops don't require an identifier node for <code>in</code> an
     )
   )
 )</code></pre>
-<p>Then after the <code>nnkInfix.newTree</code> ends, separater with a comma <code>,</code>, comes the body of the <code>if</code> statement.
+<p>Then after the <code>nnkInfix.newTree</code> ends, separated with a comma <code>,</code>, comes the body of the <code>if</code> statement.
 For the <code>echo</code> to actually do something, it has to be inside either a <code>nnkCommand</code> node's <code>newTree</code>,
 or inside a <code>nnkCall</code>'s <code>.newTree</code>. In this case it is a <code>nnkCommand</code> node,
 with 2x <code>newLit</code> nodes, 1x for each of the echo's arguments.</p>
 <p>You might have noticed that the <code>newLit</code> nodes are used for both numbers and strings.
-The <code>newLit</code> node will be used for every simple data type in Nim, it holds just about any data type in a string representation.
-And since this is an <code>echo</code> call which stringifies it's arguments,
+This is again, because it is a overloaded proc that returns a NimNode of some kind.
+And also, since this is an <code>echo</code> call which stringifies it's arguments,
 there is no need for any more specific node kind, which might be required if you are trying to do something more specific.
-Just as a reminder <code>newIdentNode</code> is used for variable names, proc names, etc.</p>
+Just as a reminder <code>newIdentNode</code> is used for variable names, proc names, etc. An identifier is the name of the group <code>var</code>, <code>let</code> and <code>const</code> belong to.</p>
 <p>And lastly, part 3 simply starts with <code>nnkElse.newTree</code> with another <code>nnkStmtList.newTree</code> for the body of the <code>else statement</code>,
 with an identifier node and it's argument <code>newIdentNode(&quot;echo&quot;), newLit(&quot;1 is not 1&quot;)</code>.</p>
 <p><a name = "`nnknone`"></a></p>
@@ -675,7 +688,7 @@ if you put some echoes inside a Macro, which will then constantly update.</p>
 <p><a name = "`stdout.write`"></a></p>
 <h2>  3.1. <code>stdout.write</code></h2>
 <hr />
-<p><strong>Here is an example of constructing a <code>stdout.write &quot;Hello!</code>:</strong></p>
+<p><strong>Here is an example of constructing a <code>stdout.write &quot;Hello!&quot;</code>:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">macro</span> testMacro() =
   <span class="hljs-literal">result</span> = newNimNode(nnkStmtList)
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Start of debugging: &quot;</span>
@@ -708,7 +721,7 @@ which can then be used to have different behaviour based on the OS/operating sys
     <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;The OS is Windows&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
 
 <p>This will output &quot;The OS is Windows&quot; in the output tab.</p>
-<p><strong>And here if a version using the <code>when</code> compile-time version of the <code>if</code> statement i have shown long ago:</strong></p>
+<p><strong>And here is a version using the <code>when</code> compile-time version of the <code>if</code> statement i have shown long ago:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">when</span> <span class="hljs-keyword">defined</span> windows:
   <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;The OS is Windows&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">The OS is Windows</pre></code></pre>
 
@@ -745,8 +758,10 @@ which doesn't need to be inside a <code>static</code> block if you use it with o
 <h2>  4.1. Parsing Nimcode</h2>
 <hr />
 <p>If we use a Macro with an argument, that argument can be a body of valid Nim Code,
-which the Macro will receive as a NimNode, which can then be turned into <code>string</code> with the <code>repr</code> proc.
-Which can then be parsed with the <code>parseStmt</code> for multiple lines of code, and <code>parseExpr</code> for a signular line of code.</p>
+which the Macro will receive as a NimNode, which can then be turned into <code>string</code> with the <code>repr</code> proc for debugging.
+Which can then also be parsed with the <code>parseStmt</code> for multiple lines of code, and <code>parseExpr</code> for a singular line of code.
+You should only do this if you already have some valid Nim code in the form of a string,
+you should NOT use strings to generate new Nim code, domain specific languages etc.</p>
 <p><strong>Here is an example of taking a block of code into a Macro, and then parsing it in order to execute the given code:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">macro</span> executeCode(code: <span class="hljs-built_in">untyped</span>) =
   <span class="hljs-literal">result</span> = code.repr.parseStmt
@@ -758,64 +773,23 @@ executeCode:
 
 <p>Output of <code>echo result.repr</code>:</p>
 <img src = "Images\executeCodeOutput.png" alt = "executeCodeOutput">
-<p>As you can see the code is captured whole as a block,
-but if we split it by lines using the <code>splitLines</code> proc from the <code>strutils</code> module,
-and then execute the code line by line, a problem will occur.</p>
-<p>The problem is that we are now trying to execute the head of the <code>if</code> statement, without it's body.
-In order to fix this, we have to execute at least 1x non scope starting/conditional line of code.</p>
-<p><strong>Here is an example:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> std/strutils
-
-<span class="hljs-keyword">macro</span> executeLineByLine0(code: <span class="hljs-built_in">untyped</span>) =
-  <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;&quot;</span>.parseStmt <span class="hljs-comment">#Setting the result variable to the correct type</span>
-
-  <span class="hljs-keyword">var</span> linesOfCode: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>] = code.repr.splitLines
-
-  <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> linesOfCode:
-    <span class="hljs-literal">result</span>.add line.parseStmt
-
-<span class="hljs-comment">#[ executeLineByLine0:
-  var b = 20
-  if b == 20:
-    echo &quot;b is 20&quot; ]#</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
-
-<pre><code class="hlNim">  executeLineByLine0:
-    if a == 10:
-      echo "a is 10"
-      echo "hello"</code></pre>
-<img src = "Images\invalidIndentation.png" alt = "invalidIndentation">
-<p><strong>Here is the fixed example:</strong></p>
-<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">from</span> std/strutils <span class="hljs-keyword">import</span> startsWith <span class="hljs-comment">#This is how you only import a single thing from a module</span>
-
-<span class="hljs-keyword">macro</span> executeLineByLine(code: <span class="hljs-built_in">untyped</span>) =
-  <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;&quot;</span>.parseStmt <span class="hljs-comment">#Setting the result variable to the correct type</span>
-
-  <span class="hljs-keyword">var</span> linesOfCode: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>] = code.repr.splitLines
-
-  <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>
-  <span class="hljs-keyword">while</span> index &lt; linesOfCode.len:
-    <span class="hljs-keyword">if</span> linesOfCode[index].startsWith(<span class="hljs-string">&quot;if&quot;</span>):
-      <span class="hljs-literal">result</span>.add (linesOfCode[index] &amp; linesOfCode[index+<span class="hljs-number">1</span>]).parseStmt
-      index += <span class="hljs-number">2</span>
-    <span class="hljs-keyword">else</span>:
-      <span class="hljs-literal">result</span>.add linesOfCode[index].parseStmt
-      index += <span class="hljs-number">1</span>
-
-executeLineByLine:
-  <span class="hljs-keyword">var</span> b = <span class="hljs-number">20</span>
-  <span class="hljs-keyword">if</span> b == <span class="hljs-number">20</span>:
-    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;b is 20&quot;</span></code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"><pre class="nb-output">b is 20</pre></code></pre>
-
-<p>First of, we require the <code>startsWith</code> proc from the <code>strutils</code> module, for each checking if the line starts with an <code>if</code> statement,
-so that we can then parse more than just the head of the <code>if</code> statement to fix the problem of trying to parse just the condition of an <code>if</code> statement.
-To only import the single proc that we require instead of the entire module, this is done like this <code>from moduleName import whatYouWant</code>.</p>
-<p>Then instead of using a <code>for</code> loop like in the first broken example, we use a <code>while</code> loop instead,
-so that we can jump the iteration by 2 instead of just 1. This is important, because if we add the <code>if</code> statement line,
-and it's body and we only increment the index by 1, then the <code>else</code> statement will also <code>parseStmt</code> the body of the <code>if</code> statement,
-resulting in <code>echo &quot;b is 20&quot;</code> twice. Using the <code>mpairs</code> iterator and then trying to modify the index, will result in an error,
-you cannot modify a <code>for</code> loop during it's iteration, only it's <code>value pair</code>, the second identifier you use.</p>
+<p>As you can see the code is captured whole as a block.</p>
+<p><a name = "parsing-nimcode-use-case"></a></p>
+<h2>  4.2. Parsing Nimcode use case</h2>
+<hr />
+<p>Whenever you want to extract some specific data from a string, e.g. a number and then use it like a number would be used, you first need to parse it like we have done in the past.</p>
+<p><strong>[In case it is NOT clear]</strong></p>
+  <h6>A "parser" is NOT a "compiler". A parser translates/converts string into AST which is then passed to a compiler that then compiles to machine code, which can then be executed.
+  In Nim's case it compiles to the "c" programming language first, which then get compiled via a "c" compiler like the "gcc" that Nim uses by default.
+  I am saying this, for the reason of dissuading you from using parsing of `parseExpr` and `parseStmt` to generate Nim code.</h6>
+<p>A concrete example and use case of using &quot;strings&quot; to generate code, is the <code>Nim's Playground</code>, which i have used in the past to share the code of my videos.
+So if you already have existing valid code, like the code one writes on the <code>Nim's Playground</code>, you will use a parsing proc like <code>parseExpr</code> for singular and <code>parseStmt</code> for multiple code statements.
+For every other code generation like a domain specific language, some new behaviour you want to use, etc, you will use Nim Nodes like at the start of this tutorial,
+because it has a known, well defined structure, which makes it easier to generate new code, with introspection(logic) and be less error prone.
+It's hard to find an error in a string.</p>
+<p>Now if you are in need of this use case, you can use the <code>strformat</code> module to get procs and the like, to greatly help you with that.</p>
 <p><a name = "`nimnode`-and-`nimnodekind`"></a></p>
-<h2>  4.2. <code>NimNode</code> and <code>NimNodeKind</code></h2>
+<h2>  4.3. <code>NimNode</code> and <code>NimNodeKind</code></h2>
 <hr />
 <p>As i have already said several times, everything you pass as an argument to a Macro,
 becomes a <code>NimNode</code>, and we know that there are at least several kinds.</p>
@@ -833,9 +807,9 @@ to determine the data type for that kind.</p>
 <p>Here is the output of the default <code>NimNode</code>'s kind</p>
 <img src = "Images\defaultNimNodeKind.png" alt = "defaultNimNodeKind">
 <p><a name = "expectnimnode"></a></p>
-<h2>  4.3. ExpectNimNode</h2>
+<h2>  4.4. ExpectNimNode</h2>
 <hr />
-<p>When passing arguments to a Macro, one can check the <code>NimNodeKind</code> in order enforce a desired functionality,
+<p>When passing arguments to a Macro, one can check the <code>NimNodeKind</code> in order to enforce a desired functionality,
 with one of the following procs:</p>
 <ul>
 <li>expectIdent(n: NimNode; name: string)</li>
@@ -890,19 +864,19 @@ eMinLen(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
 eMinLen(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)</code></pre><pre><code class=\"language-markdown\" style = "color:white;background-color: rgba(255, 255, 255, 0);font-size: 12px;"></code></pre>
 
 <p><a name = "using-error-messages"></a></p>
-<h2>  4.4. Using Error Messages</h2>
+<h2>  4.5. Using Error Messages</h2>
 <hr />
-<p>As with all code, errors and their error messages can be quite helpful.
-They are used to prevent unwanted behaviour that could cause unforeseen consequences or behaviour.</p>
+<p>When we make mistakes, we usually won't even know that we made one, and then assuming we get no error messages, unless we see the result being horribly wrong, or not what we wanted,
+we will not know that we made such a mistake, which if caught too late, can cause all kinds of problems and time delays(the same applies to bad parenting...).
+Now in Nim, like in most programming languages, especially the statically typed ones, we have the compiler to help us out, by providing us with errors and their error messages at compilation,
+and even runtime.</p>
 <p>I have one relevant error to this tutorial to produce to help with debugging and preventing unwanted behaviour.
-Earlier in the tutorial we parsed some Nim Code and caused an error of &quot;invalid indentation&quot;,
-when we tried to parse just the head, the condition part of an <code>if</code> statement.
-That error message is not exactly clear where the problem occured if you were to parse much longer code.
+Earlier in the tutorial we parsed some simple Nim Code, now if we tried to parse a string of code of say an <code>if</code> statement, with just it's head/the logic and no body/the code it executes,
+we will cause an <code>invalid indentation</code> error.
+That error message will not exactly be clear where the problem occured if you were to parse a much longer code string.
 To help with this, if we invoked/caused an error when parsing line by line and scope by scope,
 the error location would be found much more easily.</p>
-<p><strong>Here is the erroneous parsing example from above(before the solution),
-of trying to parse line by line, which causes an error trying to parse just the head of the <code>if</code> statement:</strong></p>
-  <h6>Slightly renamed to avoid confusion and redefinition</h6>
+<p><strong>Here is the erroneous parsing example, of trying to parse line by line, which causes an error trying to parse just the head of the <code>if</code> statement:</strong></p>
 <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">macro</span> executeLineByLineError(code: <span class="hljs-built_in">untyped</span>) =
   <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;&quot;</span>.parseStmt <span class="hljs-comment">#Setting the result variable to the correct type</span>
 
@@ -922,7 +896,12 @@ executeLineByLineError:
 <img src = "Images\CustomErrorVSCode.png" alt = "CustomErrorVSCode">
 <img src = "Images\CustomErrorVSCode2.png" alt = "CustomErrorVSCode2">
 <img src = "Images\CustomErrorTerminal.png" alt = "CustomErrorTerminal">
-<p>I am not exactly sure why the line the error is caused upon is 1106 instead of 1107. #TODO ask araq, and ask him on the lineinfo for the error if we set it right</p>
+<p>I am not exactly sure why the line the error is called from is 1106 instead of 1107, but you should be able to figure out the problematic line of code from there fairly easily.</p>
+<p><a name = "nim's-macro-system-uses-the-same-ast-as-the-compiler"></a></p>
+<h2>  4.6. Nim's macro system uses the same AST as the compiler</h2>
+<hr />
+<p>By learning Macros, not only will you be able to make your own constructs, domain specific languages, syntatic sugar, etc, but you will be able to understand Nim's Compiler,
+and with that access to the huge amount of code, you probably couldn't understand before, that you can now utilize to make your own preprocesor or even a compiler.</p>
 <h1>Outro - Afterwords</h1>
 <hr />
 <p>Okay, that's it for this video, thanks for watching like, share and subscribe,
@@ -1389,7 +1368,7 @@ nbCode:
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   It works! But it is very long, unreadable and complex.
-  But since it works, this will enable you to disect and play with any Nimcode.
+  But since it works, this will enable you to dissect and play with any Nimcode.
 
   **Here is my attempt to make it more readable in order to explain,
   all the different nodes and such seen in that outputted code:**
@@ -1449,7 +1428,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 nbSubSection <span class="hljs-string">&quot;`nnkVarSection`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   nnkVarSection means either a variable with `var`, 
-  or a type section with `var`, like how you declare objects, enumerators, optionally tuples, etc like this:
+  or a code section with `var`, like how you declare objects, enumerators, optionally tuples, etc like this:
 &quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\1.png&quot; alt = &quot;Line 1&quot;&gt;&quot;&quot;&quot;</span>
 
@@ -1469,9 +1448,8 @@ nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot
 
 nbSubSection <span class="hljs-string">&quot;`nnkEmptyNode`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  The `nnkEmptyNode` represents the explicitly declared type in a declaration.
-  But since this is NOT and declaration, but a initialization, the compiler takes care of that, 
-  by infering the type from the value
+  The `nnkEmptyNode` is used and present, whenever a value or a type is not explicitly declared and or initialized.
+  Just like when we write our code normally, the compiler can infer the type from the value.
 
   **Here is an example of all 3, which will show just that:**
 &quot;&quot;&quot;</span>
@@ -1510,18 +1488,22 @@ nbCodeSnippet: <span class="hljs-string">hlnim&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 
 nbSubSection <span class="hljs-string">&quot;`nnkEmptyNode` explanation and `nnkCall`&quot;</span>
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As you can see the `newEmptyNode` is present for all 3 ways of making a variable.
-  Initialization, declaration and declaration with initialization.
-  
-  So here is my explanation: &lt;br&gt;
+nbText: <span class="hljs-string">&quot;&quot;&quot;  
+  Here is my explanation of the above: &lt;br&gt;
   `variableName as declaredType of someValue`,
-  and so the `collect` example's of the `dumpAstGen`'s first line then reads as follows:
+  and so the `collect`'s example of the `dumpAstGen`'s first line then reads as follows:
   `pFruit2 as noTypeDeclared of collect -&gt; nnkCall(calls a proc, func, iterator, macro, etc)`
-  And since `collect` uses whatever logic/a body you want to collect the elements for a container,
+  And since `collect` uses whatever logic/a body you want, to collect the elements for a container,
   that `nnkCall` doesn't end at the end of that line, but at the end of all the logic for `collect`,
   **here is an image to illustrate:**
 &quot;&quot;&quot;</span>
+nbCodeSkip:
+  dumpAstGen:
+    <span class="hljs-keyword">var</span> pFruit2 = collect:
+      <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> @[<span class="hljs-string">&quot;banana&quot;</span>, <span class="hljs-string">&quot;peach&quot;</span>, <span class="hljs-string">&quot;apple&quot;</span>, <span class="hljs-string">&quot;pear&quot;</span>]:
+        <span class="hljs-keyword">if</span> $p[<span class="hljs-number">0</span>] == <span class="hljs-string">&quot;p&quot;</span>:
+          p
+    <span class="hljs-keyword">echo</span> pFruit2
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\EndOfnnkCall.png&quot; alt = &quot;EndOfnnkCall&quot;&gt;&quot;&quot;&quot;</span>
 
 nbSubSection <span class="hljs-string">&quot;`nnkForStmt`&quot;</span>
@@ -1538,7 +1520,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
   Then we get to `nnkPrefix` with `.newTree` appended to it, will hold the following:
     `newIdentNode(&quot;@&quot;)` the symbol used to indicate that we mean a `sequence` and not an `array`,
     which is then followed by the `nnkBracket.newTree` which then holds all the elements we gave it,
-    of type `newLit` short for literal, meaning string data type.
+    of type `newLit` short for literal, which is a proc that generates a new NimNode of some Nim's data type like integer and string.
 &quot;&quot;&quot;</span>
 
 nbSubSection <span class="hljs-string">&quot;`nnkIfStmt`,`nnkElifBranch` and `nnkElse` nodes&quot;</span>
@@ -1625,17 +1607,18 @@ nnkElse.newTree(
 )
 &quot;&quot;&quot;</span>
 
+<span class="hljs-comment">#The below text is for the below code - even i got confused reading this after over a month...</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Like with all AST, all of the code from from the output of the `dumpAstGen` macro,
+  Like with all AST, all of the code from the output of the `dumpAstGen` macro,
   starts with a `nnkStmtList.newTree` for the entire block.
-  Then comes `nnkIfStmt.newTree` which in this example ends right before the starting statement list.
+  Then comes `nnkIfStmt.newTree` which ends right before the starting statement list does.
   Then comes the `nnkElifBranch.newTree` which will be present for every if, elif and else statements,
   it marks the branch/scope of that conditional statement.
   Same level connected conditionals share the same `nnkElifBranch`.
   So if you were to nest inside that if statement another if statement,
   another `nnkElifBranch` would be called/started there.
 
-  **Here is an example:**
+  **Here is an example of an `if` statement inside an `if` statement:**
 &quot;&quot;&quot;</span>
 nbCode:
   dumpAstGen:
@@ -1683,6 +1666,7 @@ nnkStmtList.newTree(
 &quot;&quot;&quot;</span>
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
+  (Starting example) &lt;br&gt;
   Then inside the first `nnkElifBranch.newTree` comes `nnkInfix` for the comparsion of `1 == 1`.
   And like before all variable names and operators,
   the equals operator `==` requires an identifier node `newIdentNode`, followed by 2x `newLit`, literal nodes.
@@ -1718,16 +1702,16 @@ nnkStmtList.newTree(
 &quot;&quot;&quot;</span>
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  Then after the `nnkInfix.newTree` ends, separater with a comma `,`, comes the body of the `if` statement.
+  Then after the `nnkInfix.newTree` ends, separated with a comma `,`, comes the body of the `if` statement.
   For the `echo` to actually do something, it has to be inside either a `nnkCommand` node's `newTree`,
   or inside a `nnkCall`'s `.newTree`. In this case it is a `nnkCommand` node, 
   with 2x `newLit` nodes, 1x for each of the echo's arguments.
 
   You might have noticed that the `newLit` nodes are used for both numbers and strings.
-  The `newLit` node will be used for every simple data type in Nim, it holds just about any data type in a string representation.
-  And since this is an `echo` call which stringifies it's arguments,
+  This is again, because it is a overloaded proc that returns a NimNode of some kind.
+  And also, since this is an `echo` call which stringifies it's arguments,
   there is no need for any more specific node kind, which might be required if you are trying to do something more specific.
-  Just as a reminder `newIdentNode` is used for variable names, proc names, etc.
+  Just as a reminder `newIdentNode` is used for variable names, proc names, etc. An identifier is the name of the group `var`, `let` and `const` belong to.
 
   And lastly, part 3 simply starts with `nnkElse.newTree` with another `nnkStmtList.newTree` for the body of the `else statement`,
   with an identifier node and it's argument `newIdentNode(&quot;echo&quot;), newLit(&quot;1 is not 1&quot;)`.
@@ -1753,7 +1737,7 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 &quot;&quot;&quot;</span>
 nbSubSection <span class="hljs-string">&quot;`stdout.write`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **Here is an example of constructing a `stdout.write &quot;Hello!`:**
+  **Here is an example of constructing a `stdout.write &quot;Hello!&quot;`:**
 &quot;&quot;&quot;</span>
 nbCode:
   <span class="hljs-keyword">macro</span> testMacro() =
@@ -1800,7 +1784,7 @@ nbCode:
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   This will output &quot;The OS is Windows&quot; in the output tab.
 
-  **And here if a version using the `when` compile-time version of the `if` statement i have shown long ago:**
+  **And here is a version using the `when` compile-time version of the `if` statement i have shown long ago:**
 &quot;&quot;&quot;</span>
 nbCode:
   <span class="hljs-keyword">when</span> <span class="hljs-keyword">defined</span> windows:
@@ -1849,8 +1833,10 @@ nbSection <span class="hljs-string">&quot;More Metaprogramming Essentials&quot;<
 nbSubSection <span class="hljs-string">&quot;Parsing Nimcode&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
   If we use a Macro with an argument, that argument can be a body of valid Nim Code,
-  which the Macro will receive as a NimNode, which can then be turned into `string` with the `repr` proc.
-  Which can then be parsed with the `parseStmt` for multiple lines of code, and `parseExpr` for a signular line of code.
+  which the Macro will receive as a NimNode, which can then be turned into `string` with the `repr` proc for debugging.
+  Which can then also be parsed with the `parseStmt` for multiple lines of code, and `parseExpr` for a singular line of code.
+  You should only do this if you already have some valid Nim code in the form of a string,
+  you should NOT use strings to generate new Nim code, domain specific languages etc.
 
   **Here is an example of taking a block of code into a Macro, and then parsing it in order to execute the given code:**
 &quot;&quot;&quot;</span>
@@ -1869,77 +1855,27 @@ nbText: <span class="hljs-string">&quot;&quot;&quot;
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\executeCodeOutput.png&quot; alt = &quot;executeCodeOutput&quot;&gt;&quot;&quot;&quot;</span>
 
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As you can see the code is captured whole as a block,
-  but if we split it by lines using the `splitLines` proc from the `strutils` module,
-  and then execute the code line by line, a problem will occur.
+  As you can see the code is captured whole as a block.
 &quot;&quot;&quot;</span>
 
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  The problem is that we are now trying to execute the head of the `if` statement, without it's body.
-  In order to fix this, we have to execute at least 1x non scope starting/conditional line of code.
+nbSubSection <span class="hljs-string">&quot;Parsing Nimcode use case&quot;</span>
+nbText <span class="hljs-string">&quot;&quot;&quot;
+  Whenever you want to extract some specific data from a string, e.g. a number and then use it like a number would be used, you first need to parse it like we have done in the past.
 
-  **Here is an example:**
+  **[In case it is NOT clear]**
+  &lt;h6&gt;A &quot;parser&quot; is NOT a &quot;compiler&quot;. A parser translates/converts string into AST which is then passed to a compiler that then compiles to machine code, which can then be executed.
+  In Nim's case it compiles to the &quot;c&quot; programming language first, which then get compiled via a &quot;c&quot; compiler like the &quot;gcc&quot; that Nim uses by default.
+  I am saying this, for the reason of dissuading you from using parsing of `parseExpr` and `parseStmt` to generate Nim code.&lt;/h6&gt;
+
+  A concrete example and use case of using &quot;strings&quot; to generate code, is the `Nim's Playground`, which i have used in the past to share the code of my videos.
+  So if you already have existing valid code, like the code one writes on the `Nim's Playground`, you will use a parsing proc like `parseExpr` for singular and `parseStmt` for multiple code statements.
+  For every other code generation like a domain specific language, some new behaviour you want to use, etc, you will use Nim Nodes like at the start of this tutorial,
+  because it has a known, well defined structure, which makes it easier to generate new code, with introspection(logic) and be less error prone.
+  It's hard to find an error in a string.
+
+  Now if you are in need of this use case, you can use the `strformat` module to get procs and the like, to greatly help you with that.
 &quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">import</span> std/strutils
-
-  <span class="hljs-keyword">macro</span> executeLineByLine0(code: <span class="hljs-built_in">untyped</span>) =
-    <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;&quot;</span>.parseStmt <span class="hljs-comment">#Setting the result variable to the correct type</span>
-
-    <span class="hljs-keyword">var</span> linesOfCode: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>] = code.repr.splitLines
-
-    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> linesOfCode:
-      <span class="hljs-literal">result</span>.add line.parseStmt
-
-  <span class="hljs-comment">#[ executeLineByLine0:
-    var b = 20
-    if b == 20:
-      echo &quot;b is 20&quot; ]#</span>
-
-nbCodeSnippet: <span class="hljs-string">hlNim&quot;&quot;&quot;
-  executeLineByLine0:
-    if a == 10:
-      echo &quot;a is 10&quot;
-      echo &quot;hello&quot;
-&quot;&quot;&quot;</span>
-nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\invalidIndentation.png&quot; alt = &quot;invalidIndentation&quot;&gt;&quot;&quot;&quot;</span>
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  **Here is the fixed example:**
-&quot;&quot;&quot;</span>
-nbCode:
-  <span class="hljs-keyword">from</span> std/strutils <span class="hljs-keyword">import</span> startsWith <span class="hljs-comment">#This is how you only import a single thing from a module</span>
-
-  <span class="hljs-keyword">macro</span> executeLineByLine(code: <span class="hljs-built_in">untyped</span>) =
-    <span class="hljs-literal">result</span> = <span class="hljs-string">&quot;&quot;</span>.parseStmt <span class="hljs-comment">#Setting the result variable to the correct type</span>
-
-    <span class="hljs-keyword">var</span> linesOfCode: <span class="hljs-built_in">seq</span>[<span class="hljs-built_in">string</span>] = code.repr.splitLines
-
-    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">while</span> index &lt; linesOfCode.len:
-      <span class="hljs-keyword">if</span> linesOfCode[index].startsWith(<span class="hljs-string">&quot;if&quot;</span>):
-        <span class="hljs-literal">result</span>.add (linesOfCode[index] &amp; linesOfCode[index+<span class="hljs-number">1</span>]).parseStmt
-        index += <span class="hljs-number">2</span>
-      <span class="hljs-keyword">else</span>:
-        <span class="hljs-literal">result</span>.add linesOfCode[index].parseStmt
-        index += <span class="hljs-number">1</span>
-
-  executeLineByLine:
-    <span class="hljs-keyword">var</span> b = <span class="hljs-number">20</span>
-    <span class="hljs-keyword">if</span> b == <span class="hljs-number">20</span>:
-      <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;b is 20&quot;</span>
-
-nbText: <span class="hljs-string">&quot;&quot;&quot;
-  First of, we require the `startsWith` proc from the `strutils` module, for each checking if the line starts with an `if` statement,
-  so that we can then parse more than just the head of the `if` statement to fix the problem of trying to parse just the condition of an `if` statement.
-  To only import the single proc that we require instead of the entire module, this is done like this `from moduleName import whatYouWant`.
-
-  Then instead of using a `for` loop like in the first broken example, we use a `while` loop instead,
-  so that we can jump the iteration by 2 instead of just 1. This is important, because if we add the `if` statement line,
-  and it's body and we only increment the index by 1, then the `else` statement will also `parseStmt` the body of the `if` statement,
-  resulting in `echo &quot;b is 20&quot;` twice. Using the `mpairs` iterator and then trying to modify the index, will result in an error,
-  you cannot modify a `for` loop during it's iteration, only it's `value pair`, the second identifier you use.
-&quot;&quot;&quot;</span>
+<span class="hljs-comment">#Why am i repeating what i just said in the subsection above ? Because too many people use &quot;strings&quot; to generate new Nim code, instead of using Nim Nodes specifically made for this!</span>
 
 nbSubSection <span class="hljs-string">&quot;`NimNode` and `NimNodeKind`&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
@@ -1968,7 +1904,7 @@ nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot
 
 nbSubSection <span class="hljs-string">&quot;ExpectNimNode&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  When passing arguments to a Macro, one can check the `NimNodeKind` in order enforce a desired functionality,
+  When passing arguments to a Macro, one can check the `NimNodeKind` in order to enforce a desired functionality,
   with one of the following procs:
 
   - expectIdent(n: NimNode; name: string)
@@ -2032,19 +1968,19 @@ nbCode:
 
 nbSubSection <span class="hljs-string">&quot;Using Error Messages&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  As with all code, errors and their error messages can be quite helpful.
-  They are used to prevent unwanted behaviour that could cause unforeseen consequences or behaviour.
+  When we make mistakes, we usually won't even know that we made one, and then assuming we get no error messages, unless we see the result being horribly wrong, or not what we wanted,
+  we will not know that we made such a mistake, which if caught too late, can cause all kinds of problems and time delays(the same applies to bad parenting...).
+  Now in Nim, like in most programming languages, especially the statically typed ones, we have the compiler to help us out, by providing us with errors and their error messages at compilation,
+  and even runtime.
 
   I have one relevant error to this tutorial to produce to help with debugging and preventing unwanted behaviour. 
-  Earlier in the tutorial we parsed some Nim Code and caused an error of &quot;invalid indentation&quot;,
-  when we tried to parse just the head, the condition part of an `if` statement.
-  That error message is not exactly clear where the problem occured if you were to parse much longer code.
+  Earlier in the tutorial we parsed some simple Nim Code, now if we tried to parse a string of code of say an `if` statement, with just it's head/the logic and no body/the code it executes,
+  we will cause an `invalid indentation` error.
+  That error message will not exactly be clear where the problem occured if you were to parse a much longer code string.
   To help with this, if we invoked/caused an error when parsing line by line and scope by scope,
   the error location would be found much more easily.
 
-  **Here is the erroneous parsing example from above(before the solution), 
-  of trying to parse line by line, which causes an error trying to parse just the head of the `if` statement:**
-  &lt;h6&gt;Slightly renamed to avoid confusion and redefinition&lt;/h6&gt;
+  **Here is the erroneous parsing example, of trying to parse line by line, which causes an error trying to parse just the head of the `if` statement:**
 &quot;&quot;&quot;</span>
 nbCodeSkip:
   <span class="hljs-keyword">macro</span> executeLineByLineError(code: <span class="hljs-built_in">untyped</span>) =
@@ -2068,7 +2004,13 @@ nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\CustomErrorVSCode2.png&quot; alt = &quot;CustomErrorVSCode2&quot;&gt;&quot;&quot;&quot;</span>
 nbRawHtml: <span class="hljs-string">hlhtml&quot;&quot;&quot;&lt;img src = &quot;Images\CustomErrorTerminal.png&quot; alt = &quot;CustomErrorTerminal&quot;&gt;&quot;&quot;&quot;</span>
 nbText: <span class="hljs-string">&quot;&quot;&quot;
-  I am not exactly sure why the line the error is caused upon is 1106 instead of 1107. #TODO ask araq, and ask him on the lineinfo for the error if we set it right
+  I am not exactly sure why the line the error is called from is 1106 instead of 1107, but you should be able to figure out the problematic line of code from there fairly easily.
+&quot;&quot;&quot;</span>
+
+nbSubSection <span class="hljs-string">&quot;Nim's macro system uses the same AST as the compiler&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+  By learning Macros, not only will you be able to make your own constructs, domain specific languages, syntatic sugar, etc, but you will be able to understand Nim's Compiler,
+  and with that access to the huge amount of code, you probably couldn't understand before, that you can now utilize to make your own preprocesor or even a compiler.
 &quot;&quot;&quot;</span>
 
 nbUoSection <span class="hljs-string">&quot;Outro - Afterwords&quot;</span>
