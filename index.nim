@@ -318,6 +318,11 @@ nbText: hlMdF"" & exploringNimsStandardLibrary
 nbSection "Nim SDL2 Game Development for Beginners"
 let nimSDL2GameDevelopmentForBeginners = findAndOutputTutorials("Nim SDL2 Game Development for Beginners")
 nbText: hlMdF"" & nimSDL2GameDevelopmentForBeginners
+#TODO
+#C:\Users\Kiloneie\Desktop\SDL2 Tuts Updated for Github\#1 Setup and your first moving image\sdl2_nim project copy\sdl2_nim-master\docs\sdl_syswm_x11
+  #crashes this program, because of the number 11 of the acceptable filesystem 
+  #.nim and .html that we are looking for, because of DOUBLE DIGITS!
+  #Fix this at some point, for now ignore adding the project folder
 
 nbSection "Metaprogramming in Nim"
 let metaprogrammingInNim = findAndOutputTutorials("Metaprogramming in Nim")
